@@ -1,14 +1,44 @@
-#summary One-sentence summary of this page.
-
 = Introdução =
+
 
 Aqui são publicadas informações relacionadas as atividades dos analistas.
 Resposáveis: Alexandre e Anderson
 
-
 == Requisitos da primeira iteração ==
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+===Docente===
+
+ * *Primários*
+  * Logar no sistema utilizando o CPF
+  * Possibilidade de mudar a senha
+  * Aparecer disciplinas e turmas quando o professor se logar
+  * Ao clicar na turma deverá aparecer a lista de alunos que estão matriculados na disciplina contendo: matricula, nome, frequência, media final e situação na disciplina
+  * Preencher e editar a tabela. (frequência e media final) _[Atenção focar na usabilidade]_
+  * Obs.: Pessoal da interface elaborar uma interface
+
+ * *Secundários*
+  * Imprimir dados (escolher colunas a serem impressas)
+  * Exportar dados (Excel, CVS)
+  * Publicar ou ocultar informações (mostara ou não a nota para os alunos)
+
+===Discente===
+
+  * Visualizar disciplinas em que esta matriculado
+  * Visualizar informações que os professores publicaram
+
+===Não funcionais===
+  * Foco na usabilidade e simplicidade da interface, reduzir a quantidade de cliques e telas para realizar atividades.
+  * 
+
+==Outras informações==
+
+===Servidor===
+  * Sistema: Linux
+  * Memória 500 mb de RAM
+  * Processamento 4 Athlon Dual Core
+  * Tomcat (colocar JBoss)
+  * Obs.: esta máquina emula outras 15
+
+===Diversas===
+  * Atualmente 3% dos docentes utilizam o sistema
+  * Foco na usabilidade e simplicidade da interface

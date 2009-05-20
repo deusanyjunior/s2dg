@@ -11,10 +11,9 @@ Resposáveis: Alexandre e Anderson
  * *Primários*
   * Logar no sistema utilizando o CPF
   * Possibilidade de mudar a senha
-  * Aparecer disciplinas e turmas quando o professor se logar
-  * Ao clicar na turma deverá aparecer a lista de alunos que estão matriculados na disciplina contendo: matricula, nome, frequência, media final e situação na disciplina
-  * Preencher e editar a tabela. (frequência e media final) _[Atenção focar na usabilidade]_
-  * Obs.: Pessoal da interface elaborar uma interface
+  * *Aparecer disciplinas e turmas quando o professor se logar*
+  * *Ao clicar na turma deverá aparecer a lista de alunos que estão matriculados na disciplina contendo: matricula, nome, frequência, media final e situação na disciplina*
+  * *Preencher e editar a tabela. (frequência e media final) _[Atenção focar na usabilidade]_*
 
  * *Secundários*
   * Imprimir dados (escolher colunas a serem impressas)
@@ -23,14 +22,13 @@ Resposáveis: Alexandre e Anderson
 
 ===Discente===
 
-  * Visualizar disciplinas em que esta matriculado
+  * Visualizar o horário com as disciplinas em que esta matriculado (esqueci de comentar na reunião)
   * Visualizar informações que os professores publicaram
 
 ===Não funcionais===
-  * Foco na usabilidade e simplicidade da interface, reduzir a quantidade de cliques e telas para realizar atividades.
-  * 
+  * Pessoal da interface: Foco na usabilidade e simplicidade da interface, reduzir a quantidade de cliques e telas para realizar atividades.
 
-==Outras informações==
+==Outras informações coletadas em reuniões==
 
 ===Servidor===
   * Sistema: Linux
@@ -42,3 +40,4 @@ Resposáveis: Alexandre e Anderson
 ===Diversas===
   * Atualmente 3% dos docentes utilizam o sistema
   * Foco na usabilidade e simplicidade da interface
+  * Realizar testes de acesso Tomcat e JBoss

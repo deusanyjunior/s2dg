@@ -13,6 +13,8 @@ Esta página contém todos os artefatos produzidos pela equipe durante todas as 
 
 [documentos Documentos de Auxílio]
 
+[riscos Riscos Atuais]
+
 == Iterações ==
 
 || Iteração || Período       ||Fase         || Página                 ||

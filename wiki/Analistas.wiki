@@ -1,5 +1,5 @@
-_Menu_
-||<wiki:toc max_depth="3" />||
+||_Menu_||
+||<wiki:toc max_depth="2" />||
 
 
 = Introdução =
@@ -50,4 +50,7 @@ Obs.: _Mátricula foi especificado como requisito de alta prioridade pelos membr
   * Realizar testes de acesso Tomcat e JBoss
 
 =Artefatos=
-  [http://s2dg.googlecode.com/files/Vis%C3%A3o-v1.2.doc Documento de Visão].
+
+  [http://s2dg.googlecode.com/files/Vis%C3%A3o-v1.2.doc Documento de Visão]
+  
+  [http://s2dg.googlecode.com/files/Gloss%C3%A1rio.doc Glossário]

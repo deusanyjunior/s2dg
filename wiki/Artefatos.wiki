@@ -6,6 +6,7 @@ Esta página contém todos os artefatos produzidos pela equipe durante todas as 
 || Plano de Projeto     || || [http://s2dg.googlecode.com/files/Plano%20de%20Projeto.doc plano.doc] ||
 || Caderno Arquitetural || documento contendo a arquitetura proposta || [http://s2dg.googlecode.com/files/Caderno%20Arquitetural.doc caderno.doc]  ||
 || Glossário || principais termos utilizados || [http://s2dg.googlecode.com/files/Gloss%C3%A1rio.doc glossario.doc]||
+|| Lista de Ítens de Trabalho || Listagem contendo as atividades atribuídas no decorrer do projeto || [http://s2dg.googlecode.com/files/Iteration_Plan_2.doc] ||
 
 [documentos Documentos de Auxílio]
 

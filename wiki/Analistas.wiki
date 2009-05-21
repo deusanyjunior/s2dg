@@ -26,7 +26,7 @@ Responsáveis: Alexandre e Anderson
   * Visualizar o horário com as disciplinas em que esta matriculado (esqueci de comentar na reunião)
   * Visualizar informações que os professores publicaram
 
-Obs.: _Mátricula foi especificado como requisito de alta prioridade pelos menbros do NTI, porém isso ainda não esta decidido se ficará dentro do nosso escopo_
+Obs.: _Mátricula foi especificado como requisito de alta prioridade pelos membros do NTI, porém isso ainda não esta decidido se ficará dentro do nosso escopo_
 
 ===Não funcionais===
   * Pessoal da interface: Foco na usabilidade e simplicidade da interface, reduzir a quantidade de cliques e telas para realizar atividades.

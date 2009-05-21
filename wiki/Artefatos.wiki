@@ -2,8 +2,11 @@
 
 = Artefatos =
 
-Add your content here.
+Esta página contém todos os artefatos produzidos pela equipe durante todas as iterações.
 
+
+|| Artefato || Descrição || Documentos ||
+|| Caderno Arquitetural || documento contendo a arquitetura proposta || http://s2dg.googlecode.com/files/Caderno%20Arquitetural.doc
 
 = Details =
 

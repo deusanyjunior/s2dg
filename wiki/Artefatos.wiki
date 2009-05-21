@@ -10,8 +10,6 @@ Esta página contém todos os artefatos produzidos pela equipe durante todas as 
 || Plano de Projeto     || || [http://s2dg.googlecode.com/files/Plano%20de%20Projeto.doc plano.doc] ||
 || Caderno Arquitetural || documento contendo a arquitetura proposta || [http://s2dg.googlecode.com/files/Caderno%20Arquitetural.doc caderno.doc]  ||
 || Glossário || principais termos utilizados || [http://s2dg.googlecode.com/files/Gloss%C3%A1rio.doc glossario.doc]||
-|| Guia do Docente || manual do sistema atual para a perspectiva do docente || [http://s2dg.googlecode.com/files/Guia_do_Docente_v3.R11.pdf guia_doc.doc] ||
-|| Guia do Discente || manual do sistema atual para a perspectiva do discente || [http://s2dg.googlecode.com/files/Guia_do_Discente.pdf guia_dic.doc] ||
 
 [documentos Documentos de Auxílio]
 

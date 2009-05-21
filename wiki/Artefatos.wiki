@@ -13,6 +13,8 @@ Esta página contém todos os artefatos produzidos pela equipe durante todas as 
 || Guia do Docente || manual do sistema atual para a perspectiva do docente || [http://s2dg.googlecode.com/files/Guia_do_Docente_v3.R11.pdf guia_doc.doc] ||
 || Guia do Discente || manual do sistema atual para a perspectiva do discente || [http://s2dg.googlecode.com/files/Guia_do_Discente.pdf guia_dic.doc] ||
 
+[documentos Documentos de Auxílio]
+
 == Iterações ==
 
 || Iteração || Período       ||Fase         || Página                 ||

@@ -1,13 +1,16 @@
-<wiki:toc max_depth="3" />
+_Menu_
+||<wiki:toc max_depth="3" />||
+
+
 = Introdução =
 
 
-Aqui são publicadas informações relacionadas as atividades dos analistas.
+Aqui são publicadas informações relacionadas as atividades dos analistas. 
 Responsáveis: Alexandre e Anderson
 
-== Requisitos da primeira iteração ==
+= Requisitos da primeira iteração =
 
-===Docente===
+==Docente==
 
  * Primários
   * Logar no sistema utilizando o CPF
@@ -21,7 +24,7 @@ Responsáveis: Alexandre e Anderson
   * Exportar dados _(Excel, CVS)_
   * Publicar ou ocultar informações _(mostara ou não a nota para os alunos)_
 
-===Discente===
+==Discente==
 
  * Primários
   * Visualizar o horário com as disciplinas em que esta matriculado (esqueci de comentar na reunião)
@@ -32,16 +35,19 @@ Obs.: _Mátricula foi especificado como requisito de alta prioridade pelos membr
 ===Não funcionais===
   * Pessoal da interface: Foco na usabilidade e simplicidade da interface, reduzir a quantidade de cliques e telas para realizar atividades.
 
-==Outras informações coletadas em reuniões==
+=Outras informações coletadas em reuniões=
 
-===Servidor===
+==Servidor==
   * Sistema: Linux
   * Memória 500 mb de RAM
   * Processamento 4 Athlon Dual Core
   * Tomcat (colocar JBoss)
   * Obs.: esta máquina emula outras 15
 
-===Diversas===
+==Diversas==
   * Atualmente 3% dos docentes utilizam o sistema
   * Foco na usabilidade e simplicidade da interface
   * Realizar testes de acesso Tomcat e JBoss
+
+=Artefatos=
+  [http://s2dg.googlecode.com/files/Vis%C3%A3o-v1.2.doc Documento de Visão].

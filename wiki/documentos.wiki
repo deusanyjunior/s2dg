@@ -1,0 +1,8 @@
+#summary Documentos de Auxílio ao desenvolvimento
+
+= Documentoes de Auxílio =
+
+Esta seção contém todos os documentos que podem ajudar à equipe de desenvolvimento com relação à visão do projeto, ao desenvolvimento e qualquer tipo de necessidade. No entanto, nenhum artefato deve ser colocado aqui. Mas na própria seção de artefatos:
+
+[Artefatos]
+

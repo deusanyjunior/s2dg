@@ -6,3 +6,8 @@
 [Artefatos]
 
 == Artefatos Produzidos ==
+
+|| Artefato             || Descrição                    ||             Documentos ||
+|| Plano de Iteração 1  || || [http://s2dg.googlecode.com/files/Iteration%2BPlan%2B1.doc plano.doc] ||
+|| Plano de Testes 1 || Plano de testes para a perspectiva de discentes || [http://s2dg.googlecode.com/files/Casos%20de%20Testes-Discente.doc test_dic.doc] ||
+|| Plano de Testes 2 || Plano de testes para a perspectiva de docentes || [http://s2dg.googlecode.com/files/Casos%20de%20Testes-Docente.doc test_doc.doc] ||

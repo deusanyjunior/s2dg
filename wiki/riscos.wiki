@@ -1,6 +1,4 @@
-#summary Página contendo os riscos atuais, independente da iteração
-
-= Riscos Atuais =
+Página contendo os riscos atuais do projeto
 
 [Artefatos]
 

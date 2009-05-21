@@ -4,4 +4,4 @@
 
 Insira aqui a sua sugestão de interface grafica!
 
-[http://code.google.com/p/s2dg/downloads/detail?name=Tela1.jpg&can=2&q=#makechanges]
+http://code.google.com/p/s2dg/downloads/detail?name=Tela1.jpg

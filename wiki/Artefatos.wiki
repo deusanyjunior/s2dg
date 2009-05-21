@@ -1,5 +1,3 @@
-= Artefatos =
-
 Esta página contém todos os artefatos produzidos pela equipe durante todas as iterações.
 
 == Artefatos gerais ==

@@ -3,6 +3,6 @@
 = Iteração 1 - Concepção =
 ==== Período: 12/05/2009 a 17/05/2009 ====
 
-[artefatos Artefatos]
+[Artefatos]
 
 == Artefatos Produzidos ==

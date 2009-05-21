@@ -2,7 +2,7 @@
 
 = Riscos Atuais =
 
-# Falta de dedicação para realização dos Seminários
-# Não entendimento do conteúdo técnico
-# Não entendimento dos requisitos
-# Não conseguir implementar o caso de uso para a iteração
+ # Falta de dedicação para realização dos Seminários
+ # Não entendimento do conteúdo técnico
+ # Não entendimento dos requisitos
+ # Não conseguir implementar o caso de uso para a iteração

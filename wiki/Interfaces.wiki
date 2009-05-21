@@ -1,4 +1,4 @@
-#summary One-sentence summary of this page.
+#summary Desenvolvimento de GUIs.
 
 = IHC da S2 Solutions =
 

@@ -39,7 +39,7 @@ Obs.: _Mátricula foi especificado como requisito de alta prioridade pelos membr
 
 ==Servidor==
   * Sistema: Linux
-  * Memória 500 mb de RAM
+  * Memória 500 mb de RAM (cada máquina virtual)
   * Processamento 4 Athlon Dual Core
   * Tomcat (colocar JBoss)
   * Obs.: esta máquina emula outras 15

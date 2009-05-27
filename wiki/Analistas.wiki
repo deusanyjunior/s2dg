@@ -8,7 +8,7 @@
 Aqui são publicadas informações relacionadas as atividades dos analistas. 
 Responsáveis: Alexandre e Anderson
 
-= Requisitos da primeira iteração =
+= Requisitos Primeira Iteração =
 
 ==Docente==
 
@@ -34,6 +34,22 @@ Obs.: _Mátricula foi especificado como requisito de alta prioridade pelos membr
 
 ===Não funcionais===
   * Pessoal da interface: Foco na usabilidade e simplicidade da interface, reduzir a quantidade de cliques e telas para realizar atividades.
+
+= Casos de uso Segunda Iteração =
+
+_Obs.: detalhamento está no documento de casos de uso em *Artefatos*_
+
+===Aluno Acessar Histórico===
+http://s2dg.googlecode.com/files/AlunoHist%C3%B3rico.jpg
+
+===Aluno Acessar Disciplina===
+http://s2dg.googlecode.com/files/AlunoAcessarDisciplina.jpg
+
+===Aluno Acessar Horario===
+http://s2dg.googlecode.com/files/AlunoHor%C3%A1rio.jpg
+
+===Usuário Loggin===
+http://s2dg.googlecode.com/files/Loggin.jpg
 
 =Outras informações coletadas em reuniões=
 

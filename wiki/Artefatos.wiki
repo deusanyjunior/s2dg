@@ -22,4 +22,4 @@ Esta página contém todos os artefatos produzidos pela equipe durante todas as 
 ||    5     || 06/07 - 19/07 || Construção 2 || [iteracao5 Iteração 5] ||
 ||    6     || 20/07 - 02/08 || Construção 3 || [iteracao5 Iteração 6] ||
 ||    7     || 03/08 - 17/08 || Transição    || [iteracao5 Iteração 7] ||
-||    X     ||      18/08    || ENTREGA DO PROJETO || ||
+||    X     ||      18/08    || FIM DO PROJETO || ||

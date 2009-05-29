@@ -40,16 +40,16 @@ Obs.: _Mátricula foi especificado como requisito de alta prioridade pelos membr
 _Obs.: detalhamento está no documento de casos de uso em *Artefatos*_
 
 ===Aluno Acessar Histórico===
-http://s2dg.googlecode.com/files/AlunoHist%C3%B3rico.jpg
+http://s2dg.googlecode.com/files/AlunoHist%C3%B3rico.png
 
 ===Aluno Acessar Disciplina===
-http://s2dg.googlecode.com/files/AlunoAcessarDisciplina.jpg
+http://s2dg.googlecode.com/files/AlunoAcessarDisciplina.png
 
 ===Aluno Acessar Horario===
-http://s2dg.googlecode.com/files/AlunoHor%C3%A1rio.jpg
+http://s2dg.googlecode.com/files/AlunoHor%C3%A1rio.png
 
 ===Usuário Loggin===
-http://s2dg.googlecode.com/files/Loggin.jpg
+http://s2dg.googlecode.com/files/Efetuar%20log%20in.png
 
 =Outras informações coletadas em reuniões=
 

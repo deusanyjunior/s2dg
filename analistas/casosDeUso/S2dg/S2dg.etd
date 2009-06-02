@@ -146,6 +146,7 @@
 
 
 
+
 </UML:Element.presentation></UML:Generalization></UML:Classifier.generalization></UML:Actor>
 <UML:Association xmi.id="DCE.D2158052-1673-8AC3-50F5-D303030DDAD4" owner="DCE.E7831C43-EB77-315E-19F9-018BCFD215DB"><UML:Association.end>
 <UML:AssociationEnd xmi.id="DCE.7D0BA880-1CF6-4A03-8B9E-70C35F34E8A6" visibility="private" association="DCE.D2158052-1673-8AC3-50F5-D303030DDAD4" type="DCE.B6262FA5-7ECC-84CF-2E60-D2F4AC61B117"><UML:TypedElement.multiplicity>
@@ -203,12 +204,14 @@
 
 
 
+
 </UML:Element.presentation></UML:Association>
 <UML:Actor xmi.id="DCE.6C87FB8D-B7DF-7AB9-D659-A4C0F107C52E" name="Professor" owner="DCE.E7831C43-EB77-315E-19F9-018BCFD215DB"><UML:Element.presentation>
 
 
 </UML:Element.presentation><UML:Classifier.generalization>
 <UML:Generalization xmi.id="DCE.38549FE2-D0A4-B0A2-CC8E-6C7DC3D58DC0" specific="DCE.6C87FB8D-B7DF-7AB9-D659-A4C0F107C52E" general="DCE.480D65DA-1E1F-8E2B-B2D7-68FC8216DD74"><UML:Element.presentation>
+
 
 
 
@@ -268,7 +271,8 @@
 <UML:UseCase xmi.id="DCE.E9E8C28B-BB4B-CC60-4F90-703105B29794" name="Fazer Controle de Frequência" owner="DCE.C9038C0C-94AE-3497-B2C1-C4E5DBB28B85" associationEnd="DCE.7214196D-1696-119C-AE4B-FA3272D88899 DCE.C48AEBF4-D396-7537-6E75-61633637B883 DCE.154BD9E1-865D-6259-945F-A05DAE5E69F4"><UML:Element.presentation>
 </UML:Element.presentation><UML:Element.ownedElement>
 <UML:Include xmi.id="DCE.337ABC4D-5BF2-A1FE-3393-ADAF351B0069" owner="DCE.E9E8C28B-BB4B-CC60-4F90-703105B29794" target="DCE.71C95349-12C8-1A7D-7D21-CE90CC2A9028"><UML:Element.presentation>
-</UML:Element.presentation></UML:Include></UML:Element.ownedElement></UML:UseCase>
+</UML:Element.presentation></UML:Include>
+</UML:Element.ownedElement></UML:UseCase>
 
 <UML:UseCase xmi.id="DCE.7B0D95FB-A533-C11D-878A-7985A3FD8631" name="Criar Plano de Curso" owner="DCE.C9038C0C-94AE-3497-B2C1-C4E5DBB28B85" associationEnd="DCE.15BF39B5-4084-208E-36C7-5F944BFFF29C DCE.5DABE223-C64E-0D07-5257-7161238D84C0 DCE.9EB31EC9-E10F-BA26-8B76-6F1EBFDB2260 DCE.93C3C84A-147D-2914-56B5-CBAFBEFEAD65"><UML:Element.presentation>
 </UML:Element.presentation><UML:Element.ownedElement>
@@ -278,8 +282,9 @@
 </UML:Element.presentation></UML:Include></UML:Element.ownedElement></UML:UseCase>
 <UML:UseCase xmi.id="DCE.C62BC969-8DD5-5810-3BC4-90ECB5ED0F57" name="Editar Plano de Curso" owner="DCE.C9038C0C-94AE-3497-B2C1-C4E5DBB28B85" associationEnd="DCE.9CE81001-F971-6739-EB89-84ECA87E7238 DCE.E708DA20-20FF-F8D8-5177-EC432BF0263E" includedBy="DCE.56A22E34-B954-2195-CBE3-073556F7AF1D"><UML:Element.presentation>
 </UML:Element.presentation><UML:Element.ownedElement>
-<UML:Include xmi.id="DCE.A537355D-52B8-B219-439B-9C7BE8FA137F" owner="DCE.C62BC969-8DD5-5810-3BC4-90ECB5ED0F57" target="DCE.4BE887A7-4492-4CD4-0159-33E86CDFDA7A"><UML:Element.presentation>
+<UML:Include xmi.id="DCE.A537355D-52B8-B219-439B-9C7BE8FA137F" owner="DCE.C62BC969-8DD5-5810-3BC4-90ECB5ED0F57" target=""><UML:Element.presentation>
 </UML:Element.presentation></UML:Include>
+
 <UML:Include xmi.id="DCE.8BE1DB59-1A8A-8CA3-4F4D-E88D887E49FD" owner="DCE.C62BC969-8DD5-5810-3BC4-90ECB5ED0F57" target="DCE.71C95349-12C8-1A7D-7D21-CE90CC2A9028"><UML:Element.presentation>
 </UML:Element.presentation></UML:Include></UML:Element.ownedElement></UML:UseCase>
 <UML:UseCase xmi.id="DCE.4738F9FE-D41E-9880-3C35-FA2E9887C691" name="Publicar Dados" owner="DCE.C9038C0C-94AE-3497-B2C1-C4E5DBB28B85" associationEnd="DCE.AFC9F13D-0A67-36ED-29FB-21A45204E51F DCE.71FBAF0C-61D3-07D8-8A27-27798E5E4AE7"><UML:Element.presentation>
@@ -302,12 +307,11 @@
 
 
 
-<UML:UseCase xmi.id="DCE.71C95349-12C8-1A7D-7D21-CE90CC2A9028" name="Acessar Turma" owner="DCE.C9038C0C-94AE-3497-B2C1-C4E5DBB28B85" includedBy="DCE.B0FF317C-92DF-E22E-FE58-2E759F38A533 DCE.321A40FD-1722-80E8-1AE7-088B357D1C4B DCE.A7AB2451-3849-F16D-06DA-4E5E4EE7AE7D DCE.27A7C3A0-5EF1-8C13-63C7-96E5661EF48A DCE.D1CAC894-17F2-FD4B-64E1-83FF24ECEF1D DCE.337ABC4D-5BF2-A1FE-3393-ADAF351B0069 DCE.8BE1DB59-1A8A-8CA3-4F4D-E88D887E49FD DCE.7FA11AE3-8E1D-8728-FF7E-9AC8913214E5 DCE.E6832695-F712-87E6-60B2-F136501C4DB6 DCE.DF274ECB-9D95-C69B-B3A4-90BF25718344"><UML:Element.presentation>
+<UML:UseCase xmi.id="DCE.71C95349-12C8-1A7D-7D21-CE90CC2A9028" name="Acessar Turma" owner="DCE.C9038C0C-94AE-3497-B2C1-C4E5DBB28B85" includedBy="DCE.B0FF317C-92DF-E22E-FE58-2E759F38A533 DCE.321A40FD-1722-80E8-1AE7-088B357D1C4B DCE.A7AB2451-3849-F16D-06DA-4E5E4EE7AE7D DCE.27A7C3A0-5EF1-8C13-63C7-96E5661EF48A DCE.D1CAC894-17F2-FD4B-64E1-83FF24ECEF1D DCE.337ABC4D-5BF2-A1FE-3393-ADAF351B0069 DCE.8BE1DB59-1A8A-8CA3-4F4D-E88D887E49FD DCE.7FA11AE3-8E1D-8728-FF7E-9AC8913214E5 DCE.E6832695-F712-87E6-60B2-F136501C4DB6 DCE.DF274ECB-9D95-C69B-B3A4-90BF25718344" associationEnd="DCE.54042246-37D9-5FFA-E1B6-EBDCB63927E2"><UML:Element.presentation>
 </UML:Element.presentation><UML:Element.ownedElement>
 <UML:Include xmi.id="DCE.E7484E5A-7CC3-F96F-625E-BD5946ACD49C" owner="DCE.71C95349-12C8-1A7D-7D21-CE90CC2A9028" target="DCE.61AEE2AC-1415-70C8-49FF-7924548868CD"><UML:Element.presentation>
 </UML:Element.presentation></UML:Include></UML:Element.ownedElement></UML:UseCase>
-<UML:UseCase xmi.id="DCE.4BE887A7-4492-4CD4-0159-33E86CDFDA7A" name="Unnamed" owner="DCE.C9038C0C-94AE-3497-B2C1-C4E5DBB28B85" includedBy="DCE.A537355D-52B8-B219-439B-9C7BE8FA137F"><UML:Element.presentation>
-</UML:Element.presentation></UML:UseCase>
+
 
 
 
@@ -495,6 +499,7 @@
 <UML:Multiplicity xmi.id="DCE.1B52CAA0-AF43-5EE8-EA1D-BB23D9BD7F5C"/></UML:TypedElement.multiplicity></UML:AssociationEnd>
 <UML:AssociationEnd xmi.id="DCE.F7D640FA-EAA6-C905-23D2-4F6399C111C3" visibility="private" association="DCE.858FEE85-F03F-6BAC-EB65-4B6F54CCE9DE" type="DCE.BE2ECB12-8BFC-CA20-0D2B-5FE061B61C74"><UML:TypedElement.multiplicity>
 <UML:Multiplicity xmi.id="DCE.8DC96B4D-C21F-514D-0952-EF4CB1E84FA1"/></UML:TypedElement.multiplicity></UML:AssociationEnd></UML:Association.end><UML:Element.presentation>
+
 </UML:Element.presentation></UML:Association>
 <UML:Association xmi.id="DCE.655C3C92-D118-D2F8-1D53-BCA3C81548C3" owner="DCE.9D259F96-E978-57FF-258F-AC1F8A05D79A"><UML:Association.end>
 <UML:AssociationEnd xmi.id="DCE.A7003F5B-4CD1-8ECA-1041-45E6A18C497E" visibility="private" association="DCE.655C3C92-D118-D2F8-1D53-BCA3C81548C3" type="DCE.E03BF0EF-E194-A993-2DDE-F198CDE929FF"><UML:TypedElement.multiplicity>
@@ -519,7 +524,16 @@
 <UML:Multiplicity xmi.id="DCE.4C7E4F02-4A3B-2A46-D336-622D6EEA315C"/></UML:TypedElement.multiplicity></UML:AssociationEnd>
 <UML:AssociationEnd xmi.id="DCE.D9AE20AE-837E-70B1-82A6-AFACCFACCFF6" visibility="private" association="DCE.64D0AF0C-51A7-41DF-3777-6125831F0773" type="DCE.C05A9564-196F-C356-05B6-D4925D6A63B8"><UML:TypedElement.multiplicity>
 <UML:Multiplicity xmi.id="DCE.FE2DF80D-BB3B-E1D2-F4A2-90C6608CC407"/></UML:TypedElement.multiplicity></UML:AssociationEnd></UML:Association.end><UML:Element.presentation>
-</UML:Element.presentation></UML:Association></UML:Element.ownedElement></UML:Package></UML:Element.ownedElement><UML:Package.packageImport>
+</UML:Element.presentation></UML:Association>
+<UML:Actor xmi.id="DCE.44C59E7F-6CE0-895D-40EB-E89FD666CC40" name="NTI/UFPB" owner="DCE.9D259F96-E978-57FF-258F-AC1F8A05D79A" associationEnd="DCE.ED3A9938-E419-9965-8FF8-743596F6D46E"><UML:Element.presentation>
+</UML:Element.presentation></UML:Actor>
+<UML:Association xmi.id="DCE.D90E0BD4-9E39-2D49-2310-7B4096B285E8" owner="DCE.9D259F96-E978-57FF-258F-AC1F8A05D79A"><UML:Association.end>
+<UML:AssociationEnd xmi.id="DCE.ED3A9938-E419-9965-8FF8-743596F6D46E" visibility="private" association="DCE.D90E0BD4-9E39-2D49-2310-7B4096B285E8" type="DCE.44C59E7F-6CE0-895D-40EB-E89FD666CC40"><UML:TypedElement.multiplicity>
+<UML:Multiplicity xmi.id="DCE.BDA8652D-E199-5862-B0A3-8B471B273FC0"/></UML:TypedElement.multiplicity></UML:AssociationEnd>
+<UML:AssociationEnd xmi.id="DCE.54042246-37D9-5FFA-E1B6-EBDCB63927E2" visibility="private" association="DCE.D90E0BD4-9E39-2D49-2310-7B4096B285E8" type="DCE.71C95349-12C8-1A7D-7D21-CE90CC2A9028"><UML:TypedElement.multiplicity>
+<UML:Multiplicity xmi.id="DCE.7D222B04-FA76-926C-1C57-ACA8AFF1A668"/></UML:TypedElement.multiplicity></UML:AssociationEnd></UML:Association.end><UML:Element.presentation>
+</UML:Element.presentation></UML:Association></UML:Element.ownedElement></UML:Package>
+</UML:Element.ownedElement><UML:Package.packageImport>
 <UML:PackageImport xmi.id="DCE.E75F44BF-FA92-C15E-0C9D-976FCE61AA09" importingPackage="DCE.E7831C43-EB77-315E-19F9-018BCFD215DB"><UML:PackageImport.importedPackage>
 <UML:Profile xmi.id="DCE.512A472B-23FE-4BA3-17F4-5F5900A964F7" name="Unnamed" isCloned="true" href=".\S2dg.etup#//*[@xmi.id=&apos;DCE.512A472B-23FE-4BA3-17F4-5F5900A964F7&apos;]" isDirty="false"/></UML:PackageImport.importedPackage><UML:Element.ownedElement>
 <UML:TaggedValue xmi.id="DCE.82044F8B-41D6-1F18-317B-552204158D87" owner="DCE.E75F44BF-FA92-C15E-0C9D-976FCE61AA09" name="autoCreated">

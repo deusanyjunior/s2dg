@@ -21,7 +21,7 @@ Responsáveis: Alexandre e Anderson
 
  * Secundários
   * Imprimir dados _(escolher colunas a serem impressas)_
-  * Exportar dados _(Excel, CVS)_
+  * Exportar dados _(Excel, CSV)_
   * Publicar ou ocultar informações _(mostara ou não a nota para os alunos)_
 
 ==Discente==

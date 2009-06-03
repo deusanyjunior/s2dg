@@ -6,7 +6,7 @@
 
 *Configuration information for a TestNG class:*
 
-@BeforeSuite: The annotated method will be run before all tests in this suite have run.
+*@Before*Suite:* The annotated method will be run before all tests in this suite have run.
 
 *@AfterSuite:* The annotated method will be run after all tests in this suite have run.
 
@@ -77,5 +77,3 @@
  _timeOut:_ The maximum number of milliseconds this test should take.
 
  _threadPoolSize:_ The size of the thread pool for this method. The method will be invoked from multiple threads as specified by invocationCount. Note: this attribute is ignored if invocationCount is not specified
-
-ObjOnj

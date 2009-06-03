@@ -6,7 +6,7 @@
 
 *Configuration information for a TestNG class:*
 
-*@BeforeSuite: * The annotated method will be run before all tests in this suite have run.
+*@BeforeSuite:* The annotated method will be run before all tests in this suite have run.
 
 *@AfterSuite:* The annotated method will be run after all tests in this suite have run.
 
@@ -42,7 +42,7 @@
  
  _name:_ The name of this DataProvider.
   
-*@Factory:* Marks a method as a factory that returns objects that will be used by TestNG as Test classes. The method must return Object[].
+*@FactoryObb:* Marks a method as a factory that returns objects that will be used by TestNG as Test classes. The method must return Object[].
 
 *@Parameters:* Describes how to pass parameters to a @Test method.
 

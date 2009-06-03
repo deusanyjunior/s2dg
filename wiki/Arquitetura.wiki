@@ -2,7 +2,7 @@ Página que contém as especificações da arquitetura do sistema
 
 == Diagrama de Camadas ==
 
-http://s2dg.googlecode.com/files/layers.png
+http://s2dg.googlecode.com/files/layers-small.png
 
 == Diagram de Classes Iniciais ==
 

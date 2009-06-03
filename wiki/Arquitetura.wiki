@@ -1,0 +1,1 @@
+Página que contém as especificações da arquitetura do sistema

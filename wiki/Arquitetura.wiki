@@ -1,1 +1,8 @@
 Página que contém as especificações da arquitetura do sistema
+
+== Diagrama de Camadas ==
+
+
+== Diagram de Classes Iniciais ==
+
+http://s2dg.googlecode.com/files/Model.png

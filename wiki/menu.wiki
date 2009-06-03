@@ -3,3 +3,4 @@
   * [documentos Documentos]
   * [Interfaces]
   * [riscos Riscos]
+  * [Arquitetura]

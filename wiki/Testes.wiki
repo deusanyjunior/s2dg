@@ -9,7 +9,7 @@ Esta página contém as anotações do TestNG para auxiliar na criação dos tes
 
 *Configuration information for a TestNG class:*
 
-*@BeforeSuite:* The annotated method will be run before all tests in this suite have run. 
+*@BeforeSuite: * The annotated method will be run before all tests in this suite have run. 
 
 *@AfterSuite:* The annotated method will be run after all tests in this suite have run. 
 

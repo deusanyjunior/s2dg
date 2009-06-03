@@ -6,9 +6,9 @@
 
 *Configuration information for a TestNG class:*
 
-*@Before'*'Suite:* The annotated method will be run before all tests in this suite have run.
+*@BeforeSuite:* The annotated method will be run before all tests in this suite have run.
 
-*@After'Suite':* The annotated method will be run after all tests in this suite have run.
+*@AfterSuite:* The annotated method will be run after all tests in this suite have run.
 
 *@BeforeTest:* The annotated method will be run before the test.
 

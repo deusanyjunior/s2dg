@@ -1,0 +1,78 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+<ui:define name="body">
+    
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+
+    <h:form id="usuario" styleClass="edit">
+    
+        <rich:panel>
+            <f:facet name="header">#{usuarioHome.managed ? 'Edit' : 'Add'} Usuario</f:facet>
+
+
+
+            <s:decorate id="nameDecoration" template="layout/edit.xhtml">
+                <ui:define name="label">name</ui:define>
+                <h:inputText id="name" 
+                           size="20"
+                      maxlength="20"
+                          value="#{usuarioHome.instance.name}">
+                    <a:support event="onblur" reRender="nameDecoration" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+        
+            <div style="clear:both">
+                <span class="required">*</span> 
+                required fields
+            </div>
+            
+        </rich:panel>
+                
+        <div class="actionButtons">
+
+            <h:commandButton id="save" 
+                          value="Save" 
+                         action="#{usuarioHome.persist}"
+                       disabled="#{!usuarioHome.wired}"
+                       rendered="#{!usuarioHome.managed}"/>  
+                          			  
+            <h:commandButton id="update" 
+                          value="Save" 
+                         action="#{usuarioHome.update}"
+                       rendered="#{usuarioHome.managed}"/>
+                        			  
+            <h:commandButton id="delete" 
+                          value="Delete" 
+                         action="#{usuarioHome.remove}"
+                      immediate="true"
+                       rendered="#{usuarioHome.managed}"/>
+                    
+            <s:button id="done" 
+                   value="Done"
+             propagation="end"
+                    view="/Usuario.xhtml"
+                rendered="#{usuarioHome.managed}"/>
+                
+            <s:button id="cancel" 
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty usuarioFrom ? 'UsuarioList' : usuarioFrom}.xhtml"
+                rendered="#{!usuarioHome.managed}"/>
+
+        </div>
+    </h:form>
+
+</ui:define>
+
+</ui:composition>

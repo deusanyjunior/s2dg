@@ -78,4 +78,4 @@ click Botão Direito -> "Salvar destino como..." (IE))_
 
   [http://code.google.com/p/s2dg/source/browse/analistas/casosDeUso/detalhamentos/inserir_media_final.docx Detalhamento do Caso de Uso: Inserir Media Final]
 
-_Obs.: os detalhamentos podem sobre pequenas alterações._
+_Obs.: os detalhamentos podem sofrer alterações._

@@ -69,7 +69,7 @@ http://s2dg.googlecode.com/files/ControleDeAcesso_1244387703383_22.png
   
   [http://s2dg.googlecode.com/files/Gloss%C3%A1rio.doc Glossário]
 
-  [http://s2dg.googlecode.com/files/acessarVisaoGeralTurma.docx Detalhamento do Caso de Uso: Acessar Visão Geral da Turma]
+  [http://code.google.com/p/s2dg/source/browse/analistas/casosDeUso/detalhamentos/acessarVisaoGeralTurma.docx Detalhamento do Caso de Uso: Acessar Visão Geral da Turma]
 
   [http://s2dg.googlecode.com/files/consultarHorarioIndividual.docx Detalhamento do Caso de Uso: Consultar Horario Individual]
 

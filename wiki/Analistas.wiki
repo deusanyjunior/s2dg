@@ -29,27 +29,25 @@ Responsáveis: Alexandre e Anderson
  * Primários
   * Visualizar o horário com as disciplinas em que esta matriculado (esqueci de comentar na reunião)
   * Visualizar informações que os professores publicaram
+  * Fazer Matricula _*Atualizado*_
 
-Obs.: _Mátricula foi especificado como requisito de alta prioridade pelos membros do NTI, porém isso ainda não esta decidido se ficará dentro do nosso escopo_
+
 
 ===Não funcionais===
   * Pessoal da interface: Foco na usabilidade e simplicidade da interface, reduzir a quantidade de cliques e telas para realizar atividades.
 
-= Casos de uso Segunda Iteração =
+= Casos de uso Terceira Iteração =
 
 _Obs.: detalhamento está no documento de casos de uso em *Artefatos*_
 
-===Aluno Acessar Histórico===
-http://s2dg.googlecode.com/files/AlunoHist%C3%B3rico.png
+===Aluno Online===
+http://s2dg.googlecode.com/files/Aluno_1244294613734_2.png
 
-===Aluno Acessar Disciplina===
-http://s2dg.googlecode.com/files/AlunoAcessarDisciplina.png
+===CadernetaEletronica===
+http://s2dg.googlecode.com/files/CadernetaEletr%C3%B4nica_1243913468230_2.png
 
-===Aluno Acessar Horario===
-http://s2dg.googlecode.com/files/AlunoHor%C3%A1rio.png
-
-===Usuário Loggin===
-http://s2dg.googlecode.com/files/Efetuar%20log%20in.png
+===Controle de Acesso===
+http://s2dg.googlecode.com/files/ControleDeAcesso_1244387703383_22.png
 
 =Outras informações coletadas em reuniões=
 
@@ -71,4 +69,10 @@ http://s2dg.googlecode.com/files/Efetuar%20log%20in.png
   
   [http://s2dg.googlecode.com/files/Gloss%C3%A1rio.doc Glossário]
 
-  [http://s2dg.googlecode.com/files/DetalhamentoCasosUso.doc Detalhamento dos casos de uso(Parcial)]
+  [http://s2dg.googlecode.com/files/acessarVisaoGeralTurma.docx Detalhamento do Caso de Uso: Acessar Visão Geral da Turma]
+
+  [http://s2dg.googlecode.com/files/consultarHorarioIndividual.docx Detalhamento do Caso de Uso: Consultar Horario Individual]
+
+  [http://s2dg.googlecode.com/files/inserir_media_final.docx Detalhamento do Caso de Uso: Inserir Media Final]
+
+_Obs.: os detalhamentos podem sobre pequenas alterações._

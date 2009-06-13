@@ -1,5 +1,7 @@
 package org.ufpb.s2dg.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
@@ -7,7 +9,7 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 @Embeddable
-public class AlunoTurmaId implements java.io.Serializable {
+public class AlunoTurmaId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String matriculaAluno;
@@ -21,7 +23,9 @@ public class AlunoTurmaId implements java.io.Serializable {
 		this.idTurma = idTurma;
 	}
 
-	@Column(name = "matricula_aluno", nullable = false, length = 9)
+	@Column(name = "matricula_aluno", 
+			nullable = false, 
+			length = 9)
 	@NotNull
 	@Length(max = 9)
 	public String getMatriculaAluno() {

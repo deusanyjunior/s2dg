@@ -1,5 +1,6 @@
 package org.ufpb.s2dg.entity;
 
+import java.io.Serializable;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -10,11 +11,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import org.hibernate.validator.NotNull;
 
 @Entity
-@Table(name = "aluno_turma", schema = "public")
-public class AlunoTurma implements java.io.Serializable {
+@Table(name = "aluno_turma")
+public class AlunoTurma implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private AlunoTurmaId id;
@@ -43,8 +45,11 @@ public class AlunoTurma implements java.io.Serializable {
 
 	@EmbeddedId
 	@AttributeOverrides( {
-			@AttributeOverride(name = "matriculaAluno", column = @Column(name = "matricula_aluno", nullable = false, length = 9)),
-			@AttributeOverride(name = "idTurma", column = @Column(name = "id_turma", nullable = false)) })
+		@AttributeOverride(name = "matriculaAluno", 
+						   column = @Column(name = "matricula_aluno", nullable = false, length = 9)),
+		@AttributeOverride(name = "idTurma", 
+						   column = @Column(name = "id_turma", nullable = false))
+	})
 	@NotNull
 	public AlunoTurmaId getId() {
 		return this.id;
@@ -55,7 +60,10 @@ public class AlunoTurma implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_turma", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "id_turma", 
+			    nullable = false, 
+			    insertable = false, 
+			    updatable = false)
 	@NotNull
 	public Turma getTurma() {
 		return this.turma;
@@ -66,7 +74,10 @@ public class AlunoTurma implements java.io.Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "matricula_aluno", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "matricula_aluno", 
+			    nullable = false, 
+			    insertable = false, 
+			    updatable = false)
 	@NotNull
 	public Aluno getAluno() {
 		return this.aluno;

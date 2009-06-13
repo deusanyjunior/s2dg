@@ -1,5 +1,6 @@
 package org.ufpb.s2dg.entity;
 
+import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -8,7 +9,7 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 @Embeddable
-public class PeriodoId implements java.io.Serializable {
+public class PeriodoId implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String ano;

@@ -1,6 +1,6 @@
 package org.ufpb.s2dg.entity;
 
-
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,8 +17,8 @@ import javax.persistence.Table;
 import org.hibernate.validator.NotNull;
 
 @Entity
-@Table(name = "role", schema = "public")
-public class Role implements java.io.Serializable {
+@Table(name = "role")
+public class Role implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int id;
@@ -39,7 +39,9 @@ public class Role implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false)
+	@Column(name = "id", 
+			unique = true, 
+			nullable = false)
 	@NotNull
 	public int getId() {
 		return this.id;
@@ -59,7 +61,18 @@ public class Role implements java.io.Serializable {
 	}
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "usuario_role", schema = "public", joinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "usuario_id", nullable = false, updatable = false) })
+	@JoinTable(name = "usuario_role", 
+			   schema = "public", 
+			   joinColumns = { 
+				@JoinColumn(name = "role_id", 
+							nullable = false, 
+							updatable = false) 
+			   }, 
+			   inverseJoinColumns = { 
+				@JoinColumn(name = "usuario_id",
+							nullable = false, 
+							updatable = false) 
+			   })
 	public Set<Usuario> getUsuarios() {
 		return this.usuarios;
 	}

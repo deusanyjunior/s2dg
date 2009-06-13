@@ -1,6 +1,6 @@
 package org.ufpb.s2dg.entity;
 
-
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,8 +16,8 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 @Entity
-@Table(name = "disciplina", schema = "public")
-public class Disciplina implements java.io.Serializable {
+@Table(name = "disciplina")
+public class Disciplina implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String codigo;
@@ -43,7 +43,10 @@ public class Disciplina implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "codigo", unique = true, nullable = false, length = 7)
+	@Column(name = "codigo", 
+			unique = true, 
+			nullable = false, 
+			length = 7)
 	@NotNull
 	@Length(max = 7)
 	public String getCodigo() {
@@ -54,7 +57,9 @@ public class Disciplina implements java.io.Serializable {
 		this.codigo = codigo;
 	}
 
-	@Column(name = "nome", nullable = false, length = 100)
+	@Column(name = "nome", 
+			nullable = false, 
+			length = 100)
 	@NotNull
 	@Length(max = 100)
 	public String getNome() {
@@ -65,7 +70,10 @@ public class Disciplina implements java.io.Serializable {
 		this.nome = nome;
 	}
 
-	@Column(name = "creditos", nullable = false, precision = 131089, scale = 0)
+	@Column(name = "creditos", 
+			nullable = false, 
+			precision = 131089, 
+			scale = 0)
 	@NotNull
 	public int getCreditos() {
 		return this.creditos;

@@ -1,7 +1,6 @@
 package org.ufpb.s2dg.entity;
 
-// Generated 13/06/2009 11:07:54 by Hibernate Tools 3.2.2.GA
-
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -13,8 +12,8 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 @Entity
-@Table(name = "aluno", schema = "public")
-public class Aluno implements java.io.Serializable {
+@Table(name = "aluno")
+public class Aluno implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String matricula;
@@ -31,7 +30,10 @@ public class Aluno implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "matricula", unique = true, nullable = false, length = 9)
+	@Column(name = "matricula", 
+			unique = true, 
+			nullable = false, 
+			length = 9)
 	@NotNull
 	@Length(max = 9)
 	public String getMatricula() {

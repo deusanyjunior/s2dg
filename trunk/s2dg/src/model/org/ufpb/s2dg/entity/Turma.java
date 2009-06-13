@@ -1,5 +1,7 @@
 package org.ufpb.s2dg.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,8 +15,8 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 @Entity
-@Table(name = "turma", schema = "public")
-public class Turma implements java.io.Serializable {
+@Table(name = "turma")
+public class Turma implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private long id;
@@ -34,7 +36,11 @@ public class Turma implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "id", unique = true, nullable = false, precision = 131089, scale = 0)
+	@Column(name = "id", 
+			unique = true, 
+			nullable = false, 
+			precision = 131089, 
+			scale = 0)
 	@NotNull
 	public long getId() {
 		return this.id;
@@ -46,8 +52,13 @@ public class Turma implements java.io.Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumns( {
-			@JoinColumn(name = "id_periodo_ano", referencedColumnName = "ano", nullable = false),
-			@JoinColumn(name = "id_periodo_semestre", referencedColumnName = "semestre", nullable = false) })
+		@JoinColumn(name = "id_periodo_ano", 
+					referencedColumnName = "ano", 
+					nullable = false),
+		@JoinColumn(name = "id_periodo_semestre", 
+					referencedColumnName = "semestre", 
+					nullable = false) 
+	})
 	@NotNull
 	public Periodo getPeriodo() {
 		return this.periodo;

@@ -1,4 +1,4 @@
 #Wed Jun 03 22:36:18 BRT 2009
 classpath.helper/org.eclipse.jdt.launching.JRE_CONTAINER\:\:org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType\:\:java-6-sun-1.6.0.13/owners=jst.java\:5.0
-classpath.helper/org.eclipse.jst.server.core.container\:\:org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget\:\:JBoss\ 4.2\ Runtime/owners=jst.jsf\:1.2;jst.web\:2.5;jst.seam\:2.0
+classpath.helper/org.eclipse.jst.server.core.container\:\:org.jboss.ide.eclipse.as.core.server.runtime.runtimeTarget\:\:JBoss\ 4.2\ Runtime/owners=jst.jsf\:1.2;jst.web\:2.5;jst.seam\:2.1
 eclipse.preferences.version=1

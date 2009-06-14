@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Arrays;
 
 @Name("usuarioList")
-public class UsuarioList extends EntityQuery {
+public class UsuarioList extends EntityQuery<Usuario> {
+
+	private static final long serialVersionUID = 1L;
 
 	private static final String[] RESTRICTIONS = { "lower(usuario.name) like concat(lower(#{usuarioList.usuario.name}),'%')", };
 

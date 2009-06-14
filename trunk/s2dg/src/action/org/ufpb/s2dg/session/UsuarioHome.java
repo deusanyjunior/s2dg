@@ -7,6 +7,8 @@ import org.ufpb.s2dg.entity.*;
 @Name("usuarioHome")
 public class UsuarioHome extends EntityHome<Usuario> {
 
+	private static final long serialVersionUID = 1L;
+
 	public void setUsuarioId(Long id) {
 		setId(id);
 	}

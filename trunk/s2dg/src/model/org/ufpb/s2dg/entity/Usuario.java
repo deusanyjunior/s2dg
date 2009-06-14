@@ -59,7 +59,7 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	public Aluno getAluno() {
 		return this.aluno;
 	}
@@ -68,7 +68,7 @@ public class Usuario implements Serializable {
 		this.aluno = aluno;
 	}
 
-	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	public Professor getProfessor() {
 		return this.professor;
 	}

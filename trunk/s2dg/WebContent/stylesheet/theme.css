@@ -1,29 +1,66 @@
+html {
+	overflow-y: scroll;
+}
+
 body {
 	font-size: 12px;
+	margin: 0px;
+	background-color: #d7e7f7;
+	text-align: justify;
+	vertical-align: top;
+	top: 0px;
+	clip: rect(0px, auto, auto, auto);
 }
 
-a:active, a:link, a:visited {
-	color: #0D5798;    
-}
-a:hover {
-	color: #8CAFCD;
+topo {
+	height: 120px;
+	border-style: none;
+	border-width: 0px;
+	background-repeat: repeat-x;
+	background-image: url(img/topo_bg.png);
+	font-family: Arial, Helvetica, sans-serif;
+	text-shadow: #000099;
+	color: #000000;
+	font-weight: bold;
+	background-repeat: repeat;
+	background-image: url("img/topo_bg.png")
 }
 
-input, textarea {
-	border: 1px solid #BBBBBB;
+element.style {
+	padding: 5px;
+	width: auto;
+}
+
+.rich-pmenu {
+	width: auto;
+}
+
+menu {
+	float: left;
+	width: 200px;
+}
+
+a img {
+	border: none;
+}
+
+h1 {
+	font-size: 1.6em;
+	margin-top: 0;
+}
+
+input[type=submit],input[type=button] {
 	font-size: 10px;
-	background: #F0F8FF;
-	color: black;
+	margin: 5px 5px 5px 0;
+	cursor: pointer;
 }
 
-input[type='submit'], input[type='button'] {
-	background: #4477AA;
-	color: white;
-	margin: 5px;
-	border-color: gray;
+input[type=text],input[type=password],textarea {
+	font-size: 11px;
+	padding-left: 1px;
 }
 
-.tableControl, .actionButtons {
+.tableControl,.actionButtons {
 	width: 100%;
 }
 
@@ -37,42 +74,50 @@ input[type='submit'], input[type='button'] {
 
 .footer {
 	text-align: center;
-	font-size: 10px;
+	font-size: 11px;
+	margin-bottom: 10px;
 }
 
 .rich-table {
-    width:100%;
-}
-
-h1 {
-	font-family: Arial,sans-serif;
-	color: #578BB8;
-	font-size: 1.6em;
-	margin-top: 0;
-}
-
-body {
-	margin: 0px;
-	font-family: Arial,sans-serif;
-	color: #616161;
+	width: 100%;
 }
 
 .body {
 	padding: 30px;
 }
 
-.columnHeader:hover
-{
-    color: #FF6600;
+.columnHeader:hover {
+	color: #FF6600;
 }
 
 .message {
-	border: 1px solid #FFCC00;
 	padding: 5px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	background-color: #F0F8FF;
+	list-style: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	color: #000000;
+	margin: 5px 0 8px 0;
 	font-size: 12px;
+}
+
+.message li {
+	background: no-repeat left center;
+	padding-top: 1px;
+	padding-left: 20px;
+	margin-left: 3px;
+}
+
+.message li.infomsg {
+	background-image: url(../img/msginfo.png);
+}
+
+.message li.errormsg {
+	background-image: url(../img/msgerror.png);
+}
+
+.message li.warnmsg {
+	background-image: url(../img/msgwarn.png);
 }
 
 .name {
@@ -84,6 +129,7 @@ body {
 	margin-top: 3px;
 	clear: left;
 }
+
 .value {
 	float: left;
 	padding: 5px;
@@ -93,18 +139,18 @@ body {
 	float: left;
 	padding: 5px;
 }
+
 .errors {
 	color: red;
 	vertical-align: middle;
 }
+
 img.errors {
 	padding-right: 5px;
 }
-.errors input {
-	border: 1px solid red;
-}
-.errors textarea {
-	border: 1px solid red;
+
+.errors input,.errors textarea {
+	border: 1px solid red !important;
 }
 
 .required {
@@ -113,5 +159,71 @@ img.errors {
 }
 
 .rich-stglpanel-body {
-   overflow: auto;
-} 
+	overflow: auto;
+}
+
+.rich-panel .rich-panel-header,.rich-stglpanel .rich-stglpanel-header {
+	padding: 2px 3px;
+}
+
+select {
+	font-size: 12px;
+}
+
+.rich-panel input[type=submit],.rich-panel input[type=button],.rich-tabpanel input[type=submit],.rich-tabpanel input[type=button]
+	{
+	margin-bottom: 0;
+}
+
+.tableControl input[type=submit],.tableControl input[type=button],.tableControl select
+	{
+	margin: 5px 0 5px 5px;
+}
+
+.tableControl select {
+	margin-left: 2px;
+	position: relative;
+	top: 1px;
+}
+
+.actionButtons {
+	padding-left: 1px;
+}
+
+.actionButtons select {
+	margin: 5px 5px 5px 0;
+	vertical-align: bottom;
+}
+
+.rich-datalist {
+	list-style: square;
+	margin: 6px 0 1px 0;
+	padding-left: 18px;
+}
+
+.rich-list-item {
+	padding-bottom: 4px;
+}
+
+div.info {
+	font-size: 1.2em;
+}
+
+ul.bullets {
+	list-style: square;
+}
+
+ul.bullets li {
+	padding-bottom: 2px;
+}
+
+td.action {
+	text-align: center;
+	width: 8em;
+	white-space: nowrap;
+}
+
+td.action a {
+	padding-left: 1px;
+	padding-right: 1px;
+}

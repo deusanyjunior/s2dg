@@ -1,5 +1,6 @@
 package org.ufpb.s2dg.entity;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario implements java.io.Serializable {
+public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private long id;
@@ -55,7 +56,7 @@ public class Usuario implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade= {CascadeType.ALL})
 	@JoinColumn(name = "aluno_matricula")
 	public Aluno getAluno() {
 		return this.aluno;
@@ -65,7 +66,7 @@ public class Usuario implements java.io.Serializable {
 		this.aluno = aluno;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade= {CascadeType.ALL})
 	@JoinColumn(name = "professor_matricula")
 	public Professor getProfessor() {
 		return this.professor;

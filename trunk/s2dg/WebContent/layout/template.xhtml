@@ -1,13 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
                       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:a4j="http://richfaces.org/a4j"
-	xmlns:rich="http://richfaces.org/rich">
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
 
 
 <head>
@@ -18,36 +18,22 @@
 <ui:insert name="head" />
 </head>
 
-
 <body>
 
-<rich:panel
-	style="height:105px;
-			border-style:none;
-			border-width:0px;
-			background-repeat:repeat-x;
-			background-image:url(img/topo_bg.png);">
+<ui:include src="/layout/topo.xhtml" />
 
-	<div style="padding-right: 20px; float: left;"><img
-		src="img/logo_ufpb2.png" alt="Universidade Federal da Paraíba"
-		width="62px" height="90px" border="0" align="left"
-		longdesc="http://www.ufpb.br/"> </img></div>
-	<br></br>
-	<h:outputText value="SISTEMA DOCENTE DISCENTE DA GRADUAÇÃO"
-		style="FONT-WEIGHT: bold; FONT-SIZE: large;" />
-	<br></br>
-	<br></br>
-	<br></br>
-	<h:outputText value="Olá ANTONIO DEUSANY DE CARVALHO JÚNIOR" />
-	<br> </br>
-</rich:panel>
+<div class="body">
+    <h:messages id="messages" globalOnly="true" styleClass="message"
+        errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"
+        rendered="#{showGlobalMessages != 'false'}"/>
+</div>
 
 <div><rich:tabPanel switchType="ajax">
-	<rich:tab label="Área do Docente">
+	<rich:tab label="Área do Docente" rendered="#{identity.hasRole('professor')}">
 		<table width="100%">
 			<tr>
 				<td width="200px" valign="top">
-				<div class="menu"><ui:include src="menu.xhtml">
+				<div class="menu"><ui:include src="menu_docente.xhtml">
 					<ui:param name="projectName" value="ufpb" />
 				</ui:include></div>
 				</td>
@@ -57,21 +43,21 @@
 					<rich:tab label="Gerenciar Notas">
 						<table>
 							<tr>
-								<td>Não consegui fazer a tabela auto editavel!</td>
+								<td>[GERENCIAR NOTAS]</td>
 							</tr>
 						</table>
 					</rich:tab>
-					<rich:tab label="Crongrama de Aulas">
+					<rich:tab label="Cronograma de Aulas">
 						<table>
 							<tr>
-								<td>Não há nada para colocar aqui!</td>
+								<td>[CRONOGRAMA DE AULAS]</td>
 							</tr>
 						</table>
 					</rich:tab>
 					<rich:tab label="Plano de Curso">
 						<table>
 							<tr>
-								<td>Não há nada para colocar aqui também!</td>
+								<td>[PLANO DE CURSO]</td>
 							</tr>
 						</table>
 					</rich:tab>
@@ -87,12 +73,12 @@
 
 
 
-	<rich:tab label="Área do Discente">
+	<rich:tab label="Área do Discente" rendered="#{identity.hasRole('aluno')}">
 
 		<table width="100%">
 			<tr>
 				<td width="200px" valign="top">
-				<div class="menu"><ui:include src="menu.xhtml">
+				<div class="menu"><ui:include src="menu_discente.xhtml">
 					<ui:param name="projectName" value="ufpb" />
 				</ui:include></div>
 				</td>
@@ -100,16 +86,12 @@
 
 				<div><rich:tabPanel switchType="client">
 					<rich:tab label="Verificar Notas">
-						<table>
-							<tr>
-								<td>Não consegui fazer a tabela auto editavel!</td>
-							</tr>
-						</table>
+						<h:outputText id="nota_frequencia" value="#{usuario.aluno.matricula}   #{usuario.nome}   #{alunoTurmaAction.frequenciaAtual}%   #{alunoTurmaAction.mediaAtual}" />
 					</rich:tab>
 					<rich:tab label="Plano de Curso">
 						<table>
 							<tr>
-								<td>Não há nada para colocar aqui!</td>
+								<td>[PLANO DE CURSO]</td>
 							</tr>
 						</table>
 					</rich:tab>
@@ -121,8 +103,7 @@
 	</rich:tab>
 
 </rich:tabPanel></div>
-
-
+<ui:insert name="body"/>
 </body>
 
 </html>

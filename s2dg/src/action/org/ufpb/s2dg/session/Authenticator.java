@@ -30,6 +30,8 @@ public class Authenticator
 
     @In(create=true)
     UsuarioHome usuarioHome;
+    @In(create=true)
+    AlunoTurmaList alunoTurmaList;
     
     public boolean authenticate()
     {
@@ -54,6 +56,8 @@ public class Authenticator
         	return false;
         }
         usuarioHome.setInstance(usuario);
+        if(usuario.getAluno() != null)
+        	alunoTurmaList.getAlunoTurma().getId().setMatriculaAluno(usuario.getAluno().getMatricula());
         return true;
     }
 

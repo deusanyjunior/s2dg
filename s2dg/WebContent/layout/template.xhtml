@@ -37,7 +37,48 @@
 					<rich:tab label="Gerenciar Notas">
 						<table>
 							<tr>
-								<td>[GERENCIAR NOTAS]</td>
+								<td><h:form>
+                                            <rich:dataTable id="auction" value="#{alunoTurmaAction.alunoTurmas}" columnClasses="col1,col2,col3,col4"
+                                        var="item" rows="10" width="100%">
+                                                <rich:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Aluno"/>
+                                                    </f:facet>
+                                                    <a4j:repeat>
+                                                        <h:outputText value="#{item.aluno.usuarios}"/>
+                                                    </a4j:repeat>
+                                                </rich:column>
+                                                <rich:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Matricula"/>
+                                                    </f:facet>
+                                                    <h:outputText id="highestBid" value="#{item.highestBid}">
+                                                        <f:convertNumber pattern="$#,##0.00"/>
+                                                    </h:outputText>
+                                                </rich:column>
+                                                <rich:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Frequência"/>
+                                                    </f:facet>
+                                                   
+                                                    <rich:message for="bid" /><br/>
+                                                    <h:inputText id="bid" value="#{item.bid}" label="Bid">
+                                                        <f:validateDoubleRange minimum="0" maximum="1000000"/>
+                                                    </h:inputText>
+                                                    <a4j:commandLink id="bid_link" actionListener="#{item.placeBid}" value="Place a bid!" reRender="bid,amount,highestBid" />
+                           
+                                                </rich:column>
+                                                <rich:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Nota"/>
+                                                    </f:facet>
+                                                    <h:outputText id="amount" value="#{item.amount}" >
+                                                        <f:convertNumber pattern="$#,##0.00"/>
+                                                    </h:outputText>
+                                                </rich:column>
+                                            </rich:dataTable>
+                                           
+                                        </h:form></td>
 							</tr>
 						</table>
 					</rich:tab>

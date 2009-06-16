@@ -22,13 +22,7 @@
 
 <ui:include src="/layout/topo.xhtml" />
 
-<div class="body">
-    <h:messages id="messages" globalOnly="true" styleClass="message"
-        errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"
-        rendered="#{showGlobalMessages != 'false'}"/>
-</div>
-
-<div><rich:tabPanel switchType="ajax">
+<rich:tabPanel switchType="ajax">
 	<rich:tab label="Área do Docente" rendered="#{identity.hasRole('professor')}">
 		<table width="100%">
 			<tr>
@@ -102,7 +96,7 @@
 		</table>
 	</rich:tab>
 
-</rich:tabPanel></div>
+</rich:tabPanel>
 <ui:insert name="body"/>
 </body>
 

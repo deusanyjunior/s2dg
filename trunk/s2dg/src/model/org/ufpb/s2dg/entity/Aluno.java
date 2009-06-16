@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.Length;
@@ -21,8 +22,10 @@ public class Aluno implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String matricula;
-	private Set<Usuario> usuarios = new HashSet<Usuario>(0);
 	private Set<AlunoTurma> alunoTurmas = new HashSet<AlunoTurma>(0);
+	
+	@OneToOne(mappedBy="aluno")
+	private Usuario usuario;
 
 	public Aluno() {
 	}
@@ -34,7 +37,6 @@ public class Aluno implements Serializable {
 	public Aluno(String matricula, Set<Usuario> usuarios,
 			Set<AlunoTurma> alunoTurmas) {
 		this.matricula = matricula;
-		this.usuarios = usuarios;
 		this.alunoTurmas = alunoTurmas;
 	}
 
@@ -51,21 +53,20 @@ public class Aluno implements Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "aluno")
-	public Set<Usuario> getUsuarios() {
-		return this.usuarios;
-	}
-
-	public void setUsuarios(Set<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "aluno")
 	public Set<AlunoTurma> getAlunoTurmas() {
 		return this.alunoTurmas;
 	}
 
 	public void setAlunoTurmas(Set<AlunoTurma> alunoTurmas) {
 		this.alunoTurmas = alunoTurmas;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

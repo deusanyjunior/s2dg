@@ -2,24 +2,28 @@ package org.ufpb.s2dg.entity;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 
 @Entity
-@Table(name = "professor", schema = "public")
+@Table(name = "professor")
 public class Professor implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private String matricula;
-	private Set<Usuario> usuarios = new HashSet<Usuario>(0);
 	private Set<Turma> turmas = new HashSet<Turma>(0);
+	@OneToOne(mappedBy="professor")
+	private Usuario usuario;
 
 	public Professor() {
 	}
@@ -30,7 +34,6 @@ public class Professor implements java.io.Serializable {
 
 	public Professor(String matricula, Set<Usuario> usuarios, Set<Turma> turmas) {
 		this.matricula = matricula;
-		this.usuarios = usuarios;
 		this.turmas = turmas;
 	}
 
@@ -47,21 +50,20 @@ public class Professor implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "professor")
-	public Set<Usuario> getUsuarios() {
-		return this.usuarios;
-	}
-
-	public void setUsuarios(Set<Usuario> usuarios) {
-		this.usuarios = usuarios;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "professor")
 	public Set<Turma> getTurmas() {
 		return this.turmas;
 	}
 
 	public void setTurmas(Set<Turma> turmas) {
 		this.turmas = turmas;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 }

@@ -41,11 +41,6 @@ public class AlunoHome extends EntityHome<Aluno> {
 		return isIdDefined() ? getInstance() : null;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return getInstance() == null ? null : new ArrayList<Usuario>(
-				getInstance().getUsuarios());
-	}
-
 	public List<AlunoTurma> getAlunoTurmas() {
 		return getInstance() == null ? null : new ArrayList<AlunoTurma>(
 				getInstance().getAlunoTurmas());

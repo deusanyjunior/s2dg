@@ -24,11 +24,7 @@
 		hspace="7" vspace="2" style="vertical-align:middle;"
 		rendered="#{identity.loggedIn}" /><s:link view="/login.xhtml"
 		action="#{identity.logout}" value="Sair"
-		rendered="#{identity.loggedIn}" propagation="none" /> <h:graphicImage
-		value="img/sair.png" alt="Entrar" width="17" height="13" hspace="7"
-		vspace="2" style="vertical-align:middle;"
-		rendered="#{not identity.loggedIn}" /><s:link view="/login.xhtml"
-		value="Entrar" rendered="#{not identity.loggedIn}" propagation="none" />
+		rendered="#{identity.loggedIn}" propagation="none" />
 	</div>
 
 	<div style="padding-right: 20px; float: left;">
@@ -45,7 +41,7 @@
 				style="FONT-WEIGHT: bold; FONT-SIZE: large;" /> 
 				<br></br>
 			<br></br>
-			<h:outputText value="Ola, #{usuario.nome}!"
+			<h:outputText value="Ola, #{usuarioHome.definedInstance.nome}!"
 				rendered="#{identity.loggedIn}" />
 			</td>
 		</tr>

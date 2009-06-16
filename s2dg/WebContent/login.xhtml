@@ -9,10 +9,11 @@
     xmlns:rich="http://richfaces.org/rich"
     template="layout/template.xhtml">
 
+
 <ui:define name="body">
     <h:form id="login">
-
-        <rich:panel>
+		<center>
+        <rich:panel style="width:400px;">
             <f:facet name="header">Login</f:facet>
 
             <p>Por favor, faça login aqui.</p>
@@ -36,7 +37,7 @@
         <div class="actionButtons">
             <h:commandButton value="Login" action="#{identity.login}"/>
         </div>
-
+		</center>
     </h:form>
 
  </ui:define>

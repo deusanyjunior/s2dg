@@ -41,11 +41,6 @@ public class ProfessorHome extends EntityHome<Professor> {
 		return isIdDefined() ? getInstance() : null;
 	}
 
-	public List<Usuario> getUsuarios() {
-		return getInstance() == null ? null : new ArrayList<Usuario>(
-				getInstance().getUsuarios());
-	}
-
 	public List<Turma> getTurmas() {
 		return getInstance() == null ? null : new ArrayList<Turma>(
 				getInstance().getTurmas());

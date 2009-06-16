@@ -28,6 +28,9 @@ public class Authenticator
     @In(value="entityManager", create=true) 
     EntityManager em;
 
+    @In(create=true)
+    UsuarioHome usuarioHome;
+    
     public boolean authenticate()
     {
         log.info("authenticating {0}", credentials.getUsername());
@@ -50,6 +53,7 @@ public class Authenticator
         } else {
         	return false;
         }
+        usuarioHome.setInstance(usuario);
         return true;
     }
 

@@ -1,9 +1,11 @@
 package org.ufpb.s2dg.session;
 
-import org.ufpb.s2dg.entity.*;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.framework.EntityHome;
+import org.ufpb.s2dg.entity.Aluno;
+import org.ufpb.s2dg.entity.Professor;
+import org.ufpb.s2dg.entity.Usuario;
 
 @Name("usuarioHome")
 public class UsuarioHome extends EntityHome<Usuario> {

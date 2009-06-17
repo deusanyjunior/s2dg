@@ -72,4 +72,8 @@ public class AlunoTurmaHome extends EntityHome<AlunoTurma> {
 		return isIdDefined() ? getInstance() : null;
 	}
 
+	public void defineInstance(AlunoTurma alunoTurma) {
+		instance = alunoTurma;
+	}
+	
 }

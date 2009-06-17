@@ -23,10 +23,9 @@
 					iconExpandedTopGroup="chevronUp" iconGroupTopPosition="right"
 					iconCollapsedTopGroup="chevronDown">
 
-					
 					<a4j:repeat value="#{alunoTurmaList.resultList}" var="alunoTurma">
 						<h:outputText value="#{alunoTurma.turma.disciplina.nome}" /> <br/>
-						<a4j:commandLink value=" :: Turma #{alunoTurma.turma.numero}" />
+						<a4j:commandLink action="#{alunoTurmaHome.defineInstance(alunoTurma)}" reRender="tabela_aluno" value=" :: Turma #{alunoTurma.turma.numero}" /> <br/>
 					</a4j:repeat>
 
 				</rich:panelMenu>

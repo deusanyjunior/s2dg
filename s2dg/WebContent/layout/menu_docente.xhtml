@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <rich:panel style=" width : 200px;"
 	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -22,25 +23,10 @@
 					iconExpandedTopGroup="chevronUp" iconGroupTopPosition="right"
 					iconCollapsedTopGroup="chevronDown">
 
-					<rich:panelMenuGroup label="Calculo I" style="padding:3px;"
-						expanded="true">
-						<rich:panelMenuItem label="Turma I"
-							action="#{panelMenu.updateCurrent}">
-							<f:param name="current" value="Turma I" />
-						</rich:panelMenuItem>
-						<rich:panelMenuItem label="Turma II"
-							action="#{panelMenu.updateCurrent}">
-							<f:param name="current" value="Turma II" />
-						</rich:panelMenuItem>
-					</rich:panelMenuGroup>
-
-					<rich:panelMenuGroup label="Calculo II" style="padding:3px;"
-						expanded="true">
-						<rich:panelMenuItem label="Turma III"
-							action="#{panelMenu.updateCurrent}">
-							<f:param name="current" value="Turma III" />
-						</rich:panelMenuItem>
-					</rich:panelMenuGroup>
+					<a4j:repeat value="#{professorHome.turmas}" var="turma">
+						<h:outputText value="#{turma.disciplina.nome}" /> <br/>
+						<h:outputText value=" :: Turma #{turma.numero}"/><br/>
+					</a4j:repeat>
 
 				</rich:panelMenu>
 

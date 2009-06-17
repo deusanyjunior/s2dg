@@ -24,7 +24,6 @@ public class Periodo implements Serializable {
 	private String ano;
 	private char semestre;
 	private Set<Turma> turmas = new HashSet<Turma>(0);
-	private Set<Turma> turmas_1 = new HashSet<Turma>(0);
 
 	public Periodo() {
 	}
@@ -35,13 +34,11 @@ public class Periodo implements Serializable {
 		this.semestre = semestre;
 	}
 
-	public Periodo(long id, String ano, char semestre, Set<Turma> turmas,
-			Set<Turma> turmas_1) {
+	public Periodo(long id, String ano, char semestre, Set<Turma> turmas) {
 		this.id = id;
 		this.ano = ano;
 		this.semestre = semestre;
 		this.turmas = turmas;
-		this.turmas_1 = turmas_1;
 	}
 
 	@Id
@@ -81,15 +78,6 @@ public class Periodo implements Serializable {
 
 	public void setTurmas(Set<Turma> turmas) {
 		this.turmas = turmas;
-	}
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "periodo")
-	public Set<Turma> getTurmas_1() {
-		return this.turmas_1;
-	}
-
-	public void setTurmas_1(Set<Turma> turmas_1) {
-		this.turmas_1 = turmas_1;
 	}
 
 }

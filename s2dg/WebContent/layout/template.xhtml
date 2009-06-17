@@ -19,125 +19,111 @@
 </head>
 
 <body>
+<f:view>
+	<ui:include src="/layout/topo.xhtml" />
 
-<ui:include src="/layout/topo.xhtml" />
+	<rich:tabPanel switchType="ajax">
+		<rich:tab label="Área do Docente"
+			rendered="#{identity.hasRole('professor')}">
+			<table width="100%">
+				<tr>
+					<td width="200px" valign="top">
+					<div class="menu"><ui:include src="menu_docente.xhtml">
+						<ui:param name="projectName" value="ufpb" />
+					</ui:include></div>
+					</td>
+					<td valign="top" height="100%">
 
-<rich:tabPanel switchType="ajax">
-	<rich:tab label="Área do Docente" rendered="#{identity.hasRole('professor')}">
-		<table width="100%">
-			<tr>
-				<td width="200px" valign="top">
-				<div class="menu"><ui:include src="menu_docente.xhtml">
-					<ui:param name="projectName" value="ufpb" />
-				</ui:include></div>
-				</td>
-				<td valign="top" height="100%">
-
-				<div><rich:tabPanel switchType="client">
-					<rich:tab label="Gerenciar Notas">
-						<table>
-							<tr>
-								<td>
-								
-								
-								<h:form>
-                                            <rich:dataTable id="auction" value="#{alunoTurmaList.lista}" columnClasses="col1,col2,col3,col4"
-                                        var="item" rows="10" width="100%">
-                                                <rich:column>
-                                                    <f:facet name="header">
-                                                        <h:outputText value="Aluno"/>
-                                                    </f:facet>
-                                                        <h:outputText value="#{item.aluno.usuario.nome}"/>
-                                                    
-                                                </rich:column>
-                                                
-                                                <rich:column>
-                                                    <f:facet name="header">
-                                                        <h:outputText value="Matricula"/>
-                                                    </f:facet>
-                                                    <h:outputText id="highestBid" value="#{item.aluno.matricula}">
-                                                        
-                                                    </h:outputText>
-                                                </rich:column>
-                                                <rich:column>
-                                                    <f:facet name="header">
-                                                        <h:outputText value="Frequência"/>
-                                                    </f:facet>
-                                                   
-                                                    <h:outputText value="#{item.frequencia}"/>
-                           
-                                                </rich:column>
-                                                <rich:column>
-                                                    <f:facet name="header">
-                                                        <h:outputText value="Nota"/>
-                                                    </f:facet>
-                                                    
-                                                    <rich:inplaceInput defaultLabel="10"/>
-                                                </rich:column>
-
-                                            </rich:dataTable>
-                                           
-                                        </h:form></td>
-							</tr>
-						</table>
-					</rich:tab>
-					<rich:tab label="Cronograma de Aulas">
-						<table>
-							<tr>
-								<td>[CRONOGRAMA DE AULAS]</td>
-							</tr>
-						</table>
-					</rich:tab>
-					<rich:tab label="Plano de Curso">
-						<table>
-							<tr>
-								<td>[PLANO DE CURSO]</td>
-							</tr>
-						</table>
-					</rich:tab>
-				</rich:tabPanel></div>
+					<div><rich:tabPanel switchType="client">
+						<rich:tab label="Gerenciar Notas">
+						<h:form>
+							<h:outputText id="tabela_professor"
+								value="#{usuarioHome.instance.professor.matricula}   #{usuarioHome.instance.nome}   #{turmaHome.instance.disciplina.nome}   #{turmaHome.instance.numero}" />
+							<rich:dataTable var="alunoTurma"
+								value="#{turmaHome.alunoTurmas}">
+								<rich:column styleClass="action">
+									<f:facet name="header">Matrícula</f:facet>
+									<h:outputText value="#{alunoTurma.aluno.matricula}" />
+								</rich:column>
+								<rich:column styleClass="action">
+									<f:facet name="header">Aluno</f:facet>
+									<h:outputText value="#{turmaHome.getNomeDeAluno(alunoTurma.aluno)}" />
+								</rich:column>
+								<rich:column styleClass="action">
+									<f:facet name="header">Frequência</f:facet>
+										<rich:inplaceInput value="#{alunoTurma.frequencia}"/>
+									</rich:column>
+								<rich:column styleClass="action">
+									<f:facet name="header">Média Final</f:facet>
+										<rich:inplaceInput value="#{alunoTurma.media}"/>
+								</rich:column>
+								<rich:column styleClass="action">
+									<f:facet name="header"> </f:facet>
+										<h:commandButton action="#{turmaHome.persisteAlunoTurma(alunoTurma)}" value="Salvar" />
+								</rich:column>
+							</rich:dataTable>
+							</h:form>
+						</rich:tab>
+						<rich:tab label="Cronograma de Aulas">
+							<table>
+								<tr>
+									<td>[CRONOGRAMA DE AULAS]</td>
+								</tr>
+							</table>
+						</rich:tab>
+						<rich:tab label="Plano de Curso">
+							<table>
+								<tr>
+									<td>[PLANO DE CURSO]</td>
+								</tr>
+							</table>
+						</rich:tab>
+					</rich:tabPanel></div>
 
 
 
-				</td>
-			</tr>
-		</table>
-	</rich:tab>
+					</td>
+				</tr>
+			</table>
+		</rich:tab>
 
 
 
 
-	<rich:tab label="Área do Discente" rendered="#{identity.hasRole('aluno')}">
+		<rich:tab label="Área do Discente"
+			rendered="#{identity.hasRole('aluno')}">
 
-		<table width="100%">
-			<tr>
-				<td width="200px" valign="top">
-				<div class="menu"><ui:include src="menu_discente.xhtml">
-					<ui:param name="projectName" value="ufpb" />
-				</ui:include></div>
-				</td>
-				<td valign="top" height="100%">
+			<table width="100%">
+				<tr>
+					<td width="200px" valign="top">
+					<div class="menu"><ui:include src="menu_discente.xhtml">
+						<ui:param name="projectName" value="ufpb" />
+					</ui:include></div>
+					</td>
+					<td valign="top" height="100%">
 
-				<div><rich:tabPanel switchType="client">
-					<rich:tab label="Verificar Notas">
-						<h:outputText id="nota_frequencia" value="#{usuario.aluno.matricula}   #{usuario.nome}   #{alunoTurmaAction.frequenciaAtual}%   #{alunoTurmaAction.mediaAtual}" />
-					</rich:tab>
-					<rich:tab label="Plano de Curso">
-						<table>
-							<tr>
-								<td>[PLANO DE CURSO]</td>
-							</tr>
-						</table>
-					</rich:tab>
-				</rich:tabPanel></div>
+					<div><rich:tabPanel switchType="client">
+						<rich:tab label="Verificar Notas">
+							<h:outputText id="tabela_aluno"
+								value="#{usuarioHome.instance.aluno.matricula}   #{usuarioHome.instance.nome}   #{alunoTurmaHome.instance.frequencia}%   #{alunoTurmaHome.instance.media}" />
+						</rich:tab>
+						<rich:tab label="Plano de Curso">
+							<table>
+								<tr>
+									<td>[PLANO DE CURSO]</td>
+								</tr>
+							</table>
+						</rich:tab>
+					</rich:tabPanel></div>
 
-				</td>
-			</tr>
-		</table>
-	</rich:tab>
+					</td>
+				</tr>
+			</table>
+		</rich:tab>
 
-</rich:tabPanel>
-<ui:insert name="body"/>
+	</rich:tabPanel>
+	<ui:insert name="body" />
+</f:view>
 </body>
 
 </html>

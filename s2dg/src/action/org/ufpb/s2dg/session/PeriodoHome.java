@@ -46,9 +46,4 @@ public class PeriodoHome extends EntityHome<Periodo> {
 				getInstance().getTurmas());
 	}
 
-	public List<Turma> getTurmas_1() {
-		return getInstance() == null ? null : new ArrayList<Turma>(
-				getInstance().getTurmas_1());
-	}
-
 }

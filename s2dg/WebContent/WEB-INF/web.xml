@@ -57,4 +57,20 @@
     </web-resource-collection>
     <auth-constraint/>
   </security-constraint>
+  <context-param>
+	<param-name>org.ajax4jsf.SKIN</param-name>
+	<param-value>classic</param-value>
+</context-param>
+	<filter>
+		<display-name>Ajax4jsf Filter</display-name>
+		<filter-name>ajax4jsf</filter-name>
+		<filter-class>org.ajax4jsf.Filter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ajax4jsf</filter-name>
+		<servlet-name>Faces Servlet</servlet-name>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+		<dispatcher>INCLUDE</dispatcher>
+	</filter-mapping>
 </web-app>

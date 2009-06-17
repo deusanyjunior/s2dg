@@ -3,10 +3,14 @@ package org.ufpb.s2dg.session;
 import org.ufpb.s2dg.entity.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.framework.EntityHome;
 
 @Name("professorHome")
+@Scope(ScopeType.SESSION)
 public class ProfessorHome extends EntityHome<Professor> {
 
 	public void setProfessorMatricula(String id) {

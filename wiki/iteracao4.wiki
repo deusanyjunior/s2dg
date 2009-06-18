@@ -8,4 +8,4 @@
 == Artefatos Produzidos ==
 
 || Artefato             || Descrição                    ||             Link ||
-|| Plano de Iteração - Construção 1  || || [http://s2dg.googlecode.com/files/ plano.doc] ||
+|| Plano de Iteração - Construção 1  || || [http://s2dg.googlecode.com/files/PlanoDeIteracao_Construcao1.doc plano.doc] ||

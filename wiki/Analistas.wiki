@@ -63,6 +63,24 @@ http://s2dg.googlecode.com/files/ControleDeAcesso_1244387703383_22.png
   * Foco na usabilidade e simplicidade da interface
   * Realizar testes de acesso Tomcat e JBoss
 
+==Matrícula==
+Estamos adiantando os requisitos de matrícula.
+Lembrando que matrícula ficou para a Construção 1.
+Quem precisar já têm uma visão da matrícula, o pessoal de teste já podem criar alguns testes.
+_Obs.: uma turma é de uma disciplina, conforme o contexto utilizei turma ou disciplina_
+
+  # O aluno deve estar com matricula regular
+  # Estar em época de matrícula (calendário com as datas ou flag)
+  # As disciplinas devem constar na grade curricular
+  # As turmas devem ser ofertada pelo departamento
+  # Os pré-requisitos das disciplinas (outras disciplinas) devem ser atendidos, ou seja, o aluno já deve ter cursado os pré-requisitos
+  # Os co-requisitos da disciplinas devem se atendidos. 
+   # Co-requisito é quando uma disciplina só pode ser cursada em conjunto com outra disciplina. Exemplo: na grade antiga circuitos lógicos só poderia ser cursada junto com laboratório de circuitos lógicos
+  # Deve haver ao menos 1 vaga para cada turma que foi solicitada a matricula.
+   # Lembrar que as vagas são divididas por curso. Exemplo: uma turma de Calculo III pode ter 10 vagas para computação e 20 para mecânica
+  # Não pode acontecer choque de horário com outras turmas já matriculadas ou entre as que estão sendo solicitadas matricula
+  # Verificar se os limites mínimo ou máximo de créditos não foram excedidos
+
 =Artefatos=
 
   [http://s2dg.googlecode.com/files/Vis%C3%A3o-v1.2.doc Documento de Visão]

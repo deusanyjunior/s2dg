@@ -65,17 +65,22 @@ http://s2dg.googlecode.com/files/ControleDeAcesso_1244387703383_22.png
 
 =Artefatos=
 
-_(Utilize: 
-click Botão Direito -> "Salvar link como..." (Firefox)
-click Botão Direito -> "Salvar destino como..." (IE))_
   [http://s2dg.googlecode.com/files/Vis%C3%A3o-v1.2.doc Documento de Visão]
   
   [http://s2dg.googlecode.com/files/Gloss%C3%A1rio.doc Glossário]
+
+_(Utilize: 
+click Botão Direito -> "Salvar link como..." (Firefox)
+click Botão Direito -> "Salvar destino como..." (IE)_
+
+
 
   [http://code.google.com/p/s2dg/source/browse/analistas/casosDeUso/detalhamentos/acessarVisaoGeralTurma.docx Detalhamento do Caso de Uso: Acessar Visão Geral da Turma]
 
   [http://code.google.com/p/s2dg/source/browse/analistas/casosDeUso/detalhamentos/consultarHorarioIndividual.docx Detalhamento do Caso de Uso: Consultar Horario Individual]
 
   [http://code.google.com/p/s2dg/source/browse/analistas/casosDeUso/detalhamentos/inserir_media_final.docx Detalhamento do Caso de Uso: Inserir Media Final]
+
+  [http://s2dg.googlecode.com/svn/analistas/doc%20temporarios/listaCasosUso.xls Casos de uso numerados]
 
 _Obs.: os detalhamentos podem sofrer alterações._

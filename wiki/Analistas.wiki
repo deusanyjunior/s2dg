@@ -65,7 +65,7 @@ http://s2dg.googlecode.com/files/ControleDeAcesso_1244387703383_22.png
 
 ==Matrícula==
 Estamos adiantando os requisitos de matrícula.
-Lembrando que matrícula ficou para a Construção 1.
+Lembrando que matrícula ficou, a priore, para a Construção 2.
 Quem precisar já têm uma visão da matrícula, o pessoal de teste já podem criar alguns testes.
 _Obs.: uma turma é de uma disciplina, conforme o contexto utilizei turma ou disciplina_
 

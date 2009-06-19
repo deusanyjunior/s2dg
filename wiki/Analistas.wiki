@@ -93,6 +93,10 @@ _Obs.: uma turma é de uma disciplina, conforme o contexto utilizei turma ou dis
 
   [http://s2dg.googlecode.com/svn/analistas/casosDeUso/detalhamentos/inserir_media_final.docx Detalhamento do Caso de Uso: Inserir Media Final]
 
-  [http://s2dg.googlecode.com/svn/analistas/doc%20temporarios/listaCasosUso.xls Casos de uso numerados]
+  [http://s2dg.googlecode.com/svn/analistas/casosDeUso/elabora%C3%A7%C3%A3o/casosUsoAlunoOnline.doc Casos de Uso Aluno Online]
+
+  [http://s2dg.googlecode.com/svn/analistas/casosDeUso/elabora%C3%A7%C3%A3o/casosCadernetaEletronica.doc Casos de Uso Caderneta Eletrônica]
+
+  [http://s2dg.googlecode.com/svn/analistas/casosDeUso/elabora%C3%A7%C3%A3o/casosUsoControleDeAcesso.doc Casos de Uso Controle de Acesso]
 
 _Obs.: os detalhamentos podem sofrer alterações._

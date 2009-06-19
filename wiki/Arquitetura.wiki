@@ -8,6 +8,6 @@ http://s2dg.googlecode.com/files/layers-small.png
 
 http://s2dg.googlecode.com/files/Model.png
 
-== Visão Arquitetural ==
+== Visão Lógica ==
 
 http://s2dg.googlecode.com/files/visao.png 

@@ -41,13 +41,13 @@ Responsáveis: Alexandre e Anderson
 _Obs.: detalhamento está no documento de casos de uso em *Artefatos*_
 
 ===Aluno Online===
-http://s2dg.googlecode.com/files/Aluno_1244294613734_2.png
+http://s2dg.googlecode.com/svn/analistas/casosDeUso/S2dg/AlunoOnline.png
 
 ===CadernetaEletronica===
-http://s2dg.googlecode.com/files/CadernetaEletr%C3%B4nica_1243913468230_2.png
+http://s2dg.googlecode.com/svn/analistas/casosDeUso/S2dg/CadernetaEletronica.png
 
 ===Controle de Acesso===
-http://s2dg.googlecode.com/files/ControleDeAcesso_1244387703383_22.png
+http://s2dg.googlecode.com/svn/analistas/casosDeUso/S2dg/ControleDeAcesso.png
 
 =Outras informações coletadas em reuniões=
 

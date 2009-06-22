@@ -43,25 +43,22 @@
 								value="#{turmaHome.alunoTurmas}">
 								<rich:column styleClass="action">
 									<f:facet name="header">Matrícula</f:facet>
-									<h:outputText value="#{alunoTurma.aluno.matricula}" />
+									<!--<h:outputText value="#{alunoTurma.aluno.matricula}" />-->
 								</rich:column>
 								<rich:column styleClass="action">
 									<f:facet name="header">Aluno</f:facet>
-									<h:outputText value="#{turmaHome.getNomeDeAluno(alunoTurma.aluno)}" />
+									<!--<h:outputText value="#{turmaHome.getNomeDeAluno(alunoTurma.aluno)}" />-->
 								</rich:column>
 								<rich:column styleClass="action">
 									<f:facet name="header">Frequência</f:facet>
-										<rich:inplaceInput value="#{alunoTurma.frequencia}"/>
+										<!--<rich:inplaceInput value="#{alunoTurma.frequencia}"/>-->
 									</rich:column>
 								<rich:column styleClass="action">
 									<f:facet name="header">Média Final</f:facet>
-										<rich:inplaceInput value="#{alunoTurma.media}"/>
-								</rich:column>
-								<rich:column styleClass="action">
-									<f:facet name="header"> </f:facet>
-										<h:commandButton action="#{turmaHome.persisteAlunoTurma(alunoTurma)}" value="Salvar" />
+										<!--<rich:inplaceInput value="#{alunoTurma.media}"/>-->
 								</rich:column>
 							</rich:dataTable>
+							<h:commandButton value="Salvar" />
 							</h:form>
 						</rich:tab>
 						<rich:tab label="Cronograma de Aulas">
@@ -104,8 +101,8 @@
 
 					<div><rich:tabPanel switchType="client">
 						<rich:tab label="Verificar Notas">
-							<h:outputText id="tabela_aluno"
-								value="#{usuarioHome.instance.aluno.matricula}   #{usuarioHome.instance.nome}   #{alunoTurmaHome.instance.frequencia}%   #{alunoTurmaHome.instance.media}" />
+							<!--<h:outputText id="tabela_aluno"
+								value="#{fachada.usuario.aluno.matricula}   #{fachada.usuario.nome}   #{alunoTurmaHome.instance.frequencia}%   #{alunoTurmaHome.instance.media}" />-->
 						</rich:tab>
 						<rich:tab label="Plano de Curso">
 							<table>

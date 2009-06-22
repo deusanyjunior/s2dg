@@ -3,8 +3,6 @@ package org.ufpb.s2dg.session;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
@@ -24,28 +22,15 @@ public class Authenticator
     
     @In 
     Credentials credentials;
-    
-    @In(value="entityManager", create=true) 
-    EntityManager em;
 
-    @In(create=true)
-    UsuarioHome usuarioHome;
-    @In(create=true)
-    AlunoTurmaList alunoTurmaList;
-    @In(create=true)
-    ProfessorHome professorHome;
-    @In(create=true)
-    TurmaHome turmaHome;
+    @In
+    Fachada fachada;
     
     public boolean authenticate()
     {
         log.info("authenticating {0}", credentials.getUsername());
         
-        Usuario usuario = (Usuario) em.createQuery(
-    	"select u from Usuario as u where u.cpf =:cpf and u.senha =:senha")
-    	.setParameter("cpf", credentials.getUsername())
-    	.setParameter("senha", credentials.getPassword())
-    	.getSingleResult();
+        Usuario usuario = fachada.getUsuarioDoBanco(credentials.getUsername(),credentials.getPassword()); 
         
         if (usuario != null) {
             Set<Role> roles = usuario.getRoles();
@@ -59,13 +44,9 @@ public class Authenticator
         } else {
         	return false;
         }
-        usuarioHome.setInstance(usuario);
-        if(usuario.getAluno() != null)
-        	alunoTurmaList.getAlunoTurma().getId().setMatriculaAluno(usuario.getAluno().getMatricula());
-        if(usuario.getProfessor() != null) {
-        	professorHome.setInstance(usuario.getProfessor());
-        	turmaHome.setInstance(usuario.getProfessor().getTurmas().iterator().next());
-        }
+        
+        fachada.setUsuario(usuario);
+        
         return true;
     }
 

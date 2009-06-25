@@ -3,16 +3,11 @@ package org.ufpb.s2dg.session;
 import java.util.Collections;
 import java.util.List;
 
-import javax.faces.component.html.HtmlInputText;
-import javax.faces.context.FacesContext;
-import javax.persistence.EntityManager;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.DisciplinaTurmas;
 import org.ufpb.s2dg.entity.Turma;

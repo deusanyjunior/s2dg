@@ -22,7 +22,7 @@
 <f:view>
 	<ui:include src="/layout/topo.xhtml" />
 
-	<rich:tabPanel switchType="ajax">
+	<rich:tabPanel switchType="server">
 		<rich:tab label="Área do Docente"
 			rendered="#{identity.hasRole('professor')}">
 			<table width="100%">
@@ -35,29 +35,33 @@
 					<td valign="top" height="100%">
 
 					<div><rich:tabPanel switchType="client">
-						<rich:tab label="Gerenciar Notas">
+						<rich:tab label="Principal" >
+						<rich:panel id="docente_mutavel">
+							<h:outputText value="Disciplina: #{fachada.turmaAtual.disciplina.codigo} - #{fachada.turmaAtual.disciplina.nome}" /><br/>
+							<h:outputText value="Turma #{fachada.turmaAtual.numero}" /><br/>
 						<h:form>
 							<rich:dataTable var="alunoTurma"
-								value="#{turmaHome.alunoTurmas}">
+								value="#{fachada.alunoTurmas}">
 								<rich:column styleClass="action">
 									<f:facet name="header">Matrícula</f:facet>
-									<!--<h:outputText value="#{alunoTurma.aluno.matricula}" />-->
+									<h:outputText value="#{alunoTurma.aluno.matricula}" />
 								</rich:column>
 								<rich:column styleClass="action">
 									<f:facet name="header">Aluno</f:facet>
-									<!--<h:outputText value="#{turmaHome.getNomeDeAluno(alunoTurma.aluno)}" />-->
+									<h:outputText value="#{alunoTurma.aluno.usuario.nome}" />
 								</rich:column>
 								<rich:column styleClass="action">
-									<f:facet name="header">Frequência</f:facet>
-										<!--<rich:inplaceInput value="#{alunoTurma.frequencia}"/>-->
+									<f:facet name="header">Número de Faltas</f:facet>
+									<h:inputText value="#{alunoTurma.faltas}"/>	
 									</rich:column>
 								<rich:column styleClass="action">
 									<f:facet name="header">Média Final</f:facet>
-										<!--<rich:inplaceInput value="#{alunoTurma.media}"/>-->
+									<h:inputText value="#{alunoTurma.media}"/>
 								</rich:column>
 							</rich:dataTable>
-							<h:commandButton value="Salvar" style="align:right" />
+							<a4j:commandButton type="submit" value="Salvar" action="#{fachada.persisteAlunoTurmas}" reRender="docente_mutavel" />
 							</h:form>
+						</rich:panel>
 						</rich:tab>
 						<rich:tab label="Cronograma de Aulas">
 							<table>
@@ -98,14 +102,13 @@
 					<td valign="top" height="100%">
 
 					<div><rich:tabPanel switchType="client">
-						<rich:tab label="Principal">
-							<rich:panel id="discente_mutavel">
-								<h:outputText value="#{fachada.alunoTurmaAtual.turma.disciplina.nome}" /><br/>
-								<h:outputText value="Turma #{fachada.alunoTurmaAtual.turma.numero}" /><br/>
-								<h:outputText value="Número de Faltas: " />
-								<h:outputText value="#{fachada.alunoTurmaAtual.faltas}" /><br/>
-								<h:outputText value="Média Final: " />
-								<h:outputText value="#{fachada.alunoTurmaAtual.media}" />
+						<rich:tab label="Principal" >
+							<rich:panel  id="discente_mutavel">
+							<h:outputText value="Disciplina: #{fachada.alunoTurmaAtual.turma.disciplina.codigo} - #{fachada.alunoTurmaAtual.turma.disciplina.nome}" /><br/>
+							<h:outputText value="Turma #{fachada.alunoTurmaAtual.turma.numero}" /><br/>
+							<h:outputText value="Professor: #{fachada.nomeDoProfessorAtual}" /><br/>
+							<h:outputText value="Número de Faltas: #{fachada.alunoTurmaAtual.faltas}" /><br/>
+							<h:outputText value="Média Final: #{fachada.alunoTurmaAtual.media}" />
 							</rich:panel>
 						</rich:tab>
 						<rich:tab label="Plano de Curso">

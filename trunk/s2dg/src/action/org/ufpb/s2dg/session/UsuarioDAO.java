@@ -22,4 +22,18 @@ public class UsuarioDAO {
     	.getSingleResult();
 	}
 
+	public Usuario getUsuarioProfessor(String matricula) {
+		return (Usuario) entityManager.createQuery(
+    	"select u from Usuario as u where u.professor.matricula =:matricula")
+    	.setParameter("matricula", matricula)
+    	.getSingleResult();
+	}
+	
+	public Usuario getUsuarioAluno(String matricula) {
+		return (Usuario) entityManager.createQuery(
+    	"select u from Usuario as u where u.aluno.matricula =:matricula")
+    	.setParameter("matricula", matricula)
+    	.getSingleResult();
+	}
+	
 }

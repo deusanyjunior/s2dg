@@ -10,7 +10,12 @@
     template="layout/template.xhtml"
     xmlns:a4j="http://richfaces.org/a4j">
 
-
+	<style>
+        .setBold {
+            font-weight: bold;
+        }
+    </style>
+    
 	<ui:define name="body">
 		<h:form id="login">
 			<center><rich:panel style="width:400px;">
@@ -31,9 +36,13 @@
 				<div class="actionButtons"><h:commandButton value="Login"
 					action="#{identity.login}" /></div>
 					
-				<a4j:commandLink >
-                <h:outputText value="Esqueci minha senha" /> 
+				<a4j:commandLink reRender="Erro">
+                	<h:outputText value="Esqueci minha senha" /> 
             	</a4j:commandLink>
+            	<br/>
+            	<h:panelGroup id="Erro">
+        			<h:outputText value="Uma nova senha sera enviada para o seu email!" rendered="#{not empty credentials.username}" styleClass="setBold"/>
+    			</h:panelGroup>
 				
 			</rich:panel></center>
 		</h:form>

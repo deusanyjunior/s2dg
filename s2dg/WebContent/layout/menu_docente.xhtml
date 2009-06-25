@@ -23,10 +23,12 @@
 					iconExpandedTopGroup="chevronUp" iconGroupTopPosition="right"
 					iconCollapsedTopGroup="chevronDown">
 
-					<!--<a4j:repeat value="#{professorHome.turmas}" var="turma">
-						<h:outputText value="#{turma.disciplina.nome}" /> <br/>
-						<h:outputText value=" :: Turma #{turma.numero}"/><br/>
-					</a4j:repeat>-->
+					<ui:repeat value="#{fachada.turmasPorDisciplina}" var="disciplinaTurmas">
+						<h:outputText value="#{disciplinaTurmas.disciplina.nome}" /><br/>
+						<ui:repeat value="#{disciplinaTurmas.turmas}" var="turma">
+							<a4j:commandLink action="#{fachada.setTurmaAtual(turma)}" value=" :: Turma #{turma.numero}" reRender="docente_mutavel" /> <br/>
+						</ui:repeat>
+					</ui:repeat>
 
 				</rich:panelMenu>
 

@@ -22,12 +22,11 @@
 					mode="ajax" iconExpandedGroup="disc" iconCollapsedGroup="disc"
 					iconExpandedTopGroup="chevronUp" iconGroupTopPosition="right"
 					iconCollapsedTopGroup="chevronDown">
-
-					<!--<a4j:repeat value="#{alunoTurmaList.resultList}" var="alunoTurma">
-						<h:outputText value="#{alunoTurma.turma.disciplina.nome}" /> <br/>
-						<a4j:commandLink action="#{alunoTurmaHome.defineInstance(alunoTurma)}" reRender="tabela_aluno" value=" :: Turma #{alunoTurma.turma.numero}" /> <br/>
-					</a4j:repeat>-->
-
+					
+					<ui:repeat value="#{fachada.alunoTurmasDoBanco}" var="alunoTurma">
+						<a4j:commandLink action="#{fachada.setAlunoTurmaAtual(alunoTurma)}" value="#{alunoTurma.turma.disciplina.nome}" reRender="discente_mutavel" /> <br/>
+					</ui:repeat>
+				
 				</rich:panelMenu>
 
 			</h:panelGrid>

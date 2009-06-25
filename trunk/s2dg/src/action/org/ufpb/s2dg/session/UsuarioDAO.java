@@ -23,9 +23,9 @@ public class UsuarioDAO {
 	}
 	
 	//Criado por Julio e Rennan
-	public String getEmail(String username){
-		return (String) entityManager.createQuery(
-    	"select u.email from Usuario as u where u.cpf =:cpf")
+	public Usuario getUsuario(String username){
+		return (Usuario) entityManager.createQuery(
+    	"select u from Usuario as u where u.cpf =:cpf")
     	.setParameter("cpf", username)
     	.getSingleResult();
 	}

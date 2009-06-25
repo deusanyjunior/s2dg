@@ -99,6 +99,6 @@ public class Fachada {
 	
 	//Criado por Julio e Rennan
 	public String getEmail(String username) {
-		return usuarioDAO.getEmail(username);
+		return usuarioDAO.getUsuario(username).getEmail();
 	}
 }

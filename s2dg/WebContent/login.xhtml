@@ -7,7 +7,8 @@
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:rich="http://richfaces.org/rich"
-    template="layout/template.xhtml">
+    template="layout/template.xhtml"
+    xmlns:a4j="http://richfaces.org/a4j">
 
 
 	<ui:define name="body">
@@ -29,6 +30,11 @@
 				</h:panelGrid></div>
 				<div class="actionButtons"><h:commandButton value="Login"
 					action="#{identity.login}" /></div>
+					
+				<a4j:commandLink >
+                <h:outputText value="Esqueci minha senha" /> 
+            	</a4j:commandLink>
+				
 			</rich:panel></center>
 		</h:form>
 

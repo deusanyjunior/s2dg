@@ -81,6 +81,10 @@ _Obs.: uma turma é de uma disciplina, conforme o contexto utilizei turma ou dis
   # Não pode acontecer choque de horário com outras turmas já matriculadas ou entre as que estão sendo solicitadas matricula
   # Verificar se os limites mínimo ou máximo de créditos não foram excedidos
 
+_Diagrama de atividades do CUAO_04 : Fazer Matricula_
+
+http://s2dg.googlecode.com/svn/analistas/casosDeUso/S2dg/Matricula.gif
+
 =Artefatos=
 
   [http://s2dg.googlecode.com/svn/analistas/documentos/Vis%C3%A3o.doc Documento de Visão]
@@ -95,7 +99,7 @@ _Obs.: uma turma é de uma disciplina, conforme o contexto utilizei turma ou dis
 
   [http://s2dg.googlecode.com/svn/analistas/casosDeUso/elabora%C3%A7%C3%A3o/casosUsoAlunoOnline.doc Casos de Uso Aluno Online]
 
-  [http://s2dg.googlecode.com/svn/analistas/casosDeUso/elabora%C3%A7%C3%A3o/casosCadernetaEletronica.doc Casos de Uso Caderneta Eletrônica]
+  [http://s2dg.googlecode.com/svn/analistas/casosDeUso/elabora%C3%A7%C3%A3o/casosUsoCadernetaEletronica.doc Casos de Uso Caderneta Eletrônica]
 
   [http://s2dg.googlecode.com/svn/analistas/casosDeUso/elabora%C3%A7%C3%A3o/casosUsoControleDeAcesso.doc Casos de Uso Controle de Acesso]
 

@@ -23,7 +23,7 @@ public class AlunoTurma implements Serializable {
 	private Turma turma;
 	private Aluno aluno;
 	private Float media;
-	private Integer frequencia;
+	private Integer faltas;
 
 	public AlunoTurma() {
 	}
@@ -40,7 +40,7 @@ public class AlunoTurma implements Serializable {
 		this.turma = turma;
 		this.aluno = aluno;
 		this.media = media;
-		this.frequencia = frequencia;
+		this.faltas = frequencia;
 	}
 
 	@EmbeddedId
@@ -87,13 +87,13 @@ public class AlunoTurma implements Serializable {
 		this.media = media;
 	}
 
-	@Column(name = "frequencia")
-	public Integer getFrequencia() {
-		return this.frequencia;
+	@Column(name = "faltas")
+	public Integer getFaltas() {
+		return this.faltas;
 	}
 
-	public void setFrequencia(Integer frequencia) {
-		this.frequencia = frequencia;
+	public void setFaltas(Integer faltas) {
+		this.faltas = faltas;
 	}
 
 }

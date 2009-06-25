@@ -37,8 +37,6 @@
 					<div><rich:tabPanel switchType="client">
 						<rich:tab label="Gerenciar Notas">
 						<h:form>
-							<h:outputText id="tabela_professor"
-								value="#{usuarioHome.instance.professor.matricula}   #{usuarioHome.instance.nome}   #{turmaHome.instance.disciplina.nome}   #{turmaHome.instance.numero}" />
 							<rich:dataTable var="alunoTurma"
 								value="#{turmaHome.alunoTurmas}">
 								<rich:column styleClass="action">
@@ -58,7 +56,7 @@
 										<!--<rich:inplaceInput value="#{alunoTurma.media}"/>-->
 								</rich:column>
 							</rich:dataTable>
-							<h:commandButton value="Salvar" />
+							<h:commandButton value="Salvar" style="align:right" />
 							</h:form>
 						</rich:tab>
 						<rich:tab label="Cronograma de Aulas">
@@ -100,9 +98,15 @@
 					<td valign="top" height="100%">
 
 					<div><rich:tabPanel switchType="client">
-						<rich:tab label="Verificar Notas">
-							<!--<h:outputText id="tabela_aluno"
-								value="#{fachada.usuario.aluno.matricula}   #{fachada.usuario.nome}   #{alunoTurmaHome.instance.frequencia}%   #{alunoTurmaHome.instance.media}" />-->
+						<rich:tab label="Principal">
+							<rich:panel id="discente_mutavel">
+								<h:outputText value="#{fachada.alunoTurmaAtual.turma.disciplina.nome}" /><br/>
+								<h:outputText value="Turma #{fachada.alunoTurmaAtual.turma.numero}" /><br/>
+								<h:outputText value="Número de Faltas: " />
+								<h:outputText value="#{fachada.alunoTurmaAtual.faltas}" /><br/>
+								<h:outputText value="Média Final: " />
+								<h:outputText value="#{fachada.alunoTurmaAtual.media}" />
+							</rich:panel>
 						</rich:tab>
 						<rich:tab label="Plano de Curso">
 							<table>

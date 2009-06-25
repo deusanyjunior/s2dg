@@ -10,35 +10,27 @@
     template="layout/template.xhtml">
 
 
-<ui:define name="body">
-    <h:form id="login">
-		<center>
-        <rich:panel style="width:400px;">
-            <f:facet name="header">Login</f:facet>
+	<ui:define name="body">
+		<h:form id="login">
+			<center><rich:panel style="width:400px;">
+				<f:facet name="header">Login</f:facet>
 
-            <p>Por favor, faça login aqui.</p>
+				<p>Por favor, faça login aqui.</p>
 
-            <div class="dialog">
-                <h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
-                    <h:outputLabel for="username">CPF</h:outputLabel>
-                    <h:inputText id="username"
-                              value="#{credentials.username}"/>
-                    <h:outputLabel for="password">Senha</h:outputLabel>
-                    <h:inputSecret id="password"
-                                value="#{credentials.password}"/>
-                    <h:outputLabel for="rememberMe">Lembrar-me</h:outputLabel>
-                    <h:selectBooleanCheckbox id="rememberMe"
-                                          value="#{identity.rememberMe}"/>
-                </h:panelGrid>
-            </div>
+				<div class="dialog"><h:panelGrid columns="2" rowClasses="prop"
+					columnClasses="name,value">
+					<h:outputLabel for="username">CPF</h:outputLabel>
+					<h:inputText id="username" value="#{credentials.username}" />
+					<h:outputLabel for="password">Senha</h:outputLabel>
+					<h:inputSecret id="password" value="#{credentials.password}" />
+					<h:outputLabel for="rememberMe">Lembrar-me</h:outputLabel>
+					<h:selectBooleanCheckbox id="rememberMe"
+						value="#{identity.rememberMe}" />
+				</h:panelGrid></div>
+				<div class="actionButtons"><h:commandButton value="Login"
+					action="#{identity.login}" /></div>
+			</rich:panel></center>
+		</h:form>
 
-        </rich:panel>
-
-        <div class="actionButtons">
-            <h:commandButton value="Login" action="#{identity.login}"/>
-        </div>
-		</center>
-    </h:form>
-
- </ui:define>
+	</ui:define>
 </ui:composition>

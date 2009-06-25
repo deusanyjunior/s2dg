@@ -11,19 +11,25 @@
 			background-repeat:repeat-x;
 			background-image:url(img/topo_bg.png);">
 
+	<style>
+		.color{
+			color: white;
+		}
+	</style>
+	
 	<div id="menu"
 		style="padding-left:2px;margin-right:10px;height:60px;width:100px;margin-top:10px;float:right;background-repeat:no-repeat;background-image:url(img/fundo_opcoes.png); padding-left: 5px; padding-top: 5px;">
 	<h:graphicImage value="img/ajuda.png" alt="Ajuda" width="17"
 		height="15" hspace="7" vspace="0" style="vertical-align:middle; " /><h:outputText
-		value="Ajuda" /><br></br>
+		value="Ajuda" styleClass="color"/><br></br>
 	<h:graphicImage value="img/alterar_senha.png" alt="Alterar senha"
 		width="17" height="17" hspace="7" vspace="1"
 		style="vertical-align:middle;" rendered="#{identity.loggedIn}" /><h:outputText
-		value="Alterar senha" rendered="#{identity.loggedIn}" /><br></br>
+		value="Alterar senha" rendered="#{identity.loggedIn}" styleClass="color"/><br></br>
 	<h:graphicImage value="img/sair.png" alt="Sair" width="17" height="13"
 		hspace="7" vspace="2" style="vertical-align:middle;"
 		rendered="#{identity.loggedIn}" /><s:link view="/login.xhtml"
-		action="#{identity.logout}" value="Sair"
+		action="#{identity.logout}" value="Sair" styleClass="color" 
 		rendered="#{identity.loggedIn}" propagation="none" />
 	</div>
 

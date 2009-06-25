@@ -103,4 +103,6 @@ http://s2dg.googlecode.com/svn/analistas/casosDeUso/S2dg/Matricula.gif
 
   [http://s2dg.googlecode.com/svn/analistas/casosDeUso/elabora%C3%A7%C3%A3o/casosUsoControleDeAcesso.doc Casos de Uso Controle de Acesso]
 
+  [http://s2dg.googlecode.com/svn/analistas/casosDeUso/S2dg/Matricula.png Diagrama de atividades do CUAO_04 : Fazer Matricula]
+
 _Obs.: os detalhamentos podem sofrer alterações._

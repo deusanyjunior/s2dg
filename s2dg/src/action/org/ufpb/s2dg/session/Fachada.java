@@ -97,4 +97,8 @@ public class Fachada {
 			alunoTurmaDAO.atualiza(alunoTurmas.get(i));
 	}
 	
+	//Criado por Julio e Rennan
+	public String getEmail(String username) {
+		return usuarioDAO.getEmail(username);
+	}
 }

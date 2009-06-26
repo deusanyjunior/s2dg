@@ -3,12 +3,15 @@ package org.ufpb.s2dg.session;
 import java.util.Collections;
 import java.util.List;
 
+import javax.persistence.NoResultException;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
+import org.ufpb.s2dg.entity.AlunoTurmaNota;
 import org.ufpb.s2dg.entity.DisciplinaTurmas;
 import org.ufpb.s2dg.entity.Nota;
 import org.ufpb.s2dg.entity.Turma;
@@ -118,7 +121,16 @@ public class Fachada {
 	}
 	
 	public float getValorDaNota(Nota nota) {
-		return alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmaAtual,nota).getValorDaNota();
+		try {
+			AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmaAtual,nota);
+			if(alunoTurmaNota != null)
+				return alunoTurmaNota.getValorDaNota();
+			else
+				return 0;
+		}
+		catch (NoResultException e) {
+			return 0;
+		}
 	}
 	
 }

@@ -35,33 +35,37 @@
 					<td valign="top" height="100%">
 
 					<div><rich:tabPanel switchType="client">
-						<rich:tab label="Principal" >
-						<rich:panel id="docente_mutavel">
-							<h:outputText value="Disciplina: #{fachada.turmaAtual.disciplina.codigo} - #{fachada.turmaAtual.disciplina.nome}" /><br/>
-							<h:outputText value="Turma #{fachada.turmaAtual.numero}" /><br/>
-						<h:form>
-							<rich:dataTable var="alunoTurma"
-								value="#{fachada.alunoTurmas}">
-								<rich:column styleClass="action">
-									<f:facet name="header">Matrícula</f:facet>
-									<h:outputText value="#{alunoTurma.aluno.matricula}" />
-								</rich:column>
-								<rich:column styleClass="action">
-									<f:facet name="header">Aluno</f:facet>
-									<h:outputText value="#{alunoTurma.aluno.usuario.nome}" />
-								</rich:column>
-								<rich:column styleClass="action">
-									<f:facet name="header">Número de Faltas</f:facet>
-									<rich:inputNumberSpinner value="#{alunoTurma.faltas}"/>	
-									</rich:column>
-								<rich:column styleClass="action">
-									<f:facet name="header">Média Final</f:facet>
-									<h:inputText value="#{alunoTurma.media}"/>
-								</rich:column>
-							</rich:dataTable>
-							<a4j:commandButton type="submit" value="Salvar" action="#{fachada.persisteAlunoTurmas}" reRender="docente_mutavel" />
-							</h:form>
-						</rich:panel>
+						<rich:tab label="Principal">
+							<rich:panel id="docente_mutavel">
+								<h:outputText
+									value="Disciplina: #{fachada.turmaAtual.disciplina.codigo} - #{fachada.turmaAtual.disciplina.nome}" />
+								<br />
+								<h:outputText value="Turma #{fachada.turmaAtual.numero}" />
+								<br />
+								<h:form>
+									<rich:dataTable var="alunoTurma" value="#{fachada.alunoTurmas}">
+										<rich:column styleClass="action">
+											<f:facet name="header">Matrícula</f:facet>
+											<h:outputText value="#{alunoTurma.aluno.matricula}" />
+										</rich:column>
+										<rich:column styleClass="action">
+											<f:facet name="header">Aluno</f:facet>
+											<h:outputText value="#{alunoTurma.aluno.usuario.nome}" />
+										</rich:column>
+										<rich:column styleClass="action">
+											<f:facet name="header">Número de Faltas</f:facet>
+											<rich:inputNumberSpinner value="#{alunoTurma.faltas}" />
+										</rich:column>
+										<rich:column styleClass="action">
+											<f:facet name="header">Média Final</f:facet>
+											<h:inputText value="#{alunoTurma.media}" />
+										</rich:column>
+									</rich:dataTable>
+									<a4j:commandButton type="submit" value="Salvar"
+										action="#{fachada.persisteAlunoTurmas}"
+										reRender="docente_mutavel" />
+								</h:form>
+							</rich:panel>
 						</rich:tab>
 						<rich:tab label="Cronograma de Aulas">
 							<table>
@@ -102,13 +106,48 @@
 					<td valign="top" height="100%">
 
 					<div><rich:tabPanel switchType="client">
-						<rich:tab label="Principal" >
-							<rich:panel  id="discente_mutavel">
-							<h:outputText value="Disciplina: #{fachada.alunoTurmaAtual.turma.disciplina.codigo} - #{fachada.alunoTurmaAtual.turma.disciplina.nome}" /><br/>
-							<h:outputText value="Turma #{fachada.alunoTurmaAtual.turma.numero}" /><br/>
-							<h:outputText value="Professor: #{fachada.nomeDoProfessorAtual}" /><br/>
-							<h:outputText value="Número de Faltas: #{fachada.alunoTurmaAtual.faltas}" /><br/>
-							<h:outputText value="Média Final: #{fachada.alunoTurmaAtual.media}" />
+						<rich:tab label="Principal">
+							<rich:panel id="discente_mutavel">
+								<h:outputText
+									value="Disciplina: #{fachada.alunoTurmaAtual.turma.disciplina.codigo} - #{fachada.alunoTurmaAtual.turma.disciplina.nome}" />
+								<br />
+								<h:outputText
+									value="Turma #{fachada.alunoTurmaAtual.turma.numero}" />
+								<br />
+								<h:outputText value="Professor: #{fachada.nomeDoProfessorAtual}" />
+								<br />
+
+								<table class="dr-table rich-table"
+									cellspacing="0" cellpadding="0" border="0">
+									<thead class="dr-table-thead">
+										<tr class="dr-table-subheader rich-table-subheader">
+											<th class="dr-table-subheadercell rich-table-subheadercell"
+												scope="col">
+											<div>Número de Faltas</div>
+											</th>
+											<ui:repeat value="#{fachada.notasDoBanco}" var="nota">
+												<th class="dr-table-subheadercell rich-table-subheadercell"
+													scope="col">
+												<div><h:outputText value="#{nota.nome}" /></div>
+												</th>
+											</ui:repeat>
+											<th class="dr-table-subheadercell rich-table-subheadercell"
+												scope="col">
+											<div>Média Final</div>
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr class="dr-table-firstrow rich-table-firstrow">
+											<td class="dr-table-cell rich-table-cell action"><h:outputText value="#{fachada.alunoTurmaAtual.faltas}" /></td>
+											<ui:repeat value="#{fachada.notas}" var="nota">
+												<td class="dr-table-cell rich-table-cell action"><h:outputText value="#{fachada.getValorDaNota(nota)}" /></td>
+											</ui:repeat>
+											<td class="dr-table-cell rich-table-cell action"><h:outputText value="#{fachada.alunoTurmaAtual.media}" /></td>
+										</tr>
+									</tbody>
+								</table>
+
 							</rich:panel>
 						</rich:tab>
 						<rich:tab label="Plano de Curso">

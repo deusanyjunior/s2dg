@@ -2,12 +2,10 @@ package org.ufpb.s2dg.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -19,7 +17,7 @@ import org.hibernate.validator.NotNull;
 public class AlunoTurma implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private AlunoTurmaId id;
+	private long id;
 	private Turma turma;
 	private Aluno aluno;
 	private Float media;
@@ -28,13 +26,13 @@ public class AlunoTurma implements Serializable {
 	public AlunoTurma() {
 	}
 
-	public AlunoTurma(AlunoTurmaId id, Turma turma, Aluno aluno) {
+	public AlunoTurma(long id, Turma turma, Aluno aluno) {
 		this.id = id;
 		this.turma = turma;
 		this.aluno = aluno;
 	}
 
-	public AlunoTurma(AlunoTurmaId id, Turma turma, Aluno aluno, Float media,
+	public AlunoTurma(long id, Turma turma, Aluno aluno, Float media,
 			Integer frequencia) {
 		this.id = id;
 		this.turma = turma;
@@ -43,16 +41,13 @@ public class AlunoTurma implements Serializable {
 		this.faltas = frequencia;
 	}
 
-	@EmbeddedId
-	@AttributeOverrides( {
-			@AttributeOverride(name = "matriculaAluno", column = @Column(name = "matricula_aluno", nullable = false, length = 9)),
-			@AttributeOverride(name = "idTurma", column = @Column(name = "id_turma", nullable = false)) })
-	@NotNull
-	public AlunoTurmaId getId() {
+	@Id
+	@Column(name = "id", unique = true, nullable = false)
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(AlunoTurmaId id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

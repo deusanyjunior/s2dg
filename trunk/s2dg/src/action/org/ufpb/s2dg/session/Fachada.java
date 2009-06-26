@@ -10,6 +10,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.DisciplinaTurmas;
+import org.ufpb.s2dg.entity.Nota;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.Usuario;
 
@@ -24,11 +25,16 @@ public class Fachada {
 	private AlunoTurmaDAO alunoTurmaDAO;
 	@In
 	private TurmaDAO turmaDAO;
+	@In
+	private NotaDAO notaDAO;
+	@In
+	private AlunoTurmaNotaDAO alunoTurmaNotaDAO;
 	
 	private Usuario usuario;
 	private AlunoTurma alunoTurmaAtual;
 	private Turma turmaAtual;
 	private List<AlunoTurma> alunoTurmas;
+	private List<Nota> notas;
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -101,4 +107,18 @@ public class Fachada {
 	public String getEmail(String username) {
 		return usuarioDAO.getUsuario(username).getEmail();
 	}
+	
+	public List<Nota> getNotasDoBanco() {
+		notas = notaDAO.getNotas(alunoTurmaAtual.getTurma());
+		return notas;
+	}
+	
+	public List<Nota> getNotas() {
+		return notas;
+	}
+	
+	public float getValorDaNota(Nota nota) {
+		return alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmaAtual,nota).getValorDaNota();
+	}
+	
 }

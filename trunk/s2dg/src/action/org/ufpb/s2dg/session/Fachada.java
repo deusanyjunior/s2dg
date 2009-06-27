@@ -16,6 +16,9 @@ import org.ufpb.s2dg.entity.DisciplinaTurmas;
 import org.ufpb.s2dg.entity.Nota;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.Usuario;
+import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
+import org.ufpb.s2dg.session.persistence.TurmaDAO;
+import org.ufpb.s2dg.session.persistence.UsuarioDAO;
 
 @Name("fachada")
 @Scope(ScopeType.SESSION)
@@ -53,7 +56,9 @@ public class Fachada {
 	
 	public List<AlunoTurma> getAlunoTurmasDoBanco() {
 		List<AlunoTurma> alunoTurmas = alunoTurmaDAO.getAlunoTurmas(usuario.getAluno());
-		alunoTurmaAtual = alunoTurmas.get(0);
+		if (alunoTurmas.size() > 0)
+			alunoTurmaAtual = alunoTurmas.get(0);
+		else alunoTurmaAtual = null;
 		return alunoTurmas;
 	}
 
@@ -66,7 +71,9 @@ public class Fachada {
 	}
 	
 	public String getNomeDoProfessorAtual() {
-		return usuarioDAO.getUsuarioProfessor(alunoTurmaAtual.getTurma().getProfessor().getMatricula()).getNome();
+		if (alunoTurmaAtual != null)
+			return usuarioDAO.getUsuarioProfessor(alunoTurmaAtual.getTurma().getProfessor().getMatricula()).getNome();
+		else return null;
 	}
 	
 	public List<DisciplinaTurmas> getTurmasPorDisciplina() {

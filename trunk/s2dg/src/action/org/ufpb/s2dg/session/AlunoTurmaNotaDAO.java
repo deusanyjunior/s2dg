@@ -17,11 +17,15 @@ public class AlunoTurmaNotaDAO {
 	EntityManager entityManager;
 
 	public AlunoTurmaNota getAlunoTurmaNota(AlunoTurma alunoTurma, Nota nota) {
-		return (AlunoTurmaNota) entityManager.createQuery(
-    	"select alunoTurmaNota from AlunoTurmaNota as alunoTurmaNota where alunoTurmaNota.alunoTurma =:alunoTurma and alunoTurmaNota.nota =:nota")
-    	.setParameter("alunoTurma", alunoTurma)
-    	.setParameter("nota", nota)
-    	.getSingleResult();
+		if (alunoTurma != null) {
+			Object result = entityManager.createQuery(
+			"select alunoTurmaNota from AlunoTurmaNota as alunoTurmaNota where alunoTurmaNota.alunoTurma =:alunoTurma and alunoTurmaNota.nota =:nota")
+			.setParameter("alunoTurma", alunoTurma)
+			.setParameter("nota", nota)
+			.getSingleResult();
+			return (AlunoTurmaNota) result; 
+		} else return null;
+		
 	}
 	
 }

@@ -10,15 +10,13 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaNota;
 import org.ufpb.s2dg.entity.DisciplinaTurmas;
 import org.ufpb.s2dg.entity.Nota;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.Usuario;
-import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
-import org.ufpb.s2dg.session.persistence.TurmaDAO;
-import org.ufpb.s2dg.session.persistence.UsuarioDAO;
 
 @Name("fachada")
 @Scope(ScopeType.SESSION)
@@ -55,11 +53,17 @@ public class Fachada {
 	}
 	
 	public List<AlunoTurma> getAlunoTurmasDoBanco() {
-		List<AlunoTurma> alunoTurmas = alunoTurmaDAO.getAlunoTurmas(usuario.getAluno());
-		if (alunoTurmas.size() > 0)
-			alunoTurmaAtual = alunoTurmas.get(0);
-		else alunoTurmaAtual = null;
-		return alunoTurmas;
+		if (usuario == null)
+			return null;
+		Aluno aluno = usuario.getAluno();
+		if (aluno != null) {
+			List<AlunoTurma> alunoTurmas = alunoTurmaDAO.getAlunoTurmas(aluno);
+			if (alunoTurmas.size() > 0) {
+				alunoTurmaAtual = alunoTurmas.get(0);
+				return alunoTurmas;
+			}
+		}
+		return null;
 	}
 
 	public AlunoTurma getAlunoTurmaAtual() {
@@ -71,9 +75,9 @@ public class Fachada {
 	}
 	
 	public String getNomeDoProfessorAtual() {
-		if (alunoTurmaAtual != null)
-			return usuarioDAO.getUsuarioProfessor(alunoTurmaAtual.getTurma().getProfessor().getMatricula()).getNome();
-		else return null;
+		if (alunoTurmaAtual == null)
+			return null;
+		return usuarioDAO.getUsuarioProfessor(alunoTurmaAtual.getTurma().getProfessor().getMatricula()).getNome();
 	}
 	
 	public List<DisciplinaTurmas> getTurmasPorDisciplina() {

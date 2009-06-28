@@ -41,8 +41,6 @@ public class Fachada {
 	private NotaDAO notaDAO;
 	@In
 	private AlunoTurmaNotaDAO alunoTurmaNotaDAO;
-	@In
-	private Identity identity;
 	
 	private Usuario usuario;
 	private AlunoTurma alunoTurmaAtual;
@@ -154,11 +152,4 @@ public class Fachada {
 		}
 	}
 	
-	public void logout() {
-		identity.logout();
-		HttpSession session = (HttpSession)FacesContext.getCurrentInstance()
-									.getExternalContext().getSession(false);
-		if (session != null)
-			session.invalidate();
-	}
 }

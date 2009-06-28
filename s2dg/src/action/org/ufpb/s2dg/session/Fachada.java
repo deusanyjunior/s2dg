@@ -3,13 +3,16 @@ package org.ufpb.s2dg.session;
 import java.util.Collections;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.persistence.NoResultException;
+import javax.servlet.http.HttpSession;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.security.Identity;
 import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaNota;
@@ -17,6 +20,11 @@ import org.ufpb.s2dg.entity.DisciplinaTurmas;
 import org.ufpb.s2dg.entity.Nota;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.Usuario;
+import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
+import org.ufpb.s2dg.session.persistence.AlunoTurmaNotaDAO;
+import org.ufpb.s2dg.session.persistence.NotaDAO;
+import org.ufpb.s2dg.session.persistence.TurmaDAO;
+import org.ufpb.s2dg.session.persistence.UsuarioDAO;
 
 @Name("fachada")
 @Scope(ScopeType.SESSION)
@@ -33,6 +41,8 @@ public class Fachada {
 	private NotaDAO notaDAO;
 	@In
 	private AlunoTurmaNotaDAO alunoTurmaNotaDAO;
+	@In
+	private Identity identity;
 	
 	private Usuario usuario;
 	private AlunoTurma alunoTurmaAtual;
@@ -144,4 +154,11 @@ public class Fachada {
 		}
 	}
 	
+	public void logout() {
+		identity.logout();
+		HttpSession session = (HttpSession)FacesContext.getCurrentInstance()
+									.getExternalContext().getSession(false);
+		if (session != null)
+			session.invalidate();
+	}
 }

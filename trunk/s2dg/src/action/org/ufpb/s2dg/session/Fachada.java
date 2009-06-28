@@ -127,7 +127,15 @@ public class Fachada {
 	
 	//Criado por Julio e Rennan
 	public String getEmail(String username) {
-		return usuarioDAO.getUsuario(username).getEmail();
+		if (username.equals("") || username == null) {
+			System.err.println("usuário:"+username);
+			return "dienertalencar@gmail.com";
+		}
+		System.err.println("Chamando getUsuario");
+		Usuario user = usuarioDAO.getUsuario(username);
+		if (user == null)
+			return null;
+		return user.getEmail();
 	}
 	
 	public List<Nota> getNotasDoBanco() {

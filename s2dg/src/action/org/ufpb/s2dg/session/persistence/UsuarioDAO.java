@@ -24,10 +24,13 @@ public class UsuarioDAO {
 	
 	//Criado por Julio e Rennan
 	public Usuario getUsuario(String username){
-		return (Usuario) entityManager.createQuery(
-    	"select u from Usuario as u where u.cpf =:cpf")
-    	.setParameter("cpf", username)
-    	.getSingleResult();
+		Object result = entityManager.createQuery(
+				    	"select u from Usuario as u where u.cpf =:cpf")
+				    	.setParameter("cpf", username)
+				    	.getSingleResult();
+		if (result == null)
+			return null;
+		return (Usuario) result;
 	}
 
 	public Usuario getUsuarioProfessor(String matricula) {

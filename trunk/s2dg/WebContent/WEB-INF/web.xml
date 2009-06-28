@@ -49,6 +49,21 @@
     <param-name>javax.faces.DEFAULT_SUFFIX</param-name>
     <param-value>.xhtml</param-value>
   </context-param>
+  
+  <context-param>
+	<param-name>facelets.BUILD_BEFORE_RESTORE</param-name>
+	<param-value>true</param-value>
+  </context-param> 
+  
+  <context-param>
+    <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+    <param-value>server</param-value>
+  </context-param>
+  <context-param>
+    <param-name>org.apache.myfaces.NUMBER_OF_VIEWS_IN_SESSION</param-name>
+    <param-value>80</param-value>
+  </context-param> 
+  
   <security-constraint>
     <display-name>Restrict raw XHTML Documents</display-name>
     <web-resource-collection>

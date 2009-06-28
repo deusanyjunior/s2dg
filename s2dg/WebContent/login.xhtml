@@ -42,24 +42,25 @@
             	</a4j:commandLink>
             	<br/>
             	<h:panelGroup id="Erro">
-        			<h:outputText value="Uma nova senha sera enviada para o seu email!" rendered="#{not empty credentials.username}" styleClass="setBold"/>
+        			<h:outputText value="Uma nova senha sera enviada para o seu email!" 
+        						  rendered="#{not empty credentials.username}" 
+        						  styleClass="setBold"/>
         			
         			<m:message xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:m="http://jboss.com/products/seam/mail"
-    xmlns:h="http://java.sun.com/jsf/html">
-  
-    <m:from name="Peter" address="jc.ufpb@gmail.com" />
-    <m:to name="Julio Cesar">#{fachada.getEmail(credentials.username)}</m:to>
-    <m:subject>Testando</m:subject>
-    
-    <m:body>
-        <p><h:outputText value="Dear Julio" />,</p>
-        <p>Testando </p>
-        <p>Julio</p>
-        <p>Ferreira</p>
-    </m:body>
-    
-</m:message>
+					    xmlns:m="http://jboss.com/products/seam/mail">
+					  
+					    <m:from name="Peter" address="jc.ufpb@gmail.com" />
+					    <m:to name="Julio Cesar">#{fachada.getEmail(credentials.username)}</m:to>
+					    <m:subject>Testando</m:subject>
+					    
+					    <m:body>
+					        <p><h:outputText value="Dear Julio" />,</p>
+					        <p>Testando </p>
+					        <p>Julio</p>
+					        <p>Ferreira</p>
+					    </m:body>
+					    
+					</m:message>
     			</h:panelGroup>
 				
 			</rich:panel></center>

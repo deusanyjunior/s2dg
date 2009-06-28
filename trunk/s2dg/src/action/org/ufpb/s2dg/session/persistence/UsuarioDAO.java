@@ -1,4 +1,4 @@
-package org.ufpb.s2dg.session;
+package org.ufpb.s2dg.session.persistence;
 
 import javax.persistence.EntityManager;
 

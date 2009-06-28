@@ -28,9 +28,10 @@
 		value="Alterar senha" rendered="#{identity.loggedIn}" styleClass="color"/><br></br>
 	<h:graphicImage value="img/sair.png" alt="Sair" width="17" height="13"
 		hspace="7" vspace="2" style="vertical-align:middle;"
-		rendered="#{identity.loggedIn}" /><s:link view="/login.xhtml"
-		action="#{identity.logout}" value="Sair" styleClass="color" 
-		rendered="#{identity.loggedIn}" propagation="none" />
+		rendered="#{identity.loggedIn}" />
+		<s:link view="/login.xhtml" action="#{identity.logout}"
+			value="Sair" styleClass="color" rendered="#{identity.loggedIn}"
+			 propagation="none" />
 	</div>
 
 	<div style="padding-right: 20px; float: left;">

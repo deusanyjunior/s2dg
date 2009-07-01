@@ -1,6 +1,7 @@
 package org.ufpb.s2dg.session.persistence;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
@@ -17,15 +18,18 @@ public class AlunoTurmaNotaDAO {
 	EntityManager entityManager;
 
 	public AlunoTurmaNota getAlunoTurmaNota(AlunoTurma alunoTurma, Nota nota) {
-		if (alunoTurma != null) {
-			Object result = entityManager.createQuery(
-			"select alunoTurmaNota from AlunoTurmaNota as alunoTurmaNota where alunoTurmaNota.alunoTurma =:alunoTurma and alunoTurmaNota.nota =:nota")
-			.setParameter("alunoTurma", alunoTurma)
-			.setParameter("nota", nota)
-			.getSingleResult();
-			return (AlunoTurmaNota) result; 
-		} else return null;
-		
+		try {
+			if (alunoTurma != null) {
+				Object result = entityManager.createQuery(
+				"select alunoTurmaNota from AlunoTurmaNota as alunoTurmaNota where alunoTurmaNota.alunoTurma =:alunoTurma and alunoTurmaNota.nota =:nota")
+				.setParameter("alunoTurma", alunoTurma)
+				.setParameter("nota", nota)
+				.getSingleResult();
+				return (AlunoTurmaNota) result; 
+			} else return null;
+		} catch(NoResultException e) {
+			return null;
+		}
 	}
 	
 }

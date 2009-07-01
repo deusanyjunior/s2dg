@@ -3,16 +3,11 @@ package org.ufpb.s2dg.session;
 import java.util.Collections;
 import java.util.List;
 
-import javax.faces.context.FacesContext;
-import javax.persistence.NoResultException;
-import javax.servlet.http.HttpSession;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.security.Identity;
 import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaNota;
@@ -128,7 +123,7 @@ public class Fachada {
 	//Criado por Julio e Rennan
 	public String getEmail(String username) {
 		if (username.equals("") || username == null) {
-			System.err.println("usuário:"+username);
+			System.err.println("usuario:"+username);
 			return "dienertalencar@gmail.com";
 		}
 		System.err.println("Chamando getUsuario");
@@ -139,8 +134,12 @@ public class Fachada {
 	}
 	
 	public List<Nota> getNotasDoBanco() {
-		notas = notaDAO.getNotas(alunoTurmaAtual.getTurma());
-		return notas;
+		if(alunoTurmaAtual == null)
+			return null;
+		else {
+			notas = notaDAO.getNotas(alunoTurmaAtual.getTurma());
+			return notas;
+		}
 	}
 	
 	public List<Nota> getNotas() {
@@ -148,16 +147,11 @@ public class Fachada {
 	}
 	
 	public float getValorDaNota(Nota nota) {
-		try {
-			AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmaAtual,nota);
-			if(alunoTurmaNota != null)
-				return alunoTurmaNota.getValorDaNota();
-			else
-				return 0;
-		}
-		catch (NoResultException e) {
+		AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmaAtual,nota);
+		if(alunoTurmaNota != null)
+			return alunoTurmaNota.getValorDaNota();
+		else
 			return 0;
-		}
 	}
 	
 }

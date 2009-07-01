@@ -16,28 +16,24 @@
 			<div class="menu_disciplinas">
 			<center><h:outputText styleClass="menu_disciplinas_titulo"
 				value="Disciplinas Ministradas" /></center>
-			<div class="menu_disciplinas_lista"><rich:panelMenu
-				styleClass="menu_disciplina_lista" mode="ajax"
-				iconExpandedGroup="disc" iconCollapsedGroup="disc"
-				iconExpandedTopGroup="chevronUp" iconGroupTopPosition="right"
-				iconCollapsedTopGroup="chevronDown">
+			<div class="menu_disciplinas_lista">
 
+				<h:form>
 				<ui:repeat value="#{fachada.turmasPorDisciplina}"
 					var="disciplinaTurmas">
-					<h:outputText value=":: #{disciplinaTurmas.disciplina.nome}" />
-					<br />
+					<h:outputText value="#{disciplinaTurmas.disciplina.nome}" /><br/>
 					<ui:repeat value="#{disciplinaTurmas.turmas}" var="turma">
 						<a4j:commandLink styleClass="menu_disciplina_turma" action="#{fachada.setTurmaAtual(turma)}"
-							value=" :: Turma #{turma.numero}" reRender="docente_mutavel" />
-						<br />
+							value=":: Turma #{turma.numero}" reRender="docente_mutavel" /><br/>
 					</ui:repeat>
 				</ui:repeat>
+				</h:form>
 
-			</rich:panelMenu></div>
+			</div>
 			</div>
 			<br></br>
 
-			<rich:calendar popup="false" locale="pt_BR">
+			<rich:calendar popup="false" locale="pt_BR" datePattern="dd/MMM/yyyy">
 			</rich:calendar></td>
 
 			<td style="padding-left: 20px;" height="100%">
@@ -70,8 +66,7 @@
 								</rich:column>
 							</rich:dataTable>
 							<a4j:commandButton styleClass="botao_salvar" type="submit" value="Salvar"
-								action="#{fachada.persisteAlunoTurmas}"
-								reRender="docente_mutavel" />
+								action="#{fachada.persisteAlunoTurmas}" reRender="docente_mutavel" />
 						</h:form>
 					</rich:panel>
 				</rich:tab>

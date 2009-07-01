@@ -18,25 +18,18 @@
 			  		<center>
 			  		<h:outputText styleClass="menu_disciplinas_titulo" value="Turmas Matriculadas" />
 			  		</center>
-			  		<div class="menu_disciplinas_lista">
-						
-						<rich:panelMenu styleClass="menu_disciplina_lista"
-							mode="ajax" iconExpandedGroup="disc" iconCollapsedGroup="disc"
-							iconExpandedTopGroup="chevronUp" iconGroupTopPosition="right"
-							iconCollapsedTopGroup="chevronDown">
-
-							<ui:repeat value="#{fachada.alunoTurmasDoBanco}" var="alunoTurma">
-								<a4j:commandLink
-									action="#{fachada.setAlunoTurmaAtual(alunoTurma)}"
-									value=":: #{alunoTurma.turma.disciplina.nome}"
-									reRender="discente_mutavel" />
-								<br />
-							</ui:repeat>
-							
-						</rich:panelMenu>
-			  		</div>
+			  		<rich:panel>
+				<h:form>
+					<ui:repeat value="#{fachada.alunoTurmasDoBanco}" var="alunoTurma">
+						<a4j:commandLink
+							action="#{fachada.setAlunoTurmaAtual(alunoTurma)}"
+							value=":: #{alunoTurma.turma.disciplina.nome}"
+							reRender="discente_mutavel" /><br/>
+					</ui:repeat>
+				</h:form>
+			</rich:panel>
 			  </div>
-			 <br></br>
+			<br></br>
 
 			<rich:calendar popup="false" locale="pt_BR">
 			</rich:calendar>

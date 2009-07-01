@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<rich:panel 
+
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a4j="http://richfaces.org/a4j" 
+	
+	style="margin:0;border-width:0;padding:0px;">
+
+	<table width="100%">
+		<tr>
+			<td width="200px">			  
+			  <div class="menu_disciplinas">
+			  		<center>
+			  		<h:outputText styleClass="menu_disciplinas_titulo" value="Turmas Matriculadas" />
+			  		</center>
+			  		<div class="menu_disciplinas_lista">
+						
+						<rich:panelMenu styleClass="menu_disciplina_lista"
+							mode="ajax" iconExpandedGroup="disc" iconCollapsedGroup="disc"
+							iconExpandedTopGroup="chevronUp" iconGroupTopPosition="right"
+							iconCollapsedTopGroup="chevronDown">
+
+							<ui:repeat value="#{fachada.alunoTurmasDoBanco}" var="alunoTurma">
+								<a4j:commandLink
+									action="#{fachada.setAlunoTurmaAtual(alunoTurma)}"
+									value=":: #{alunoTurma.turma.disciplina.nome}"
+									reRender="discente_mutavel" />
+								<br />
+							</ui:repeat>
+							
+						</rich:panelMenu>
+			  		</div>
+			  </div>
+			 <br></br>
+
+			<rich:calendar popup="false" locale="pt_BR">
+			</rich:calendar>
+			
+			</td>
+			
+			<td style="padding-left: 20px;" height="100%">
+
+			<div><rich:tabPanel switchType="client">
+				<rich:tab label="Principal">
+					<rich:panel styleClass="border_zero" id="discente_mutavel">
+						<h:outputText styleClass="body_titulo_disciplina"
+							value="Disciplina: #{fachada.alunoTurmaAtual.turma.disciplina.codigo} - #{fachada.alunoTurmaAtual.turma.disciplina.nome}" />
+						<br />
+						<h:outputText styleClass="body_outras_info"
+							value="Turma #{fachada.alunoTurmaAtual.turma.numero}" />
+						<br />
+						<h:outputText value="Professor: #{fachada.nomeDoProfessorAtual}" />
+						<br /><br />
+						
+
+						<table class="dr-table rich-table" cellspacing="0" cellpadding="0"
+							border="0">
+							<thead class="dr-table-thead">
+								<tr class="dr-table-subheader rich-table-subheader">
+									<th class="dr-table-subheadercell rich-table-subheadercell"
+										scope="col">
+									<div>Número de Faltas</div>
+									</th>
+									<ui:repeat value="#{fachada.notasDoBanco}" var="nota">
+										<th class="dr-table-subheadercell rich-table-subheadercell"
+											scope="col">
+										<div><h:outputText value="#{nota.nome}" /></div>
+										</th>
+									</ui:repeat>
+									<th class="dr-table-subheadercell rich-table-subheadercell"
+										scope="col">
+									<div>Média Final</div>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="dr-table-firstrow rich-table-firstrow">
+									<td class="dr-table-cell rich-table-cell action"><h:outputText
+										value="#{fachada.alunoTurmaAtual.faltas}" /></td>
+									<ui:repeat value="#{fachada.notas}" var="nota">
+										<td class="dr-table-cell rich-table-cell action"><h:outputText
+											value="#{fachada.getValorDaNota(nota)}" /></td>
+									</ui:repeat>
+									<td class="dr-table-cell rich-table-cell action"><h:outputText
+										value="#{fachada.alunoTurmaAtual.media}" /></td>
+								</tr>
+							</tbody>
+						</table>
+
+					</rich:panel>
+				</rich:tab>
+				<rich:tab label="Plano de Curso">
+					<table>
+						<tr>
+							<td>[PLANO DE CURSO]</td>
+						</tr>
+					</table>
+				</rich:tab>
+			</rich:tabPanel></div>
+
+			</td>
+		</tr>
+	</table>
+
+
+
+
+</rich:panel>

@@ -3,27 +3,95 @@ html {
 }
 
 body {
-	font-size: 12px;
-	margin: 0px;
+	font-family: Arial,Verdana,sans-serif;
+	background-image: url("../img/topo_bg.png");
+	background-repeat: repeat-x;
+	background-attachment: fixed;
+	background-position: left top;
 	background-color: #d7e7f7;
-	text-align: justify;
 	vertical-align: top;
-	top: 0px;
-	clip: rect(0px, auto, auto, auto);
 }
 
-topo {
-	height: 120px;
+.topo {
+	height: 105px;
 	border-style: none;
 	border-width: 0px;
-	background-repeat: repeat-x;
-	background-image: url(img/topo_bg.png);
-	font-family: Arial, Helvetica, sans-serif;
-	text-shadow: #000099;
-	color: #000000;
+	border-style:none;
+	border-width:0px;
+}
+
+.logo_ufpb {
+	margin-top: 0px;
+	margin-right: 20px;
+	margin-left: 5px;		
+}
+
+.titulo_s2dg {
+	color: black;	
+	font-size: 18px;
 	font-weight: bold;
-	background-repeat: repeat;
-	background-image: url("img/topo_bg.png")
+	text-transform: uppercase;
+	text-shadow: #000099;
+}
+
+.saudacao {
+	color: black;	
+	font-size: 12px;;
+}
+
+.menu_topo {
+	width: 30px;
+	font-size: 12px;
+ 	padding: 3px;
+ 	margin: 3px;
+ 	float: right;
+ 	vertical-align: middle;
+}
+
+.menu_disciplinas {
+	background-color: #BED6F8; 
+	padding: 5px;
+	font-weight: bold;
+		
+}
+
+.menu_disciplinas_titulo {
+	text-align: center;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 10px;
+	margin: 10px;
+}
+
+.menu_disciplinas_lista {
+	font-weight: bold;
+	font-size: 11px;
+	background-color: #FFFFFF; 
+	padding: 10px;
+	margin-top: 5px;
+}
+
+.menu_disciplina_turma {
+	font-size: 10px;
+	padding-left: 5px;
+}
+	
+
+.body_titulo_disciplina {
+	font-size: 14px;
+	font-weight: bold;		
+}
+
+.body_outras_info {
+	font-size: 12px;
+}
+
+.botao_salvar {
+	float: right;
+}
+
+.border_zero {
+	border: 0;	
 }
 
 element.style {
@@ -35,13 +103,13 @@ element.style {
 	width: auto;
 }
 
-menu {
-	float: left;
-	width: 200px;
-}
-
 a img {
 	border: none;
+}
+
+a:ACTIVE, a:HOVER, a:VISITED, a:LINK {
+	color: black;
+	text-decoration: none;	
 }
 
 h1 {
@@ -58,6 +126,13 @@ input[type=submit],input[type=button] {
 input[type=text],input[type=password],textarea {
 	font-size: 11px;
 	padding-left: 1px;
+}
+
+
+td {
+
+	vertical-align: top;
+		
 }
 
 .tableControl,.actionButtons {

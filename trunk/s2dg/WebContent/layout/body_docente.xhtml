@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rich:panel xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	
+	style="margin:0;border-width:0;padding:0px;">
+
+	<table width="100%">
+		<tr>
+			<td width="200px">
+			<div class="menu_disciplinas">
+			<center><h:outputText styleClass="menu_disciplinas_titulo"
+				value="Disciplinas Ministradas" /></center>
+			<div class="menu_disciplinas_lista"><rich:panelMenu
+				styleClass="menu_disciplina_lista" mode="ajax"
+				iconExpandedGroup="disc" iconCollapsedGroup="disc"
+				iconExpandedTopGroup="chevronUp" iconGroupTopPosition="right"
+				iconCollapsedTopGroup="chevronDown">
+
+				<ui:repeat value="#{fachada.turmasPorDisciplina}"
+					var="disciplinaTurmas">
+					<h:outputText value=":: #{disciplinaTurmas.disciplina.nome}" />
+					<br />
+					<ui:repeat value="#{disciplinaTurmas.turmas}" var="turma">
+						<a4j:commandLink styleClass="menu_disciplina_turma" action="#{fachada.setTurmaAtual(turma)}"
+							value=" :: Turma #{turma.numero}" reRender="docente_mutavel" />
+						<br />
+					</ui:repeat>
+				</ui:repeat>
+
+			</rich:panelMenu></div>
+			</div>
+			<br></br>
+
+			<rich:calendar popup="false" locale="pt_BR">
+			</rich:calendar></td>
+
+			<td style="padding-left: 20px;" height="100%">
+
+			<div><rich:tabPanel switchType="client">
+				<rich:tab label="Principal">
+					<rich:panel styleClass="border_zero" id="docente_mutavel">
+						<h:outputText styleClass="body_titulo_disciplina"
+							value="Disciplina: #{fachada.turmaAtual.disciplina.codigo} - #{fachada.turmaAtual.disciplina.nome}" />
+						<br />
+						<h:outputText value="Turma #{fachada.turmaAtual.numero}" />
+						<br />
+						<h:form>
+							<rich:dataTable var="alunoTurma" value="#{fachada.alunoTurmas}">
+								<rich:column styleClass="action">
+									<f:facet name="header">Matrícula</f:facet>
+									<h:outputText value="#{alunoTurma.aluno.matricula}" />
+								</rich:column>
+								<rich:column styleClass="action">
+									<f:facet name="header">Aluno</f:facet>
+									<h:outputText value="#{alunoTurma.aluno.usuario.nome}" />
+								</rich:column>
+								<rich:column styleClass="action">
+									<f:facet name="header">Número de Faltas</f:facet>
+									<rich:inputNumberSpinner value="#{alunoTurma.faltas}" />
+								</rich:column>
+								<rich:column styleClass="action">
+									<f:facet name="header">Média Final</f:facet>
+									<h:inputText value="#{alunoTurma.media}" />
+								</rich:column>
+							</rich:dataTable>
+							<a4j:commandButton styleClass="botao_salvar" type="submit" value="Salvar"
+								action="#{fachada.persisteAlunoTurmas}"
+								reRender="docente_mutavel" />
+						</h:form>
+					</rich:panel>
+				</rich:tab>
+				<rich:tab label="Cronograma de Aulas">
+					<table>
+						<tr>
+							<td>[CRONOGRAMA DE AULAS]</td>
+						</tr>
+					</table>
+				</rich:tab>
+				<rich:tab label="Plano de Curso">
+					<table>
+						<tr>
+							<td>[PLANO DE CURSO]</td>
+						</tr>
+					</table>
+				</rich:tab>
+			</rich:tabPanel></div>
+
+			</td>
+		</tr>
+	</table>
+
+</rich:panel>

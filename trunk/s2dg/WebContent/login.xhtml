@@ -15,6 +15,11 @@
         .setBold {
             font-weight: bold;
         }
+        
+        .alinha{
+        	margin-left:30px;
+        	
+        }
     </style>
     
 	<ui:define name="body">
@@ -24,45 +29,35 @@
 
 				<p>Por favor, faça login aqui.</p>
 
-				<div class="dialog"><h:panelGrid columns="2" rowClasses="prop"
-					columnClasses="name,value">
-					<h:outputLabel for="username">CPF</h:outputLabel>
+				<div class="dialog"><h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+					
+					<div align="right"> CPF </div>
+						
 					<h:inputText id="username" value="#{credentials.username}" />
-					<h:outputLabel for="password">Senha</h:outputLabel>
+						
+					<div align="right"> Senha </div>
+
 					<h:inputSecret id="password" value="#{credentials.password}" />
-					<h:outputLabel for="rememberMe">Lembrar-me</h:outputLabel>
+					
+					<div align="right"> Lembrar-me </div>
+					
+					
 					<h:selectBooleanCheckbox id="rememberMe"
 						value="#{identity.rememberMe}" />
 				</h:panelGrid></div>
-				<div class="actionButtons"><h:commandButton value="Login"
-					action="#{identity.login}" /></div><br/>
+				<div class="actionButtons">
+					<h:commandButton value="Login" action="#{identity.login}" />						
+				</div>
 					
 				<a4j:commandLink reRender="Erro">
                 	<h:outputText value="Esqueci minha senha" /> 
             	</a4j:commandLink>
             	<br/>
-            	<!-- <h:panelGroup id="Erro">
+            	<h:panelGroup id="Erro">
         			<h:outputText value="Uma nova senha sera enviada para o seu email!" 
         						  rendered="#{not empty credentials.username}" 
         						  styleClass="setBold"/>
-        			
-        			<m:message xmlns="http://www.w3.org/1999/xhtml"
-					    xmlns:m="http://jboss.com/products/seam/mail">
-					  
-					    <m:from name="Peter" address="jc.ufpb@gmail.com" />
-					    <m:to name="Julio Cesar">#{fachada.getEmail(credentials.username)}</m:to>
-					    <m:subject>Testando</m:subject>
-					    
-					    <m:body>
-					        <p><h:outputText value="Dear Julio" />,</p>
-					        <p>Testando </p>
-					        <p>Julio</p>
-					        <p>Ferreira</p>
-					    </m:body>
-					    
-					</m:message>
     			</h:panelGroup>
-    			 -->
 				
 			</rich:panel></center>
 		</h:form>

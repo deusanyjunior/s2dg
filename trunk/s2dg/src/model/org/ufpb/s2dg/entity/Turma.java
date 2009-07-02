@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,7 +30,8 @@ public class Turma implements java.io.Serializable {
 	private Set<AlunoTurma> alunoTurmas = new HashSet<AlunoTurma>(0);
 	private Set<Nota> notas = new HashSet<Nota>(0);
 	private boolean calcularMediaAutomaticamente = false;
-
+	private String planoDeCurso;
+	
 	public Turma() {
 	}
 
@@ -40,7 +42,8 @@ public class Turma implements java.io.Serializable {
 	}
 
 	public Turma(long id, Professor professor, Periodo periodo,
-			Disciplina disciplina, String numero, Set<AlunoTurma> alunoTurmas, Set<Nota> notas, boolean calcularMediaAutomaticamente) {
+			Disciplina disciplina, String numero, Set<AlunoTurma> alunoTurmas,
+			Set<Nota> notas, boolean calcularMediaAutomaticamente, String planoDeCurso) {
 		this.id = id;
 		this.professor = professor;
 		this.periodo = periodo;
@@ -49,6 +52,7 @@ public class Turma implements java.io.Serializable {
 		this.alunoTurmas = alunoTurmas;
 		this.notas = notas;
 		this.calcularMediaAutomaticamente = calcularMediaAutomaticamente;
+		this.planoDeCurso = planoDeCurso;
 	}
 
 	@Id
@@ -128,6 +132,16 @@ public class Turma implements java.io.Serializable {
 
 	public void setCalcularMediaAutomaticamente(boolean calcularMediaAutomaticamente) {
 		this.calcularMediaAutomaticamente = calcularMediaAutomaticamente;
+	}
+	
+	@Column(name = "plano_de_curso", nullable = true)
+	@Lob
+	public String getPlanoDeCurso() {
+		return this.planoDeCurso;
+	}
+
+	public void setPlanoDeCurso(String planoDeCurso) {
+		this.planoDeCurso = planoDeCurso;
 	}
 	
 }

@@ -1,24 +1,29 @@
 package org.ufpb.s2dg.session;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.richfaces.model.CalendarDataModel;
 import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaNota;
+import org.ufpb.s2dg.entity.Calendario;
 import org.ufpb.s2dg.entity.DisciplinaTurmas;
+import org.ufpb.s2dg.entity.Global;
 import org.ufpb.s2dg.entity.Nota;
+import org.ufpb.s2dg.entity.Periodo;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.Usuario;
 import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
 import org.ufpb.s2dg.session.persistence.AlunoTurmaNotaDAO;
+import org.ufpb.s2dg.session.persistence.CalendarioDAO;
+import org.ufpb.s2dg.session.persistence.GlobalDAO;
 import org.ufpb.s2dg.session.persistence.NotaDAO;
 import org.ufpb.s2dg.session.persistence.TurmaDAO;
 import org.ufpb.s2dg.session.persistence.UsuarioDAO;
@@ -38,15 +43,27 @@ public class Fachada {
 	private NotaDAO notaDAO;
 	@In
 	private AlunoTurmaNotaDAO alunoTurmaNotaDAO;
+	@In
+	private GlobalDAO globalDAO;
+	@In
+	private CalendarioDAO calendarioDAO;
 	
 	private Usuario usuario;
 	private AlunoTurma alunoTurmaAtual;
 	private Turma turmaAtual;
 	private List<AlunoTurma> alunoTurmas;
 	private List<Nota> notas;
+	private Calendario calendario;
+	private Periodo periodoAtual;
 	private Nota nota =  new Nota(); 
-		
-	
+
+	public Periodo getPeriodoAtual() {
+		return periodoAtual;
+	}
+
+	public void setPeriodoAtual(Periodo periodoAtual) {
+		this.periodoAtual = periodoAtual;
+	}
 
 	public Nota getNota() {
 		return nota;
@@ -130,7 +147,6 @@ public class Fachada {
 	
 	public void persisteAlunoTurmas() {
 		turmaDAO.atualiza(turmaAtual);
-			
 		for(int i = 0; i < alunoTurmas.size(); i++)
 			alunoTurmaDAO.atualiza(alunoTurmas.get(i));
 	}
@@ -161,6 +177,7 @@ public class Fachada {
 			return notas;
 		}
 	}
+	
 	public List<Nota> getNotasDoBanco() {
 		if(alunoTurmaAtual == null)
 			return null;
@@ -181,6 +198,7 @@ public class Fachada {
 		else
 			return 0;
 	}
+	
 	public float getValorDaNota(AlunoTurma alunoTurma, Nota nota) {
 		AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurma,nota);
 		if(alunoTurmaNota != null)
@@ -188,4 +206,17 @@ public class Fachada {
 		else
 			return 0;
 	}
+	
+	@Create
+	public void initCalendario() {
+		Global global = globalDAO.getGlobal();
+		Periodo p = global.getPeriodoAtual();
+		periodoAtual = new Periodo(p);
+		calendario = calendarioDAO.getCalendario(periodoAtual);
+	}
+	
+	public Calendario getCalendario() {
+		return calendario;
+	}
+	
 }

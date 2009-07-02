@@ -25,4 +25,12 @@ public class NotaDAO {
     	.getResultList();
 	}
 
+	public void cria(Nota nota, Turma turma) {
+		Nota novaNota = new Nota();
+		novaNota.setNome(nota.getNome());
+		novaNota.setPeso(nota.getPeso());
+		novaNota.setTurma(turma);
+		entityManager.persist(novaNota);
+	}
+
 }

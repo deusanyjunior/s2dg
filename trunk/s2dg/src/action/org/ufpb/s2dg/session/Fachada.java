@@ -1,7 +1,9 @@
 package org.ufpb.s2dg.session;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
@@ -42,6 +44,17 @@ public class Fachada {
 	private Turma turmaAtual;
 	private List<AlunoTurma> alunoTurmas;
 	private List<Nota> notas;
+	private Nota nota =  new Nota(); 
+		
+	
+
+	public Nota getNota() {
+		return nota;
+	}
+
+	public void setNota(Nota nota) {
+		this.nota = nota;
+	}
 
 	public Usuario getUsuario() {
 		return usuario;
@@ -116,8 +129,15 @@ public class Fachada {
 	}
 	
 	public void persisteAlunoTurmas() {
+		turmaDAO.atualiza(turmaAtual);
+			
 		for(int i = 0; i < alunoTurmas.size(); i++)
 			alunoTurmaDAO.atualiza(alunoTurmas.get(i));
+	}
+	
+	public void criarNota() {
+		notaDAO.cria(nota, turmaAtual);
+		nota = new Nota();
 	}
 	
 	//Criado por Julio e Rennan
@@ -133,6 +153,14 @@ public class Fachada {
 		return user.getEmail();
 	}
 	
+	public List<Nota> getNotasDaTurma() {
+		if(turmaAtual == null)
+			return null;
+		else {
+			notas = notaDAO.getNotas(turmaAtual);
+			return notas;
+		}
+	}
 	public List<Nota> getNotasDoBanco() {
 		if(alunoTurmaAtual == null)
 			return null;
@@ -153,5 +181,11 @@ public class Fachada {
 		else
 			return 0;
 	}
-	
+	public float getValorDaNota(AlunoTurma alunoTurma, Nota nota) {
+		AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurma,nota);
+		if(alunoTurmaNota != null)
+			return alunoTurmaNota.getValorDaNota();
+		else
+			return 0;
+	}
 }

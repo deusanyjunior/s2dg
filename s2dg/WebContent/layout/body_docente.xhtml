@@ -24,7 +24,7 @@
 					<h:outputText value="#{disciplinaTurmas.disciplina.nome}" /><br/>
 					<ui:repeat value="#{disciplinaTurmas.turmas}" var="turma">
 						<a4j:commandLink styleClass="menu_disciplina_turma" action="#{fachada.setTurmaAtual(turma)}"
-							value=":: Turma #{turma.numero}" reRender="docente_mutavel" /><br/>
+							value=":: Turma #{turma.numero}" reRender="docente_mutavel, editorPlano" /><br/>
 					</ui:repeat>
 				</ui:repeat>
 				</h:form>
@@ -93,11 +93,11 @@
 					<ui:include src="/calendario.xhtml"/>
 				</rich:tab>
 				<rich:tab label="Plano de Curso">
-					<table>
-						<tr>
-							<td>[PLANO DE CURSO]</td>
-						</tr>
-					</table>
+					<h:form>
+						<rich:editor useSeamText="true" id="editorPlano" value="#{fachada.turmaAtual.planoDeCurso}" theme="advanced" plugins="save,paste" />
+						<a4j:commandButton styleClass="botao_salvar" type="submit"
+								value="Salvar" action="#{fachada.persistePlanoDeCurso}"/>
+					</h:form>
 				</rich:tab>
 			</rich:tabPanel></div>
 

@@ -24,7 +24,7 @@
 						<a4j:commandLink
 							action="#{fachada.setAlunoTurmaAtual(alunoTurma)}"
 							value=":: #{alunoTurma.turma.disciplina.nome}"
-							reRender="discente_mutavel" /><br/>
+							reRender="discente_mutavel, planoDeCurso" /><br/>
 					</ui:repeat>
 				</h:form>
 			</rich:panel>
@@ -88,11 +88,9 @@
 					</rich:panel>
 				</rich:tab>
 				<rich:tab label="Plano de Curso">
-					<table>
-						<tr>
-							<td>[PLANO DE CURSO]</td>
-						</tr>
-					</table>
+					<a4j:outputPanel id="planoDeCurso">
+						<s:formattedText value="#{fachada.alunoTurmaAtual.turma.planoDeCurso}"/>
+					</a4j:outputPanel>
 				</rich:tab>
 			</rich:tabPanel></div>
 

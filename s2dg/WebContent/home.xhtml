@@ -12,7 +12,7 @@
 	<ui:define name="body">
 
 			<rich:tabPanel switchType="server">
-				<rich:tab label="Area do Docente"
+				<rich:tab label="Área do Docente"
 					rendered="#{identity.hasRole('professor')}">
 
 					<ui:include src="/layout/body_docente.xhtml">
@@ -21,7 +21,7 @@
 
 				</rich:tab>
 
-				<rich:tab label="Area do Discente"
+				<rich:tab label="Área do Discente"
 					rendered="#{identity.hasRole('aluno')}">
 
 

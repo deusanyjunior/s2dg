@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<rich:panel xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a4j="http://richfaces.org/a4j"
+	styleClass="border_zero">
+
+	<table class="dr-table rich-table" cellspacing="0" cellpadding="0"
+		border="0">
+		<thead class="dr-table-thead">
+			<tr class="dr-table-subheader rich-table-subheader">
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.inicioPeriodo}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div><h:outputText value="Início do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" /></div>
+				</th>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.inicioMatricula}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div>Início das Matrículas</div>
+				</th>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.fimMatricula}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div>Fim das Matrículas</div>
+				</th>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div>Último para Trancamento</div>
+				</th>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div>Fim da Implantação de Notas</div>
+				</th>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.fimPeriodo}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div><h:outputText value="Fim do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" /></div>
+				</th>
+				</rich:panel>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="dr-table-firstrow rich-table-firstrow">
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.inicioPeriodo}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.inicioPeriodo}" /></td>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.inicioMatricula}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.inicioMatricula}" /></td>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.fimMatricula}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.fimMatricula}" /></td>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.ultimoDiaTrancamento}" /></td>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.fimImplantacaoNotas}" /></td>
+				</rich:panel>
+				<rich:panel styleClass="border_zero" rendered="#{not empty fachada.calendario.fimPeriodo}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.fimPeriodo}" /></td>
+				</rich:panel>
+			</tr>
+		</tbody>
+	</table>
+
+</rich:panel>

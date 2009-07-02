@@ -157,16 +157,26 @@ public class Fachada {
 	}
 	
 	//Criado por Julio e Rennan
-	public String getEmail(String username) {
-		if (username.equals("") || username == null) {
-			System.err.println("usuario:"+username);
+	public String getEmail(String cpf) {
+		if (cpf.equals("") || cpf == null) {
+			System.err.println("usuario:"+cpf);
 			return "dienertalencar@gmail.com";
 		}
 		System.err.println("Chamando getUsuario");
-		Usuario user = usuarioDAO.getUsuario(username);
+		Usuario user = usuarioDAO.getUsuario(cpf);
 		if (user == null)
 			return null;
 		return user.getEmail();
+	}
+	
+	//Criado por Rennan
+	public boolean existeCpf(String cpf) {
+		if (cpf.equals("") || cpf == null) {
+			return false;
+		}
+		System.err.println("existe cpf");
+		Usuario user = usuarioDAO.getUsuario(cpf);
+		return user != null;		
 	}
 	
 	public List<Nota> getNotasDaTurma() {

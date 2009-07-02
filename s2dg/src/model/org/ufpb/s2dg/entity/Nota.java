@@ -61,7 +61,7 @@ public class Nota implements Serializable {
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_turma", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "id_turma", nullable = false, updatable = false)
 	@NotNull
 	public Turma getTurma() {
 		return turma;

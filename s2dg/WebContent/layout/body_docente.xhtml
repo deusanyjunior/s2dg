@@ -40,14 +40,14 @@
 
 			<div><rich:tabPanel switchType="client">
 				<rich:tab label="Principal">
-					<rich:panel styleClass="border_zero" id="docente_mutavel">
+					<rich:panel styleClass="border_zero">
 						<h:outputText styleClass="body_titulo_disciplina"
 							value="Disciplina: #{fachada.turmaAtual.disciplina.codigo} - #{fachada.turmaAtual.disciplina.nome}" />
 						<br />
 						<h:outputText value="Turma #{fachada.turmaAtual.numero}" />
 						<br />
 						<h:form>
-							<rich:dataTable var="alunoTurma" value="#{fachada.alunoTurmas}">
+							<rich:dataTable var="alunoTurma" value="#{fachada.alunoTurmas}" id="docente_mutavel">
 								<rich:column styleClass="action">
 									<f:facet name="header">Matrícula</f:facet>
 									<h:outputText value="#{alunoTurma.aluno.matricula}" />
@@ -60,14 +60,44 @@
 									<f:facet name="header">Número de Faltas</f:facet>
 									<rich:inputNumberSpinner value="#{alunoTurma.faltas}" />
 								</rich:column>
-								<rich:column styleClass="action">
+								<!--<a4j:repeat value="#{fachada.notasDaTurma}" var="nota">
+									<rich:column styleClass="action">
+										<f:facet name="header">
+											<h:outputText value="#{nota.nome}" />
+										</f:facet>
+									</rich:column>	
+								</a4j:repeat>
+
+								--><rich:column styleClass="action">
 									<f:facet name="header">Média Final</f:facet>
 									<h:inputText value="#{alunoTurma.media}" />
 								</rich:column>
 							</rich:dataTable>
-							<a4j:commandButton styleClass="botao_salvar" type="submit" value="Salvar"
-								action="#{fachada.persisteAlunoTurmas}" reRender="docente_mutavel" />
+							
+							
+							<h:selectBooleanCheckbox id="checkboxmedia"
+								value="#{fachada.turmaAtual.calcularMediaAutomaticamente}" />
+							<h:outputText for="checkboxmedia"
+								value="Calcular Média Automaticamente" />
+							<a4j:commandButton styleClass="botao_salvar" type="submit"
+								value="Salvar" action="#{fachada.persisteAlunoTurmas}"
+								reRender="docente_mutavel" />
 						</h:form>
+						
+						<br/>
+						<br/>
+						<br/>
+						<h:form>
+						<rich:simpleTogglePanel switchType="ajax"  label="Criar nota" opened="false" >
+								<h:outputText value="Nome da nota " /><h:inputText value="#{fachada.nota.nome}" />
+								<br/>
+								<h:outputText value="Peso da nota " /><h:inputText value="#{fachada.nota.peso}" />
+								<a4j:commandButton id="botao_criar" styleClass="botao_criar" type="submit"
+								value="Criar" action="#{fachada.criarNota}" oncomplete="#{rich:component('botao_criar')}.hide()"
+								reRender="docente_mutavel" />
+							</rich:simpleTogglePanel>
+						</h:form>
+						
 					</rich:panel>
 				</rich:tab>
 				<rich:tab label="Cronograma de Aulas">

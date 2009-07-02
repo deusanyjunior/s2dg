@@ -229,4 +229,8 @@ public class Fachada {
 		return calendario;
 	}
 	
+	public void persistePlanoDeCurso() {
+		turmaDAO.atualiza(turmaAtual);
+	}
+	
 }

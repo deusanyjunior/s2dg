@@ -109,10 +109,10 @@
 						<br/>
 						<br/>
 						<h:form>
-						<rich:simpleTogglePanel switchType="ajax" id="criar_nota"  label="Criar nota" opened="false" >
+						<rich:simpleTogglePanel  width="230px" switchType="ajax" id="criar_nota"  label="Criar nota" opened="false" >
 								<table><tr><td>
-								<h:outputText value="Nome da nota " /></td><td><h:inputText value="#{fachada.nota.nome}" /></td></tr>
-								<tr><td><h:outputText value="Peso da nota " /></td><td><h:inputText value="#{fachada.nota.peso}" /></td>
+								<h:outputText value="Nome " /></td><td><h:inputText value="#{fachada.nota.nome}" /></td></tr>
+								<tr><td><h:outputText value="Peso " /></td><td><h:inputText value="#{fachada.nota.peso}" /></td>
 								<td><a4j:commandButton styleClass="botao_criar" type="submit"
 								value="Criar" action="#{fachada.criarNota}"	reRender="tabela_notas, criar_nota, checkboxmedia" /></td></tr>
 								</table>

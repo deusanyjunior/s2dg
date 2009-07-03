@@ -31,5 +31,19 @@ public class AlunoTurmaNotaDAO {
 			return null;
 		}
 	}
+
+	public AlunoTurmaNota cria(AlunoTurma alunoTurma, Nota nota) {
+		AlunoTurmaNota novoAlunoTurmaNota = new AlunoTurmaNota();
+		novoAlunoTurmaNota.setAlunoTurma(alunoTurma);
+		novoAlunoTurmaNota.setNota(nota);
+		novoAlunoTurmaNota.setValorDaNota(0.0f);
+		entityManager.persist(novoAlunoTurmaNota);
+		entityManager.flush();
+		return novoAlunoTurmaNota;
+	}
+
+	public void atualiza(AlunoTurmaNota alunoTurmaNota) {
+		entityManager.merge(alunoTurmaNota);
+	}
 	
 }

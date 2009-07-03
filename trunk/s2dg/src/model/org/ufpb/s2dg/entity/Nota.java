@@ -25,6 +25,7 @@ public class Nota implements Serializable {
 	private Turma turma;
 	
 	public Nota(){
+		this.peso = 1;
 	}
 	
 	public Nota(long id, String nome, int peso, Turma turma) {

@@ -46,7 +46,7 @@ public class AlunoTurmaNota implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_aluno_turma", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "id_aluno_turma", nullable = false, updatable = false)
 	@NotNull
 	public AlunoTurma getAlunoTurma() {
 		return alunoTurma;
@@ -57,7 +57,7 @@ public class AlunoTurmaNota implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_nota", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "id_nota", nullable = false, updatable = false)
 	@NotNull
 	public Nota getNota() {
 		return nota;

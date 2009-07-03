@@ -1,5 +1,6 @@
 package org.ufpb.s2dg.session;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,7 +55,8 @@ public class Fachada {
 	private List<Nota> notas;
 	private Calendario calendario;
 	private Periodo periodoAtual;
-	private Nota nota =  new Nota(); 
+	private Nota nota = new Nota();
+	private List<AlunoTurmaNota> alunoTurmaNotas;
 
 	public Periodo getPeriodoAtual() {
 		return periodoAtual;
@@ -142,6 +144,7 @@ public class Fachada {
 					alunoTurmas.get(i).getAluno().setUsuario(getUsuarioAluno(alunoTurmas.get(i).getAluno().getMatricula()));
 				}
 				Collections.sort(alunoTurmas,new AlunoTurmaComparator());
+				alunoTurmaNotas = new ArrayList<AlunoTurmaNota>();
 				return alunoTurmas;
 			}
 		}
@@ -153,11 +156,33 @@ public class Fachada {
 	}
 	
 	public void persisteAlunoTurmas() {
-		if(turmaAtual != null)
+		if(turmaAtual != null) {
 			turmaDAO.atualiza(turmaAtual);
+			if(alunoTurmaNotas != null) {
+				for(int i = 0; i < alunoTurmaNotas.size(); i++)
+					alunoTurmaNotaDAO.atualiza(alunoTurmaNotas.get(i));
+			}
+			if(turmaAtual.isCalcularMediaAutomaticamente())
+				calculaMedias();
+			if(alunoTurmas != null) {
+				for(int i = 0; i < alunoTurmas.size(); i++)
+					alunoTurmaDAO.atualiza(alunoTurmas.get(i));
+			}
+		}
+	}
+	
+	private void calculaMedias() {
 		if(alunoTurmas != null) {
-			for(int i = 0; i < alunoTurmas.size(); i++)
-				alunoTurmaDAO.atualiza(alunoTurmas.get(i));
+			for(int i = 0; i < alunoTurmas.size(); i++) {
+				float somaNota = 0;
+				float somaPeso = 0;
+				for(int j = 0; j < notas.size(); j++) {
+					somaNota += alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmas.get(i), notas.get(j)).getValorDaNota()
+					* notas.get(j).getPeso();
+					somaPeso += notas.get(j).getPeso();
+				}
+				alunoTurmas.get(i).setMedia(somaNota/somaPeso);
+			}
 		}
 	}
 	
@@ -165,6 +190,7 @@ public class Fachada {
 		if((nota != null)&&(turmaAtual != null)) {
 			notaDAO.cria(nota, turmaAtual);
 			nota = new Nota();
+			turmaAtual.setCalcularMediaAutomaticamente(true);
 		}
 	}
 	
@@ -254,6 +280,17 @@ public class Fachada {
 	public void persistePlanoDeCurso() {
 		if(turmaAtual != null)
 			turmaDAO.atualiza(turmaAtual);
+	}
+	
+	public AlunoTurmaNota getAlunoTurmaNota(AlunoTurma alunoTurma,Nota nota) {
+		if((nota != null)&&(alunoTurma != null)) {
+			AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurma, nota);
+			if(alunoTurmaNota == null)
+				alunoTurmaNota = alunoTurmaNotaDAO.cria(alunoTurma, nota);
+			alunoTurmaNotas.add(alunoTurmaNota);
+			return alunoTurmaNota;
+		}
+		return null;
 	}
 	
 }

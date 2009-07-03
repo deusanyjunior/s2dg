@@ -1,79 +1,84 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
-<rich:panel xmlns:s="http://jboss.com/products/seam/taglib"
+<s:div xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:a4j="http://richfaces.org/a4j">
+	xmlns:a4j="http://richfaces.org/a4j"
+	>
 
-	<rich:dataTable onRowMouseOver="this.style.backgroundColor='#F1F1F1'"
-		onRowMouseOut="this.style.backgroundColor='#{a4jSkin.tableBackgroundColor}'"
-		cellpadding="0" cellspacing="0" width="700" border="0" var="record"
-		value="#{report.expReport.records}">
+	<table class="dr-table rich-table" cellspacing="0" cellpadding="0"
+		border="0">
+		<thead class="dr-table-thead">
+			<tr class="dr-table-subheader rich-table-subheader">
+				<s:div  rendered="#{not empty fachada.calendario.inicioPeriodo}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div><h:outputText value="Início do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" /></div>
+				</th>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.inicioMatricula}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div>Início das Matrículas</div>
+				</th>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.fimMatricula}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div>Fim das Matrículas</div>
+				</th>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div>Último Dia para Trancamento</div>
+				</th>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div>Fim da Implantação de Notas</div>
+				</th>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.fimPeriodo}">
+				<th class="dr-table-subheadercell rich-table-subheadercell"
+					scope="col">
+				<div><h:outputText value="Fim do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" /></div>
+				</th>
+				</s:div>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="dr-table-firstrow rich-table-firstrow">
+				<s:div  rendered="#{not empty fachada.calendario.inicioPeriodo}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.inicioPeriodo}" /></td>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.inicioMatricula}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.inicioMatricula}" /></td>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.fimMatricula}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.fimMatricula}" /></td>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.ultimoDiaTrancamento}" /></td>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.fimImplantacaoNotas}" /></td>
+				</s:div>
+				<s:div  rendered="#{not empty fachada.calendario.fimPeriodo}">
+				<td class="dr-table-cell rich-table-cell action">
+				<h:outputText value="#{fachada.calendario.fimPeriodo}" /></td>
+				</s:div>
+			</tr>
+		</tbody>
+	</table>
 
-		<f:facet name="header">
-			<rich:columnGroup>
-				<rich:column
-					rendered="#{not empty fachada.calendario.inicioPeriodo}">
-					<h:outputText
-						value="Início do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" />
-				</rich:column>
-				<rich:column
-					rendered="#{not empty fachada.calendario.inicioMatricula}">
-					<h:outputText value="Início das matrículas" />
-				</rich:column>
-				<rich:column rendered="#{not empty fachada.calendario.fimMatricula}">
-					<h:outputText value="Fim das matrículas" />
-				</rich:column>
-				<rich:column
-					rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
-					<h:outputText value="Último dia para trancamento" />
-				</rich:column>
-				<rich:column
-					rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
-					<h:outputText value="Fim da implantação de notas" />
-				</rich:column>
-				<rich:column rendered="#{not empty fachada.calendario.fimPeriodo}">
-					<h:outputText
-						value="Fim do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" />
-				</rich:column>
-			</rich:columnGroup>
-		</f:facet>
-
-		<f:facet name="footer" >
-		<rich:columnGroup style="background-color:White;">
-			<rich:column rendered="#{not empty fachada.calendario.inicioPeriodo}">
-                            <h:outputText
-					value="#{fachada.calendario.inicioPeriodo}" />
-			</rich:column>
-			<rich:column
-				rendered="#{not empty fachada.calendario.inicioMatricula}">
-                            <h:outputText
-					value="#{fachada.calendario.inicioMatricula}" />
-			</rich:column>
-			<rich:column rendered="#{not empty fachada.calendario.fimMatricula}">
-				<h:outputText value="#{fachada.calendario.fimMatricula}" />
-			</rich:column>
-			<rich:column
-				rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
-				<h:outputText value="#{fachada.calendario.ultimoDiaTrancamento}" />
-			</rich:column>
-			<rich:column
-				rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
-				<h:outputText value="#{fachada.calendario.fimImplantacaoNotas}" />
-			</rich:column>
-			<rich:column rendered="#{not empty fachada.calendario.fimPeriodo}">
-				<h:outputText value="#{fachada.calendario.fimPeriodo}" />
-			</rich:column>
-		</rich:columnGroup>
-		</f:facet>
-		
-
-	</rich:dataTable>
-
-</rich:panel>
-
-
-
+</s:div>

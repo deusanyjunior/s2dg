@@ -9,7 +9,6 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.richfaces.model.CalendarDataModel;
 import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaNota;
@@ -115,13 +114,16 @@ public class Fachada {
 	
 	public List<DisciplinaTurmas> getTurmasPorDisciplina() {
 		List<Turma> turmas = turmaDAO.getTurmas(usuario.getProfessor());
-		List<DisciplinaTurmas> disciplinaTurmas = DisciplinaTurmas.geraTurmasPorDisciplina(turmas);
-		if(disciplinaTurmas != null) {
-			List<Turma> dturmas = disciplinaTurmas.get(0).getTurmas();
-			if(dturmas != null)
-				turmaAtual = dturmas.get(0);
+		if(turmas != null) {
+			List<DisciplinaTurmas> disciplinaTurmas = DisciplinaTurmas.geraTurmasPorDisciplina(turmas);
+			if(disciplinaTurmas != null) {
+				List<Turma> dturmas = disciplinaTurmas.get(0).getTurmas();
+				if(dturmas != null)
+					turmaAtual = dturmas.get(0);
+			}
+			return disciplinaTurmas;
 		}
-		return disciplinaTurmas;
+		return null;
 	}
 
 	public Turma getTurmaAtual() {
@@ -133,12 +135,17 @@ public class Fachada {
 	}
 	
 	public List<AlunoTurma> getAlunoTurmas() {
-		alunoTurmas = alunoTurmaDAO.getAlunoTurmas(turmaAtual);
-		for(int i = 0; i < alunoTurmas.size(); i++) {
-			alunoTurmas.get(i).getAluno().setUsuario(getUsuarioAluno(alunoTurmas.get(i).getAluno().getMatricula()));
+		if(turmaAtual != null) {
+			alunoTurmas = alunoTurmaDAO.getAlunoTurmas(turmaAtual);
+			if(alunoTurmas != null) {
+				for(int i = 0; i < alunoTurmas.size(); i++) {
+					alunoTurmas.get(i).getAluno().setUsuario(getUsuarioAluno(alunoTurmas.get(i).getAluno().getMatricula()));
+				}
+				Collections.sort(alunoTurmas,new AlunoTurmaComparator());
+				return alunoTurmas;
+			}
 		}
-		Collections.sort(alunoTurmas,new AlunoTurmaComparator());
-		return alunoTurmas;
+		return null;
 	}
 	
 	public Usuario getUsuarioAluno(String matricula) {
@@ -146,14 +153,19 @@ public class Fachada {
 	}
 	
 	public void persisteAlunoTurmas() {
-		turmaDAO.atualiza(turmaAtual);
-		for(int i = 0; i < alunoTurmas.size(); i++)
-			alunoTurmaDAO.atualiza(alunoTurmas.get(i));
+		if(turmaAtual != null)
+			turmaDAO.atualiza(turmaAtual);
+		if(alunoTurmas != null) {
+			for(int i = 0; i < alunoTurmas.size(); i++)
+				alunoTurmaDAO.atualiza(alunoTurmas.get(i));
+		}
 	}
 	
 	public void criarNota() {
-		notaDAO.cria(nota, turmaAtual);
-		nota = new Nota();
+		if((nota != null)&&(turmaAtual != null)) {
+			notaDAO.cria(nota, turmaAtual);
+			nota = new Nota();
+		}
 	}
 	
 	//Criado por Julio e Rennan
@@ -202,27 +214,37 @@ public class Fachada {
 	}
 	
 	public float getValorDaNota(Nota nota) {
-		AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmaAtual,nota);
-		if(alunoTurmaNota != null)
-			return alunoTurmaNota.getValorDaNota();
-		else
-			return 0;
+		if((alunoTurmaAtual != null)&&(nota != null)) {
+			AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmaAtual,nota);
+			if(alunoTurmaNota != null)
+				return alunoTurmaNota.getValorDaNota();
+			else
+				return 0;
+		}
+		return 0;
 	}
 	
 	public float getValorDaNota(AlunoTurma alunoTurma, Nota nota) {
+		if((alunoTurma != null)&&(nota != null)) {
 		AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurma,nota);
 		if(alunoTurmaNota != null)
 			return alunoTurmaNota.getValorDaNota();
 		else
 			return 0;
+		}
+		return 0;
 	}
 	
 	@Create
 	public void initCalendario() {
 		Global global = globalDAO.getGlobal();
-		Periodo p = global.getPeriodoAtual();
-		periodoAtual = new Periodo(p);
-		calendario = calendarioDAO.getCalendario(periodoAtual);
+		if(global != null) {
+			Periodo p = global.getPeriodoAtual();
+			if(p != null) {
+				periodoAtual = new Periodo(p);
+				calendario = calendarioDAO.getCalendario(periodoAtual);
+			}
+		}
 	}
 	
 	public Calendario getCalendario() {
@@ -230,7 +252,8 @@ public class Fachada {
 	}
 	
 	public void persistePlanoDeCurso() {
-		turmaDAO.atualiza(turmaAtual);
+		if(turmaAtual != null)
+			turmaDAO.atualiza(turmaAtual);
 	}
 	
 }

@@ -33,7 +33,7 @@
 			</div>
 			<br></br>
 
-			<rich:calendar popup="false" locale="pt_BR" datePattern="dd/MMM/yyyy">
+			<rich:calendar popup="false" locale="pt_BR" showFooter="false">
 			</rich:calendar></td>
 
 			<td style="padding-left: 20px;" height="100%">
@@ -49,7 +49,7 @@
 						<h:form>
 							<rich:panel styleClass="border_zero" id="tabela_notas">
 							<table class="dr-table rich-table" cellspacing="0"
-								cellpadding="0" border="0">
+								cellpadding="0" border="1" style="text-align: center;">
 								<thead class="dr-table-thead">
 									<tr class="dr-table-subheader rich-table-subheader">
 										<th class="dr-table-subheadercell rich-table-subheadercell"
@@ -67,7 +67,24 @@
 										<ui:repeat value="#{fachada.notasDaTurma}" var="nota">
 											<th class="dr-table-subheadercell rich-table-subheadercell"
 												scope="col">
-											<div><h:outputText value="#{nota.nome}" /></div>
+											<center>
+											<table style="text-align: center;">
+												<tr>
+													<td><h:outputText value="#{nota.nome}" /></td>
+													<td><a4j:commandLink id="excluir" action="#{fachada.setNota(nota)}">
+														<img alt="remover" src="img/del.png" />
+														<rich:componentControl for="excluir_avaliacao" attachTo="excluir" operation="show" event="onclick" />
+													</a4j:commandLink>
+													</td>
+												</tr>
+												<tr>
+													<td><h:outputText value="peso: #{nota.peso}" /></td>
+													<td><a4j:commandLink action="#{fachada.setNotaParaEdicao(nota)}" reRender="criar_nota">
+														<img alt="editar" src="img/edit.png"/>
+													</a4j:commandLink></td>
+												</tr>
+											</table>
+											</center>
 											</th>
 										</ui:repeat>
 										<th class="dr-table-subheadercell rich-table-subheadercell"
@@ -109,14 +126,21 @@
 						<br/>
 						<br/>
 						<h:form>
-						<rich:simpleTogglePanel  width="230px" switchType="ajax" id="criar_nota"  label="Criar nota" opened="false" >
+						<rich:panel  width="230px" id="criar_nota" >
+								<f:facet name="header">
+									<h:outputText value="#{fachada.criarOuEditar?'Criar':'Editar'} Avaliação" />
+								</f:facet>
 								<table><tr><td>
-								<h:outputText value="Nome " /></td><td><h:inputText value="#{fachada.nota.nome}" /></td></tr>
-								<tr><td><h:outputText value="Peso " /></td><td><h:inputText value="#{fachada.nota.peso}" /></td>
-								<td><a4j:commandButton styleClass="botao_criar" type="submit"
-								value="Criar" action="#{fachada.criarNota}"	reRender="tabela_notas, criar_nota, checkboxmedia" /></td></tr>
+								<h:outputText value="Nome: " /></td><td><h:inputText value="#{fachada.nota.nome}" /></td>
+								<td><a4j:commandButton type="submit" rendered="#{not fachada.criarOuEditar}" reRender="criar_nota, tabela_notas"
+								value="Atualizar" action="#{fachada.atualizarAvaliacao}"/></td></tr>
+								<tr><td><h:outputText value="Peso:" /></td><td><rich:inputNumberSpinner minValue="1" cycled="false" value="#{fachada.nota.peso}" /></td>
+								<td><a4j:commandButton styleClass="botao_criar" type="submit" rendered="#{fachada.criarOuEditar}"
+								value="Criar" action="#{fachada.criarNota}"	reRender="tabela_notas, criar_nota, checkboxmedia" />
+								<a4j:commandButton type="submit" rendered="#{not fachada.criarOuEditar}"
+								value="Cancelar" action="#{fachada.cancelarEdicao}" reRender="criar_nota"/></td></tr>
 								</table>
-							</rich:simpleTogglePanel>
+							</rich:panel>
 						</h:form>
 					</rich:panel>
 				</rich:tab>
@@ -138,4 +162,24 @@
 			</td>
 		</tr>
 	</table>
+	<rich:modalPanel id="excluir_avaliacao" width="485" height="100">
+		<f:facet name="header">
+			<h:panelGroup>
+				<h:outputText value="Atenção!"/>
+			</h:panelGroup>
+		</f:facet>
+		<center>
+		<h:outputText
+			value="Tem certeza que deseja excluir a avaliação e todas as suas notas?"/>
+		<br />
+		<h:form>
+		<a4j:commandButton id="botaosim" action="#{fachada.excluiAvaliacao}" value="Sim" reRender="tabela_notas">
+			<rich:componentControl for="excluir_avaliacao" attachTo="botaosim" operation="hide" event="onclick" />
+		</a4j:commandButton>
+		<a4j:commandButton id="botaonao" action="#{fachada.cancelaExclusao}" value="Não">
+			<rich:componentControl for="excluir_avaliacao" attachTo="botaonao" operation="hide" event="onclick" />
+		</a4j:commandButton>
+		</h:form>
+		</center>
+	</rich:modalPanel>
 </rich:panel>

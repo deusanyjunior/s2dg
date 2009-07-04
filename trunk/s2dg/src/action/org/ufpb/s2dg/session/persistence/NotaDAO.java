@@ -33,4 +33,18 @@ public class NotaDAO {
 		entityManager.persist(novaNota);
 	}
 
+	public void atualiza(Nota nota) {
+		if(nota != null) {
+			entityManager.merge(nota);
+		}
+	}
+
+	public void remove(Nota nota) {
+		if(nota != null) {
+			nota = entityManager.find(nota.getClass(),nota.getId());
+			entityManager.remove(nota);
+			entityManager.flush();
+		}
+	}
+
 }

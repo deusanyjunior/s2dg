@@ -6,75 +6,67 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:a4j="http://richfaces.org/a4j"
-	>
+	xmlns:a4j="http://richfaces.org/a4j">
 
-	<table class="dr-table rich-table" cellspacing="0" cellpadding="0"
-		border="0">
-		<thead class="dr-table-thead">
-			<tr class="dr-table-subheader rich-table-subheader">
+	<table border="1" style="text-align: center;" width="100%">
+		<thead>
+			<tr>
 				<s:div  rendered="#{not empty fachada.calendario.inicioPeriodo}">
-				<th class="dr-table-subheadercell rich-table-subheadercell"
-					scope="col">
+				<th>
 				<div><h:outputText value="Início do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" /></div>
 				</th>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.inicioMatricula}">
-				<th class="dr-table-subheadercell rich-table-subheadercell"
-					scope="col">
+				<th>
 				<div>Início das Matrículas</div>
 				</th>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.fimMatricula}">
-				<th class="dr-table-subheadercell rich-table-subheadercell"
-					scope="col">
+				<th>
 				<div>Fim das Matrículas</div>
 				</th>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
-				<th class="dr-table-subheadercell rich-table-subheadercell"
-					scope="col">
+				<th>
 				<div>Último Dia para Trancamento</div>
 				</th>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
-				<th class="dr-table-subheadercell rich-table-subheadercell"
-					scope="col">
+				<th>
 				<div>Fim da Implantação de Notas</div>
 				</th>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.fimPeriodo}">
-				<th class="dr-table-subheadercell rich-table-subheadercell"
-					scope="col">
+				<th>
 				<div><h:outputText value="Fim do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" /></div>
 				</th>
 				</s:div>
 			</tr>
 		</thead>
 		<tbody>
-			<tr class="dr-table-firstrow rich-table-firstrow">
+			<tr>
 				<s:div  rendered="#{not empty fachada.calendario.inicioPeriodo}">
-				<td class="dr-table-cell rich-table-cell action">
+				<td>
 				<h:outputText value="#{fachada.calendario.inicioPeriodo}" /></td>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.inicioMatricula}">
-				<td class="dr-table-cell rich-table-cell action">
+				<td>
 				<h:outputText value="#{fachada.calendario.inicioMatricula}" /></td>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.fimMatricula}">
-				<td class="dr-table-cell rich-table-cell action">
+				<td>
 				<h:outputText value="#{fachada.calendario.fimMatricula}" /></td>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
-				<td class="dr-table-cell rich-table-cell action">
+				<td>
 				<h:outputText value="#{fachada.calendario.ultimoDiaTrancamento}" /></td>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
-				<td class="dr-table-cell rich-table-cell action">
+				<td>
 				<h:outputText value="#{fachada.calendario.fimImplantacaoNotas}" /></td>
 				</s:div>
 				<s:div  rendered="#{not empty fachada.calendario.fimPeriodo}">
-				<td class="dr-table-cell rich-table-cell action">
+				<td>
 				<h:outputText value="#{fachada.calendario.fimPeriodo}" /></td>
 				</s:div>
 			</tr>

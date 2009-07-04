@@ -48,43 +48,27 @@
 							value="Turma #{fachada.alunoTurmaAtual.turma.numero}" />
 						<br />
 						<h:outputText value="Professor: #{fachada.nomeDoProfessorAtual}" />
-						<br /><br />
-						
-
-						<table class="dr-table rich-table" cellspacing="0" cellpadding="0"
-							border="0">
-							<thead class="dr-table-thead">
-								<tr class="dr-table-subheader rich-table-subheader">
-									<th class="dr-table-subheadercell rich-table-subheadercell"
-										scope="col">
-									<div>Número de Faltas</div>
-									</th>
-									<ui:repeat value="#{fachada.notasDoBanco}" var="nota">
-										<th class="dr-table-subheadercell rich-table-subheadercell"
-											scope="col">
-										<div><h:outputText value="#{nota.nome}" /></div>
-										</th>
-									</ui:repeat>
-									<th class="dr-table-subheadercell rich-table-subheadercell"
-										scope="col">
-									<div>Média Final</div>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr class="dr-table-firstrow rich-table-firstrow">
-									<td class="dr-table-cell rich-table-cell action"><h:outputText
-										value="#{fachada.alunoTurmaAtual.faltas}" /></td>
-									<ui:repeat value="#{fachada.notas}" var="nota">
-										<td class="dr-table-cell rich-table-cell action"><h:outputText
-											value="#{fachada.getValorDaNota(nota)}" /></td>
-									</ui:repeat>
-									<td class="dr-table-cell rich-table-cell action"><h:outputText
-										value="#{fachada.alunoTurmaAtual.media}" /></td>
-								</tr>
-							</tbody>
-						</table>
-
+						<br /><br />						
+						<rich:dataTable value="#{fachada.alunoTurmaList}" var="alunoTurma" style="text-align: center;" >   
+						  <rich:column>
+							<f:facet name="header">
+								Número de Faltas
+							</f:facet>
+							<h:outputText value="#{alunoTurma.faltas}" />
+						  </rich:column>
+						  <rich:columns value="#{fachada.notas}" var="nota">
+							<f:facet name="header">
+								<h:outputText value="#{nota.nome}(peso:#{nota.peso})" />
+							</f:facet>
+							<h:outputText value="#{fachada.getValorDaNota(nota)}" />
+						  </rich:columns>
+						  <rich:column>
+							<f:facet name="header">
+								Média Final
+							</f:facet>
+							<h:outputText value="#{alunoTurma.media}" />
+						  </rich:column>
+						</rich:dataTable> 
 					</rich:panel>
 				</rich:tab>
 				<rich:tab label="Cronograma de Aulas">

@@ -1,5 +1,7 @@
 package org.ufpb.s2dg.session.persistence;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 
@@ -31,6 +33,20 @@ public class AlunoTurmaNotaDAO {
 			return null;
 		}
 	}
+	
+	public List<AlunoTurmaNota> getAlunoTurmaNota(Nota nota) {
+		try {
+			if (nota != null) {
+				Object result = entityManager.createQuery(
+				"select alunoTurmaNota from AlunoTurmaNota as alunoTurmaNota where alunoTurmaNota.nota =:nota")
+				.setParameter("nota", nota)
+				.getResultList();
+				return (List<AlunoTurmaNota>) result; 
+			} else return null;
+		} catch(NoResultException e) {
+			return null;
+		}
+	}
 
 	public AlunoTurmaNota cria(AlunoTurma alunoTurma, Nota nota) {
 		AlunoTurmaNota novoAlunoTurmaNota = new AlunoTurmaNota();
@@ -44,6 +60,14 @@ public class AlunoTurmaNotaDAO {
 
 	public void atualiza(AlunoTurmaNota alunoTurmaNota) {
 		entityManager.merge(alunoTurmaNota);
+	}
+
+	public void remove(AlunoTurmaNota atn) {
+		if(atn != null) {
+			atn = entityManager.find(atn.getClass(),atn.getId());
+			entityManager.remove(atn);
+			entityManager.flush();
+		}
 	}
 	
 }

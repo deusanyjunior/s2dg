@@ -1,7 +1,6 @@
 package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
@@ -57,6 +56,15 @@ public class Fachada {
 	private Periodo periodoAtual;
 	private Nota nota = new Nota();
 	private List<AlunoTurmaNota> alunoTurmaNotas;
+	private boolean criarOuEditar;
+
+	public boolean isCriarOuEditar() {
+		return criarOuEditar;
+	}
+
+	public void setCriarOuEditar(boolean criarOuEditar) {
+		this.criarOuEditar = criarOuEditar;
+	}
 
 	public Periodo getPeriodoAtual() {
 		return periodoAtual;
@@ -72,6 +80,16 @@ public class Fachada {
 
 	public void setNota(Nota nota) {
 		this.nota = nota;
+	}
+	
+	public void setNotaParaEdicao(Nota nota) {
+		this.nota = nota;
+		criarOuEditar = false;
+	}
+	
+	public void cancelarEdicao() {
+		this.nota = new Nota();
+		criarOuEditar = true;
 	}
 
 	public Usuario getUsuario() {
@@ -94,6 +112,7 @@ public class Fachada {
 			List<AlunoTurma> alunoTurmas = alunoTurmaDAO.getAlunoTurmas(aluno);
 			if (alunoTurmas.size() > 0) {
 				alunoTurmaAtual = alunoTurmas.get(0);
+				notas = getNotasDoBanco();
 				return alunoTurmas;
 			}
 		}
@@ -143,7 +162,6 @@ public class Fachada {
 				for(int i = 0; i < alunoTurmas.size(); i++) {
 					alunoTurmas.get(i).getAluno().setUsuario(getUsuarioAluno(alunoTurmas.get(i).getAluno().getMatricula()));
 				}
-				Collections.sort(alunoTurmas,new AlunoTurmaComparator());
 				alunoTurmaNotas = new ArrayList<AlunoTurmaNota>();
 				return alunoTurmas;
 			}
@@ -162,8 +180,9 @@ public class Fachada {
 				for(int i = 0; i < alunoTurmaNotas.size(); i++)
 					alunoTurmaNotaDAO.atualiza(alunoTurmaNotas.get(i));
 			}
-			if(turmaAtual.isCalcularMediaAutomaticamente())
-				calculaMedias();
+			if((turmaAtual.isCalcularMediaAutomaticamente())&&(alunoTurmas != null))
+				if(alunoTurmas.size() > 0)
+					calculaMedias();
 			if(alunoTurmas != null) {
 				for(int i = 0; i < alunoTurmas.size(); i++)
 					alunoTurmaDAO.atualiza(alunoTurmas.get(i));
@@ -271,6 +290,7 @@ public class Fachada {
 				calendario = calendarioDAO.getCalendario(periodoAtual);
 			}
 		}
+		criarOuEditar = true;
 	}
 	
 	public Calendario getCalendario() {
@@ -291,6 +311,36 @@ public class Fachada {
 			return alunoTurmaNota;
 		}
 		return null;
+	}
+	
+	public List<AlunoTurma> getAlunoTurmaList() {
+		if(alunoTurmaAtual != null) {
+			List<AlunoTurma> list = new ArrayList<AlunoTurma>();
+			list.add(alunoTurmaAtual);
+			return list;
+		}
+		else return null;
+	}
+	
+	public void atualizarAvaliacao() {
+		notaDAO.atualiza(this.nota);
+		this.nota = new Nota();
+		criarOuEditar = true;
+	}
+	
+	public void cancelaExclusao() {
+		this.nota = new Nota();
+	}
+	
+	public void excluiAvaliacao() {
+		List<AlunoTurmaNota> alunoTurmaNotas = alunoTurmaNotaDAO.getAlunoTurmaNota(nota);
+		if(alunoTurmaNotas != null) {
+		for(int i = 0; i < alunoTurmaNotas.size(); i++)
+			alunoTurmaNotaDAO.remove(alunoTurmaNotas.get(i));
+		}
+		notaDAO.remove(nota);
+		this.nota = new Nota();
+		criarOuEditar = true;
 	}
 	
 }

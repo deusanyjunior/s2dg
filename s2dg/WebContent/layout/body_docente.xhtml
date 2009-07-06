@@ -9,24 +9,28 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	style="margin:0;border-width:0;padding:0px;">
 
+	<a4j:loadBundle basename="messages" var="msg" />
+
 	<table width="100%">
 		<tr>
 			<td width="200px">
 			<div class="menu_disciplinas">
 			<center><h:outputText styleClass="menu_disciplinas_titulo"
 				value="Disciplinas Ministradas" /></center>
-			<div class="menu_disciplinas_lista">
-			<h:form>
+			<div class="menu_disciplinas_lista"><h:form>
 				<ui:repeat value="#{fachada.turmasPorDisciplina}"
 					var="disciplinaTurmas">
-					<h:outputText value="#{disciplinaTurmas.disciplina.nome}" /><br/>
+					<h:outputText value="#{disciplinaTurmas.disciplina.nome}" />
+					<br />
 					<ui:repeat value="#{disciplinaTurmas.turmas}" var="turma">
-						<a4j:commandLink styleClass="menu_disciplina_turma" action="#{fachada.setTurmaAtual(turma)}"
-							value=":: Turma #{turma.numero}" reRender="titulo_disciplina,titulo_turma,tabela_notas,checkboxmedia,editorPlano" /><br/>
+						<a4j:commandLink styleClass="menu_disciplina_turma"
+							action="#{fachada.setTurmaAtual(turma)}"
+							value=":: Turma #{turma.numero}"
+							reRender="titulo_disciplina,titulo_turma,tabela_notas,checkboxmedia,editorPlano" />
+						<br />
 					</ui:repeat>
 				</ui:repeat>
-				</h:form>
-			</div>
+			</h:form></div>
 			</div>
 			<br></br>
 
@@ -35,84 +39,90 @@
 
 			<td style="padding-left: 20px;" height="100%">
 
-			<div><rich:tabPanel switchType="client">
+			<div>
+			<rich:tabPanel switchType="client">
 				<rich:tab label="Principal">
-					<rich:panel styleClass="border_zero" >
-						<h:outputText styleClass="body_titulo_disciplina" id="titulo_disciplina"
+					<rich:panel styleClass="border_zero">
+						<h:outputText styleClass="body_titulo_disciplina"
+							id="titulo_disciplina"
 							value="Disciplina: #{fachada.turmaAtual.disciplina.codigo} - #{fachada.turmaAtual.disciplina.nome}" />
 						<br />
-						<h:outputText value="Turma #{fachada.turmaAtual.numero}" id="titulo_turma" />
+						<h:outputText value="Turma #{fachada.turmaAtual.numero}"
+							id="titulo_turma" />
 						<br />
 						<h:form>
 							<rich:panel styleClass="border_zero" id="tabela_notas">
-							<table class="dr-table rich-table" cellspacing="0"
-								cellpadding="0" border="1" style="text-align: center;">
-								<thead class="dr-table-thead">
-									<tr class="dr-table-subheader rich-table-subheader">
-										<th class="dr-table-subheadercell rich-table-subheadercell"
-											scope="col">
-										<div>Matrï¿½cula</div>
-										</th>
-										<th class="dr-table-subheadercell rich-table-subheadercell"
-											scope="col">
-										<div>Aluno</div>
-										</th>
-										<th class="dr-table-subheadercell rich-table-subheadercell"
-											scope="col">
-										<div>Nï¿½mero de Faltas</div>
-										</th>
-										<ui:repeat value="#{fachada.notasDaTurma}" var="nota">
+								<table class="dr-table rich-table" cellspacing="0"
+									cellpadding="0" border="1" style="text-align: center;">
+									<thead class="dr-table-thead">
+										<tr class="dr-table-subheader rich-table-subheader">
+											<th class="matricula dr-table-subheadercell rich-table-subheadercell"
+												scope="col">
+											Matrícula
+											</th>
+											<th class="aluno dr-table-subheadercell rich-table-subheadercell"
+												scope="col">
+											Aluno
+											</th>
+											<th class="faltas dr-table-subheadercell rich-table-subheadercell"
+												scope="col">
+											Faltas
+											</th>
+											<ui:repeat value="#{fachada.notasDaTurma}" var="nota">
+												<th class="dr-table-subheadercell rich-table-subheadercell"
+													scope="col">
+												<center>
+												<table style="text-align: center;">
+													<tr>
+														<td><h:outputText value="#{nota.nome}" /></td>
+														<td><a4j:commandLink id="excluir"
+															action="#{fachada.setNota(nota)}">
+															<img alt="remover" src="img/del.png" />
+															<rich:componentControl for="excluir_avaliacao"
+																attachTo="excluir" operation="show" event="onclick" />
+														</a4j:commandLink></td>
+													</tr>
+													<tr>
+														<td><h:outputText value="peso: #{nota.peso}" /></td>
+														<td><a4j:commandLink
+															action="#{fachada.setNotaParaEdicao(nota)}"
+															reRender="criar_nota">
+															<img alt="editar" src="img/edit.png" />
+														</a4j:commandLink></td>
+													</tr>
+												</table>
+												</center>
+												</th>
+											</ui:repeat>
 											<th class="dr-table-subheadercell rich-table-subheadercell"
 												scope="col">
-											<center>
-											<table style="text-align: center;">
-												<tr>
-													<td><h:outputText value="#{nota.nome}" /></td>
-													<td><a4j:commandLink id="excluir" action="#{fachada.setNota(nota)}">
-														<img alt="remover" src="img/del.png" />
-														<rich:componentControl for="excluir_avaliacao" attachTo="excluir" operation="show" event="onclick" />
-													</a4j:commandLink>
-													</td>
-												</tr>
-												<tr>
-													<td><h:outputText value="peso: #{nota.peso}" /></td>
-													<td><a4j:commandLink action="#{fachada.setNotaParaEdicao(nota)}" reRender="criar_nota">
-														<img alt="editar" src="img/edit.png"/>
-													</a4j:commandLink></td>
-												</tr>
-											</table>
-											</center>
+											Média Final
 											</th>
+										</tr>
+									</thead>
+									<tbody>
+										<ui:repeat var="alunoTurma" value="#{fachada.alunoTurmas}">
+											<tr class="dr-table-firstrow rich-table-firstrow">
+												<td class="matricula dr-table-cell rich-table-cell action"><h:outputText
+													value="#{alunoTurma.aluno.matricula}" /></td>
+												<td class="nome_aluno dr-table-cell rich-table-cell action"><h:outputText
+													value="#{alunoTurma.aluno.usuario.nome}" /></td>
+												<td class="faltas dr-table-cell rich-table-cell action"><h:inputText styleClass="faltas"
+													value="#{alunoTurma.faltas}" /></td>
+												<ui:repeat value="#{fachada.notas}" var="nota">
+													<td class="dr-table-cell rich-table-cell action"><h:inputText
+														value="#{fachada.getAlunoTurmaNota(alunoTurma, nota).valorDaNota}" /></td>
+												</ui:repeat>
+												<td class="dr-table-cell rich-table-cell action"><h:inputText
+													value="#{alunoTurma.media}"
+													readonly="#{fachada.turmaAtual.calcularMediaAutomaticamente}">
+													<f:convertNumber maxFractionDigits="2"
+														minFractionDigits="2" />
+												</h:inputText></td>
+											</tr>
 										</ui:repeat>
-										<th class="dr-table-subheadercell rich-table-subheadercell"
-											scope="col">
-										<div>Mï¿½dia Final</div>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<ui:repeat var="alunoTurma" value="#{fachada.alunoTurmas}" >
-									<tr class="dr-table-firstrow rich-table-firstrow">
-										<td class="dr-table-cell rich-table-cell action">
-										<h:outputText value="#{alunoTurma.aluno.matricula}" /></td>
-										<td class="dr-table-cell rich-table-cell action">
-										<h:outputText value="#{alunoTurma.aluno.usuario.nome}" /></td>
-										<td class="dr-table-cell rich-table-cell action">
-										<h:inputText value="#{alunoTurma.faltas}" /></td>
-										<ui:repeat value="#{fachada.notas}" var="nota">
-											<td class="dr-table-cell rich-table-cell action">
-											<h:inputText value="#{fachada.getAlunoTurmaNota(alunoTurma, nota).valorDaNota}" /></td>
-										</ui:repeat>
-										<td class="dr-table-cell rich-table-cell action">
-										<h:inputText value="#{alunoTurma.media}" 
-											readonly="#{fachada.turmaAtual.calcularMediaAutomaticamente}">
-												<f:convertNumber maxFractionDigits="2"
-																 minFractionDigits="2" />
-										</h:inputText></td>
-									</tr>
-									</ui:repeat>
-								</tbody>
-							</table>
+									</tbody>
+								</table>
 							</rich:panel>
 							<h:selectBooleanCheckbox id="checkboxmedia"
 								value="#{fachada.turmaAtual.calcularMediaAutomaticamente}">
@@ -121,19 +131,20 @@
 									limitToList="true" />
 							</h:selectBooleanCheckbox>
 							<h:outputText for="checkboxmedia"
-								value="Calcular Mï¿½dia Automaticamente" />
+								value="Calcular Média Automaticamente" />
 							<a4j:commandButton styleClass="botao_salvar" type="submit"
 								value="Salvar" action="#{fachada.persisteAlunoTurmas}"
 								reRender="tabela_notas" />
 						</h:form>
-						
-						<br/>
-						<br/>
-						<br/>
+
+						<br />
+						<br />
+						<br />
 						<h:form>
-						<rich:panel  width="230px" id="criar_nota" >
+							<rich:panel width="230px" id="criar_nota">
 								<f:facet name="header">
-									<h:outputText value="#{fachada.criarOuEditar?'Criar':'Editar'} Avaliaï¿½ï¿½o" />
+									<h:outputText
+										value="#{fachada.criarOuEditar?'Criar':'Editar'} Avaliação" />
 								</f:facet>
 								<table>
 									<tr>
@@ -162,16 +173,18 @@
 					</rich:panel>
 				</rich:tab>
 				<rich:tab label="Cronograma de Aulas">
-					<ui:include src="/calendario.xhtml"/>
+					<ui:include src="/calendario.xhtml" />
 				</rich:tab>
 				<rich:tab label="Plano de Curso">
 					<h:form>
 						<center>
-						<rich:editor useSeamText="true" id="editorPlano" value="#{fachada.turmaAtual.planoDeCurso}"
-									 theme="advanced" plugins="save,paste" language="pt" height="300" width="500" />
-						<a4j:commandButton type="submit"
-								value="Salvar" action="#{fachada.persistePlanoDeCurso}"/>
-						</center>
+						<rich:editor useSeamText="true" id="editorPlano"
+							value="#{fachada.turmaAtual.planoDeCurso}" width="600" height="200" theme="advanced"
+							plugins="save,paste" language="pt" /> <a4j:commandButton
+							type="submit" value="Salvar"
+							action="#{fachada.persistePlanoDeCurso}" />
+							
+							</center>
 					</h:form>
 				</rich:tab>
 			</rich:tabPanel></div>
@@ -182,21 +195,23 @@
 	<rich:modalPanel id="excluir_avaliacao" width="485" height="100">
 		<f:facet name="header">
 			<h:panelGroup>
-				<h:outputText value="Atenï¿½ï¿½o!"/>
+				<h:outputText value="Atenï¿½ï¿½o!" />
 			</h:panelGroup>
 		</f:facet>
-		<center>
-		<h:outputText
-			value="Tem certeza que deseja excluir a avaliaï¿½ï¿½o e todas as suas notas?"/>
+		<center><h:outputText
+			value="Tem certeza que deseja excluir a avaliaï¿½ï¿½o e todas as suas notas?" />
 		<br />
 		<h:form>
-		<a4j:commandButton id="botaosim" action="#{fachada.excluiAvaliacao}" value="Sim" reRender="tabela_notas">
-			<rich:componentControl for="excluir_avaliacao" attachTo="botaosim" operation="hide" event="onclick" />
-		</a4j:commandButton>
-		<a4j:commandButton id="botaonao" action="#{fachada.cancelaExclusao}" value="Nï¿½o">
-			<rich:componentControl for="excluir_avaliacao" attachTo="botaonao" operation="hide" event="onclick" />
-		</a4j:commandButton>
-		</h:form>
-		</center>
+			<a4j:commandButton id="botaosim" action="#{fachada.excluiAvaliacao}"
+				value="Sim" reRender="tabela_notas">
+				<rich:componentControl for="excluir_avaliacao" attachTo="botaosim"
+					operation="hide" event="onclick" />
+			</a4j:commandButton>
+			<a4j:commandButton id="botaonao" action="#{fachada.cancelaExclusao}"
+				value="Nï¿½o">
+				<rich:componentControl for="excluir_avaliacao" attachTo="botaonao"
+					operation="hide" event="onclick" />
+			</a4j:commandButton>
+		</h:form></center>
 	</rich:modalPanel>
 </rich:panel>

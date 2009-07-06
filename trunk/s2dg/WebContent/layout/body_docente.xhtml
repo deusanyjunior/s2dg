@@ -26,7 +26,7 @@
 						<a4j:commandLink styleClass="menu_disciplina_turma"
 							action="#{fachada.setTurmaAtual(turma)}"
 							value=":: Turma #{turma.numero}"
-							reRender="titulo_disciplina,titulo_turma,tabela_notas,checkboxmedia,editorPlano" />
+							reRender="titulo_disciplina_doc,titulo_turma_doc,tabela_notas,checkboxmedia,editorPlano" />
 						<br />
 					</ui:repeat>
 				</ui:repeat>
@@ -38,18 +38,16 @@
 			</rich:calendar></td>
 
 			<td style="padding-left: 20px;" height="100%">
-
+				<h:outputText styleClass="body_titulo_disciplina" id="titulo_disciplina_doc"
+					value="Disciplina: #{fachada.turmaAtual.disciplina.codigo} - #{fachada.turmaAtual.disciplina.nome}" />
+				<br />
+				<h:outputText value="Turma #{fachada.turmaAtual.numero}" id="titulo_turma_doc" />
+				<br />
+				<br />
 			<div>
 			<rich:tabPanel switchType="client">
 				<rich:tab label="Principal">
 					<rich:panel styleClass="border_zero">
-						<h:outputText styleClass="body_titulo_disciplina"
-							id="titulo_disciplina"
-							value="Disciplina: #{fachada.turmaAtual.disciplina.codigo} - #{fachada.turmaAtual.disciplina.nome}" />
-						<br />
-						<h:outputText value="Turma #{fachada.turmaAtual.numero}"
-							id="titulo_turma" />
-						<br />
 						<h:form>
 							<rich:panel styleClass="border_zero" id="tabela_notas">
 								<table class="dr-table rich-table" cellspacing="0"

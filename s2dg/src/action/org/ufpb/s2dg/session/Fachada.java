@@ -343,4 +343,10 @@ public class Fachada {
 		criarOuEditar = true;
 	}
 	
+	public void switchCalcMediaAuto() {
+		if (this.turmaAtual.isCalcularMediaAutomaticamente())
+			this.turmaAtual.setCalcularMediaAutomaticamente(false);
+		else this.turmaAtual.setCalcularMediaAutomaticamente(true);
+	}
+	
 }

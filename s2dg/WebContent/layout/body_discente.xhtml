@@ -24,7 +24,7 @@
 						<a4j:commandLink
 							action="#{fachada.setAlunoTurmaAtual(alunoTurma)}"
 							value=":: #{alunoTurma.turma.disciplina.nome}"
-							reRender="discente_mutavel, planoDeCurso" /><br/>
+							reRender="discente_mutavel, planoDeCurso, titulo_disciplina_dis, titulo_turma_dis" /><br/>
 					</ui:repeat>
 				</h:form>
 			</rich:panel>
@@ -37,16 +37,16 @@
 			</td>
 			
 			<td style="padding-left: 20px;" height="100%">
-
+				<h:outputText styleClass="body_titulo_disciplina" id="titulo_disciplina_dis"
+					value="Disciplina: #{fachada.alunoTurmaAtual.turma.disciplina.codigo} - #{fachada.alunoTurmaAtual.turma.disciplina.nome}" />
+				<br />
+				<h:outputText styleClass="body_outras_info" id="titulo_turma_dis"
+					value="Turma #{fachada.alunoTurmaAtual.turma.numero}" />
+				<br />
+				<br />
 			<div><rich:tabPanel switchType="client">
 				<rich:tab label="Principal">
 					<rich:panel styleClass="border_zero" id="discente_mutavel">
-						<h:outputText styleClass="body_titulo_disciplina"
-							value="Disciplina: #{fachada.alunoTurmaAtual.turma.disciplina.codigo} - #{fachada.alunoTurmaAtual.turma.disciplina.nome}" />
-						<br />
-						<h:outputText styleClass="body_outras_info"
-							value="Turma #{fachada.alunoTurmaAtual.turma.numero}" />
-						<br />
 						<h:outputText value="Professor: #{fachada.nomeDoProfessorAtual}" />
 						<br /><br />						
 						<rich:dataTable value="#{fachada.alunoTurmaList}" var="alunoTurma" style="text-align: center;" >   

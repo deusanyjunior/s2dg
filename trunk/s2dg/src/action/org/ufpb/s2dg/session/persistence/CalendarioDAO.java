@@ -1,5 +1,7 @@
 package org.ufpb.s2dg.session.persistence;
 
+import java.util.ArrayList;
+
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.AutoCreate;
@@ -16,10 +18,13 @@ public class CalendarioDAO {
 	EntityManager entityManager;
 	
 	public Calendario getCalendario(Periodo periodo) {
-		return (Calendario) entityManager.createQuery(
-    	"select cal from Calendario as cal where cal.periodo = :periodo")
-    	.setParameter("periodo", periodo)
-    	.getSingleResult();
+		ArrayList<Calendario> result = 
+			(ArrayList<Calendario>) entityManager.createQuery(
+			"select cal from Calendario as cal where cal.periodo = :periodo")
+			.setParameter("periodo", periodo).getResultList();
+		if (result.size() > 0)
+			return result.get(0);
+		return null;
 	}
 
 }

@@ -99,6 +99,24 @@ element.style {
 	width: auto;
 }
 
+
+/* formatacao da tabela de notas */
+.matricula {
+	width: 60px;
+}
+.aluno {	
+	width: 200px;
+}
+.nome_aluno {
+	text-align: left;
+}
+.faltas {
+	width: 30px;	
+}
+/* fim formatacao da tabela de notas */
+
+
+
 .rich-pmenu {
 	width: auto;
 }
@@ -293,8 +311,6 @@ ul.bullets li {
 }
 
 td.action {
-	text-align: center;
-	width: 8em;
 	white-space: nowrap;
 }
 

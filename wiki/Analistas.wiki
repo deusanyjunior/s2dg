@@ -105,4 +105,6 @@ http://s2dg.googlecode.com/svn/analistas/casosDeUso/S2dg/Matricula.gif
 
   [http://s2dg.googlecode.com/svn/analistas/casosDeUso/S2dg/Matricula.png Diagrama de atividades do CUAO_04 : Fazer Matricula]
 
+  [http://s2dg.googlecode.com/svn/analistas/casosDeUso/detalhamentos/fazerMatricula.docx Deta Detalhamento do Caso de Uso: Fazer Matricula]
+
 _Obs.: os detalhamentos podem sofrer alterações._

@@ -88,7 +88,7 @@
 								</rich:dataTable>								
 							</rich:panel>
 								<h:selectBooleanCheckbox id="checkboxmedia" value="#{fachada.turmaAtual.calcularMediaAutomaticamente}">
-									<a4j:support event="onmouseup" action="#{fachada.switchCalcMediaAuto}" reRender="tabela_notas, checkboxmedia" />
+									<a4j:support event="onmouseup" action="#{fachada.switchCalcMediaAuto}" reRender="tabela_notas, checkboxmedia" limitToList="true" />
 								</h:selectBooleanCheckbox>
 							<h:outputText for="checkboxmedia"
 								value="Calcular Média Automaticamente" />

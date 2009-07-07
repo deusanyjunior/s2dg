@@ -31,18 +31,21 @@ public class NotaDAO {
 		novaNota.setPeso(nota.getPeso());
 		novaNota.setTurma(turma);
 		entityManager.persist(novaNota);
+		entityManager.flush();
 	}
 
 	public void atualiza(Nota nota) {
 		if(nota != null) {
 			entityManager.merge(nota);
+			entityManager.flush();
 		}
 	}
 
 	public void remove(Nota nota) {
 		if(nota != null) {
-			nota = entityManager.find(nota.getClass(),nota.getId());
-			entityManager.remove(nota);
+			Nota notax = entityManager.find(Nota.class,nota.getId());
+			notax.setTurma(nota.getTurma());
+			entityManager.remove(notax);
 			entityManager.flush();
 		}
 	}

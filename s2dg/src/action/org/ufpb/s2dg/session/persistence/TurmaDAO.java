@@ -7,7 +7,7 @@ import javax.persistence.EntityManager;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.ufpb.s2dg.entity.AlunoTurma;
+import org.ufpb.s2dg.entity.Periodo;
 import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Turma;
 
@@ -19,10 +19,11 @@ public class TurmaDAO {
 	EntityManager entityManager;
 
 	@SuppressWarnings("unchecked")
-	public List<Turma> getTurmas(Professor professor) {
+	public List<Turma> getTurmas(Professor professor, Periodo periodo) {
 		return (List<Turma>) entityManager.createQuery(
-    	"select turma from Turma as turma where turma.professor = :professor order by turma.disciplina.nome")
+    	"select turma from Turma as turma where turma.professor = :professor and turma.periodo = :periodo order by turma.disciplina.nome")
     	.setParameter("professor", professor)
+    	.setParameter("periodo",periodo)
     	.getResultList();
 	}
 	public void atualiza(Turma turmaAtual) {

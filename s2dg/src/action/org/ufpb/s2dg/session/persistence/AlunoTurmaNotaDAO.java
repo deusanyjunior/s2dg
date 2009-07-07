@@ -52,7 +52,7 @@ public class AlunoTurmaNotaDAO {
 		AlunoTurmaNota novoAlunoTurmaNota = new AlunoTurmaNota();
 		novoAlunoTurmaNota.setAlunoTurma(alunoTurma);
 		novoAlunoTurmaNota.setNota(nota);
-		novoAlunoTurmaNota.setValorDaNota(0.0f);
+		novoAlunoTurmaNota.setValorDaNota(0);
 		entityManager.persist(novoAlunoTurmaNota);
 		entityManager.flush();
 		return novoAlunoTurmaNota;

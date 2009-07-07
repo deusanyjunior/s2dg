@@ -9,6 +9,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
+import org.ufpb.s2dg.entity.Periodo;
 import org.ufpb.s2dg.entity.Turma;
 
 @AutoCreate
@@ -19,10 +20,11 @@ public class AlunoTurmaDAO {
 	EntityManager entityManager;
 
 	@SuppressWarnings("unchecked")
-	public List<AlunoTurma> getAlunoTurmas(Aluno aluno) {
+	public List<AlunoTurma> getAlunoTurmas(Aluno aluno, Periodo periodo) {
 		return (List<AlunoTurma>) entityManager.createQuery(
-    	"select alunoTurma from AlunoTurma as alunoTurma where alunoTurma.aluno = :aluno order by alunoTurma.turma.disciplina.nome")
+    	"select alunoTurma from AlunoTurma as alunoTurma where alunoTurma.aluno = :aluno and alunoTurma.turma.periodo = :periodo order by alunoTurma.turma.disciplina.nome")
     	.setParameter("aluno", aluno)
+    	.setParameter("periodo",periodo)
     	.getResultList();
 	}
 

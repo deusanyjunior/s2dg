@@ -1,6 +1,7 @@
 package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
@@ -109,7 +110,7 @@ public class Fachada {
 			return null;
 		Aluno aluno = usuario.getAluno();
 		if (aluno != null) {
-			List<AlunoTurma> alunoTurmas = alunoTurmaDAO.getAlunoTurmas(aluno);
+			List<AlunoTurma> alunoTurmas = alunoTurmaDAO.getAlunoTurmas(aluno, periodoAtual);
 			if (alunoTurmas.size() > 0) {
 				alunoTurmaAtual = alunoTurmas.get(0);
 				notas = getNotasDoBanco();
@@ -134,7 +135,7 @@ public class Fachada {
 	}
 	
 	public List<DisciplinaTurmas> getTurmasPorDisciplina() {
-		List<Turma> turmas = turmaDAO.getTurmas(usuario.getProfessor());
+		List<Turma> turmas = turmaDAO.getTurmas(usuario.getProfessor(),periodoAtual);
 		if(turmas != null) {
 			List<DisciplinaTurmas> disciplinaTurmas = DisciplinaTurmas.geraTurmasPorDisciplina(turmas);
 			if(disciplinaTurmas != null) {
@@ -162,6 +163,7 @@ public class Fachada {
 				for(int i = 0; i < alunoTurmas.size(); i++) {
 					alunoTurmas.get(i).getAluno().setUsuario(getUsuarioAluno(alunoTurmas.get(i).getAluno().getMatricula()));
 				}
+				Collections.sort(alunoTurmas, new AlunoTurmaComparator());
 				alunoTurmaNotas = new ArrayList<AlunoTurmaNota>();
 				return alunoTurmas;
 			}

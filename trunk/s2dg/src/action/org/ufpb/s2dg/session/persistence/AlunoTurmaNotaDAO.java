@@ -37,15 +37,20 @@ public class AlunoTurmaNotaDAO {
 	public List<AlunoTurmaNota> getAlunoTurmaNota(Nota nota) {
 		try {
 			if (nota != null) {
-				Object result = entityManager.createQuery(
-				"select alunoTurmaNota from AlunoTurmaNota as alunoTurmaNota where alunoTurmaNota.nota =:nota")
-				.setParameter("nota", nota)
-				.getResultList();
-				return (List<AlunoTurmaNota>) result; 
+				Nota notax = entityManager.find(Nota.class, nota.getId());
+				notax.setTurma(nota.getTurma());
+				if(notax != null) {
+					Object result = entityManager.createQuery(
+					"select alunoTurmaNota from AlunoTurmaNota as alunoTurmaNota where alunoTurmaNota.nota =:nota")
+					.setParameter("nota", notax)
+					.getResultList();
+					return (List<AlunoTurmaNota>) result;
+				}
 			} else return null;
 		} catch(NoResultException e) {
 			return null;
 		}
+		return null;
 	}
 
 	public AlunoTurmaNota cria(AlunoTurma alunoTurma, Nota nota) {
@@ -64,7 +69,7 @@ public class AlunoTurmaNotaDAO {
 
 	public void remove(AlunoTurmaNota atn) {
 		if(atn != null) {
-			atn = entityManager.find(atn.getClass(),atn.getId());
+			atn = entityManager.find(AlunoTurmaNota.class,atn.getId());
 			entityManager.remove(atn);
 			entityManager.flush();
 		}

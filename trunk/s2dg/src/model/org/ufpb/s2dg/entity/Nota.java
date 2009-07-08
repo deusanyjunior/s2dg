@@ -1,7 +1,9 @@
 package org.ufpb.s2dg.entity;
 
 import java.io.Serializable;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.validator.NotNull;
@@ -23,6 +26,7 @@ public class Nota implements Serializable {
 	private String nome;
 	private int peso;
 	private Turma turma;
+	private Set<AlunoTurmaNota> alunoTurmaNotas;
 	
 	public Nota(){
 		this.peso = 1;
@@ -35,6 +39,13 @@ public class Nota implements Serializable {
 		this.turma = turma;
 	}
 
+	public Nota(long id, String nome, int peso, Turma turma, Set<AlunoTurmaNota> alunoTurmaNotas) {
+		this.id = id;
+		this.nome = nome;
+		this.peso = peso;
+		this.turma = turma;
+	}
+	
 	@Id
 	@Column(name = "id", unique = true, nullable = false)
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
@@ -69,6 +80,15 @@ public class Nota implements Serializable {
 	}
 	public void setTurma(Turma turma) {
 		this.turma = turma;
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "nota")
+	public Set<AlunoTurmaNota> getAlunoTurmaNotas() {
+		return alunoTurmaNotas;
+	}
+
+	public void setAlunoTurmaNotas(Set<AlunoTurmaNota> alunoTurmaNotas) {
+		this.alunoTurmaNotas = alunoTurmaNotas;
 	}
 	
 }

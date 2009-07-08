@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.faces.component.UIParameter;
+import javax.faces.event.ActionEvent;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
@@ -58,6 +61,7 @@ public class Fachada {
 	private Nota nota = new Nota();
 	private List<AlunoTurmaNota> alunoTurmaNotas;
 	private boolean criarOuEditar;
+	private Nota notaParaExclusao;
 
 	public boolean isCriarOuEditar() {
 		return criarOuEditar;
@@ -113,7 +117,6 @@ public class Fachada {
 			List<AlunoTurma> alunoTurmas = alunoTurmaDAO.getAlunoTurmas(aluno, periodoAtual);
 			if (alunoTurmas.size() > 0) {
 				alunoTurmaAtual = alunoTurmas.get(0);
-				notas = getNotasDoBanco();
 				return alunoTurmas;
 			}
 		}
@@ -154,6 +157,8 @@ public class Fachada {
 
 	public void setTurmaAtual(Turma turmaAtual) {
 		this.turmaAtual = turmaAtual;
+		nota = new Nota();
+		criarOuEditar = true;
 	}
 	
 	public List<AlunoTurma> getAlunoTurmas() {
@@ -312,7 +317,7 @@ public class Fachada {
 			alunoTurmaNotas.add(alunoTurmaNota);
 			return alunoTurmaNota;
 		}
-		return null;
+		return new AlunoTurmaNota();
 	}
 	
 	public List<AlunoTurma> getAlunoTurmaList() {
@@ -335,20 +340,25 @@ public class Fachada {
 	}
 	
 	public void excluiAvaliacao() {
-		List<AlunoTurmaNota> alunoTurmaNotas = alunoTurmaNotaDAO.getAlunoTurmaNota(nota);
-		if(alunoTurmaNotas != null) {
-		for(int i = 0; i < alunoTurmaNotas.size(); i++)
-			alunoTurmaNotaDAO.remove(alunoTurmaNotas.get(i));
+		if(notaParaExclusao != null) {
+			notaParaExclusao.setTurma(turmaAtual);
+			notaDAO.remove(notaParaExclusao);
+			notaParaExclusao = null;
 		}
-		notaDAO.remove(nota);
-		this.nota = new Nota();
-		criarOuEditar = true;
 	}
 	
 	public void switchCalcMediaAuto() {
 		if (this.turmaAtual.isCalcularMediaAutomaticamente())
 			this.turmaAtual.setCalcularMediaAutomaticamente(false);
 		else this.turmaAtual.setCalcularMediaAutomaticamente(true);
+	}
+
+	public Nota getNotaParaExclusao() {
+		return notaParaExclusao;
+	}
+
+	public void setNotaParaExclusao(Nota notaParaExclusao) {
+		this.notaParaExclusao = notaParaExclusao;
 	}
 	
 }

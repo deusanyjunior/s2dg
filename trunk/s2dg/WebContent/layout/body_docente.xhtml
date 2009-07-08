@@ -26,7 +26,7 @@
 						<a4j:commandLink styleClass="menu_disciplina_turma"
 							action="#{fachada.setTurmaAtual(turma)}"
 							value=":: Turma #{turma.numero}"
-							reRender="titulo_disciplina_doc,titulo_turma_doc,tabela_notas,checkboxmedia,editorPlano" />
+							reRender="titulo_disciplina_doc,titulo_turma_doc,tabela_notas,checkboxmedia,editorPlano, criar_nota" />
 						<br />
 					</ui:repeat>
 				</ui:repeat>
@@ -44,7 +44,7 @@
 				<br />
 			<div>
 			<rich:tabPanel switchType="client">
-				<rich:tab label="Principal">
+				<rich:tab label="Notas">
 					<rich:panel styleClass="border_zero">
 						<h:form>
 							<rich:panel styleClass="border_zero" id="tabela_notas">
@@ -65,9 +65,11 @@
 										<f:facet name="header">
 											<h:panelGroup>
 												<h:outputText value="#{nota.nome}" />
-												<a4j:commandLink id="excluir#{nota.id}" action="#{fachada.setNota(nota)}">
+												<a4j:commandLink id="excluir#{nota.id}"
+													action="#{fachada.setNotaParaExclusao(nota)}"
+													oncomplete="Richfaces.showModalPanel('myModalPanel',{width:485, top:200});"
+													reRender="myModalDiv" >
 													<img alt="remover" src="img/del.png" />
-													<rich:componentControl for="excluir_avaliacao" attachTo="excluir#{nota.id}" operation="show" event="onclick" />
 												</a4j:commandLink>
 												<br/>
 												<h:outputText value="peso: #{nota.peso}" />
@@ -93,7 +95,7 @@
 							<h:outputText for="checkboxmedia"
 								value="Calcular Média Automaticamente" />
 							<a4j:commandButton styleClass="botao_salvar" type="submit"
-								value="Salvar" action="#{fachada.persisteAlunoTurmas()}"
+								value="Salvar" action="#{fachada.persisteAlunoTurmas}"
 								reRender="tabela_notas" />
 						</h:form>
 						<br />
@@ -149,24 +151,27 @@
 			</td>
 		</tr>
 	</table>
-	<rich:modalPanel id="excluir_avaliacao" width="485" height="100">
+	<rich:modalPanel id="myModalPanel" autosized="true" zindex="2000" moveable="false">
 		<f:facet name="header">
 			<h:panelGroup>
 				<h:outputText value="Atenção!" />
 			</h:panelGroup>
 		</f:facet>
-		<center><h:outputText
-			value="Tem certeza que deseja excluir a avaliação e todas as suas notas?" />
+		<center>
+		<s:div id="myModalDiv">
+		<h:outputText
+			value="Tem certeza que deseja excluir a avaliação '#{fachada.notaParaExclusao.nome}' e todas as suas notas?" />
+		</s:div>
 		<br />
 		<h:form>
-			<a4j:commandButton id="botaosim" action="#{fachada.excluiAvaliacao}"
-				value="Sim" reRender="tabela_notas, criar_nota">
-				<rich:componentControl for="excluir_avaliacao" attachTo="botaosim"
+			<a4j:commandButton id="botaosim" action="#{fachada.excluiAvaliacao}" limitToList="true"
+				value="Sim" reRender="tabela_notas">
+				<rich:componentControl for="myModalPanel" attachTo="botaosim"
 					operation="hide" event="onclick" />
 			</a4j:commandButton>
 			<a4j:commandButton id="botaonao" action="#{fachada.cancelaExclusao}"
 				value="Não">
-				<rich:componentControl for="excluir_avaliacao" attachTo="botaonao"
+				<rich:componentControl for="myModalPanel" attachTo="botaonao"
 					operation="hide" event="onclick" />
 			</a4j:commandButton>
 		</h:form></center>

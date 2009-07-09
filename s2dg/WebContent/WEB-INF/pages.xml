@@ -13,12 +13,13 @@
             </rule>
         </navigation>
     </page>
-    
+        
     <page view-id="*">
         <navigation from-action="#{identity.logout}">
             <redirect view-id="/login.xhtml"/>
         </navigation>
     </page>
+    
 
     <exception class="org.jboss.seam.framework.EntityNotFoundException">
         <redirect view-id="/error.xhtml">

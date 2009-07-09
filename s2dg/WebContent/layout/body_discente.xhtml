@@ -47,7 +47,7 @@
 				<br />
 				<br />
 			<div><rich:tabPanel switchType="client">
-				<rich:tab label="Notas">
+				<rich:tab label="Avaliaç&#245;es">
 					<rich:panel styleClass="border_zero" id="discente_mutavel">
 						<rich:dataTable value="#{fachada.alunoTurmaList}" var="alunoTurma" style="text-align: center;" >   
 						  <rich:column>
@@ -56,11 +56,11 @@
 							</f:facet>
 							<h:outputText value="#{alunoTurma.faltas}" />
 						  </rich:column>
-						  <rich:columns value="#{fachada.notasDoBanco}" var="nota">
+						  <rich:columns value="#{fachada.avaliacoesDoBanco}" var="avaliacao">
 							<f:facet name="header">
-								<h:outputText value="#{nota.nome}(peso:#{nota.peso})" />
+								<h:outputText value="#{avaliacao.nome}(peso:#{avaliacao.peso})" />
 							</f:facet>
-							<h:outputText value="#{fachada.getValorDaNota(nota)}" />
+							<h:outputText value="#{fachada.getNota(avaliacao)}" />
 						  </rich:columns>
 						  <rich:column>
 							<f:facet name="header">

@@ -28,7 +28,7 @@ public class Turma implements java.io.Serializable {
 	private Disciplina disciplina;
 	private String numero;
 	private Set<AlunoTurma> alunoTurmas = new HashSet<AlunoTurma>(0);
-	private Set<Nota> notas = new HashSet<Nota>(0);
+	private Set<Avaliacao> avaliacoes = new HashSet<Avaliacao>(0);
 	private boolean calcularMediaAutomaticamente = false;
 	private String planoDeCurso;
 	
@@ -43,14 +43,14 @@ public class Turma implements java.io.Serializable {
 
 	public Turma(long id, Professor professor, Periodo periodo,
 			Disciplina disciplina, String numero, Set<AlunoTurma> alunoTurmas,
-			Set<Nota> notas, boolean calcularMediaAutomaticamente, String planoDeCurso) {
+			Set<Avaliacao> avaliacoes, boolean calcularMediaAutomaticamente, String planoDeCurso) {
 		this.id = id;
 		this.professor = professor;
 		this.periodo = periodo;
 		this.disciplina = disciplina;
 		this.numero = numero;
 		this.alunoTurmas = alunoTurmas;
-		this.notas = notas;
+		this.avaliacoes = avaliacoes;
 		this.calcularMediaAutomaticamente = calcularMediaAutomaticamente;
 		this.planoDeCurso = planoDeCurso;
 	}
@@ -117,12 +117,12 @@ public class Turma implements java.io.Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "turma")
-	public Set<Nota> getNotas() {
-		return notas;
+	public Set<Avaliacao> getAvaliacoes() {
+		return avaliacoes;
 	}
 
-	public void setNotas(Set<Nota> notas) {
-		this.notas = notas;
+	public void setAvaliacoes(Set<Avaliacao> avaliacoes) {
+		this.avaliacoes = avaliacoes;
 	}
 
 	@Column(name = "calcula_media_auto")

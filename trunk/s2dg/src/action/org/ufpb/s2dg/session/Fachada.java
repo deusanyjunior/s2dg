@@ -15,19 +15,19 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
-import org.ufpb.s2dg.entity.AlunoTurmaNota;
+import org.ufpb.s2dg.entity.AlunoTurmaAvaliacao;
 import org.ufpb.s2dg.entity.Calendario;
 import org.ufpb.s2dg.entity.DisciplinaTurmas;
 import org.ufpb.s2dg.entity.Global;
-import org.ufpb.s2dg.entity.Nota;
+import org.ufpb.s2dg.entity.Avaliacao;
 import org.ufpb.s2dg.entity.Periodo;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.Usuario;
 import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
-import org.ufpb.s2dg.session.persistence.AlunoTurmaNotaDAO;
+import org.ufpb.s2dg.session.persistence.AlunoTurmaAvaliacaoDAO;
 import org.ufpb.s2dg.session.persistence.CalendarioDAO;
 import org.ufpb.s2dg.session.persistence.GlobalDAO;
-import org.ufpb.s2dg.session.persistence.NotaDAO;
+import org.ufpb.s2dg.session.persistence.AvaliacaoDAO;
 import org.ufpb.s2dg.session.persistence.TurmaDAO;
 import org.ufpb.s2dg.session.persistence.UsuarioDAO;
 
@@ -43,9 +43,9 @@ public class Fachada {
 	@In
 	private TurmaDAO turmaDAO;
 	@In
-	private NotaDAO notaDAO;
+	private AvaliacaoDAO avaliacaoDAO;
 	@In
-	private AlunoTurmaNotaDAO alunoTurmaNotaDAO;
+	private AlunoTurmaAvaliacaoDAO alunoTurmaAvaliacaoDAO;
 	@In
 	private GlobalDAO globalDAO;
 	@In
@@ -55,14 +55,14 @@ public class Fachada {
 	private AlunoTurma alunoTurmaAtual;
 	private Turma turmaAtual;
 	private List<AlunoTurma> alunoTurmas;
-	private List<Nota> notas;
+	private List<Avaliacao> avaliacoes;
 	private Calendario calendario;
 	private Periodo periodoAtual;
-	private Nota nota = new Nota();
-	private List<AlunoTurmaNota> alunoTurmaNotas;
+	private Avaliacao avaliacao = new Avaliacao();
+	private List<AlunoTurmaAvaliacao> alunoTurmaAvaliacoes;
 	private boolean criarOuEditar;
-	private Nota notaParaExclusao;
-
+	private Avaliacao avaliacaoParaExclusao;
+	
 	public boolean isCriarOuEditar() {
 		return criarOuEditar;
 	}
@@ -79,21 +79,21 @@ public class Fachada {
 		this.periodoAtual = periodoAtual;
 	}
 
-	public Nota getNota() {
-		return nota;
+	public Avaliacao getAvaliacao() {
+		return avaliacao;
 	}
 
-	public void setNota(Nota nota) {
-		this.nota = nota;
+	public void setAvaliacao(Avaliacao avaliacao) {
+		this.avaliacao = avaliacao;
 	}
 	
-	public void setNotaParaEdicao(Nota nota) {
-		this.nota = nota;
+	public void setAvaliacaoParaEdicao(Avaliacao avaliacao) {
+		this.avaliacao = avaliacao;
 		criarOuEditar = false;
 	}
 	
 	public void cancelarEdicao() {
-		this.nota = new Nota();
+		this.avaliacao = new Avaliacao();
 		criarOuEditar = true;
 	}
 
@@ -157,7 +157,7 @@ public class Fachada {
 
 	public void setTurmaAtual(Turma turmaAtual) {
 		this.turmaAtual = turmaAtual;
-		nota = new Nota();
+		avaliacao = new Avaliacao();
 		criarOuEditar = true;
 	}
 	
@@ -169,7 +169,7 @@ public class Fachada {
 					alunoTurmas.get(i).getAluno().setUsuario(getUsuarioAluno(alunoTurmas.get(i).getAluno().getMatricula()));
 				}
 				Collections.sort(alunoTurmas, new AlunoTurmaComparator());
-				alunoTurmaNotas = new ArrayList<AlunoTurmaNota>();
+				alunoTurmaAvaliacoes = new ArrayList<AlunoTurmaAvaliacao>();
 				return alunoTurmas;
 			}
 		}
@@ -183,9 +183,9 @@ public class Fachada {
 	public void persisteAlunoTurmas() {
 		if(turmaAtual != null) {
 			turmaDAO.atualiza(turmaAtual);
-			if(alunoTurmaNotas != null) {
-				for(int i = 0; i < alunoTurmaNotas.size(); i++)
-					alunoTurmaNotaDAO.atualiza(alunoTurmaNotas.get(i));
+			if(alunoTurmaAvaliacoes != null) {
+				for(int i = 0; i < alunoTurmaAvaliacoes.size(); i++)
+					alunoTurmaAvaliacaoDAO.atualiza(alunoTurmaAvaliacoes.get(i));
 			}
 			if((turmaAtual.isCalcularMediaAutomaticamente())&&(alunoTurmas != null))
 				if(alunoTurmas.size() > 0)
@@ -202,20 +202,20 @@ public class Fachada {
 			for(int i = 0; i < alunoTurmas.size(); i++) {
 				float somaNota = 0;
 				float somaPeso = 0;
-				for(int j = 0; j < notas.size(); j++) {
-					somaNota += alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmas.get(i), notas.get(j)).getValorDaNota()
-					* notas.get(j).getPeso();
-					somaPeso += notas.get(j).getPeso();
+				for(int j = 0; j < avaliacoes.size(); j++) {
+					somaNota += alunoTurmaAvaliacaoDAO.getAlunoTurmaAvaliacao(alunoTurmas.get(i), avaliacoes.get(j)).getNota()
+					* avaliacoes.get(j).getPeso();
+					somaPeso += avaliacoes.get(j).getPeso();
 				}
 				alunoTurmas.get(i).setMedia(somaNota/somaPeso);
 			}
 		}
 	}
 	
-	public void criarNota() {
-		if((nota != null)&&(turmaAtual != null)) {
-			notaDAO.cria(nota, turmaAtual);
-			nota = new Nota();
+	public void criarAvaliacao() {
+		if((avaliacao != null)&&(turmaAtual != null)) {
+			avaliacaoDAO.cria(avaliacao, turmaAtual);
+			avaliacao = new Avaliacao();
 			turmaAtual.setCalcularMediaAutomaticamente(true);
 		}
 	}
@@ -243,44 +243,44 @@ public class Fachada {
 		return user != null;		
 	}
 	
-	public List<Nota> getNotasDaTurma() {
+	public List<Avaliacao> getAvaliacoesDaTurma() {
 		if(turmaAtual == null)
 			return null;
 		else {
-			notas = notaDAO.getNotas(turmaAtual);
-			return notas;
+			avaliacoes = avaliacaoDAO.getAvaliacoes(turmaAtual);
+			return avaliacoes;
 		}
 	}
 	
-	public List<Nota> getNotasDoBanco() {
+	public List<Avaliacao> getAvaliacoesDoBanco() {
 		if(alunoTurmaAtual == null)
 			return null;
 		else {
-			notas = notaDAO.getNotas(alunoTurmaAtual.getTurma());
-			return notas;
+			avaliacoes = avaliacaoDAO.getAvaliacoes(alunoTurmaAtual.getTurma());
+			return avaliacoes;
 		}
 	}
 	
-	public List<Nota> getNotas() {
-		return notas;
+	public List<Avaliacao> getAvaliacoes() {
+		return avaliacoes;
 	}
 	
-	public float getValorDaNota(Nota nota) {
-		if((alunoTurmaAtual != null)&&(nota != null)) {
-			AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurmaAtual,nota);
-			if(alunoTurmaNota != null)
-				return alunoTurmaNota.getValorDaNota();
+	public float getNota(Avaliacao avaliacao) {
+		if((alunoTurmaAtual != null)&&(avaliacao != null)) {
+			AlunoTurmaAvaliacao alunoTurmaAvaliacao = alunoTurmaAvaliacaoDAO.getAlunoTurmaAvaliacao(alunoTurmaAtual,avaliacao);
+			if(alunoTurmaAvaliacao != null)
+				return alunoTurmaAvaliacao.getNota();
 			else
 				return 0;
 		}
 		return 0;
 	}
 	
-	public float getValorDaNota(AlunoTurma alunoTurma, Nota nota) {
-		if((alunoTurma != null)&&(nota != null)) {
-		AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurma,nota);
-		if(alunoTurmaNota != null)
-			return alunoTurmaNota.getValorDaNota();
+	public float getNota(AlunoTurma alunoTurma, Avaliacao avaliacao) {
+		if((alunoTurma != null)&&(avaliacao != null)) {
+		AlunoTurmaAvaliacao alunoTurmaAvaliacao = alunoTurmaAvaliacaoDAO.getAlunoTurmaAvaliacao(alunoTurma,avaliacao);
+		if(alunoTurmaAvaliacao != null)
+			return alunoTurmaAvaliacao.getNota();
 		else
 			return 0;
 		}
@@ -309,15 +309,15 @@ public class Fachada {
 			turmaDAO.atualiza(turmaAtual);
 	}
 	
-	public AlunoTurmaNota getAlunoTurmaNota(AlunoTurma alunoTurma,Nota nota) {
-		if((nota != null)&&(alunoTurma != null)) {
-			AlunoTurmaNota alunoTurmaNota = alunoTurmaNotaDAO.getAlunoTurmaNota(alunoTurma, nota);
-			if(alunoTurmaNota == null)
-				alunoTurmaNota = alunoTurmaNotaDAO.cria(alunoTurma, nota);
-			alunoTurmaNotas.add(alunoTurmaNota);
-			return alunoTurmaNota;
+	public AlunoTurmaAvaliacao getAlunoTurmaAvaliacao(AlunoTurma alunoTurma,Avaliacao avaliacao) {
+		if((avaliacao != null)&&(alunoTurma != null)) {
+			AlunoTurmaAvaliacao alunoTurmaAvaliacao = alunoTurmaAvaliacaoDAO.getAlunoTurmaAvaliacao(alunoTurma, avaliacao);
+			if(alunoTurmaAvaliacao == null)
+				alunoTurmaAvaliacao = alunoTurmaAvaliacaoDAO.cria(alunoTurma, avaliacao);
+			alunoTurmaAvaliacoes.add(alunoTurmaAvaliacao);
+			return alunoTurmaAvaliacao;
 		}
-		return new AlunoTurmaNota();
+		return new AlunoTurmaAvaliacao();
 	}
 	
 	public List<AlunoTurma> getAlunoTurmaList() {
@@ -330,20 +330,20 @@ public class Fachada {
 	}
 	
 	public void atualizarAvaliacao() {
-		notaDAO.atualiza(this.nota);
-		this.nota = new Nota();
+		avaliacaoDAO.atualiza(this.avaliacao);
+		this.avaliacao = new Avaliacao();
 		criarOuEditar = true;
 	}
 	
 	public void cancelaExclusao() {
-		this.nota = new Nota();
+		this.avaliacao = new Avaliacao();
 	}
 	
 	public void excluiAvaliacao() {
-		if(notaParaExclusao != null) {
-			notaParaExclusao.setTurma(turmaAtual);
-			notaDAO.remove(notaParaExclusao);
-			notaParaExclusao = null;
+		if(avaliacaoParaExclusao != null) {
+			avaliacaoParaExclusao.setTurma(turmaAtual);
+			avaliacaoDAO.remove(avaliacaoParaExclusao);
+			avaliacaoParaExclusao = null;
 		}
 	}
 	
@@ -352,13 +352,12 @@ public class Fachada {
 			this.turmaAtual.setCalcularMediaAutomaticamente(false);
 		else this.turmaAtual.setCalcularMediaAutomaticamente(true);
 	}
-
-	public Nota getNotaParaExclusao() {
-		return notaParaExclusao;
+	public Avaliacao getAvaliacaoParaExclusao() {
+		return avaliacaoParaExclusao;
 	}
 
-	public void setNotaParaExclusao(Nota notaParaExclusao) {
-		this.notaParaExclusao = notaParaExclusao;
+	public void setAvaliacaoParaExclusao(Avaliacao avaliacaoParaExclusao) {
+		this.avaliacaoParaExclusao = avaliacaoParaExclusao;
 	}
 	
 }

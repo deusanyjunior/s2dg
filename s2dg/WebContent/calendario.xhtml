@@ -13,69 +13,69 @@
 		border="0" style="text-align: center;">
 		<thead class="dr-table-thead">
 			<tr class="dr-table-subheader rich-table-subheader">
-				<s:div  rendered="#{not empty fachada.calendario.inicioPeriodo}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.inicioPeriodo}">
 				<th class="dr-table-subheadercell rich-table-subheadercell"
 					scope="col">
 				<div><h:outputText value="Início do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" /></div>
 				</th>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.inicioMatricula}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.inicioMatricula}">
 				<th class="dr-table-subheadercell rich-table-subheadercell"
 					scope="col">
 				<div>Início das Matrículas</div>
 				</th>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.fimMatricula}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.fimMatricula}">
 				<th class="dr-table-subheadercell rich-table-subheadercell"
 					scope="col">
 				<div>Fim das Matrículas</div>
 				</th>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.ultimoDiaTrancamento}">
 				<th class="dr-table-subheadercell rich-table-subheadercell"
 					scope="col">
 				<div>Último Dia para Trancamento</div>
 				</th>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.fimImplantacaoNotas}">
 				<th class="dr-table-subheadercell rich-table-subheadercell"
 					scope="col">
 				<div>Fim da Implantação de Notas</div>
 				</th>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.fimPeriodo}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.fimPeriodo}">
 				<th class="dr-table-subheadercell rich-table-subheadercell"
 					scope="col">
-				<div><h:outputText value="Fim do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" /></div>
+				<div><h:outputText value="Fim do Período #{periodoBean.periodo.ano}.#{periodoBean.periodo.semestre}" /></div>
 				</th>
 				</s:div>
 			</tr>
 		</thead>
 		<tbody>
 			<tr class="dr-table-firstrow rich-table-firstrow">
-				<s:div  rendered="#{not empty fachada.calendario.inicioPeriodo}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.inicioPeriodo}">
 				<td class="dr-table-cell rich-table-cell action">
-				<h:outputText value="#{fachada.calendario.inicioPeriodo}" /></td>
+				<h:outputText value="#{calendarioBean.calendario.inicioPeriodo}" /></td>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.inicioMatricula}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.inicioMatricula}">
 				<td class="dr-table-cell rich-table-cell action">
-				<h:outputText value="#{fachada.calendario.inicioMatricula}" /></td>
+				<h:outputText value="#{calendarioBean.calendario.inicioMatricula}" /></td>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.fimMatricula}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.fimMatricula}">
 				<td class="dr-table-cell rich-table-cell action">
-				<h:outputText value="#{fachada.calendario.fimMatricula}" /></td>
+				<h:outputText value="#{calendarioBean.calendario.fimMatricula}" /></td>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.ultimoDiaTrancamento}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.ultimoDiaTrancamento}">
 				<td class="dr-table-cell rich-table-cell action">
-				<h:outputText value="#{fachada.calendario.ultimoDiaTrancamento}" /></td>
+				<h:outputText value="#{calendarioBean.calendario.ultimoDiaTrancamento}" /></td>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.fimImplantacaoNotas}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.fimImplantacaoNotas}">
 				<td class="dr-table-cell rich-table-cell action">
-				<h:outputText value="#{fachada.calendario.fimImplantacaoNotas}" /></td>
+				<h:outputText value="#{calendarioBean.calendario.fimImplantacaoNotas}" /></td>
 				</s:div>
-				<s:div  rendered="#{not empty fachada.calendario.fimPeriodo}">
+				<s:div  rendered="#{not empty calendarioBean.calendario.fimPeriodo}">
 				<td class="dr-table-cell rich-table-cell action">
-				<h:outputText value="#{fachada.calendario.fimPeriodo}" /></td>
+				<h:outputText value="#{calendarioBean.calendario.fimPeriodo}" /></td>
 				</s:div>
 			</tr>
 		</tbody>

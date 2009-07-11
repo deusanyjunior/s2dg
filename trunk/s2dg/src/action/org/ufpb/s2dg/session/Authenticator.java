@@ -26,9 +26,14 @@ public class Authenticator
     @In
     Fachada fachada;
     
+    @In
+    UsuarioBean usuarioBean;
+    
     public boolean authenticate()
     {
         log.info("authenticating {0}", credentials.getUsername());
+        
+        /* Inserir Método de Criptografia de Senha */
         
         Usuario usuario = fachada.getUsuarioDoBanco(credentials.getUsername(),credentials.getPassword()); 
         
@@ -45,7 +50,7 @@ public class Authenticator
         	return false;
         }
         
-        fachada.setUsuario(usuario);
+        usuarioBean.setUsuario(usuario);
         
         return true;
     }

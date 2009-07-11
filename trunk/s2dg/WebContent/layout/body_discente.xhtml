@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <rich:panel 
 
 	xmlns:s="http://jboss.com/products/seam/taglib"
@@ -20,9 +20,9 @@
 			  		</center>
 			  		<rich:panel>
 				<h:form>
-					<ui:repeat value="#{fachada.alunoTurmasDoBanco}" var="alunoTurma">
+					<ui:repeat value="#{turmasMatriculadasBean.alunoTurmas}" var="alunoTurma">
 						<a4j:commandLink
-							action="#{fachada.setAlunoTurmaAtual(alunoTurma)}"
+							action="#{alunoTurmaBean.setAlunoTurma(alunoTurma)}"
 							value=":: #{alunoTurma.turma.disciplina.nome}"
 							reRender="discente_mutavel, planoDeCurso, titulo_disciplina_dis, titulo_turma_dis, professor" /><br/>
 					</ui:repeat>
@@ -38,21 +38,21 @@
 			
 			<td style="padding-left: 20px;" height="100%">
 				<h:outputText styleClass="body_titulo_disciplina" id="titulo_disciplina_dis"
-					value="Disciplina: #{fachada.alunoTurmaAtual.turma.disciplina.codigo} - #{fachada.alunoTurmaAtual.turma.disciplina.nome}" />
+					value="Disciplina: #{alunoTurmaBean.alunoTurma.turma.disciplina.codigo} - #{alunoTurmaBean.alunoTurma.turma.disciplina.nome}" />
 				<br />
 				<h:outputText styleClass="body_outras_info" id="titulo_turma_dis"
-					value="Turma #{fachada.alunoTurmaAtual.turma.numero}" />
+					value="Turma #{alunoTurmaBean.alunoTurma.turma.numero}" />
 				<br/>
 				<h:outputText value="Professor: #{fachada.nomeDoProfessorAtual}" id="professor" />
 				<br />
 				<br />
 			<div><rich:tabPanel switchType="client">
-				<rich:tab label="Avaliaç&#245;es">
+				<rich:tab label="Avaliações">
 					<rich:panel styleClass="border_zero" id="discente_mutavel">
 						<rich:dataTable value="#{fachada.alunoTurmaList}" var="alunoTurma" style="text-align: center;" >   
 						  <rich:column>
 							<f:facet name="header">
-								N�mero de Faltas
+								Número de Faltas
 							</f:facet>
 							<h:outputText value="#{alunoTurma.faltas}" />
 						  </rich:column>
@@ -64,7 +64,7 @@
 						  </rich:columns>
 						  <rich:column>
 							<f:facet name="header">
-								M�dia Final
+								Média Final
 							</f:facet>
 							<h:outputText value="#{alunoTurma.media}" />
 						  </rich:column>
@@ -76,7 +76,7 @@
 				</rich:tab>
 				<rich:tab label="Plano de Curso">
 					<a4j:outputPanel id="planoDeCurso">
-						<s:formattedText value="#{fachada.alunoTurmaAtual.turma.planoDeCurso}"/>
+						<s:formattedText value="#{alunoTurmaBean.alunoTurma.turma.planoDeCurso}"/>
 					</a4j:outputPanel>
 				</rich:tab>
 			</rich:tabPanel></div>

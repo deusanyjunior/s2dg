@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.faces.component.UIParameter;
-import javax.faces.event.ActionEvent;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
@@ -16,23 +13,24 @@ import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaAvaliacao;
-import org.ufpb.s2dg.entity.Calendario;
-import org.ufpb.s2dg.entity.DisciplinaTurmas;
-import org.ufpb.s2dg.entity.Global;
 import org.ufpb.s2dg.entity.Avaliacao;
+import org.ufpb.s2dg.entity.Calendario;
+import org.ufpb.s2dg.entity.Global;
 import org.ufpb.s2dg.entity.Periodo;
+import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.Usuario;
-import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
 import org.ufpb.s2dg.session.persistence.AlunoTurmaAvaliacaoDAO;
+import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
+import org.ufpb.s2dg.session.persistence.AvaliacaoDAO;
 import org.ufpb.s2dg.session.persistence.CalendarioDAO;
 import org.ufpb.s2dg.session.persistence.GlobalDAO;
-import org.ufpb.s2dg.session.persistence.AvaliacaoDAO;
+import org.ufpb.s2dg.session.persistence.ProfessorDAO;
 import org.ufpb.s2dg.session.persistence.TurmaDAO;
 import org.ufpb.s2dg.session.persistence.UsuarioDAO;
 
 @Name("fachada")
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.APPLICATION)
 @AutoCreate
 public class Fachada {
 	
@@ -50,18 +48,30 @@ public class Fachada {
 	private GlobalDAO globalDAO;
 	@In
 	private CalendarioDAO calendarioDAO;
+	@In
+	private ProfessorDAO professorDAO;
 	
-	private Usuario usuario;
-	private AlunoTurma alunoTurmaAtual;
-	private Turma turmaAtual;
+	@In
+	private UsuarioBean usuarioBean;
+	@In
+	private GlobalBean globalBean;
+	@In
+	private TurmaBean turmaBean;
+	@In
+	private AlunoTurmaBean alunoTurmaBean;
+	
 	private List<AlunoTurma> alunoTurmas;
 	private List<Avaliacao> avaliacoes;
-	private Calendario calendario;
-	private Periodo periodoAtual;
 	private Avaliacao avaliacao = new Avaliacao();
 	private List<AlunoTurmaAvaliacao> alunoTurmaAvaliacoes;
 	private boolean criarOuEditar;
 	private Avaliacao avaliacaoParaExclusao;
+	
+	@Create
+	public void init() {
+		globalBean.setGlobal(getGlobalDoBanco());
+		criarOuEditar = true;
+	}
 	
 	public boolean isCriarOuEditar() {
 		return criarOuEditar;
@@ -69,14 +79,6 @@ public class Fachada {
 
 	public void setCriarOuEditar(boolean criarOuEditar) {
 		this.criarOuEditar = criarOuEditar;
-	}
-
-	public Periodo getPeriodoAtual() {
-		return periodoAtual;
-	}
-
-	public void setPeriodoAtual(Periodo periodoAtual) {
-		this.periodoAtual = periodoAtual;
 	}
 
 	public Avaliacao getAvaliacao() {
@@ -97,71 +99,38 @@ public class Fachada {
 		criarOuEditar = true;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
 	public Usuario getUsuarioDoBanco(String username, String password) {
 		return usuarioDAO.getUsuario(username,password);
 	}
 	
-	public List<AlunoTurma> getAlunoTurmasDoBanco() {
-		if (usuario == null)
-			return null;
-		Aluno aluno = usuario.getAluno();
-		if (aluno != null) {
-			List<AlunoTurma> alunoTurmas = alunoTurmaDAO.getAlunoTurmas(aluno, periodoAtual);
-			if (alunoTurmas.size() > 0) {
-				alunoTurmaAtual = alunoTurmas.get(0);
-				return alunoTurmas;
-			}
-		}
-		return null;
-	}
-
-	public AlunoTurma getAlunoTurmaAtual() {
-		return alunoTurmaAtual;
-	}
-
-	public void setAlunoTurmaAtual(AlunoTurma alunoTurmaAtual) {
-		this.alunoTurmaAtual = alunoTurmaAtual;
-	}
-	
 	public String getNomeDoProfessorAtual() {
+		AlunoTurma alunoTurmaAtual = alunoTurmaBean.getAlunoTurma();
 		if (alunoTurmaAtual == null)
 			return null;
 		return usuarioDAO.getUsuarioProfessor(alunoTurmaAtual.getTurma().getProfessor().getMatricula()).getNome();
 	}
 	
-	public List<DisciplinaTurmas> getTurmasPorDisciplina() {
-		List<Turma> turmas = turmaDAO.getTurmas(usuario.getProfessor(),periodoAtual);
-		if(turmas != null) {
-			List<DisciplinaTurmas> disciplinaTurmas = DisciplinaTurmas.geraTurmasPorDisciplina(turmas);
-			if(disciplinaTurmas != null) {
-				List<Turma> dturmas = disciplinaTurmas.get(0).getTurmas();
-				if(dturmas != null)
-					turmaAtual = dturmas.get(0);
-			}
-			return disciplinaTurmas;
+	public List<Turma> getTurmasDoBanco() {
+		Usuario usuario = usuarioBean.getUsuario();
+		Periodo periodo = getPeriodoAtual();
+		if((usuario != null)&&(periodo != null)) {
+			Professor professor = usuario.getProfessor();
+			if(professor == null)
+				professor = professorDAO.getProfessor(usuario);
+			if(professor != null)
+				return turmaDAO.getTurmas(professor,periodo);
 		}
 		return null;
 	}
 
-	public Turma getTurmaAtual() {
-		return turmaAtual;
-	}
-
 	public void setTurmaAtual(Turma turmaAtual) {
-		this.turmaAtual = turmaAtual;
+		turmaBean.setTurma(turmaAtual);
 		avaliacao = new Avaliacao();
 		criarOuEditar = true;
 	}
 	
 	public List<AlunoTurma> getAlunoTurmas() {
+		Turma turmaAtual = turmaBean.getTurma();
 		if(turmaAtual != null) {
 			alunoTurmas = alunoTurmaDAO.getAlunoTurmas(turmaAtual);
 			if(alunoTurmas != null) {
@@ -181,6 +150,7 @@ public class Fachada {
 	}
 	
 	public void persisteAlunoTurmas() {
+		Turma turmaAtual = turmaBean.getTurma();
 		if(turmaAtual != null) {
 			turmaDAO.atualiza(turmaAtual);
 			if(alunoTurmaAvaliacoes != null) {
@@ -213,6 +183,7 @@ public class Fachada {
 	}
 	
 	public void criarAvaliacao() {
+		Turma turmaAtual = turmaBean.getTurma();
 		if((avaliacao != null)&&(turmaAtual != null)) {
 			avaliacaoDAO.cria(avaliacao, turmaAtual);
 			avaliacao = new Avaliacao();
@@ -244,6 +215,7 @@ public class Fachada {
 	}
 	
 	public List<Avaliacao> getAvaliacoesDaTurma() {
+		Turma turmaAtual = turmaBean.getTurma();
 		if(turmaAtual == null)
 			return null;
 		else {
@@ -253,6 +225,7 @@ public class Fachada {
 	}
 	
 	public List<Avaliacao> getAvaliacoesDoBanco() {
+		AlunoTurma alunoTurmaAtual = alunoTurmaBean.getAlunoTurma();
 		if(alunoTurmaAtual == null)
 			return null;
 		else {
@@ -266,6 +239,7 @@ public class Fachada {
 	}
 	
 	public float getNota(Avaliacao avaliacao) {
+		AlunoTurma alunoTurmaAtual = alunoTurmaBean.getAlunoTurma();
 		if((alunoTurmaAtual != null)&&(avaliacao != null)) {
 			AlunoTurmaAvaliacao alunoTurmaAvaliacao = alunoTurmaAvaliacaoDAO.getAlunoTurmaAvaliacao(alunoTurmaAtual,avaliacao);
 			if(alunoTurmaAvaliacao != null)
@@ -287,24 +261,8 @@ public class Fachada {
 		return 0;
 	}
 	
-	@Create
-	public void initCalendario() {
-		Global global = globalDAO.getGlobal();
-		if(global != null) {
-			Periodo p = global.getPeriodoAtual();
-			if(p != null) {
-				periodoAtual = new Periodo(p);
-				calendario = calendarioDAO.getCalendario(periodoAtual);
-			}
-		}
-		criarOuEditar = true;
-	}
-	
-	public Calendario getCalendario() {
-		return calendario;
-	}
-	
 	public void persistePlanoDeCurso() {
+		Turma turmaAtual = turmaBean.getTurma();
 		if(turmaAtual != null)
 			turmaDAO.atualiza(turmaAtual);
 	}
@@ -321,6 +279,7 @@ public class Fachada {
 	}
 	
 	public List<AlunoTurma> getAlunoTurmaList() {
+		AlunoTurma alunoTurmaAtual = alunoTurmaBean.getAlunoTurma();
 		if(alunoTurmaAtual != null) {
 			List<AlunoTurma> list = new ArrayList<AlunoTurma>();
 			list.add(alunoTurmaAtual);
@@ -341,23 +300,62 @@ public class Fachada {
 	
 	public void excluiAvaliacao() {
 		if(avaliacaoParaExclusao != null) {
-			avaliacaoParaExclusao.setTurma(turmaAtual);
+			avaliacaoParaExclusao.setTurma(turmaBean.getTurma());
 			avaliacaoDAO.remove(avaliacaoParaExclusao);
 			avaliacaoParaExclusao = null;
 		}
 	}
 	
 	public void switchCalcMediaAuto() {
-		if (this.turmaAtual.isCalcularMediaAutomaticamente())
-			this.turmaAtual.setCalcularMediaAutomaticamente(false);
-		else this.turmaAtual.setCalcularMediaAutomaticamente(true);
+		Turma turmaAtual = turmaBean.getTurma();
+		if (turmaAtual.isCalcularMediaAutomaticamente())
+			turmaAtual.setCalcularMediaAutomaticamente(false);
+		else turmaAtual.setCalcularMediaAutomaticamente(true);
 	}
+	
 	public Avaliacao getAvaliacaoParaExclusao() {
 		return avaliacaoParaExclusao;
 	}
 
 	public void setAvaliacaoParaExclusao(Avaliacao avaliacaoParaExclusao) {
 		this.avaliacaoParaExclusao = avaliacaoParaExclusao;
+	}
+
+	public Periodo getPeriodoAtual() {
+		if(globalBean != null)
+			return globalBean.getGlobal().getPeriodoAtual();
+		else
+			return null;
+	}
+
+	public Global getGlobalDoBanco() {
+		return globalDAO.getGlobal();
+	}
+
+	public void setTurma(Turma turma) {
+		turmaBean.setTurma(turma);		
+	}
+
+	public Calendario getCalendarioDoBanco() {
+		return calendarioDAO.getCalendario(getPeriodoAtual());
+	}
+
+	public Usuario getUsuario() {
+		return usuarioBean.getUsuario();
+	}
+
+	public List<AlunoTurma> getAlunoTurmaDoBanco() {
+		Usuario usuario = usuarioBean.getUsuario();
+		if(usuario != null) {
+			Aluno aluno = usuario.getAluno();
+			if(aluno != null)
+				return alunoTurmaDAO.getAlunoTurmas(aluno, getPeriodoAtual());
+		}
+		return null;
+	}
+
+	public void setAlunoTurma(AlunoTurma alunoTurma) {
+		alunoTurmaBean.setAlunoTurma(alunoTurma);
 	}
 	
 }

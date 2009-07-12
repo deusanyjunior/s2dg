@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rich:panel 
+
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a4j="http://richfaces.org/a4j" 
+	
+	style="margin:0;border-width:0;padding:0px;">
+
+	<table width="100%">
+		<tr>
+			<td width="200px">			  
+			  <div class="menu_disciplinas">
+			  		<center>
+			  		<h:outputText styleClass="menu_disciplinas_titulo" value="Turmas Matriculadas" />
+			  		</center>
+			  		<rich:panel>
+				<h:form>
+					<ui:repeat value="#{turmasMatriculadasBean.alunoTurmas}" var="alunoTurma">
+						<a4j:commandLink
+							action="#{alunoTurmaBean.setAlunoTurma(alunoTurma)}"
+							value=":: #{alunoTurma.turma.disciplina.nome}"
+							reRender="discente_mutavel, planoDeCurso, titulo_disciplina_dis, titulo_turma_dis, professor" /><br/>
+					</ui:repeat>
+				</h:form>
+			</rich:panel>
+			  </div>
+			<br></br>
+
+			<rich:calendar popup="false" locale="pt_BR">
+			</rich:calendar>
+			
+			</td>
+			
+			<td style="padding-left: 20px;" height="100%">
+				<h:outputText styleClass="body_titulo_disciplina" id="titulo_disciplina_dis"
+					value="Disciplina: #{alunoTurmaBean.alunoTurma.turma.disciplina.codigo} - #{alunoTurmaBean.alunoTurma.turma.disciplina.nome}" />
+				<br />
+				<h:outputText styleClass="body_outras_info" id="titulo_turma_dis"
+					value="Turma #{alunoTurmaBean.alunoTurma.turma.numero}" />
+				<br/>
+				<h:outputText value="Professor: #{fachada.nomeDoProfessorAtual}" id="professor" />
+				<br />
+				<br />
+			<div><rich:tabPanel switchType="client">
+				<rich:tab label="Avaliações">
+					<rich:panel styleClass="border_zero" id="discente_mutavel">
+						<rich:dataTable value="#{fachada.alunoTurmaList}" var="alunoTurma" style="text-align: center;" >   
+						  <rich:column>
+							<f:facet name="header">
+								Número de Faltas
+							</f:facet>
+							<h:outputText value="#{alunoTurma.faltas}" />
+						  </rich:column>
+						  <rich:columns value="#{fachada.avaliacoesDoBanco}" var="avaliacao">
+							<f:facet name="header">
+								<h:outputText value="#{avaliacao.nome}(peso:#{avaliacao.peso})" />
+							</f:facet>
+							<h:outputText value="#{fachada.getNota(avaliacao)}" />
+						  </rich:columns>
+						  <rich:column>
+							<f:facet name="header">
+								Média Final
+							</f:facet>
+							<h:outputText value="#{alunoTurma.media}" />
+						  </rich:column>
+						</rich:dataTable> 
+					</rich:panel>
+				</rich:tab>
+				<rich:tab label="Cronograma de Aulas">
+					<ui:include src="/calendario2.xhtml"/>
+				</rich:tab>
+				<rich:tab label="Plano de Curso">
+					<a4j:outputPanel id="planoDeCurso">
+						<s:formattedText value="#{alunoTurmaBean.alunoTurma.turma.planoDeCurso}"/>
+					</a4j:outputPanel>
+				</rich:tab>
+			</rich:tabPanel></div>
+
+			</td>
+		</tr>
+	</table>
+
+
+
+
+</rich:panel>

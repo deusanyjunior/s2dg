@@ -1,0 +1,215 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Turma Details</f:facet>
+
+        <s:decorate id="id" template="layout/display.xhtml">
+            <ui:define name="label">Id</ui:define>
+            <h:outputText value="#{turmaHome.instance.id}"/>
+        </s:decorate>
+
+        <s:decorate id="numero" template="layout/display.xhtml">
+            <ui:define name="label">Numero</ui:define>
+            <h:outputText value="#{turmaHome.instance.numero}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/TurmaEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty turmaFrom ? 'TurmaList' : turmaFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Professor</h:panelGroup>
+        </f:facet>
+    <div class="association" id="professorParent">
+
+        <h:outputText value="There is no professor associated with this turma."
+                   rendered="#{turmaHome.instance.professor == null}"/>
+
+        <rich:dataTable var="_professor"
+                   value="#{turmaHome.instance.professor}"
+                rendered="#{turmaHome.instance.professor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="professorTable">
+            <h:column>
+                <f:facet name="header">Matricula</f:facet>
+                <h:outputText value="#{_professor.matricula}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewprofessor"
+                     value="View"
+                      view="/Professor.xhtml">
+                    <f:param name="professorMatricula"
+                           value="#{_professor.matricula}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Periodo</h:panelGroup>
+        </f:facet>
+    <div class="association" id="periodoParent">
+
+        <h:outputText value="There is no periodo associated with this turma."
+                   rendered="#{turmaHome.instance.periodo == null}"/>
+
+        <rich:dataTable var="_periodo"
+                   value="#{turmaHome.instance.periodo}"
+                rendered="#{turmaHome.instance.periodo != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="periodoTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_periodo.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Ano</f:facet>
+                <h:outputText value="#{_periodo.ano}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Semestre</f:facet>
+                <h:outputText value="#{_periodo.semestre}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewperiodo"
+                     value="View"
+                      view="/Periodo.xhtml">
+                    <f:param name="periodoId"
+                           value="#{_periodo.id}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/manytoone.gif" style="vertical-align: middle; padding-right: 4px;"/>Disciplina</h:panelGroup>
+        </f:facet>
+    <div class="association" id="disciplinaParent">
+
+        <h:outputText value="There is no disciplina associated with this turma."
+                   rendered="#{turmaHome.instance.disciplina == null}"/>
+
+        <rich:dataTable var="_disciplina"
+                   value="#{turmaHome.instance.disciplina}"
+                rendered="#{turmaHome.instance.disciplina != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="disciplinaTable">
+            <h:column>
+                <f:facet name="header">Codigo</f:facet>
+                <h:outputText value="#{_disciplina.codigo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{_disciplina.nome}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Creditos</f:facet>
+                <h:outputText value="#{_disciplina.creditos}"/>
+            </h:column>
+            <h:column styleClass="action">
+                <f:facet name="header">Action</f:facet>
+                <s:link id="viewdisciplina"
+                     value="View"
+                      view="/Disciplina.xhtml">
+                    <f:param name="disciplinaCodigo"
+                           value="#{_disciplina.codigo}"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Aluno turmas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="alunoTurmasChildren">
+
+        <h:outputText value="There are no alunoTurmas associated with this turma."
+                   rendered="#{empty turmaHome.alunoTurmas}"/>
+
+        <rich:dataTable value="#{turmaHome.alunoTurmas}"
+                       var="_alunoTurma"
+                  rendered="#{not empty turmaHome.alunoTurmas}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="alunoTurmasTable">
+            <rich:column sortBy="#{_alunoTurma.id.matriculaAluno}">
+                <f:facet name="header">Matricula aluno</f:facet>
+                <h:outputText value="#{_alunoTurma.id.matriculaAluno}"/>
+            </rich:column>
+            <rich:column sortBy="#{_alunoTurma.id.idTurma}">
+                <f:facet name="header">Id turma</f:facet>
+                <h:outputText value="#{_alunoTurma.id.idTurma}"/>
+            </rich:column>
+            <rich:column sortBy="#{_alunoTurma.media}">
+                <f:facet name="header">Media</f:facet>
+                <h:outputText value="#{_alunoTurma.media}"/>
+            </rich:column>
+            <rich:column sortBy="#{_alunoTurma.frequencia}">
+                <f:facet name="header">Frequencia</f:facet>
+                <h:outputText value="#{_alunoTurma.frequencia}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectalunoTurma"
+                     value="Select"
+                      view="/AlunoTurma.xhtml">
+                    <f:param name="alunoTurmaMatriculaAluno"
+                            value="#{_alunoTurma.id.matriculaAluno}"/>
+                    <f:param name="alunoTurmaIdTurma"
+                            value="#{_alunoTurma.id.idTurma}"/>
+                    <f:param name="alunoTurmaFrom" value="Turma"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add alunoTurma"
+                view="/AlunoTurmaEdit.xhtml">
+            <f:param name="turmaId"
+                    value="#{turmaHome.instance.id}"/>
+            <f:param name="alunoTurmaFrom" value="Turma"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

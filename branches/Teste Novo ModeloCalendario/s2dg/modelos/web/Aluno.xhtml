@@ -1,0 +1,153 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <rich:panel>
+        <f:facet name="header">Aluno Details</f:facet>
+
+        <s:decorate id="matricula" template="layout/display.xhtml">
+            <ui:define name="label">Matricula</ui:define>
+            <h:outputText value="#{alunoHome.instance.matricula}"/>
+        </s:decorate>
+
+        <div style="clear:both"/>
+
+    </rich:panel>
+
+    <div class="actionButtons">
+
+        <s:button view="/AlunoEdit.xhtml"
+                    id="edit"
+                 value="Edit"/>
+
+        <s:button view="/#{empty alunoFrom ? 'AlunoList' : alunoFrom}.xhtml"
+                    id="done"
+                 value="Done"/>
+
+    </div>
+
+    <rich:tabPanel switchType="ajax">
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Usuarios</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="usuariosChildren">
+
+        <h:outputText value="There are no usuarios associated with this aluno."
+                   rendered="#{empty alunoHome.usuarios}"/>
+
+        <rich:dataTable value="#{alunoHome.usuarios}"
+                       var="_usuario"
+                  rendered="#{not empty alunoHome.usuarios}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="usuariosTable">
+            <rich:column sortBy="#{_usuario.id}">
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_usuario.id}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.senha}">
+                <f:facet name="header">Senha</f:facet>
+                <h:outputText value="#{_usuario.senha}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.nome}">
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{_usuario.nome}"/>
+            </rich:column>
+            <rich:column sortBy="#{_usuario.cpf}">
+                <f:facet name="header">Cpf</f:facet>
+                <h:outputText value="#{_usuario.cpf}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectusuario"
+                     value="Select"
+                      view="/Usuario.xhtml">
+                    <f:param name="usuarioId"
+                            value="#{_usuario.id}"/>
+                    <f:param name="usuarioFrom" value="Aluno"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add usuario"
+                view="/UsuarioEdit.xhtml">
+            <f:param name="alunoMatricula"
+                    value="#{alunoHome.instance.matricula}"/>
+            <f:param name="usuarioFrom" value="Aluno"/>
+        </s:button>
+    </div>
+    </rich:tab>
+
+    <rich:tab>
+        <f:facet name="label">
+            <h:panelGroup><h:graphicImage value="/img/onetomany.gif" style="vertical-align: middle; padding-right: 4px;"/>Aluno turmas</h:panelGroup>
+        </f:facet>
+    <h:form styleClass="association" id="alunoTurmasChildren">
+
+        <h:outputText value="There are no alunoTurmas associated with this aluno."
+                   rendered="#{empty alunoHome.alunoTurmas}"/>
+
+        <rich:dataTable value="#{alunoHome.alunoTurmas}"
+                       var="_alunoTurma"
+                  rendered="#{not empty alunoHome.alunoTurmas}"
+                rowClasses="rvgRowOne,rvgRowTwo"
+                        id="alunoTurmasTable">
+            <rich:column sortBy="#{_alunoTurma.id.matriculaAluno}">
+                <f:facet name="header">Matricula aluno</f:facet>
+                <h:outputText value="#{_alunoTurma.id.matriculaAluno}"/>
+            </rich:column>
+            <rich:column sortBy="#{_alunoTurma.id.idTurma}">
+                <f:facet name="header">Id turma</f:facet>
+                <h:outputText value="#{_alunoTurma.id.idTurma}"/>
+            </rich:column>
+            <rich:column sortBy="#{_alunoTurma.media}">
+                <f:facet name="header">Media</f:facet>
+                <h:outputText value="#{_alunoTurma.media}"/>
+            </rich:column>
+            <rich:column sortBy="#{_alunoTurma.frequencia}">
+                <f:facet name="header">Frequencia</f:facet>
+                <h:outputText value="#{_alunoTurma.frequencia}"/>
+            </rich:column>
+            <h:column>
+                <f:facet name="header">Action</f:facet>
+                <s:link id="selectalunoTurma"
+                     value="Select"
+                      view="/AlunoTurma.xhtml">
+                    <f:param name="alunoTurmaMatriculaAluno"
+                            value="#{_alunoTurma.id.matriculaAluno}"/>
+                    <f:param name="alunoTurmaIdTurma"
+                            value="#{_alunoTurma.id.idTurma}"/>
+                    <f:param name="alunoTurmaFrom" value="Aluno"/>
+                </s:link>
+            </h:column>
+        </rich:dataTable>
+
+    </h:form>
+
+    <div class="actionButtons">
+        <s:button
+               value="Add alunoTurma"
+                view="/AlunoTurmaEdit.xhtml">
+            <f:param name="alunoMatricula"
+                    value="#{alunoHome.instance.matricula}"/>
+            <f:param name="alunoTurmaFrom" value="Aluno"/>
+        </s:button>
+    </div>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

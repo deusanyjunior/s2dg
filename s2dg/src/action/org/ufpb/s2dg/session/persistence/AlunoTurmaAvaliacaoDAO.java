@@ -66,6 +66,7 @@ public class AlunoTurmaAvaliacaoDAO {
 
 	public void atualiza(AlunoTurmaAvaliacao alunoTurmaAvaliacao) {
 		entityManager.merge(alunoTurmaAvaliacao);
+		entityManager.flush();
 	}
 
 	public void remove(AlunoTurmaAvaliacao ata) {

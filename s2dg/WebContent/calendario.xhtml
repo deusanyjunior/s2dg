@@ -16,7 +16,7 @@
 				<s:div  rendered="#{not empty calendarioBean.calendario.inicioPeriodo}">
 				<th class="dr-table-subheadercell rich-table-subheadercell"
 					scope="col">
-				<div><h:outputText value="Início do Período #{fachada.periodoAtual.ano}.#{fachada.periodoAtual.semestre}" /></div>
+				<div><h:outputText value="Início do Período #{globalBean.global.periodoAtual.ano}.#{globalBean.global.periodoAtual.semestre}" /></div>
 				</th>
 				</s:div>
 				<s:div  rendered="#{not empty calendarioBean.calendario.inicioMatricula}">
@@ -46,7 +46,7 @@
 				<s:div  rendered="#{not empty calendarioBean.calendario.fimPeriodo}">
 				<th class="dr-table-subheadercell rich-table-subheadercell"
 					scope="col">
-				<div><h:outputText value="Fim do Período #{periodoBean.periodo.ano}.#{periodoBean.periodo.semestre}" /></div>
+				<div><h:outputText value="Fim do Período #{globalBean.global.periodoAtual.ano}.#{globalBean.global.periodoAtual.semestre}" /></div>
 				</th>
 				</s:div>
 			</tr>

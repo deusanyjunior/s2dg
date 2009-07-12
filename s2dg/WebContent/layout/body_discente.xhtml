@@ -43,24 +43,24 @@
 				<h:outputText styleClass="body_outras_info" id="titulo_turma_dis"
 					value="Turma #{alunoTurmaBean.alunoTurma.turma.numero}" />
 				<br/>
-				<h:outputText value="Professor: #{fachada.nomeDoProfessorAtual}" id="professor" />
+				<h:outputText value="Professor: #{usuarioBean.usuarioProfessor.nome}" id="professor" />
 				<br />
 				<br />
 			<div><rich:tabPanel switchType="client">
 				<rich:tab label="Avaliações">
 					<rich:panel styleClass="border_zero" id="discente_mutavel">
-						<rich:dataTable value="#{fachada.alunoTurmaList}" var="alunoTurma" style="text-align: center;" >   
+						<rich:dataTable value="#{alunoTurmaBean.alunoTurmaAsList}" var="alunoTurma" style="text-align: center;" >   
 						  <rich:column>
 							<f:facet name="header">
 								Número de Faltas
 							</f:facet>
 							<h:outputText value="#{alunoTurma.faltas}" />
 						  </rich:column>
-						  <rich:columns value="#{fachada.avaliacoesDoBanco}" var="avaliacao">
+						  <rich:columns value="#{avaliacoesBean.avaliacoes}" var="avaliacao">
 							<f:facet name="header">
 								<h:outputText value="#{avaliacao.nome}(peso:#{avaliacao.peso})" />
 							</f:facet>
-							<h:outputText value="#{fachada.getNota(avaliacao)}" />
+							<h:outputText value="#{avaliacoesBean.getNota(avaliacao)}" />
 						  </rich:columns>
 						  <rich:column>
 							<f:facet name="header">

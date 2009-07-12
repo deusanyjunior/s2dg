@@ -24,7 +24,7 @@
 					<br />
 					<ui:repeat value="#{disciplinaTurmas.turmas}" var="turma">
 						<a4j:commandLink styleClass="menu_disciplina_turma"
-							action="#{fachada.setTurmaAtual(turma)}"
+							action="#{turmaBean.setTurma(turma)}"
 							value=":: Turma #{turma.numero}"
 							reRender="titulo_disciplina_doc,titulo_turma_doc,tabela_avaliacoes,checkboxmedia,editorPlano, criar_avaliacao" />
 						<br />
@@ -48,7 +48,7 @@
 					<rich:panel styleClass="border_zero">
 						<h:form>
 							<rich:panel styleClass="border_zero" id="tabela_avaliacoes">
-								<rich:dataTable var="alunoTurma" value="#{fachada.alunoTurmas}" style="text-align: center;" >
+								<rich:dataTable var="alunoTurma" value="#{alunoTurmasBean.alunoTurmas}" style="text-align: center;" >
 									<rich:column styleClass="matricula">
 										<f:facet name="header">Matrícula</f:facet>
 										<h:outputText value="#{alunoTurma.aluno.matricula}" />
@@ -61,24 +61,24 @@
 										<f:facet name="header">Faltas</f:facet>
 										<h:inputText value="#{alunoTurma.faltas}" size="5" />
 									</rich:column>
-									<rich:columns  value="#{fachada.avaliacoesDaTurma}" var="avaliacao">
+									<rich:columns  value="#{avaliacoesBean.avaliacoes}" var="avaliacao">
 										<f:facet name="header">
 											<h:panelGroup>
 												<h:outputText value="#{avaliacao.nome}" />
 												<a4j:commandLink id="excluir#{avaliacao.id}"
-													action="#{fachada.setAvaliacaoParaExclusao(avaliacao)}"
+													action="#{avaliacaoBean.setAvaliacaoParaExclusao(avaliacao)}"
 													oncomplete="Richfaces.showModalPanel('myModalPanel',{width:485, top:200});"
 													reRender="myModalDiv" >
 													<img alt="remover" src="img/del.png" />
 												</a4j:commandLink>
 												<br/>
 												<h:outputText value="peso: #{avaliacao.peso}" />
-												<a4j:commandLink action="#{fachada.setAvaliacaoParaEdicao(avaliacao)}" reRender="criar_avaliacao">
+												<a4j:commandLink action="#{avaliacaoBean.setAvaliacaoParaEdicao(avaliacao)}" reRender="criar_avaliacao">
 													<img alt="editar" src="img/edit.png" />
 												</a4j:commandLink>
 											</h:panelGroup>
 										</f:facet>
-										<h:inputText value="#{fachada.getAlunoTurmaAvaliacao(alunoTurma, avaliacao).nota}" size="5"/>
+										<h:inputText value="#{alunoTurmaAvaliacoesBean.getAlunoTurmaAvaliacao(alunoTurma, avaliacao).nota}" size="5"/>
 									</rich:columns>
 									<rich:column styleClass="media">
 										<f:facet name="header">Média Final</f:facet>
@@ -90,12 +90,12 @@
 								</rich:dataTable>								
 							</rich:panel>
 								<h:selectBooleanCheckbox id="checkboxmedia" value="#{turmaBean.turma.calcularMediaAutomaticamente}">
-									<a4j:support event="onmouseup" action="#{fachada.switchCalcMediaAuto}" reRender="tabela_avaliacoes, checkboxmedia" limitToList="true" />
+									<a4j:support event="onmouseup" action="#{turmaBean.switchCalcMediaAuto}" reRender="tabela_avaliacoes, checkboxmedia" limitToList="true" />
 								</h:selectBooleanCheckbox>
 							<h:outputText for="checkboxmedia"
 								value="Calcular Média Automaticamente" />
 							<a4j:commandButton styleClass="botao_salvar" type="submit"
-								value="Salvar" action="#{fachada.persisteAlunoTurmas}"
+								value="Salvar" action="#{alunoTurmasBean.atualizaAlunoTurmas}"
 								reRender="tabela_avaliacoes" />
 						</h:form>
 						<br />
@@ -104,27 +104,27 @@
 						<h:form>
 							<rich:panel id="criar_avaliacao" style="width: 260px;">
 								<f:facet name="header">
-									<h:outputText value="#{fachada.criarOuEditar?'Criar':'Editar'} Avaliação" />
+									<h:outputText value="#{avaliacaoBean.criarOuEditar?'Criar':'Editar'} Avaliação" />
 								</f:facet>
 								<table>
 									<tr>
 										<td><h:outputText value="Nome: " /></td>
-										<td><h:inputText value="#{fachada.avaliacao.nome}" /></td>
+										<td><h:inputText value="#{avaliacaoBean.avaliacao.nome}" /></td>
 										<td><a4j:commandButton type="submit"
-											rendered="#{not fachada.criarOuEditar}"
+											rendered="#{not avaliacaoBean.criarOuEditar}"
 											reRender="criar_avaliacao, tabela_avaliacoes" value="Atualizar"
-											action="#{fachada.atualizarAvaliacao}" /></td>
+											action="#{avaliacaoBean.atualizarAvaliacao}" /></td>
 									</tr>
 									<tr>
 										<td><h:outputText value="Peso:" /></td>
 										<td><rich:inputNumberSpinner minValue="1" cycled="false"
-											value="#{fachada.avaliacao.peso}" /></td>
+											value="#{avaliacaoBean.avaliacao.peso}" /></td>
 										<td><a4j:commandButton styleClass="botao_criar"
-											type="submit" rendered="#{fachada.criarOuEditar}"
-											value="Criar" action="#{fachada.criarAvaliacao}"
+											type="submit" rendered="#{avaliacaoBean.criarOuEditar}"
+											value="Criar" action="#{avaliacaoBean.criarAvaliacao}"
 											reRender="tabela_avaliacoes, criar_avaliacao, checkboxmedia" />
-											<a4j:commandButton rendered="#{not fachada.criarOuEditar}"
-											value="Cancelar" action="#{fachada.cancelarEdicao}"
+											<a4j:commandButton rendered="#{not avaliacaoBean.criarOuEditar}"
+											value="Cancelar" action="#{avaliacaoBean.cancelarEdicao}"
 											reRender="criar_avaliacao" /></td>
 									</tr>
 								</table>
@@ -143,7 +143,7 @@
 							value="#{turmaBean.turma.planoDeCurso}" width="659" height="282" theme="advanced"
 							plugins="save,paste" language="pt" /> <a4j:commandButton
 							type="submit" value="Salvar"
-							action="#{fachada.persistePlanoDeCurso}" style="FONT-WEIGHT: bold; width : 85px; height : 29px;"/>
+							action="#{turmaBean.atualiza}" style="FONT-WEIGHT: bold; width : 85px; height : 29px;"/>
 							</center>
 					</h:form>
 				</rich:tab>
@@ -160,16 +160,16 @@
 		<center>
 		<s:div id="myModalDiv">
 		<h:outputText
-			value="Tem certeza que deseja excluir a avaliação '#{fachada.avaliacaoParaExclusao.nome}' e todas as suas notas?" />
+			value="Tem certeza que deseja excluir a avaliação '#{avaliacaoBean.avaliacaoParaExclusao.nome}' e todas as suas notas?" />
 		</s:div>
 		<br />
 		<h:form>
-			<a4j:commandButton id="botaosim" action="#{fachada.excluiAvaliacao}" limitToList="true"
+			<a4j:commandButton id="botaosim" action="#{avaliacaoBean.excluiAvaliacao}" limitToList="true"
 				value="Sim" reRender="tabela_avaliacoes">
 				<rich:componentControl for="myModalPanel" attachTo="botaosim"
 					operation="hide" event="onclick" />
 			</a4j:commandButton>
-			<a4j:commandButton id="botaonao" action="#{fachada.cancelaExclusao}"
+			<a4j:commandButton id="botaonao" action="#{avaliacaoBean.cancelaExclusao}"
 				value="Não">
 				<rich:componentControl for="myModalPanel" attachTo="botaonao"
 					operation="hide" event="onclick" />

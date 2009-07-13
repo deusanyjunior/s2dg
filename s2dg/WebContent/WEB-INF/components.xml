@@ -48,8 +48,13 @@
    <event type="org.jboss.seam.security.loginSuccessful">
       <action execute="#{redirect.returnToCapturedView}"/>
    </event>
+   
+   <mail:mail-session host="smtp.hotmail.com" port="1234"
+  username="s2dg@hotmail.com" password="engenharia"/>
 
-   <mail:mail-session host="localhost" port="25"/>
+	<!-- 
+   		<mail:mail-session host="localhost" port="25"/>
+	 -->
 
    <!-- For use with jBPM pageflow or process management -->
    <!--

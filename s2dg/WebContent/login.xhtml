@@ -50,7 +50,8 @@
 				</div>
 				<br/>
 					
-				<!--a4j:commandLink reRender="Erro">
+				<!--
+				a4j:commandLink reRender="Erro">
                 	<h:outputText value="Esqueci minha senha" /> 
             	</a4j:commandLink>
             	<br/>
@@ -58,7 +59,39 @@
         			<h:outputText value="Uma nova senha sera enviada para o seu email!" 
         						  rendered="#{not empty credentials.username}" 
         						  styleClass="setBold"/>
-    			</h:panelGroup-->
+    			</h:panelGroup
+    			
+    			
+    			<h:form>
+            <rich:messages/>
+            <s:validateAll>
+
+                <rich:panel id="homepanel">
+                    <f:facet name="header">
+
+                        Seam Email 
+                    </f:facet>
+                    <h:panelGrid columns="2">
+                        <h:outputText value="To Email:"/>
+                        <h:inputText value="#{emailaction.toEmail}"/>
+
+                      <h:outputText value="Subject"/>
+                        <h:inputText value="#{emailaction.subject}"/>
+
+                           <h:outputText value="Message:" size="200"/>
+                        <h:inputTextarea value="#{emailaction.message}" cols="60" rows="6" size="200px"/>
+
+<h:commandButton action="#{emailaction.sendEmail}" value="Send Email"/>
+                    </h:panelGrid>
+                    <br/>
+                 
+                </rich:panel>
+
+
+            </s:validateAll>
+        </h:form>
+    			
+    			-->
 				
 			</rich:panel></center>
 		</h:form>

@@ -11,6 +11,16 @@
     xmlns:a4j="http://richfaces.org/a4j"
     xmlns:m="http://jboss.com/products/seam/mail">
 
+
+<ui:define name="head">
+
+
+<script src="http://jquery-joshbush.googlecode.com/files/jquery.maskedinput-1.2.2.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+   jQuery(function($) {
+      $('#username').mask('999.999.999-99');
+   });</script>	
+   
 	<style>
         .setBold {
             font-weight: bold;
@@ -21,6 +31,7 @@
         	
         }
     </style>
+</ui:define>
     
 	<ui:define name="body">
 		<h:form id="login">
@@ -32,8 +43,12 @@
 				<div class="dialog"><h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
 					
 					<div align="right"> CPF </div>
+					
+					
 						
-					<h:inputText id="username" value="#{credentials.username}" />
+					<h:inputText id="username" value="#{credentials.username}"> 
+						<rich:jQuery id="usernameMascara" selector="#username" query="mask('999.999.999-99')" timing="onload" />
+					</h:inputText>
 						
 					<div align="right"> Senha </div>
 

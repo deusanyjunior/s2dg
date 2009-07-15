@@ -49,8 +49,8 @@ public class UsuarioDAO {
 	
 	//Criado por Julio
 	public void alteraSenha(String CPF, String senhaAtual, String novaSenha){
-		entityManager.createQuery("update table Usuario Set senha = :senha where cpf = :cpf")
+		entityManager.createQuery("update Usuario Set senha = :senha where cpf = :cpf")
 		.setParameter("cpf", CPF)
-		.setParameter("senha", novaSenha);
+		.setParameter("senha", novaSenha).executeUpdate();
 	}
 }

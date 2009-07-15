@@ -2,13 +2,12 @@ package org.ufpb.s2dg.session;
 
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.security.Credentials;
 
 @Name("alterarSenha")
 public class AlterarSenhaBean {
 	
 	@In 
-    Credentials credentials;
+    UsuarioBean usuarioBean;
 	
 	@In
     Fachada fachada;
@@ -20,6 +19,9 @@ public class AlterarSenhaBean {
 	
 	public AlterarSenhaBean(){
 		clicou = false;
+		senhaAtual = "";
+		novaSenha1 = "";
+		novaSenha2 = "";
 	}
 	
 	public String botaoPressionado(){
@@ -31,11 +33,11 @@ public class AlterarSenhaBean {
 		if(!novaSenha1.equals(novaSenha2)){
 			return "Senhas diferentes";
 		}
-		else if(!senhaAtual.equals(credentials.getPassword())){
-			return "Senha inválida (Falta implementar)";
+		else if(!senhaAtual.equals(usuarioBean.getUsuario().getSenha())){
+			return "Senha inválida";
 		}
 		
-		fachada.alteraSenha(credentials.getUsername(), senhaAtual, novaSenha1);
+		fachada.alteraSenha(usuarioBean.getUsuario().getCpf(), senhaAtual, novaSenha1);
 		
 		return "Senha alterada com sucesso!";
 	}

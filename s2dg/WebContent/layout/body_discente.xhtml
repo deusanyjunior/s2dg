@@ -43,7 +43,11 @@
 				<h:outputText styleClass="body_outras_info" id="titulo_turma_dis"
 					value="Turma #{alunoTurmaBean.alunoTurma.turma.numero}" />
 				<br/>
-				<h:outputText value="Professor: #{usuarioBean.usuarioProfessor.nome}" id="professor" />
+				<h:outputText value="Professores:" />
+				<a4j:repeat value="#{alunoTurmaBean.professores}" var="professor" >
+					<br />					
+					<h:outputText value="#{professor.usuario.nome}" />
+				</a4j:repeat>
 				<br />
 				<br />
 			<div><rich:tabPanel switchType="client">

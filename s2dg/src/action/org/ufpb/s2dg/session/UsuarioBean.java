@@ -6,6 +6,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
+import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Usuario;
 
 @Name("usuarioBean")
@@ -29,7 +30,8 @@ public class UsuarioBean {
 		AlunoTurma alunoTurmaAtual = fachada.getAlunoTurma();
 		if (alunoTurmaAtual == null)
 			return null;
-		return fachada.getUsuarioProfessor(alunoTurmaAtual.getTurma().getProfessores().iterator().next().getMatricula());
+		Professor professor = (Professor)alunoTurmaAtual.getTurma().getProfessores().toArray()[0];
+		return fachada.getUsuarioProfessor(professor.getMatricula());
 	}
 	
 }

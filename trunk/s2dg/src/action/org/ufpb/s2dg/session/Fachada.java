@@ -233,4 +233,9 @@ public class Fachada {
 		alunoTurmasBean.init();
 	}
 	
+	//Criado por Julio
+	public void alteraSenha(String CPF, String senhaAtual, String novaSenha){
+		usuarioDAO.alteraSenha(CPF, senhaAtual, novaSenha);
+	}
+	
 }

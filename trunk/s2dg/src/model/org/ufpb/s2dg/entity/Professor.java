@@ -8,7 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -49,7 +51,8 @@ public class Professor implements java.io.Serializable {
 		this.matricula = matricula;
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "professor")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "professor_turma", schema = "public", joinColumns = { @JoinColumn(name = "matricula", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "turma_id", nullable = false, updatable = false) })
 	public Set<Turma> getTurmas() {
 		return this.turmas;
 	}

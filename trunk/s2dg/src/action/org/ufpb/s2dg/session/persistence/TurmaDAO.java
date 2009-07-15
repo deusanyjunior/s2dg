@@ -20,11 +20,28 @@ public class TurmaDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Turma> getTurmas(Professor professor, Periodo periodo) {
-		return (List<Turma>) entityManager.createQuery(
-    	"select turma from Turma as turma where turma.professor = :professor and turma.periodo = :periodo order by turma.disciplina.nome")
-    	.setParameter("professor", professor)
+		List<Turma> list = (List<Turma>) entityManager.createQuery(
+    	"select turma from Turma as turma where turma.periodo = :periodo order by turma.disciplina.nome")
+//    	.setParameter("professor", professor)
     	.setParameter("periodo",periodo)
     	.getResultList();
+		/* Gambiarra para retornar a lista de turmas do professor */
+		int i = 0;
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		System.out.println(list.size());
+		while( i < list.size()){
+			if(!list.get(i).getProfessores().contains(professor)){
+				list.remove(i);
+			} else {
+				i++;
+			}
+		}		
+		System.out.println(list.size());
+		/**/
+		return list;
 	}
 	public void atualiza(Turma turmaAtual) {
 		entityManager.merge(turmaAtual);

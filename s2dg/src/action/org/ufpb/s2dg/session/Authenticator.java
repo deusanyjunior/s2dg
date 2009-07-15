@@ -31,11 +31,11 @@ public class Authenticator
     
     public boolean authenticate()
     {
-        log.info("authenticating {0}", credentials.getUsername());
+        log.info("authenticating {0}", credentials.getUsername().replaceAll("[.]", "").replaceAll("[-]", ""));
         
         /* Inserir Método de Criptografia de Senha */
         
-        Usuario usuario = fachada.getUsuarioDoBanco(credentials.getUsername(),credentials.getPassword()); 
+        Usuario usuario = fachada.getUsuarioDoBanco(credentials.getUsername().replaceAll("[.]", "").replaceAll("[-]", ""),credentials.getPassword()); 
         
         if (usuario != null) {
             Set<Role> roles = usuario.getRoles();

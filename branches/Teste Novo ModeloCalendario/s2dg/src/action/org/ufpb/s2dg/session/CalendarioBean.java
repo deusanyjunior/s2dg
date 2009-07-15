@@ -1,5 +1,7 @@
 package org.ufpb.s2dg.session;
 
+import java.util.Date;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
@@ -14,6 +16,8 @@ import org.ufpb.s2dg.entity.Calendario;
 public class CalendarioBean {
 
 	Calendario calendario;
+	
+	Date dataAtual;
 	
 	@In
 	Fachada fachada;
@@ -31,4 +35,7 @@ public class CalendarioBean {
 		this.calendario = calendario;
 	}
 	
+	public Date dataAtual() {
+		return new Date();
+	}
 }

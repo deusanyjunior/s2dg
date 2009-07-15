@@ -9,7 +9,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,7 +25,7 @@ public class Turma implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private long id;
-	private Professor professor;
+	private Set<Professor> professores = new HashSet<Professor>(0);
 	private Periodo periodo;
 	private Disciplina disciplina;
 	private String numero;
@@ -41,11 +43,11 @@ public class Turma implements java.io.Serializable {
 		this.numero = numero;
 	}
 
-	public Turma(long id, Professor professor, Periodo periodo,
+	public Turma(long id, Set<Professor> professores, Periodo periodo,
 			Disciplina disciplina, String numero, Set<AlunoTurma> alunoTurmas,
 			Set<Avaliacao> avaliacoes, boolean calcularMediaAutomaticamente, String planoDeCurso) {
 		this.id = id;
-		this.professor = professor;
+		this.professores = professores;
 		this.periodo = periodo;
 		this.disciplina = disciplina;
 		this.numero = numero;
@@ -65,14 +67,14 @@ public class Turma implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_professor")
-	public Professor getProfessor() {
-		return this.professor;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "professor_turma", schema = "public", joinColumns = { @JoinColumn(name = "turma_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "matricula_docente", nullable = false, updatable = false) })
+	public Set<Professor> getProfessores() {
+		return this.professores;
 	}
 
-	public void setProfessor(Professor professor) {
-		this.professor = professor;
+	public void setProfessores(Set<Professor> professores) {
+		this.professores = professores;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

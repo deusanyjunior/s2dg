@@ -29,7 +29,7 @@ public class UsuarioBean {
 		AlunoTurma alunoTurmaAtual = fachada.getAlunoTurma();
 		if (alunoTurmaAtual == null)
 			return null;
-		return fachada.getUsuarioProfessor(alunoTurmaAtual.getTurma().getProfessor().getMatricula());
+		return fachada.getUsuarioProfessor(alunoTurmaAtual.getTurma().getProfessores().iterator().next().getMatricula());
 	}
 	
 }

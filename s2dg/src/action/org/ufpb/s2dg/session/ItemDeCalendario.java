@@ -1,14 +1,27 @@
 package org.ufpb.s2dg.session;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.richfaces.model.CalendarDataModelItem;
-import org.ufpb.s2dg.entity.DataEvento;
 
 public class ItemDeCalendario implements CalendarDataModelItem, Serializable {
 	private Object data;
 	private int day;
 	private static final long serialVersionUID = 1L;
+	
+	public ItemDeCalendario() {
+		data = "Nada Planejado";
+		Calendar c = Calendar.getInstance();
+		c.setTime(new Date());
+		day = c.get(Calendar.DAY_OF_MONTH);
+	}
+	
+	public ItemDeCalendario(String eventos, int dia) {
+		data = eventos;
+		day = dia;
+	}
 	
 	public Object getData() {
 		// TODO Auto-generated method stub

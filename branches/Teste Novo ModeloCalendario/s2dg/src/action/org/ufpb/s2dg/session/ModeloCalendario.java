@@ -21,15 +21,27 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
 	public CalendarDataModelItem[] getData(Date[] datas) {
 		if (datas == null) return null;
 		
-		if (itens == null) {
-			itens = new ItemDeCalendario[datas.length];
-			for (int i = 0; i < datas.length; i++) {
-				if (datas[i] != null) {
-					itens[i] = criarItemDeCalendario(datas[i]);
+		itens = new ItemDeCalendario[datas.length];
+		Calendar c = Calendar.getInstance();
+		c.setTime(datas[0]);
+		ArrayList<DataEvento> datasEEventos = new DataEventoDAO().getDataEvento(c.get(Calendar.MONTH) + 1, 
+				c.get(Calendar.YEAR));
+		String eventos = "";
+		
+		for (int i = 0; i < datas.length; i++) {
+			if (datas[i] != null) {
+				for (int j = 0; j < datasEEventos.size(); j++) {
+					if (datas[i].equals(datasEEventos.get(j).getData())) {
+						eventos += datasEEventos.remove(j--).getEvento() + "\n";
+					}
 				}
+				c.setTime(datas[i]);
+				itens[i] = new ItemDeCalendario(eventos, c.get(Calendar.DAY_OF_MONTH));
+				eventos = "";
 			}
 		}
-		
+		/*System.out.println(c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH) + "/" + 
+					c.get(Calendar.YEAR));*/
 		return itens;
 	}
 
@@ -38,14 +50,12 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
 		return null;
 	}
 	
-	private ItemDeCalendario criarItemDeCalendario(Date data) {
-		if (data == null) {
-			System.out.println("EEEEEEENNNNNNNTROOOOOOOOOOOOOUUUUUUUUUU");
-		}
+	/*private ItemDeCalendario criarItemDeCalendario(Date data) {
 		ItemDeCalendario item = new ItemDeCalendario();
 		Calendar c = Calendar.getInstance();
 		c.setTime(data);
-		item.setDay(c.get(Calendar.DAY_OF_MONTH));
+		int dia = c.get(Calendar.DAY_OF_MONTH);
+		item.setDay(dia);
 		
 		//puxar do banco
 		ArrayList<DataEvento> datasEEventos = new DataEventoDAO().getDataEvento(c.get(Calendar.MONTH) + 1, 
@@ -57,5 +67,5 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
         }
         item.setData(eventos);
         return item;
-	}
+	}*/
 }

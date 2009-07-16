@@ -14,7 +14,7 @@ import org.ufpb.s2dg.entity.DataEvento;
 @Name("dataeventoDAO")
 public class DataEventoDAO {
 	
-	@In
+	@In(create = true)
 	EntityManager entityManager;
 	
 	public ArrayList<DataEvento> getDataEvento(int mes, int ano) {
@@ -29,14 +29,16 @@ public class DataEventoDAO {
 			}
 			else  if((ArrayList<DataEvento>) entityManager.createQuery(
 					"select de from DataEvento as de where EXTRACT(MONTH FROM de.data) = " + 4 + " and " +
-					"EXTRACT(YEAR FROM de.data) = " + 2009).getResultList() == null) {
+					"EXTRACT(YEAR FROM de.data) = " + 2009).
+					setParameter("mes", mes).setParameter("ano", ano).getResultList() == null) {
 				System.out.println("333333333333333333333333");
 			}
 			
 			return (ArrayList<DataEvento>) entityManager.createQuery(
-					"select de from DataEvento as de where EXTRACT(MONTH FROM de.data) = " + 4 + " and " +
-					"EXTRACT(YEAR FROM de.data) = " + 2009).getResultList();
-					//.setParameter("mes", mes).setParameter("ano", ano).getResultList();
+					"select de from DataEvento as de where EXTRACT(MONTH FROM de.data) = :mes and " +
+					"EXTRACT(YEAR FROM de.data) = :ano")
+					.setParameter("mes", mes).setParameter("ano", ano).
+					getResultList();
 		}
 		catch(NullPointerException npe) {
 			npe.printStackTrace();

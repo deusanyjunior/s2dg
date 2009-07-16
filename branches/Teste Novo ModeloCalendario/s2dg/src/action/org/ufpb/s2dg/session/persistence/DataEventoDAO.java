@@ -14,7 +14,7 @@ import org.ufpb.s2dg.entity.DataEvento;
 @Name("dataeventoDAO")
 public class DataEventoDAO {
 	
-	@In(create = true)
+	@In(required = true)
 	EntityManager entityManager;
 	
 	public ArrayList<DataEvento> getDataEvento(int mes, int ano) {

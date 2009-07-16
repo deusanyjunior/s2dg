@@ -91,4 +91,13 @@ public class Avaliacao implements Serializable {
 		this.alunoTurmaAvaliacoes = alunoTurmaAvaliacoes;
 	}
 
+	public String geraNomeTruncado(){
+        String nomeTruncado = null;
+        if(nome.length()>12){
+            nomeTruncado = nome.substring(0, 11) + "...";
+            return nomeTruncado;
+        }
+        return nome;
+    }
+	
 }

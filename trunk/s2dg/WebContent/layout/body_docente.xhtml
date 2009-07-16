@@ -64,7 +64,7 @@
 									<rich:columns  value="#{avaliacoesBean.avaliacoes}" var="avaliacao">
 										<f:facet name="header">
 											<h:panelGroup>
-												<h:outputText value="#{avaliacao.nome}" />
+												<h:outputText value="#{avaliacao.geraNomeTruncado()}" />
 												<a4j:commandLink id="excluir#{avaliacao.id}"
 													action="#{avaliacaoBean.setAvaliacaoParaExclusao(avaliacao)}"
 													oncomplete="Richfaces.showModalPanel('myModalPanel',{width:485, top:200});"
@@ -102,6 +102,7 @@
 						<br />
 						<br />
 						<h:panelGrid columns="2">
+							<h:form>
 							<rich:panel id="criar_avaliacao" style="width: 260px;">
 								<f:facet name="header">
 									<h:outputText value="#{avaliacaoBean.criarOuEditar?'Criar':'Editar'} Avaliação" />
@@ -129,6 +130,7 @@
 									</tr>
 								</table>
 							</rich:panel>
+							</h:form>
 							<rich:panel id="dica_criar_avaliacao">
 								<f:facet name="header">
 									<h:outputText value="Dica" />

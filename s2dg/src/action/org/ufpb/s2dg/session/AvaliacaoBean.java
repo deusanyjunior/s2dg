@@ -73,13 +73,15 @@ public class AvaliacaoBean {
 		}
 		fachada.initAvaliacoes();
 	}
-	
+	//exibir mensagem informando que o limite de notas foi atingido
 	public void criarAvaliacao() {
 		Turma turmaAtual = fachada.getTurma();
-		if((avaliacao != null)&&(turmaAtual != null)) {
-			fachada.criaAvaliacao(avaliacao);
-			avaliacao = new Avaliacao();
-			turmaAtual.setCalcularMediaAutomaticamente(true);
+		if((avaliacao != null)&&(turmaAtual != null)) {			
+			if(fachada.getAvaliacoes().size()<8){
+				fachada.criaAvaliacao(avaliacao);
+				avaliacao = new Avaliacao();
+				turmaAtual.setCalcularMediaAutomaticamente(true);
+			}		
 		}
 		fachada.initAvaliacoes();
 	}

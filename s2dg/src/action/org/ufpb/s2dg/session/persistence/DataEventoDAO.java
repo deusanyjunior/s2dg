@@ -2,19 +2,20 @@ package org.ufpb.s2dg.session.persistence;
 
 import java.util.ArrayList;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
-
 import org.ufpb.s2dg.entity.DataEvento;
 
 @AutoCreate
-@Name("dataeventoDAO")
+@Stateless
+@Name("dataEventoDAO")
 public class DataEventoDAO {
 	
-	@In(required = true)
+	@In(create = true)
 	EntityManager entityManager;
 	
 	public ArrayList<DataEvento> getDataEvento(int mes, int ano) {

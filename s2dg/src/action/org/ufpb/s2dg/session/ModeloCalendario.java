@@ -35,12 +35,12 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
 						eventos += datasEEventos.remove(j--).getEvento() + "\n";
 					}
 				}
+				c.setTime(datas[i]);
 				
 				if (eventos.equals("")) {
-					itens[i] = new ItemDeCalendario();
+					itens[i] = new ItemDeCalendario(c.get(Calendar.DAY_OF_MONTH));
 				}
 				else {
-					c.setTime(datas[i]);
 					itens[i] = new ItemDeCalendario(eventos, c.get(Calendar.DAY_OF_MONTH));
 					eventos = "";
 				}

@@ -11,11 +11,9 @@ public class ItemDeCalendario implements CalendarDataModelItem, Serializable {
 	private int day;
 	private static final long serialVersionUID = 1L;
 	
-	public ItemDeCalendario() {
+	public ItemDeCalendario(int dia) {
 		data = "";
-		Calendar c = Calendar.getInstance();
-		c.setTime(new Date());
-		day = c.get(Calendar.DAY_OF_MONTH);
+		day = dia;
 	}
 	
 	public ItemDeCalendario(String eventos, int dia) {

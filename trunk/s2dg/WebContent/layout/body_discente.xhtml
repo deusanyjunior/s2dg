@@ -62,7 +62,7 @@
 						  </rich:column>
 						  <rich:columns value="#{avaliacoesBean.avaliacoes}" var="avaliacao">
 							<f:facet name="header">
-								<h:outputText value="#{avaliacao.nome}(peso:#{avaliacao.peso})" />
+								<h:outputText value="#{avaliacao.geraNomeTruncado()}(peso:#{avaliacao.peso})" />
 							</f:facet>
 							<h:outputText value="#{avaliacoesBean.getNota(avaliacao)}" />
 						  </rich:columns>

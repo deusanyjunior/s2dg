@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.JOptionPane;
-
+import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.richfaces.model.CalendarDataModel;
 import org.richfaces.model.CalendarDataModelItem;
@@ -18,13 +17,16 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
 	ItemDeCalendario[] itens;
 	private static final long serialVersionUID = 1L;
 	
+	@In
+	private DataEventoDAO dataEventoDAO;
+	
 	public CalendarDataModelItem[] getData(Date[] datas) {
 		if (datas == null) return null;
 		
 		itens = new ItemDeCalendario[datas.length];
 		Calendar c = Calendar.getInstance();
 		c.setTime(datas[0]);
-		ArrayList<DataEvento> datasEEventos = new DataEventoDAO().getDataEvento(c.get(Calendar.MONTH) + 1, 
+		ArrayList<DataEvento> datasEEventos = dataEventoDAO.getDataEvento(c.get(Calendar.MONTH) + 1, 
 				c.get(Calendar.YEAR));
 		String eventos = "";
 		

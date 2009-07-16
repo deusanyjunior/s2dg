@@ -12,7 +12,7 @@ public class ItemDeCalendario implements CalendarDataModelItem, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	public ItemDeCalendario() {
-		data = "Nada Planejado";
+		data = "";
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date());
 		day = c.get(Calendar.DAY_OF_MONTH);

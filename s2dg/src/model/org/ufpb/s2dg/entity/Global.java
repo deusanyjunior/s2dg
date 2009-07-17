@@ -21,7 +21,7 @@ public class Global implements Serializable {
 	@Column(name = "id", unique = true, nullable = false)
 	private long id;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade= {CascadeType.ALL})
+	@OneToOne(fetch = FetchType.EAGER, cascade= {CascadeType.ALL})
 	@JoinColumn(name="periodo_atual")
 	private Periodo periodoAtual;
 	

@@ -52,7 +52,7 @@ public class Professor implements java.io.Serializable {
 	}
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "professor_turma", schema = "public", joinColumns = { @JoinColumn(name = "matricula", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "turma_id", nullable = false, updatable = false) })
+	@JoinTable(name = "professor_turma", schema = "public", joinColumns = { @JoinColumn(name = "matricula_docente", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "turma_id", nullable = false, updatable = false) })
 	public Set<Turma> getTurmas() {
 		return this.turmas;
 	}

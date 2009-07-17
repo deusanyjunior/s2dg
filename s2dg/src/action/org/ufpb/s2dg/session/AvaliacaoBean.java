@@ -13,7 +13,7 @@ import org.ufpb.s2dg.entity.Turma;
 @AutoCreate
 public class AvaliacaoBean {
 
-	private Avaliacao avaliacao;
+	private Avaliacao avaliacao = new Avaliacao();
 	private boolean criarOuEditar = true;
 	private Avaliacao avaliacaoParaExclusao;
 	
@@ -73,6 +73,7 @@ public class AvaliacaoBean {
 		}
 		fachada.initAvaliacoes();
 	}
+	
 	//exibir mensagem informando que o limite de notas foi atingido
 	public void criarAvaliacao() {
 		Turma turmaAtual = fachada.getTurma();

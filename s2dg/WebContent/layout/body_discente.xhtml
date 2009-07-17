@@ -13,27 +13,8 @@
 
 	<table width="100%">
 		<tr>
-			<td width="200px">			  
-			  <div class="menu_disciplinas">
-			  		<center>
-			  		<h:outputText styleClass="menu_disciplinas_titulo" value="Turmas Matriculadas" />
-			  		</center>
-			  		<rich:panel>
-				<h:form>
-					<ui:repeat value="#{turmasMatriculadasBean.alunoTurmas}" var="alunoTurma">
-						<a4j:commandLink
-							action="#{alunoTurmaBean.setAlunoTurma(alunoTurma)}"
-							value=":: #{alunoTurma.turma.disciplina.nome}"
-							reRender="discente_mutavel, planoDeCurso, titulo_disciplina_dis, titulo_turma_dis, professor" /><br/>
-					</ui:repeat>
-				</h:form>
-			</rich:panel>
-			  </div>
-			<br></br>
-
-			<rich:calendar popup="false" locale="pt_BR">
-			</rich:calendar>
-			
+			<td width="200px">
+				<ui:include src="/menu_discente.xhtml" />			  
 			</td>
 			
 			<td style="padding-left: 20px;" height="100%">

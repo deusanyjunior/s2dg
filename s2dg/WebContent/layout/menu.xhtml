@@ -1,57 +1,13 @@
-<rich:panel style=" width : 200px;"
-	xmlns:s="http://jboss.com/products/seam/taglib"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:rich="http://richfaces.org/rich"
-	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:a4j="http://richfaces.org/a4j">
-
-	<rich:panelMenu style="background-color:#BED6F8;border-color:#0080FF; padding-top:5px; padding-bottom:5px;">
-
-		<center><h:outputText value="Disciplinas Ministradas  "
-			style="font-size:11px;font-family:'Arial';font-weight:bold;" />
-		</center>
-		<h:form>
-
-			<h:panelGrid columns="2" columnClasses="cols" width="95%">
-
-				<rich:panelMenu
-					style="border-style:double;background-color:White;border-color:White;border-width:2px;padding:2px;"
-					mode="ajax" iconExpandedGroup="disc" iconCollapsedGroup="disc"
-					iconExpandedTopGroup="chevronUp" iconGroupTopPosition="right"
-					iconCollapsedTopGroup="chevronDown">
-
-					<rich:panelMenuGroup label="Calculo I" style="padding:3px;"
-						expanded="true">
-						<rich:panelMenuItem label="Turma I"
-							action="#{panelMenu.updateCurrent}">
-							<f:param name="current" value="Turma I" />
-						</rich:panelMenuItem>
-						<rich:panelMenuItem label="Turma II"
-							action="#{panelMenu.updateCurrent}">
-							<f:param name="current" value="Turma II" />
-						</rich:panelMenuItem>
-					</rich:panelMenuGroup>
-
-					<rich:panelMenuGroup label="Calculo II" style="padding:3px;"
-						expanded="true">
-						<rich:panelMenuItem label="Turma III"
-							action="#{panelMenu.updateCurrent}">
-							<f:param name="current" value="Turma III" />
-						</rich:panelMenuItem>
-					</rich:panelMenuGroup>
-
-				</rich:panelMenu>
-
-			</h:panelGrid>
-		</h:form>
-	</rich:panelMenu>
-
-	<br></br>
-
-	<rich:calendar popup="false">
-
-	</rich:calendar>
-
-</rich:panel>
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	
+<ui:insert name="menu" />
+<br/>
+<rich:calendar popup="false" locale="pt_BR" showFooter="false"/>
+	
+</ui:composition> 

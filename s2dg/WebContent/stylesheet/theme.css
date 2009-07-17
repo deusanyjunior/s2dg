@@ -3,7 +3,7 @@ html {
 }
 
 body {
-	font-family: Arial,Verdana,sans-serif;
+	font-family: Arial, Verdana, sans-serif;
 	background-image: url("../img/topo_bg.png");
 	background-repeat: repeat-x;
 	background-attachment: fixed;
@@ -16,14 +16,14 @@ body {
 	height: 105px;
 	border-style: none;
 	border-width: 0px;
-	border-style:none;
-	border-width:0px;
+	border-style: none;
+	border-width: 0px;
 }
 
 .logo_ufpb {
 	margin-top: 0px;
 	margin-right: 20px;
-	margin-left: 5px;		
+	margin-left: 5px;
 }
 
 .titulo_s2dg {
@@ -35,55 +35,62 @@ body {
 }
 
 .saudacao {
-	color: black;	
-	font-size: 12px;;
+	color: black;
+	font-size: 1em;
 }
 
 .menu_topo {
-	width: 30px;
-	font-size: 12px;
- 	padding: 3px;
- 	margin: 3px;
- 	float: right;
- 	vertical-align: middle;
+	width: 40px;
+	font-size: 0.8em;
+	padding: 3px;
+	margin: 3px;
+	float: right;
+	vertical-align: middle;
 }
 
 .menu_disciplinas {
-	background-color: #BED6F8; 
+	background-color: #BED6F8;
 	padding: 5px;
 	font-weight: bold;
-		
 }
 
 .menu_disciplinas_titulo {
 	text-align: center;
-	font-size: 12px;
+	font-size: 1.2em;
 	font-weight: bold;
 	padding: 10px;
 	margin: 10px;
 }
 
 .menu_disciplinas_lista {
-	font-weight: bold;
-	font-size: 11px;
-	background-color: #FFFFFF; 
+	background-color: white;
 	padding: 10px;
-	margin-top: 5px;
+	border: 2px;
+	border-bottom-color: black;
 }
 
 .menu_disciplina_turma {
-	font-size: 10px;
-	padding-left: 5px;
+	font-size: 0.8em;
+	font-weight: bold;
+	padding-left: 10px;
+	text-decoration: none;
 }
-	
+
+.menu_disciplina_nome {
+	background-color: #E4E4E4;
+	display: block;
+	font-size: 1em;
+	line-height: 2em;
+	padding-left: 5px;
+	text-decoration: none;
+}
 
 .body_titulo_disciplina {
-	font-size: 14px;
-	font-weight: bold;		
+	font-size: 1.8em;
 }
 
 .body_outras_info {
-	font-size: 12px;
+	font-size: 1.2em;
 }
 
 .botao_salvar {
@@ -91,7 +98,7 @@ body {
 }
 
 .border_zero {
-	border: 0;	
+	border: 0;
 }
 
 element.style {
@@ -99,24 +106,24 @@ element.style {
 	width: auto;
 }
 
-
 /* formatacao da tabela de notas */
 .matricula {
 	width: 60px;
 }
-.aluno {	
+
+.aluno {
 	width: 200px;
 }
+
 .nome_aluno {
 	text-align: left;
 }
+
 .faltas {
-	width: 30px;	
+	width: 30px;
 }
+
 /* fim formatacao da tabela de notas */
-
-
-
 .rich-pmenu {
 	width: auto;
 }
@@ -125,9 +132,9 @@ a img {
 	border: none;
 }
 
-a:ACTIVE, a:HOVER, a:VISITED, a:LINK {
+a:ACTIVE,a:HOVER,a:VISITED,a:LINK {
 	color: black;
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 h1 {
@@ -146,11 +153,8 @@ input[type=text],input[type=password],textarea {
 	padding-left: 1px;
 }
 
-
 td {
-
 	vertical-align: top;
-		
 }
 
 .tableControl,.actionButtons {

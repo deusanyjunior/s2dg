@@ -233,9 +233,15 @@ public class Fachada {
 		alunoTurmasBean.init();
 	}
 	
-	//Criado por Julio
 	public void alteraSenha(String CPF, String senhaAtual, String novaSenha){
 		usuarioDAO.alteraSenha(CPF, senhaAtual, novaSenha);
 	}
 	
+	public String getEmail(String CPF){
+		return usuarioDAO.getEmail(CPF);
+	}	
+	
+	public String getSenha(String CPF){
+		return usuarioDAO.getSenha(CPF);
+	}
 }

@@ -17,13 +17,23 @@ public class EmailAction {
     private String fromName;
     private String fromEmail;
 
-    @In
+    private boolean clicou = false;
+    private String CPF;
+    private String senha;
+    
+	@In
     Renderer renderer;
     @In
     FacesMessages facesMessages;
     @Logger
     Log log;
+    @In
+    Fachada fachada;
 
+    public EmailAction(){
+    	setClicou(false);
+    }
+    
     public void sendEmail(){
 
         try{
@@ -36,6 +46,14 @@ public class EmailAction {
         }
 
     }
+    
+    /**
+     * To control if the click was done
+     * @return
+     */		
+    public void botaoPressionado(){
+		setClicou(true);
+	} 
 
     /**
      * @return the toEmail
@@ -107,5 +125,35 @@ public class EmailAction {
         this.fromEmail = fromEmail;
     }
 
+	public void setClicou(boolean clicou) {
+		this.clicou = clicou;
+	}
 
+	public boolean isClicou() {
+		return clicou;
+	}
+
+	public void setCPF(String cPF) {
+		CPF = cPF;
+	}
+
+	public String getCPF() {
+		return CPF;
+	}
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public void setEmail(){
+		setToEmail(fachada.getEmail(getCPF()));
+	}
+	
+	public void setSenha(){
+		setSenha(fachada.getSenha(CPF));
+	}
 }

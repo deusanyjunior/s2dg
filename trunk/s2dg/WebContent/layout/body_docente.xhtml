@@ -9,32 +9,11 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	style="margin:0;border-width:0;padding:0px;">
 
-	<a4j:loadBundle basename="messages" var="msg" />
-
 	<table width="100%">
 		<tr>
 			<td width="200px">
-			<div class="menu_disciplinas">
-			<center><h:outputText styleClass="menu_disciplinas_titulo"
-				value="Disciplinas Ministradas" /></center>
-			<div class="menu_disciplinas_lista"><h:form>
-				<ui:repeat value="#{disciplinasMinistradasBean.turmasPorDisciplina}"
-					var="disciplinaTurmas">
-					<h:outputText styleClass="menu_disciplina_nome" value="#{disciplinaTurmas.disciplina.nome}" />
-					<ui:repeat value="#{disciplinaTurmas.turmas}" var="turma">
-						<a4j:commandLink styleClass="menu_disciplina_turma"
-							action="#{turmaBean.setTurma(turma)}"
-							value=":: Turma #{turma.numero}"
-							reRender="titulo_disciplina_doc,titulo_turma_doc,tabela_avaliacoes,checkboxmedia,editorPlano, criar_avaliacao" />
-						<br />
-					</ui:repeat>
-					<br />
-				</ui:repeat>
-			</h:form></div>
-			</div>
-			<br></br>
-			<rich:calendar popup="false" locale="pt_BR" showFooter="false">
-			</rich:calendar></td>
+				<ui:include src="/menu_docente.xhtml" />
+			</td>
 			<td style="padding-left: 20px;" height="100%">
 				<h:outputText styleClass="body_titulo_disciplina" id="titulo_disciplina_doc"
 					value="Disciplina: #{turmaBean.turma.disciplina.codigo} - #{turmaBean.turma.disciplina.nome}" />
@@ -139,7 +118,7 @@
 								<h:outputText style="font-style: italic;" 
 											  value="Professor(a), você pode criar avaliações para a sua turma.
 											  Assim, você pode fazer um melhor acompanhamento dos seus alunos 
-											  e ainda publicar as notas para que seus alunos possam vê-las online." />
+											  e ainda publicar as notas para que seus alunos possam visualizá-las online." />
 								<br/>
 								<h:outputText style="font-style: italic;" 
 											  value="Você pode atribuir pesos diferentes para cada avaliação criada 

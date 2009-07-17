@@ -13,7 +13,7 @@ import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Professor;
 
 @Name("alunoTurmaBean")
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.SESSION)
 @AutoCreate
 public class AlunoTurmaBean {
 

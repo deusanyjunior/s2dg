@@ -13,7 +13,7 @@ import org.ufpb.s2dg.entity.Avaliacao;
 import org.ufpb.s2dg.entity.Turma;
 
 @Name("avaliacoesBean")
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.SESSION)
 @AutoCreate
 public class AvaliacoesBean {
 

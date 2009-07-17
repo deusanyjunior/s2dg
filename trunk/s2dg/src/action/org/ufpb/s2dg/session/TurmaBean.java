@@ -8,7 +8,7 @@ import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.Turma;
 
 @Name("turmaBean")
-@Scope(ScopeType.PAGE)
+@Scope(ScopeType.SESSION)
 @AutoCreate
 public class TurmaBean {
 

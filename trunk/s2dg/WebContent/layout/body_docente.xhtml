@@ -94,7 +94,7 @@
 								</h:selectBooleanCheckbox>
 							<h:outputText for="checkboxmedia"
 								value="Calcular Média Automaticamente" />
-							<a4j:commandButton styleClass="botao_salvar" type="submit"
+							<a4j:commandButton styleClass="botao_salvar" type="submit" oncomplete="alert('Informações salvas com sucesso!')"
 								value="Salvar" action="#{alunoTurmasBean.atualizaAlunoTurmas}"
 								reRender="tabela_avaliacoes" />
 						</h:form>
@@ -179,7 +179,7 @@
 						<rich:editor useSeamText="true" id="editorPlano"
 							value="#{turmaBean.turma.planoDeCurso}" width="659" height="282" theme="advanced"
 							plugins="save,paste" language="pt" /> <a4j:commandButton
-							type="submit" value="Salvar"
+							type="submit" value="Salvar" oncomplete="alert('Informações salvas com sucesso!')"
 							action="#{turmaBean.atualiza}" style="FONT-WEIGHT: bold; width : 85px; height : 29px;"/>
 							</center>
 					</h:form>

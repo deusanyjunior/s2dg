@@ -1,13 +1,13 @@
 package org.ufpb.s2dg.session;
 
+import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 
 @Name("alterarSenha")
+@Scope(ScopeType.PAGE)
 public class AlterarSenhaBean {
-	
-	@In 
-    UsuarioBean usuarioBean;
 	
 	@In
     Fachada fachada;
@@ -16,30 +16,34 @@ public class AlterarSenhaBean {
 	private String novaSenha1;
 	private String novaSenha2;
 	private boolean clicou;
+	private String msg;
 	
 	public AlterarSenhaBean(){
 		clicou = false;
 		senhaAtual = "";
 		novaSenha1 = "";
 		novaSenha2 = "";
+		msg = "";
 	}
 	
 	public String botaoPressionado(){
+		
 		clicou = true;
-		return null;
-	}
-	
-	public String fazerAlteracao(){
+		
 		if(!novaSenha1.equals(novaSenha2)){
-			return "Senhas diferentes";
+			msg = "Senhas diferentes";
+			return null;
 		}
-		else if(!senhaAtual.equals(usuarioBean.getUsuario().getSenha())){
-			return "Senha inválida";
+		else if(!senhaAtual.equals(fachada.getUsuario().getSenha())){
+			msg = "Senha inválida";
+			return null;
 		}
 		
-		fachada.alteraSenha(usuarioBean.getUsuario().getCpf(), senhaAtual, novaSenha1);
+		fachada.alteraSenha(fachada.getUsuario().getCpf(), senhaAtual, novaSenha1);
 		
-		return "Senha alterada com sucesso!";
+		msg = "Senha alterada com sucesso!";
+		
+		return "home";
 	}
 
 	public String getSenhaAtual() {
@@ -73,4 +77,13 @@ public class AlterarSenhaBean {
 	public void setClicou(boolean clicou) {
 		this.clicou = clicou;
 	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+	
 }

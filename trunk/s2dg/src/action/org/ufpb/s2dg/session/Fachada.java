@@ -237,6 +237,10 @@ public class Fachada {
 		usuarioDAO.alteraSenha(CPF, senhaAtual, novaSenha);
 	}
 	
+	public Usuario getUsuario() {
+		return usuarioBean.getUsuario();
+	}
+	
 	public String getEmail(String CPF){
 		return usuarioDAO.getEmail(CPF);
 	}	

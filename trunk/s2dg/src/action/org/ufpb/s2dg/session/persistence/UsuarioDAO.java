@@ -53,4 +53,21 @@ public class UsuarioDAO {
 		.setParameter("cpf", CPF)
 		.setParameter("senha", novaSenha).executeUpdate();
 	}
+	
+	/**
+	 * Capturar o email do usuatio
+	 */
+	public String getEmail(String CPF){
+		return (String) entityManager.createQuery("select email from Usuario where cpf = :cpf")
+		.setParameter("cpf", CPF).getSingleResult(); 
+	}
+	
+	/**
+	 * Captura o email
+	 */
+	
+	public String getSenha(String CPF){
+		return (String) entityManager.createQuery("select senha from Usuario where cpf = :cpf")
+		.setParameter("cpf", CPF).getSingleResult(); 
+	}
 }

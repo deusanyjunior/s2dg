@@ -35,7 +35,8 @@
     
 	<ui:define name="body">
 		<h:form id="login">
-			<center><rich:panel style="width:400px;">
+			<center>
+			<rich:panel style="width:400px;">
 				<f:facet name="header">Login</f:facet>
 
 				<p>Por favor, faça login aqui.</p>
@@ -65,51 +66,39 @@
 				</div>
 				<br/>
 					
-				<!--
-				a4j:commandLink reRender="Erro">
-                	<h:outputText value="Esqueci minha senha" /> 
-            	</a4j:commandLink>
-            	<br/>
-            	<h:panelGroup id="Erro">
-        			<h:outputText value="Uma nova senha sera enviada para o seu email!" 
-        						  rendered="#{not empty credentials.username}" 
-        						  styleClass="setBold"/>
-    			</h:panelGroup
-    			
-    			
-    			<h:form>
-            <rich:messages/>
-            <s:validateAll>
-
-                <rich:panel id="homepanel">
+				<h:commandLink action="#{emailAction.botaoPressionado}" rendered="#{not emailAction.CPF}">
+					<h:outputText value="Esqueci minha senha" />
+				</h:commandLink> 
+				
+				<br/>
+				<br/>
+								   			
+				<rich:panel id="homepanelEmail" rendered="#{emailAction.clicou}">
                     <f:facet name="header">
-
-                        Seam Email 
+                        Recuperação de Senha 
                     </f:facet>
-                    <h:panelGrid columns="2">
-                        <h:outputText value="To Email:"/>
-                        <h:inputText value="#{emailaction.toEmail}"/>
+                    <div class="dialog">
+                    
+                    <h:panelGrid columns="2" rowClasses="prop1" columnClasses="name1,value1">
+					
+					<div align="right"> CPF </div>
 
-                      <h:outputText value="Subject"/>
-                        <h:inputText value="#{emailaction.subject}"/>
-
-                           <h:outputText value="Message:" size="200"/>
-                        <h:inputTextarea value="#{emailaction.message}" cols="60" rows="6" size="200px"/>
-
-<h:commandButton action="#{emailaction.sendEmail}" value="Send Email"/>
-                    </h:panelGrid>
-                    <br/>
+					<h:inputText id="usernameEmail" value="#{emailAction.CPF}"> 
+						<rich:jQuery id="usernameMascaraEmail" selector="#username" query="mask('999.999.999-99')" timing="onload" />
+					</h:inputText>
+					
+					</h:panelGrid>
+					
+					</div>
+					
+					<h:commandButton value="Recuperar" action="#{emailAction.sendEmail}" />						
+					
+					<br/>
                  
                 </rich:panel>
-
-
-            </s:validateAll>
-        </h:form>
-    			
-    			-->
 				
-			</rich:panel></center>
-		</h:form>
+		</rich:panel></center>
+	</h:form>
 
 	</ui:define>
 </ui:composition>

@@ -28,18 +28,18 @@
 				<h:graphicImage value="img/ajuda.png"
 					alt="Ajuda" width="17" height="15" hspace="7" vspace="0"
 					style="vertical-align:middle; " />
-				<h:outputText value="Ajuda"/><br></br>
+				<h:outputText value=" Ajuda"/>
+				<br />
 				<h:graphicImage value="img/alterar_senha.png" alt="Alterar senha"
 					width="17" height="17" hspace="7" vspace="1"
 					style="vertical-align:middle;" rendered="#{identity.loggedIn}" />
-				<!--  <h:outputText value="Alterar senha" rendered="#{identity.loggedIn}"/> -->
-				<s:link view="/alterarSenha.xhtml" action="alterarSenha" value="Alterar Senha"
+				<s:link view="/alterarSenha.xhtml" action="alterarSenha" value=" Alterar Senha"
 					rendered="#{identity.loggedIn}" propagation="none" />
-				<br></br>
+				<br />
 				<h:graphicImage value="img/sair.png" alt="Sair" width="17"
 					height="13" hspace="7" vspace="2" style="vertical-align:middle;"
-					rendered="#{identity.loggedIn}" /> 
-				<s:link view="/login.xhtml"	action="#{identity.logout}" value="Sair"
+					rendered="#{identity.loggedIn}" />
+				<s:link view="/login.xhtml"	action="#{identity.logout}" value=" Sair"
 					rendered="#{identity.loggedIn}" propagation="none" />
 			</div>
 			</td>

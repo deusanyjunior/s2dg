@@ -20,8 +20,7 @@
 			<div class="menu_disciplinas_lista"><h:form>
 				<ui:repeat value="#{disciplinasMinistradasBean.turmasPorDisciplina}"
 					var="disciplinaTurmas">
-					<h:outputText value="#{disciplinaTurmas.disciplina.nome}" />
-					<br />
+					<h:outputText styleClass="menu_disciplina_nome" value="#{disciplinaTurmas.disciplina.nome}" />
 					<ui:repeat value="#{disciplinaTurmas.turmas}" var="turma">
 						<a4j:commandLink styleClass="menu_disciplina_turma"
 							action="#{turmaBean.setTurma(turma)}"
@@ -29,6 +28,7 @@
 							reRender="titulo_disciplina_doc,titulo_turma_doc,tabela_avaliacoes,checkboxmedia,editorPlano, criar_avaliacao" />
 						<br />
 					</ui:repeat>
+					<br />
 				</ui:repeat>
 			</h:form></div>
 			</div>

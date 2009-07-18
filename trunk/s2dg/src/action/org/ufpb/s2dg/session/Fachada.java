@@ -248,4 +248,13 @@ public class Fachada {
 	public String getSenha(String CPF){
 		return usuarioDAO.getSenha(CPF);
 	}
+	
+	public void setAlunoTurmas(List<AlunoTurma> alunoTurmas) {
+		alunoTurmasBean.setAlunoTurmas(alunoTurmas);
+	}
+	
+	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+		avaliacoesBean.setAvaliacoes(avaliacoes);
+	}
+	
 }

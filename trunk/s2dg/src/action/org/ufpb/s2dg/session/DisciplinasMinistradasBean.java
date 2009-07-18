@@ -32,6 +32,12 @@ public class DisciplinasMinistradasBean {
 			}
 			turmasPorDisciplina = disciplinaTurmas;
 		}
+		else {
+			fachada.setTurma(null);
+			fachada.setAlunoTurmas(null);
+			fachada.setAvaliacoes(null);
+			fachada.setAlunoTurmaAvaliacoes(null);
+		}
 	}
 
 	public List<DisciplinaTurmas> getTurmasPorDisciplina() {

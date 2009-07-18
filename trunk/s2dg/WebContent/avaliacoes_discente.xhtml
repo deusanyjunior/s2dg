@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+	<rich:panel styleClass="border_zero" id="discente_mutavel">
+		<rich:dataTable value="#{alunoTurmaBean.alunoTurmaAsList}"
+			var="alunoTurma" style="text-align: center;">
+			<rich:column>
+				<f:facet name="header">
+								Número de Faltas
+							</f:facet>
+				<h:outputText value="#{alunoTurma.faltas}" />
+			</rich:column>
+			<rich:columns value="#{avaliacoesBean.avaliacoes}" var="avaliacao">
+				<f:facet name="header">
+					<h:outputText
+						value="#{avaliacao.geraNomeTruncado()}(peso:#{avaliacao.peso})" />
+				</f:facet>
+				<h:outputText value="#{avaliacoesBean.getNota(avaliacao)}" />
+			</rich:columns>
+			<rich:column>
+				<f:facet name="header">
+								Média Final
+							</f:facet>
+				<h:outputText value="#{alunoTurma.media}" />
+			</rich:column>
+		</rich:dataTable>
+	</rich:panel>
+
+</ui:composition>

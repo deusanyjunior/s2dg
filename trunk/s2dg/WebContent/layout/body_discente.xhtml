@@ -18,43 +18,12 @@
 			</td>
 			
 			<td style="padding-left: 20px;" height="100%">
-				<h:outputText styleClass="body_titulo_disciplina" id="titulo_disciplina_dis"
-					value="Disciplina: #{alunoTurmaBean.alunoTurma.turma.disciplina.codigo} - #{alunoTurmaBean.alunoTurma.turma.disciplina.nome}" />
-				<br />
-				<h:outputText styleClass="body_outras_info" id="titulo_turma_dis"
-					value="Turma #{alunoTurmaBean.alunoTurma.turma.numero}" />
-				<br/>
-				<h:outputText value="Professores:" />
-				<a4j:repeat value="#{alunoTurmaBean.professores}" var="professor" >
-					<br />					
-					<h:outputText value="#{professor.usuario.nome}" />
-				</a4j:repeat>
+				<ui:include src="/titulo_turma_discente.xhtml" />
 				<br />
 				<br />
 			<div><rich:tabPanel switchType="client">
 				<rich:tab label="Avaliações">
-					<rich:panel styleClass="border_zero" id="discente_mutavel">
-						<rich:dataTable value="#{alunoTurmaBean.alunoTurmaAsList}" var="alunoTurma" style="text-align: center;" >   
-						  <rich:column>
-							<f:facet name="header">
-								Número de Faltas
-							</f:facet>
-							<h:outputText value="#{alunoTurma.faltas}" />
-						  </rich:column>
-						  <rich:columns value="#{avaliacoesBean.avaliacoes}" var="avaliacao">
-							<f:facet name="header">
-								<h:outputText value="#{avaliacao.geraNomeTruncado()}(peso:#{avaliacao.peso})" />
-							</f:facet>
-							<h:outputText value="#{avaliacoesBean.getNota(avaliacao)}" />
-						  </rich:columns>
-						  <rich:column>
-							<f:facet name="header">
-								Média Final
-							</f:facet>
-							<h:outputText value="#{alunoTurma.media}" />
-						  </rich:column>
-						</rich:dataTable> 
-					</rich:panel>
+					<ui:include src="/avaliacoes_discente.xhtml" />
 				</rich:tab>
 				<rich:tab label="Cronograma de Aulas">
 					<ui:include src="/calendario.xhtml"/>

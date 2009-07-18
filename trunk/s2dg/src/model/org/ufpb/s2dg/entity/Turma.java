@@ -67,7 +67,7 @@ public class Turma implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "professor_turma", schema = "public", joinColumns = { @JoinColumn(name = "turma_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "matricula_docente", nullable = false, updatable = false) })
 	public Set<Professor> getProfessores() {
 		return this.professores;

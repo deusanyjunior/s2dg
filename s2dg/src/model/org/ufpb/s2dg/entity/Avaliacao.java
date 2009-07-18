@@ -44,6 +44,7 @@ public class Avaliacao implements Serializable {
 		this.nome = nome;
 		this.peso = peso;
 		this.turma = turma;
+		this.alunoTurmaAvaliacoes = alunoTurmaAvaliacoes;
 	}
 
 

@@ -2,7 +2,6 @@ package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
@@ -10,7 +9,6 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
-import org.ufpb.s2dg.entity.Professor;
 
 @Name("alunoTurmaBean")
 @Scope(ScopeType.SESSION)
@@ -39,11 +37,6 @@ public class AlunoTurmaBean {
 			return list;
 		}
 		else return null;
-	}
-	
-	public Set<Professor> getProfessores(){
-		return null;
-//		return this.getAlunoTurma().getTurma().getProfessores();
 	}
 	
 }

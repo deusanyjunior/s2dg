@@ -1,10 +1,15 @@
 package org.ufpb.s2dg.session;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Turma;
 
 @Name("turmaBean")
@@ -35,6 +40,20 @@ public class TurmaBean {
 	
 	public void atualiza() {
 		fachada.atualizaTurma();
+	}
+	
+	public List<Professor> listaProfessores() {
+		if(turma != null) {
+			Set<Professor> setProfessores = turma.getProfessores();
+			if(setProfessores != null) {
+				List<Professor> listProfessores = new ArrayList<Professor>(setProfessores);
+				for(Professor professor: listProfessores) {
+					professor.setUsuario(fachada.getUsuarioProfessor(professor.getMatricula()));
+				}
+				return listProfessores;
+			}
+		}
+		return null;
 	}
 	
 }

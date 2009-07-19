@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+		 
+	<a4j:outputPanel id="msgs" ajaxRendered="true">
+      <script type="text/javascript">        
+           jQuery(document).ready(function() {
+             // change the message properties
+             jQuery('#msgs .messages').css({
+                   position: "absolute",
+                   top: 0, left: 0, border: 0, padding: 0, margin: 0,
+                   width: "100%", background: "#0088FF", color: "#FFFFFF"}).show();
+             // hide message after timeout
+             window.setTimeout(function() {
+                jQuery('#msgs .messages').hide();
+             }, 5000);
+           });
+        
+      </script>
+      <h:messages layout="list" styleClass="messages" style="font-size:0.8em;display:none;font-weight:lighter;"
+                  infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal"
+                  escape="false">
+      </h:messages>
+	</a4j:outputPanel>
+	
+</ui:composition>

@@ -16,9 +16,8 @@
 		value="Turma #{alunoTurmaBean.alunoTurma.turma.numero}" />
 	<br />
 	<h:outputText value="Professores:" />
-	<a4j:repeat value="#{turmaBean.listaProfessores()}" var="professor">
-		<br />
+	<rich:dataList value="#{turmaBean.listaProfessores()}" var="professor">
 		<h:outputText value="#{professor.usuario.nome}" />
-	</a4j:repeat>
+	</rich:dataList>
 
 </ui:composition>

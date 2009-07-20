@@ -44,15 +44,16 @@
 								</a4j:commandLink>
 							</h:panelGroup>
 						</f:facet>
-						<h:inputText
-							value="#{alunoTurmaAvaliacoesBean.getAlunoTurmaAvaliacao(alunoTurma, avaliacao).nota}"
-							size="5" />
+						<h:inputText value="#{alunoTurmaAvaliacoesBean.getAlunoTurmaAvaliacao(alunoTurma, avaliacao).nota}"
+							size="5" converter="#{notaConverter}" >
+						</h:inputText>
 					</rich:columns>
 					<rich:column styleClass="media" >
 						<f:facet name="header">Média Final</f:facet>
-						<h:inputText value="#{alunoTurma.media}"
+						<h:inputText value="#{alunoTurma.media}" converter="#{notaConverter}"
 							rendered="#{not turmaBean.turma.calcularMediaAutomaticamente}"
-							size="5" />
+							size="5" >
+						</h:inputText>
 						<h:outputText value="#{alunoTurma.media}"
 							rendered="#{turmaBean.turma.calcularMediaAutomaticamente}">
 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
@@ -70,7 +71,7 @@
 			<h:outputText for="checkboxmedia"
 				value="Calcular Média Automaticamente" />
 			<a4j:commandButton styleClass="botao_salvar" type="submit"
-				oncomplete="alert('Informações salvas com sucesso!')" value="Salvar"
+				value="Salvar"
 				action="#{alunoTurmasBean.atualizaAlunoTurmas}"
 				reRender="tabela_avaliacoes" />
 		</h:form>

@@ -4,6 +4,7 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.ufpb.s2dg.entity.Usuario;
 
 @Name("alterarSenha")
 @Scope(ScopeType.PAGE)
@@ -30,16 +31,20 @@ public class AlterarSenhaBean {
 		
 		clicou = true;
 		
+		Usuario usuario = fachada.getUsuario();
+		
 		if(!novaSenha1.equals(novaSenha2)){
 			msg = "Senhas diferentes";
 			return null;
 		}
-		else if(!senhaAtual.equals(fachada.getUsuario().getSenha())){
-			msg = "Senha inv·lida";
+		else if(!Utils.validatePassword(senhaAtual, usuario)){
+			msg = "Senha inv√°lida";
 			return null;
 		}
 		
-		fachada.alteraSenha(fachada.getUsuario().getCpf(), senhaAtual, novaSenha1);
+		usuario.setSenha(Utils.generateHash(senhaAtual));
+		
+		fachada.atualizaUsuario(usuario);
 		
 		msg = "Senha alterada com sucesso!";
 		

@@ -31,13 +31,12 @@ public class Authenticator
     
     public boolean authenticate()
     {
-        log.info("authenticating {0}", credentials.getUsername().replaceAll("[.]", "").replaceAll("[-]", ""));
+    	String cpfDado = credentials.getUsername().replaceAll("[.]", "").replaceAll("[-]", "");
+        log.info("authenticating {0}", cpfDado);
         
-        /* Inserir Método de Criptografia de Senha */
+        Usuario usuario = fachada.getUsuarioDoBanco(cpfDado); 
         
-        Usuario usuario = fachada.getUsuarioDoBanco(credentials.getUsername().replaceAll("[.]", "").replaceAll("[-]", ""),credentials.getPassword()); 
-        
-        if (usuario != null) {
+        if (Utils.validatePassword(credentials.getPassword(), usuario)) {
             Set<Role> roles = usuario.getRoles();
             if(roles != null) {
             	Iterator<Role> rolesIt = roles.iterator();

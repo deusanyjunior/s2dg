@@ -86,8 +86,8 @@ public class Fachada {
 		calendarioBean.setCalendario(getCalendarioDoBanco());
 	}
 	
-	public Usuario getUsuarioDoBanco(String username, String password) {
-		return usuarioDAO.getUsuario(username,password);
+	public Usuario getUsuarioDoBanco(String username) {
+		return usuarioDAO.getUsuario(username);
 	}
 	
 	public List<Turma> getTurmasDoBanco() {
@@ -252,8 +252,8 @@ public class Fachada {
 		alunoTurmasBean.init();
 	}
 	
-	public void alteraSenha(String CPF, String senhaAtual, String novaSenha){
-		usuarioDAO.alteraSenha(CPF, senhaAtual, novaSenha);
+	public void atualizaUsuario(Usuario usuario) {
+		usuarioDAO.updateUsuario(usuario);
 	}
 	
 	public Usuario getUsuario() {

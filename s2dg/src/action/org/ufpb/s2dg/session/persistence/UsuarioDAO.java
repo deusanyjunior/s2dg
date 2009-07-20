@@ -70,4 +70,13 @@ public class UsuarioDAO {
 		return (String) entityManager.createQuery("select senha from Usuario where cpf = :cpf")
 		.setParameter("cpf", CPF).getSingleResult(); 
 	}
+	
+	public boolean updateUsuario(Usuario usuario) {
+		Usuario user = (Usuario) entityManager.find(Usuario.class, usuario.getId());
+		if (user == null)
+			return false;
+		entityManager.merge(user);
+		return true;
+	}
+
 }

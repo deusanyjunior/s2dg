@@ -11,16 +11,16 @@ import org.jboss.seam.annotations.Name;
 import org.ufpb.s2dg.entity.DataEvento;
 
 @AutoCreate
-@Stateless
+//@Stateless
 @Name("dataEventoDAO")
 public class DataEventoDAO {
 	
-	@In(create = true)
+	@In//(create = true)
 	EntityManager entityManager;
 	
 	public ArrayList<DataEvento> getDataEvento(int mes, int ano) {
 		try {
-			if (entityManager == null) {
+			/*if (entityManager == null) {
 				System.out.println("1111111111111111111");
 			}
 			else if (entityManager.createQuery(
@@ -33,7 +33,7 @@ public class DataEventoDAO {
 					"EXTRACT(YEAR FROM de.data) = " + 2009).
 					setParameter("mes", mes).setParameter("ano", ano).getResultList() == null) {
 				System.out.println("333333333333333333333333");
-			}
+			}*/
 			
 			return (ArrayList<DataEvento>) entityManager.createQuery(
 					"select de from DataEvento as de where EXTRACT(MONTH FROM de.data) = :mes and " +

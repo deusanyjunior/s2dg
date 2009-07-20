@@ -32,10 +32,15 @@
 				<td><h:outputText value="Peso:" /></td>
 				<td><rich:inputNumberSpinner minValue="1" cycled="false"
 					value="#{avaliacaoBean.avaliacao.peso}" /></td>
-				<td><a4j:commandButton styleClass="botao_criar" type="submit"
+				<td><a4j:commandButton id="criar" styleClass="botao_criar" type="submit"
 					rendered="#{avaliacaoBean.criarOuEditar}" value="Criar"
 					action="#{avaliacaoBean.criarAvaliacao}"
-					reRender="tabela_avaliacoes, criar_avaliacao, checkboxmedia" /> 
+					reRender="tabela_avaliacoes, criar_avaliacao, checkboxmedia">
+					</a4j:commandButton>					 
+					<h:message for="criar" />
+					<br/>
+					<h:messages style="color: red"/>
+					
 					<a4j:commandButton
 					rendered="#{not avaliacaoBean.criarOuEditar}" value="Cancelar"
 					action="#{avaliacaoBean.cancelarEdicao}" reRender="criar_avaliacao, tabela_avaliacoes" /></td>

@@ -9,6 +9,7 @@ import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.log.Log;
+import org.ufpb.s2dg.entity.Usuario;
 
 import java.awt.HeadlessException;
 import java.io.IOException;
@@ -29,7 +30,7 @@ import javax.mail.internet.MimeMessage;
 
 @Name("emailAction")
 @AutoCreate
-@Scope(ScopeType.PAGE)
+/*@Scope(ScopeType.PAGE)*/
 public class EmailAction {
 	
 	private static final String SMTP_HOST_NAME = "smtp.gmail.com";
@@ -45,6 +46,7 @@ public class EmailAction {
     private boolean clicou = false;
     private String CPF;
     private String senha;
+    private String senhaGerada;
     
 	@In
     Renderer renderer;
@@ -61,12 +63,12 @@ public class EmailAction {
     
     public void enviar(){
     	setEmail();
-    	setSenha();
+    	geraSenha();
     	
         try 
         {
             if(isConnected())
-                sendMail(getToEmail(), EMAIL, TITULO, getMENSAGEM());
+                sendMail("jc.ufpb@gmail.com"/*getToEmail()*/, EMAIL, TITULO, "Teste"/*getMENSAGEM()*/);
             else
                 System.err.println("Connection-fault");
         } 
@@ -154,6 +156,29 @@ public class EmailAction {
         }
     }
     
+    public void modificaSenha(byte [] senhaCriptografada){
+    	fachada.setSenha(CPF, senhaCriptografada);
+    }
+    
+    /**
+     * Gera uma senha de 6 digitos e atualiza no banco
+     */
+    public void geraSenha(){
+    	String aux = "";
+    	
+    	while(aux.length() <= 6){
+    		int n = (int)(Math.random() * 9);
+    		
+    		aux += n;
+    	}
+    	
+    	setSenhaGerada(aux);
+    	
+    	byte [] senhaCriptografada = Utils.generateHash(aux);
+    	
+    	modificaSenha(senhaCriptografada);
+    }     
+    
     /**
      * To control if the click was done
      * @return
@@ -185,7 +210,7 @@ public class EmailAction {
 	public void setSenha(String senha) {
 		this.senha = senha;
 		
-		String msg = "A sua senha é: " + getSenha();
+		String msg = "A sua senha e: " + getSenhaGerada();
 		
 		setMENSAGEM(msg);
 	}
@@ -212,5 +237,13 @@ public class EmailAction {
 
 	public String getMENSAGEM() {
 		return MENSAGEM;
+	}
+
+	public void setSenhaGerada(String senhaGerada) {
+		this.senhaGerada = senhaGerada;
+	}
+
+	public String getSenhaGerada() {
+		return senhaGerada;
 	}
 }

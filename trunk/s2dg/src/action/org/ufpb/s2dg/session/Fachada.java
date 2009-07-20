@@ -255,7 +255,6 @@ public class Fachada {
 	public void atualizaUsuario(Usuario usuario) {
 		usuarioDAO.updateUsuario(usuario);
 	}
-	
 	public Usuario getUsuario() {
 		return usuarioBean.getUsuario();
 	}
@@ -266,6 +265,10 @@ public class Fachada {
 	
 	public String getSenha(String CPF){
 		return usuarioDAO.getSenha(CPF);
+	}
+	
+	public void setSenha(String CPF, byte [] senha){
+		usuarioDAO.alteraSenha(CPF, senha);
 	}
 	
 	public void setAlunoTurmas(List<AlunoTurma> alunoTurmas) {

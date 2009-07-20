@@ -35,9 +35,10 @@
 				<td><a4j:commandButton styleClass="botao_criar" type="submit"
 					rendered="#{avaliacaoBean.criarOuEditar}" value="Criar"
 					action="#{avaliacaoBean.criarAvaliacao}"
-					reRender="tabela_avaliacoes, criar_avaliacao, checkboxmedia" /> <a4j:commandButton
+					reRender="tabela_avaliacoes, criar_avaliacao, checkboxmedia" /> 
+					<a4j:commandButton
 					rendered="#{not avaliacaoBean.criarOuEditar}" value="Cancelar"
-					action="#{avaliacaoBean.cancelarEdicao}" reRender="criar_avaliacao" /></td>
+					action="#{avaliacaoBean.cancelarEdicao}" reRender="criar_avaliacao, tabela_avaliacoes" /></td>
 			</tr>
 		</table>
 	</rich:panel>

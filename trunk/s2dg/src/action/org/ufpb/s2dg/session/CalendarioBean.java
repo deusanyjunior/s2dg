@@ -2,7 +2,6 @@ package org.ufpb.s2dg.session;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -17,11 +16,6 @@ public class CalendarioBean {
 	
 	@In
 	Fachada fachada;
-	
-	@Create
-	public void init() {
-		calendario = fachada.getCalendarioDoBanco();
-	}
 
 	public Calendario getCalendario() {
 		return calendario;

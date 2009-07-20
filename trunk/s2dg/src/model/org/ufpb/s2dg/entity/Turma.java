@@ -33,6 +33,8 @@ public class Turma implements java.io.Serializable {
 	private Set<Avaliacao> avaliacoes = new HashSet<Avaliacao>(0);
 	private boolean calcularMediaAutomaticamente = false;
 	private String planoDeCurso;
+	private Set<Oferta> ofertas;
+	private Set<Horario> horarios;
 	
 	public Turma() {
 	}
@@ -45,7 +47,8 @@ public class Turma implements java.io.Serializable {
 
 	public Turma(long id, Set<Professor> professores, Periodo periodo,
 			Disciplina disciplina, String numero, Set<AlunoTurma> alunoTurmas,
-			Set<Avaliacao> avaliacoes, boolean calcularMediaAutomaticamente, String planoDeCurso) {
+			Set<Avaliacao> avaliacoes, boolean calcularMediaAutomaticamente, String planoDeCurso, Set<Oferta> ofertas,
+			Set<Horario> horarios) {
 		this.id = id;
 		this.professores = professores;
 		this.periodo = periodo;
@@ -55,6 +58,8 @@ public class Turma implements java.io.Serializable {
 		this.avaliacoes = avaliacoes;
 		this.calcularMediaAutomaticamente = calcularMediaAutomaticamente;
 		this.planoDeCurso = planoDeCurso;
+		this.ofertas = ofertas;
+		this.horarios = horarios;
 	}
 
 	@Id
@@ -144,6 +149,26 @@ public class Turma implements java.io.Serializable {
 
 	public void setPlanoDeCurso(String planoDeCurso) {
 		this.planoDeCurso = planoDeCurso;
+	}
+
+	@OneToMany(mappedBy="turma")
+	public Set<Oferta> getOfertas() {
+		return ofertas;
+	}
+
+	public void setOfertas(Set<Oferta> ofertas) {
+		this.ofertas = ofertas;
+	}
+
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "turma_horario", schema = "public", joinColumns = { @JoinColumn(name = "id_turma", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_horario", nullable = false, updatable = false) })
+	public Set<Horario> getHorarios() {
+		return horarios;
+	}
+
+	public void setHorarios(Set<Horario> horarios) {
+		this.horarios = horarios;
 	}
 	
 }

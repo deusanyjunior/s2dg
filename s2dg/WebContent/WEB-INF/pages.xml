@@ -60,7 +60,7 @@
     
     <exception class="javax.faces.application.ViewExpiredException">
         <redirect view-id="/login.xhtml">
-            <message severity="warn">Your session has timed out, please try again</message>
+            <message severity="warn">Sua sessão terminou. Por favor, faça login novamente.</message>
         </redirect>
     </exception>
     

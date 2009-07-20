@@ -19,16 +19,25 @@
 			</rich:column>
 			<rich:columns value="#{avaliacoesBean.avaliacoes}" var="avaliacao">
 				<f:facet name="header">
-					<h:outputText
-						value="#{avaliacao.geraNomeTruncado()}(peso:#{avaliacao.peso})" />
+					<h:panelGroup>
+						<h:outputText value="#{avaliacao.geraNomeTruncado()}" />
+						<br/>
+						<h:outputText value="peso: #{avaliacao.peso}" />
+					</h:panelGroup>
 				</f:facet>
-				<h:outputText value="#{avaliacoesBean.getNota(avaliacao)}" />
+				<h:outputText value="#{avaliacoesBean.getNota(avaliacao)}" >
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+								locale="pt_BR" />
+				</h:outputText>
 			</rich:columns>
 			<rich:column>
 				<f:facet name="header">
 								Média Final
 							</f:facet>
-				<h:outputText value="#{alunoTurma.media}" />
+				<h:outputText value="#{alunoTurma.media}" >
+					<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+								locale="pt_BR" />
+				</h:outputText>
 			</rich:column>
 		</rich:dataTable>
 	</rich:panel>

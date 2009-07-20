@@ -9,6 +9,7 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.faces.FacesMessages;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaAvaliacao;
 import org.ufpb.s2dg.entity.Avaliacao;
@@ -23,6 +24,8 @@ public class AlunoTurmasBean {
 	
 	@In
 	private Fachada fachada;
+	@In
+	private FacesMessages facesMessages;
 
 	public void init() {
 		Turma turmaAtual = fachada.getTurma();
@@ -62,6 +65,7 @@ public class AlunoTurmasBean {
 				for(int i = 0; i < alunoTurmas.size(); i++)
 					fachada.atualizaAlunoTurma(alunoTurmas.get(i));
 			}
+			facesMessages.add("Informações salvas com sucesso!");
 		}
 	}
 	

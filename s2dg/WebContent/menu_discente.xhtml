@@ -26,6 +26,14 @@
 			</h:form>
 		</rich:panel>
 	</div>
+	<br/>
+	<center>
+	<h:form>
+	<h:commandLink disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
+		value="Efetuar Matrícula" action="matricula" />
+	</h:form>
+	</center>
+	<br/>
 </ui:define>
 			
 </ui:composition>

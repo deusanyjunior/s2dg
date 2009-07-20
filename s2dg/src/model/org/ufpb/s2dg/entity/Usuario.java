@@ -57,7 +57,7 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, cascade= {CascadeType.ALL})
+	@OneToOne(fetch = FetchType.EAGER, cascade= {CascadeType.ALL})
 	@JoinColumn(name = "aluno_matricula")
 	public Aluno getAluno() {
 		return this.aluno;
@@ -67,7 +67,7 @@ public class Usuario implements Serializable {
 		this.aluno = aluno;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, cascade= {CascadeType.ALL})
+	@OneToOne(fetch = FetchType.EAGER, cascade= {CascadeType.ALL})
 	@JoinColumn(name = "professor_matricula")
 	public Professor getProfessor() {
 		return this.professor;

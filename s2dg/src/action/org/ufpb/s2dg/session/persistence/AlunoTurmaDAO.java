@@ -39,6 +39,10 @@ public class AlunoTurmaDAO {
 	public void atualiza(AlunoTurma alunoTurma) {
 		entityManager.merge(alunoTurma);
 	}
+
+	public void cria(AlunoTurma alunoTurma) {
+		entityManager.persist(alunoTurma);
+	}
 	
 	
 	

@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -23,9 +25,8 @@ public class Aluno implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private String matricula;
 	private Set<AlunoTurma> alunoTurmas = new HashSet<AlunoTurma>(0);
-	
-	@OneToOne(mappedBy="aluno")
 	private Usuario usuario;
+	private Curriculo curriculo;
 
 	public Aluno() {
 	}
@@ -34,10 +35,12 @@ public class Aluno implements Serializable {
 		this.matricula = matricula;
 	}
 
-	public Aluno(String matricula, Set<Usuario> usuarios,
-			Set<AlunoTurma> alunoTurmas) {
+	public Aluno(String matricula, Usuario usuario,
+			Set<AlunoTurma> alunoTurmas, Curriculo curriculo) {
 		this.matricula = matricula;
 		this.alunoTurmas = alunoTurmas;
+		this.usuario = usuario;
+		this.curriculo = curriculo;
 	}
 
 	@Id
@@ -61,12 +64,23 @@ public class Aluno implements Serializable {
 		this.alunoTurmas = alunoTurmas;
 	}
 
+	@OneToOne(mappedBy="aluno")
 	public Usuario getUsuario() {
 		return usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY, cascade= {CascadeType.ALL})
+	@JoinColumn(name = "id_curriculo")
+	public Curriculo getCurriculo() {
+		return curriculo;
+	}
+	
+	public void setCurriculo(Curriculo curriculo) {
+		this.curriculo = curriculo;
 	}
 
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.List;
 
 import javax.faces.model.SelectItem;
@@ -20,12 +19,10 @@ import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Calendario;
 import org.ufpb.s2dg.entity.Curriculo;
-import org.ufpb.s2dg.entity.Disciplina;
 import org.ufpb.s2dg.entity.Horario;
 import org.ufpb.s2dg.entity.Oferta;
 import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Turma;
-import org.ufpb.s2dg.entity.Usuario;
 
 @Name("matriculaBean")
 @Scope(ScopeType.SESSION)
@@ -50,70 +47,6 @@ public class MatriculaBean {
 	public void listaTurmasAptas() {
 		/* p/ Daniel Marques fazer...
 		 * preenche a lista de turmas aptas em List<Turma> turmasAptas */
-		
-		turmasAptas = new ArrayList<Turma>();
-		
-		Disciplina disciplina = new Disciplina();
-		disciplina.setNome("Engenharia de Software");
-		disciplina.setCreditos(5);
-		Usuario usuario = new Usuario();
-		usuario.setNome("Alan Kelon");
-		Professor professor = new Professor();
-		professor.setUsuario(usuario);
-		Turma turma = new Turma();
-		turma.setNumero("1");
-		turma.setDisciplina(disciplina);
-		turma.setId(123);
-		turma.setProfessores(new HashSet<Professor>());
-		turma.getProfessores().add(professor);
-		HashSet<Horario> horario = new HashSet<Horario>();
-		Horario h = new Horario();
-		h.setDia(Horario.Dia.SEG);
-		h.setHoraInicio(9);
-		h.setMinutoInicio(0);
-		h.setHoraFim(12);
-		h.setMinutoFim(0);
-		horario.add(h);
-		h = new Horario();
-		h.setDia(Horario.Dia.QUA);
-		h.setHoraInicio(10);
-		h.setMinutoInicio(0);
-		h.setHoraFim(12);
-		h.setMinutoFim(0);
-		horario.add(h);
-		turma.setHorarios(horario);
-		turmasAptas.add(turma);
-		
-		disciplina = new Disciplina();
-		disciplina.setNome("Circuitos Lógicos");
-		disciplina.setCreditos(5);
-		turma = new Turma();
-		turma.setNumero("2");
-		turma.setDisciplina(disciplina);
-		turma.setId(321);
-		usuario = new Usuario();
-		usuario.setNome("Yuri Gonzaga");
-		professor = new Professor();
-		professor.setUsuario(usuario);
-		turma.setProfessores(new HashSet<Professor>());
-		turma.getProfessores().add(professor);
-		horario = new HashSet<Horario>();
-		h = new Horario();
-		h.setDia(Horario.Dia.TER);
-		h.setHoraInicio(7);
-		h.setMinutoInicio(0);
-		h.setHoraFim(10);
-		h.setMinutoFim(0);
-		horario.add(h);
-		h = new Horario();
-		h.setDia(Horario.Dia.QUI);
-		h.setHoraInicio(8);
-		h.setMinutoInicio(0);
-		h.setHoraFim(10);
-		h.setMinutoFim(0);
-		horario.add(h);
-		turma.setHorarios(horario);
-		turmasAptas.add(turma);
 	}
 	
 	public void fazMatricula() {

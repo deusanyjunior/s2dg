@@ -1,8 +1,11 @@
 package org.ufpb.s2dg.session;
 
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.faces.FacesMessages;
 import org.jboss.seam.faces.Renderer;
 import org.jboss.seam.log.Log;
@@ -25,6 +28,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 @Name("emailAction")
+@AutoCreate
+@Scope(ScopeType.PAGE)
 public class EmailAction {
 	
 	private static final String SMTP_HOST_NAME = "smtp.gmail.com";
@@ -33,7 +38,7 @@ public class EmailAction {
     private static final String SMTP_PORT  = "465";
 
     private static final String EMAIL = "es.s2dg@gmail.com"; 
-    private static final String TITULO = "Recuperação";
+    private static final String TITULO = "RecuperaÃ§Ã£o";
     private String toEmail;
     private String MENSAGEM = "";
     
@@ -100,7 +105,7 @@ public class EmailAction {
             InternetAddress addressFrom = new InternetAddress(from);
             msg.setFrom(addressFrom);
             
-            InternetAddress []addressTo = new InternetAddress[0];
+            InternetAddress []addressTo = new InternetAddress[1];
             
             addressTo[0] = new InternetAddress(to);
 	
@@ -180,7 +185,7 @@ public class EmailAction {
 	public void setSenha(String senha) {
 		this.senha = senha;
 		
-		String msg = "A sua senha é: " + getSenha();
+		String msg = "A sua senha Ã©: " + getSenha();
 		
 		setMENSAGEM(msg);
 	}

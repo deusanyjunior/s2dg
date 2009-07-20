@@ -20,15 +20,15 @@
 	<rich:dataTable value="#{matriculaBean.turmasAptas}" var="turma"
 		id="turmas_aptas" style="text-align: center" >
 		<f:facet name="header">Turmas Aptas</f:facet>
-		<rich:column>
+		<rich:column sortOrder="ASCENDING" sortBy="#{turma.disciplina.nome}">
 			<f:facet name="header">Disciplina</f:facet>
 			<h:outputText value="#{turma.disciplina.nome}" />
 		</rich:column>
-		<rich:column>
+		<rich:column sortBy="#{turma.numero}">
 			<f:facet name="header">Turma</f:facet>
 			<h:outputText value="#{turma.numero}" />
 		</rich:column>
-		<rich:column>
+		<rich:column sortBy="#{turma.disciplina.creditos}">
 			<f:facet name="header">Créditos</f:facet>
 			<h:outputText value="#{turma.disciplina.creditos}" />
 		</rich:column>
@@ -56,15 +56,15 @@
 	<rich:dataTable value="#{matriculaBean.turmasSelecionadas}" var="turma" id="turmas_selecionadas"
 		style="text-align: center" >
 		<f:facet name="header">Turmas Selecionadas</f:facet>
-		<rich:column>
+		<rich:column sortOrder="ASCENDING" sortBy="#{turma.disciplina.nome}">
 			<f:facet name="header">Disciplina</f:facet>
 			<h:outputText value="#{turma.disciplina.nome}" />
 		</rich:column>
-		<rich:column>
+		<rich:column sortBy="#{turma.numero}">
 			<f:facet name="header">Turma</f:facet>
 			<h:outputText value="#{turma.numero}" />
 		</rich:column>
-		<rich:column>
+		<rich:column sortBy="#{turma.disciplina.creditos}">
 			<f:facet name="header">Créditos</f:facet>
 			<h:outputText value="#{turma.disciplina.creditos}" />
 		</rich:column>

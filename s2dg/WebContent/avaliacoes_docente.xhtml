@@ -13,19 +13,19 @@
 			<rich:panel styleClass="border_zero" id="tabela_avaliacoes">
 				<rich:dataTable var="alunoTurma"
 					value="#{alunoTurmasBean.alunoTurmas}" style="text-align: center;">
-					<rich:column styleClass="matricula">
+					<rich:column styleClass="matricula" sortBy="#{alunoTurma.aluno.matricula}">
 						<f:facet name="header">Matrícula</f:facet>
 						<h:outputText value="#{alunoTurma.aluno.matricula}" />
 					</rich:column>
-					<rich:column styleClass="aluno">
+					<rich:column styleClass="aluno" sortOrder="ASCENDING" sortBy="#{alunoTurma.aluno.usuario.nome}">
 						<f:facet name="header">Aluno</f:facet>
 						<h:outputText value="#{alunoTurma.aluno.usuario.nome}" />
 					</rich:column>
-					<rich:column styleClass="faltas">
+					<rich:column styleClass="faltas" sortBy="#{alunoTurma.faltas}">
 						<f:facet name="header">Faltas</f:facet>
 						<h:inputText value="#{alunoTurma.faltas}" size="5" />
 					</rich:column>
-					<rich:columns value="#{avaliacoesBean.avaliacoes}" var="avaliacao">
+					<rich:columns value="#{avaliacoesBean.avaliacoes}" var="avaliacao" >
 						<f:facet name="header">
 							<h:panelGroup>
 								<h:outputText value="#{avaliacao.geraNomeTruncado()}" />
@@ -48,7 +48,7 @@
 							size="5" converter="#{notaConverter}" >
 						</h:inputText>
 					</rich:columns>
-					<rich:column styleClass="media" >
+					<rich:column styleClass="media" sortBy="#{alunoTurma.media}">
 						<f:facet name="header">Média Final</f:facet>
 						<h:inputText value="#{alunoTurma.media}" converter="#{notaConverter}"
 							rendered="#{not turmaBean.turma.calcularMediaAutomaticamente}"

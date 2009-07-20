@@ -13,7 +13,10 @@ import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaAvaliacao;
 import org.ufpb.s2dg.entity.Avaliacao;
 import org.ufpb.s2dg.entity.Calendario;
+import org.ufpb.s2dg.entity.Curriculo;
+import org.ufpb.s2dg.entity.Curso;
 import org.ufpb.s2dg.entity.Global;
+import org.ufpb.s2dg.entity.Oferta;
 import org.ufpb.s2dg.entity.Periodo;
 import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Turma;
@@ -22,13 +25,16 @@ import org.ufpb.s2dg.session.persistence.AlunoTurmaAvaliacaoDAO;
 import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
 import org.ufpb.s2dg.session.persistence.AvaliacaoDAO;
 import org.ufpb.s2dg.session.persistence.CalendarioDAO;
+import org.ufpb.s2dg.session.persistence.CurriculoDAO;
+import org.ufpb.s2dg.session.persistence.CursoDAO;
 import org.ufpb.s2dg.session.persistence.GlobalDAO;
+import org.ufpb.s2dg.session.persistence.OfertaDAO;
 import org.ufpb.s2dg.session.persistence.ProfessorDAO;
 import org.ufpb.s2dg.session.persistence.TurmaDAO;
 import org.ufpb.s2dg.session.persistence.UsuarioDAO;
 
 @Name("fachada")
-@Scope(ScopeType.APPLICATION)
+@Scope(ScopeType.SESSION)
 @AutoCreate
 public class Fachada {
 	
@@ -48,6 +54,12 @@ public class Fachada {
 	private CalendarioDAO calendarioDAO;
 	@In
 	private ProfessorDAO professorDAO;
+	@In
+	private CursoDAO cursoDAO;
+	@In
+	private OfertaDAO ofertaDAO;
+	@In
+	private CurriculoDAO curriculoDAO;
 	
 	@In
 	private UsuarioBean usuarioBean;
@@ -65,10 +77,13 @@ public class Fachada {
 	private AvaliacoesBean avaliacoesBean;
 	@In
 	private AlunoTurmasBean alunoTurmasBean;
+	@In
+	private CalendarioBean calendarioBean;
 	
 	@Create
 	public void init() {
 		globalBean.setGlobal(getGlobalDoBanco());
+		calendarioBean.setCalendario(getCalendarioDoBanco());
 	}
 	
 	public Usuario getUsuarioDoBanco(String username, String password) {
@@ -96,7 +111,7 @@ public class Fachada {
 		return usuarioDAO.getUsuarioAluno(matricula);
 	}
 
-	/* ESSES MÉTODOS AINDA SÃO NECESSÁRIOS??
+	/* ESSES Mï¿½TODOS AINDA Sï¿½O NECESSï¿½RIOS??
 	//Criado por Julio e Rennan
 	public String getEmail(String cpf) {
 		if (cpf.equals("") || cpf == null) {
@@ -164,6 +179,7 @@ public class Fachada {
 	public void atualizaAlunoTurmas(){
 		alunoTurmasBean.atualizaAlunoTurmas();
 	}
+	
 	public Turma getTurma() {
 		return turmaBean.getTurma();
 	}
@@ -258,6 +274,31 @@ public class Fachada {
 	
 	public void setAvaliacoes(List<Avaliacao> avaliacoes) {
 		avaliacoesBean.setAvaliacoes(avaliacoes);
+	}
+
+	public Calendario getCalendario() {
+		return calendarioBean.getCalendario();
+	}
+
+	public Aluno getAluno() {
+		return usuarioBean.getUsuario().getAluno();
+	}
+
+	public Oferta getOferta(Curriculo curriculo, Turma turma) {
+		Curso curso = cursoDAO.getCurso(curriculo);
+		return ofertaDAO.getOferta(curso, turma);
+	}
+
+	public void criaAlunoTurma(AlunoTurma alunoTurma) {
+		alunoTurmaDAO.cria(alunoTurma);
+	}
+
+	public Curriculo getCurriculoDoBanco(Aluno aluno) {
+		return curriculoDAO.getCurriculo(aluno);
+	}
+
+	public void atualizaOferta(Oferta oferta) {
+		ofertaDAO.atualiza(oferta);
 	}
 	
 }

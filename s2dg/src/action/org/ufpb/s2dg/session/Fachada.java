@@ -161,6 +161,9 @@ public class Fachada {
 		avaliacaoDAO.atualiza(avaliacao);
 	}
 
+	public void atualizaAlunoTurmas(){
+		alunoTurmasBean.atualizaAlunoTurmas();
+	}
 	public Turma getTurma() {
 		return turmaBean.getTurma();
 	}

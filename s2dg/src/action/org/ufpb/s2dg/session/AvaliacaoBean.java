@@ -56,6 +56,9 @@ public class AvaliacaoBean {
 	
 	public void atualizarAvaliacao() {
 		fachada.atualizaAvaliacao(avaliacao);
+		if((fachada.getTurma().isCalcularMediaAutomaticamente())){
+			fachada.atualizaAlunoTurmas();
+		}
 		this.avaliacao = new Avaliacao();
 		criarOuEditar = true;
 		fachada.initAvaliacoes();
@@ -70,6 +73,11 @@ public class AvaliacaoBean {
 			avaliacaoParaExclusao.setTurma(fachada.getTurma());
 			fachada.excluiAvaliacao(avaliacaoParaExclusao);
 			avaliacaoParaExclusao = null;
+			fachada.getTurma().setCalcularMediaAutomaticamente(false);
+			if((fachada.getAvaliacoes().size()==0) && (fachada.getTurma().isCalcularMediaAutomaticamente())){
+				fachada.getTurma().setCalcularMediaAutomaticamente(false);
+				fachada.atualizaTurma();
+			}
 		}
 		fachada.initAvaliacoes();
 	}
@@ -80,11 +88,13 @@ public class AvaliacaoBean {
 		if((avaliacao != null)&&(turmaAtual != null)) {			
 			if(fachada.getAvaliacoes().size()<8){
 				fachada.criaAvaliacao(avaliacao);
+				fachada.atualizaAlunoTurmas();
 				avaliacao = new Avaliacao();
 				turmaAtual.setCalcularMediaAutomaticamente(true);
 			}		
 		}
 		fachada.initAvaliacoes();
+		
 	}
 	
 }

@@ -35,7 +35,10 @@ public class TurmaBean {
 	public void switchCalcMediaAuto() {
 		if (turma.isCalcularMediaAutomaticamente())
 			turma.setCalcularMediaAutomaticamente(false);
-		else turma.setCalcularMediaAutomaticamente(true);
+		else {
+			turma.setCalcularMediaAutomaticamente(true);
+			fachada.atualizaAlunoTurmas();
+		}
 	}
 	
 	public void atualiza() {

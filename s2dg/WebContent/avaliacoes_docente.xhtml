@@ -48,7 +48,7 @@
 							value="#{alunoTurmaAvaliacoesBean.getAlunoTurmaAvaliacao(alunoTurma, avaliacao).nota}"
 							size="5" />
 					</rich:columns>
-					<rich:column styleClass="media">
+					<rich:column styleClass="media" >
 						<f:facet name="header">Média Final</f:facet>
 						<h:inputText value="#{alunoTurma.media}"
 							rendered="#{not turmaBean.turma.calcularMediaAutomaticamente}"

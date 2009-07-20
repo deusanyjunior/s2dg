@@ -1,6 +1,8 @@
 package org.ufpb.s2dg.session;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.ScopeType;
@@ -8,6 +10,7 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.jboss.seam.faces.FacesMessages;
 import org.ufpb.s2dg.entity.Avaliacao;
 import org.ufpb.s2dg.entity.Turma;
 
@@ -15,7 +18,7 @@ import org.ufpb.s2dg.entity.Turma;
 @Scope(ScopeType.PAGE)
 @AutoCreate
 public class AvaliacaoBean {
-
+	
 	private Avaliacao avaliacao = new Avaliacao();
 	private boolean criarOuEditar = true;
 	private Avaliacao avaliacaoParaExclusao;
@@ -85,7 +88,7 @@ public class AvaliacaoBean {
 		fachada.initAvaliacoes();
 	}
 	
-	//exibir mensagem informando que o limite de notas foi atingido
+	
 	public void criarAvaliacao() {
 		Turma turmaAtual = fachada.getTurma();
 		if((avaliacao != null)&&(turmaAtual != null)) {			
@@ -95,9 +98,13 @@ public class AvaliacaoBean {
 				avaliacao = new Avaliacao();
 				turmaAtual.setCalcularMediaAutomaticamente(true);
 			}
+			else{
+				FacesMessage facesMessage = new FacesMessage("Atenção! Número máximo de notas atingido!");				
+				FacesContext.getCurrentInstance().addMessage("criar",facesMessage);
+
+			}
 		}
 		fachada.initAvaliacoes();
 		
 	}
-	
 }

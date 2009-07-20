@@ -8,7 +8,7 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
-	<h:form>
+	<h:form id="form_avaliacao">
 	<rich:panel id="criar_avaliacao" style="width: 260px;">
 		<f:facet name="header">
 			<h:outputText
@@ -22,7 +22,7 @@
 					requiredMessage="Obrigatório">
 					<f:validateLength maximum="50" />
 				</h:inputText> <br />
-				<h:message for="nome_avaliacao" /></td>
+				<h:message for="nome_avaliacao" style="color: red;" /></td>
 				<td><a4j:commandButton type="submit"
 					rendered="#{not avaliacaoBean.criarOuEditar}"
 					reRender="criar_avaliacao, tabela_avaliacoes" value="Atualizar"
@@ -32,15 +32,11 @@
 				<td><h:outputText value="Peso:" /></td>
 				<td><rich:inputNumberSpinner minValue="1" cycled="false"
 					value="#{avaliacaoBean.avaliacao.peso}" /></td>
-				<td><a4j:commandButton id="criar" styleClass="botao_criar" type="submit"
+				<td><a4j:commandButton styleClass="botao_criar" type="submit"
 					rendered="#{avaliacaoBean.criarOuEditar}" value="Criar"
 					action="#{avaliacaoBean.criarAvaliacao}"
 					reRender="tabela_avaliacoes, criar_avaliacao, checkboxmedia">
 					</a4j:commandButton>					 
-					<h:message for="criar" />
-					<br/>
-					<h:messages style="color: red"/>
-					
 					<a4j:commandButton
 					rendered="#{not avaliacaoBean.criarOuEditar}" value="Cancelar"
 					action="#{avaliacaoBean.cancelarEdicao}" reRender="criar_avaliacao, tabela_avaliacoes" /></td>

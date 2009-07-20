@@ -1,8 +1,8 @@
 package org.ufpb.s2dg.session;
 
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.ScopeType;
@@ -10,7 +10,6 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.faces.FacesMessages;
 import org.ufpb.s2dg.entity.Avaliacao;
 import org.ufpb.s2dg.entity.Turma;
 
@@ -25,6 +24,8 @@ public class AvaliacaoBean {
 	
 	@In
 	Fachada fachada;
+	@In
+	FacesContext facesContext;
 
 	public Avaliacao getAvaliacao() {
 		return avaliacao;
@@ -88,7 +89,6 @@ public class AvaliacaoBean {
 		fachada.initAvaliacoes();
 	}
 	
-	
 	public void criarAvaliacao() {
 		Turma turmaAtual = fachada.getTurma();
 		if((avaliacao != null)&&(turmaAtual != null)) {			
@@ -99,12 +99,13 @@ public class AvaliacaoBean {
 				turmaAtual.setCalcularMediaAutomaticamente(true);
 			}
 			else{
-				FacesMessage facesMessage = new FacesMessage("Atenção! Número máximo de notas atingido!");				
-				FacesContext.getCurrentInstance().addMessage("criar",facesMessage);
+				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,"NÃºmero mÃ¡ximo de avaliaÃ§Ãµes atingido.",null);
+				facesContext.addMessage("form_avaliacao:nome_avaliacao",facesMessage);
 
 			}
 		}
 		fachada.initAvaliacoes();
 		
 	}
+	
 }

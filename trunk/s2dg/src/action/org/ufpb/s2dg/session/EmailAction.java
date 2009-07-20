@@ -30,7 +30,7 @@ import javax.mail.internet.MimeMessage;
 
 @Name("emailAction")
 @AutoCreate
-/*@Scope(ScopeType.PAGE)*/
+@Scope(ScopeType.PAGE)
 public class EmailAction {
 	
 	private static final String SMTP_HOST_NAME = "smtp.gmail.com";
@@ -68,7 +68,7 @@ public class EmailAction {
         try 
         {
             if(isConnected())
-                sendMail("jc.ufpb@gmail.com"/*getToEmail()*/, EMAIL, TITULO, "Teste"/*getMENSAGEM()*/);
+                sendMail(getToEmail(), EMAIL, TITULO, getMENSAGEM());
             else
                 System.err.println("Connection-fault");
         } 

@@ -31,6 +31,7 @@ public class Authenticator
     
     public boolean authenticate()
     {
+    	credentials.setUsername(fachada.getCPF());
     	String cpfDado = credentials.getUsername().replaceAll("[.]", "").replaceAll("[-]", "");
         log.info("authenticating {0}", cpfDado);
         

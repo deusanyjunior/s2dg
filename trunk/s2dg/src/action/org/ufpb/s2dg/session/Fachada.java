@@ -79,6 +79,8 @@ public class Fachada {
 	private AlunoTurmasBean alunoTurmasBean;
 	@In
 	private CalendarioBean calendarioBean;
+	@In
+	private EmailAction emailAction;
 	
 	@Create
 	public void init() {
@@ -302,6 +304,10 @@ public class Fachada {
 
 	public void atualizaOferta(Oferta oferta) {
 		ofertaDAO.atualiza(oferta);
+	}
+
+	public String getCPF() {
+		return emailAction.getCPF();
 	}
 	
 }

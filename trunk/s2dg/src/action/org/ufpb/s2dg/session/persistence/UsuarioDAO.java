@@ -52,6 +52,7 @@ public class UsuarioDAO {
 		entityManager.createQuery("update Usuario Set senha = :senha where cpf = :cpf")
 		.setParameter("cpf", CPF)
 		.setParameter("senha", senha).executeUpdate();
+		entityManager.flush();
 	}
 	
 	/**
@@ -72,10 +73,11 @@ public class UsuarioDAO {
 	}
 	
 	public boolean updateUsuario(Usuario usuario) {
-		Usuario user = (Usuario) entityManager.find(Usuario.class, usuario.getId());
-		if (user == null)
+		//Usuario user = (Usuario) entityManager.find(Usuario.class, usuario.getId());
+		if (usuario == null)
 			return false;
-		entityManager.merge(user);
+		entityManager.merge(usuario);
+		entityManager.flush();
 		return true;
 	}
 

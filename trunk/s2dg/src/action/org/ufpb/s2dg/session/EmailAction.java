@@ -1,24 +1,15 @@
 package org.ufpb.s2dg.session;
 
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Logger;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.faces.FacesMessages;
-import org.jboss.seam.faces.Renderer;
-import org.jboss.seam.log.Log;
-import org.ufpb.s2dg.entity.Usuario;
-
 import java.awt.HeadlessException;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Properties;
-import java.net.HttpURLConnection;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -27,6 +18,13 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import org.jboss.seam.ScopeType;
+import org.jboss.seam.annotations.AutoCreate;
+import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Name;
+import org.jboss.seam.annotations.Scope;
+import org.ufpb.s2dg.entity.Usuario;
 
 @Name("emailAction")
 @AutoCreate
@@ -39,47 +37,57 @@ public class EmailAction {
     private static final String SMTP_PORT  = "465";
 
     private static final String EMAIL = "es.s2dg@gmail.com"; 
-    private static final String TITULO = "Recuperação";
-    private String toEmail;
-    private String MENSAGEM = "";
+    private static final String TITULO = "Sistema Acadêmico da Graduação - UFPB";
+    private static final String MSG = "Oi!\nUma nova senha foi gerada automaticamente para você.\n"+
+    								  "Você deve muda-la assim que logar novamente.\nSua nova senha é: ";
     
-    private boolean clicou = false;
     private String CPF;
-    private String senha;
-    private String senhaGerada;
+    private boolean clicou = false;
+    private String email;
     
-	@In
-    Renderer renderer;
-    @In
-    FacesMessages facesMessages;
-    @Logger
-    Log log;
     @In
     Fachada fachada;
+    @In
+    FacesContext facesContext;
 
     public EmailAction(){
-    	setClicou(false);
     }
     
-    public void enviar(){
-    	setEmail();
-    	geraSenha();
-    	
-        try 
-        {
-            if(isConnected())
-                sendMail(getToEmail(), EMAIL, TITULO, getMENSAGEM());
-            else
-                System.err.println("Connection-fault");
-        } 
-        catch (HeadlessException e) 
-        {
-            System.err.println(e.getMessage());
-        } 
-        catch (IOException e) 
-        {
-            System.err.println(e.getMessage());
-        }
+    public String enviar(){
+    	Usuario usuario = fachada.getUsuarioDoBanco(CPF);
+    	if(usuario != null) {
+    		if(usuario.getEmail().equals(email)) {
+    			String novaSenha = geraSenha();
+    			usuario.setSenha(Utils.generateHash(novaSenha));
+    			fachada.atualizaUsuario(usuario);
+
+    			try 
+    			{
+    				if(isConnected()) {
+    					sendMail(usuario.getEmail(), EMAIL, TITULO, MSG+novaSenha);
+    					facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Uma nova senha foi enviada para o seu e-mail.",null));
+    				}
+    				else
+    					System.err.println("Connection-fault");
+    			} 
+    			catch (HeadlessException e) 
+    			{
+    				System.err.println(e.getMessage());
+    			} 
+    			catch (IOException e) 
+    			{
+    				System.err.println(e.getMessage());
+    			}
+    		}
+    		else {
+    			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"E-mail incorreto.",null));
+    		}
+    	}
+    	else {
+    		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Usuário não encontrado.",null));
+    	}
+    	clicou = false;
+    	return null;
     }
     
     private void sendMail(String to, String from, String titulo, String message)
@@ -156,14 +164,10 @@ public class EmailAction {
         }
     }
     
-    public void modificaSenha(byte [] senhaCriptografada){
-    	fachada.setSenha(CPF, senhaCriptografada);
-    }
-    
     /**
      * Gera uma senha de 6 digitos e atualiza no banco
      */
-    public void geraSenha(){
+    public String geraSenha(){
     	String aux = "";
     	
     	while(aux.length() <= 6){
@@ -172,78 +176,42 @@ public class EmailAction {
     		aux += n;
     	}
     	
-    	setSenhaGerada(aux);
+    	return aux;
     	
-    	byte [] senhaCriptografada = Utils.generateHash(aux);
-    	
-    	modificaSenha(senhaCriptografada);
-    }     
-    
-    /**
-     * To control if the click was done
-     * @return
-     */		
-    public void botaoPressionado(){
-		setClicou(true);
-	} 
+    }
 
-	public void setClicou(boolean clicou) {
-		this.clicou = clicou;
+	public String getCPF() {
+		return CPF;
+	}
+
+	public void setCPF(String cpf) {
+		CPF = cpf.replaceAll("[.]", "").replaceAll("[-]", "");
+	}
+	
+	public String botaoPressionado() {
+		clicou = true;
+		return null;
 	}
 
 	public boolean isClicou() {
 		return clicou;
 	}
 
-	public void setCPF(String cPF) {
-		CPF = cPF;
+	public void setClicou(boolean clicou) {
+		this.clicou = clicou;
 	}
 
-	public String getCPF() {
-		return CPF;
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-		
-		String msg = "A sua senha e: " + getSenhaGerada();
-		
-		setMENSAGEM(msg);
-	}
-
-	public void setEmail(){
-		setToEmail(fachada.getEmail(getCPF()));
+	public String cancelar() {
+		clicou = false;
+		return null;
 	}
 	
-	public void setSenha(){
-		setSenha(fachada.getSenha(CPF));
-	}
-
-	public void setToEmail(String toEmail) {
-		this.toEmail = toEmail;
-	}
-
-	public String getToEmail() {
-		return toEmail;
-	}
-
-	public void setMENSAGEM(String mENSAGEM) {
-		MENSAGEM = mENSAGEM;
-	}
-
-	public String getMENSAGEM() {
-		return MENSAGEM;
-	}
-
-	public void setSenhaGerada(String senhaGerada) {
-		this.senhaGerada = senhaGerada;
-	}
-
-	public String getSenhaGerada() {
-		return senhaGerada;
-	}
 }

@@ -25,7 +25,7 @@ import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Turma;
 
 @Name("matriculaBean")
-@Scope(ScopeType.SESSION)
+@Scope(ScopeType.PAGE)
 @AutoCreate
 public class MatriculaBean {
 

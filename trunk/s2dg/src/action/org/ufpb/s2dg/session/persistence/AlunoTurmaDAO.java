@@ -41,7 +41,11 @@ public class AlunoTurmaDAO {
 	}
 
 	public void cria(AlunoTurma alunoTurma) {
-		entityManager.persist(alunoTurma);
+		AlunoTurma alunoTurma_ = entityManager.find(AlunoTurma.class, alunoTurma.getId());
+		if(alunoTurma_ != null)
+			entityManager.merge(alunoTurma);
+		else
+			entityManager.persist(alunoTurma);
 	}
 	
 	

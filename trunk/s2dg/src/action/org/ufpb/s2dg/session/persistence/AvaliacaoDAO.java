@@ -1,8 +1,10 @@
 package org.ufpb.s2dg.session.persistence;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
@@ -19,10 +21,15 @@ public class AvaliacaoDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<Avaliacao> getAvaliacoes(Turma turma) {
-		return (List<Avaliacao>) entityManager.createQuery(
+		Query query = entityManager.createQuery(
     	"select avaliacao from Avaliacao as avaliacao where avaliacao.turma = :turma order by avaliacao.nome")
-    	.setParameter("turma", turma)
-    	.getResultList();
+    	.setParameter("turma", turma);
+		List<Avaliacao> list = (List<Avaliacao>)query.getResultList();
+		if(list.size() > 0) {
+			Collections.sort(list, new AvaliacaoComparator());
+			return list;
+		}
+		return null;
 	}
 
 	public void cria(Avaliacao avaliacao, Turma turma) {

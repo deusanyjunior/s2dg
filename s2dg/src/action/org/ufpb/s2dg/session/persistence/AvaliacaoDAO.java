@@ -30,6 +30,7 @@ public class AvaliacaoDAO {
 		novaAvaliacao.setNome(avaliacao.getNome());
 		novaAvaliacao.setPeso(avaliacao.getPeso());
 		novaAvaliacao.setTurma(turma);
+		novaAvaliacao.setDataEvento(avaliacao.getDataEvento());
 		entityManager.persist(novaAvaliacao);
 		entityManager.flush();
 	}

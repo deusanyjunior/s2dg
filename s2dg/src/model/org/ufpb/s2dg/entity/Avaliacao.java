@@ -27,6 +27,7 @@ public class Avaliacao implements Serializable {
 	private int peso;
 	private Turma turma;
 	private Set<AlunoTurmaAvaliacao> alunoTurmaAvaliacoes;
+	private DataEvento dataEvento;
 	
 	public Avaliacao(){
 		this.peso = 1;
@@ -100,5 +101,15 @@ public class Avaliacao implements Serializable {
         }
         return nome;
     }
+
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="id_dataevento", nullable=true, updatable=true, insertable=true)
+	public DataEvento getDataEvento() {
+		return dataEvento;
+	}
+
+	public void setDataEvento(DataEvento dataEvento) {
+		this.dataEvento = dataEvento;
+	}
 	
 }

@@ -1,5 +1,6 @@
 package org.ufpb.s2dg.session;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
@@ -15,6 +16,7 @@ import org.ufpb.s2dg.entity.Avaliacao;
 import org.ufpb.s2dg.entity.Calendario;
 import org.ufpb.s2dg.entity.Curriculo;
 import org.ufpb.s2dg.entity.Curso;
+import org.ufpb.s2dg.entity.DataEvento;
 import org.ufpb.s2dg.entity.Global;
 import org.ufpb.s2dg.entity.Oferta;
 import org.ufpb.s2dg.entity.Periodo;
@@ -27,6 +29,7 @@ import org.ufpb.s2dg.session.persistence.AvaliacaoDAO;
 import org.ufpb.s2dg.session.persistence.CalendarioDAO;
 import org.ufpb.s2dg.session.persistence.CurriculoDAO;
 import org.ufpb.s2dg.session.persistence.CursoDAO;
+import org.ufpb.s2dg.session.persistence.DataEventoDAO;
 import org.ufpb.s2dg.session.persistence.GlobalDAO;
 import org.ufpb.s2dg.session.persistence.OfertaDAO;
 import org.ufpb.s2dg.session.persistence.ProfessorDAO;
@@ -60,6 +63,8 @@ public class Fachada {
 	private OfertaDAO ofertaDAO;
 	@In
 	private CurriculoDAO curriculoDAO;
+	@In
+	private DataEventoDAO dataEventoDAO;
 	
 	@In
 	private UsuarioBean usuarioBean;
@@ -308,6 +313,30 @@ public class Fachada {
 
 	public String getCPF() {
 		return emailAction.getCPF();
+	}
+
+	public ArrayList<DataEvento> getDataEvento(int i, int j) {
+		return dataEventoDAO.getDataEvento(i, j);
+	}
+
+	public List<DataEvento> getDataEvento(Turma turma) {
+		return dataEventoDAO.getDataEvento(turma);
+	}
+
+	public void criaDataEvento(DataEvento dataEvento) {
+		dataEventoDAO.cria(dataEvento);
+	}
+
+	public DataEvento getDataEvento(Avaliacao avaliacao) {
+		return dataEventoDAO.getDataEvento(avaliacao);
+	}
+
+	public void atualizaDataEvento(DataEvento dataEvento) {
+		dataEventoDAO.atualiza(dataEvento);
+	}
+
+	public void excluiDataEvento(DataEvento dataEvento) {
+		dataEventoDAO.exclui(dataEvento);
 	}
 	
 }

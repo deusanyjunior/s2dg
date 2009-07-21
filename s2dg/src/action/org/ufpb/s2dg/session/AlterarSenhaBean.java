@@ -1,5 +1,8 @@
 package org.ufpb.s2dg.session;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -12,19 +15,19 @@ public class AlterarSenhaBean {
 	
 	@In
     Fachada fachada;
+	@In
+	FacesContext facesContext;
 	
 	private String senhaAtual;
 	private String novaSenha1;
 	private String novaSenha2;
 	private boolean clicou;
-	private String msg;
 	
 	public AlterarSenhaBean(){
 		clicou = false;
 		senhaAtual = "";
 		novaSenha1 = "";
 		novaSenha2 = "";
-		msg = "";
 	}
 	
 	public String botaoPressionado(){
@@ -34,19 +37,19 @@ public class AlterarSenhaBean {
 		Usuario usuario = fachada.getUsuario();
 		
 		if(!novaSenha1.equals(novaSenha2)){
-			msg = "Senhas diferentes";
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senhas diferentes.",null));
 			return null;
 		}
 		else if(!Utils.validatePassword(senhaAtual, usuario)){
-			msg = "Senha inválida";
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
 			return null;
 		}
 		
-		usuario.setSenha(Utils.generateHash(senhaAtual));
+		usuario.setSenha(Utils.generateHash(novaSenha1));
 		
 		fachada.atualizaUsuario(usuario);
 		
-		msg = "Senha alterada com sucesso!";
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));
 		
 		return "home";
 	}
@@ -82,13 +85,9 @@ public class AlterarSenhaBean {
 	public void setClicou(boolean clicou) {
 		this.clicou = clicou;
 	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
-	public String getMsg() {
-		return msg;
+	
+	public String cancelar() {
+		return "home";
 	}
 	
 }

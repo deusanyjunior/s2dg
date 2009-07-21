@@ -47,7 +47,8 @@
 					
 					
 						
-					<h:inputText id="username" value="#{credentials.username}"> 
+					<h:inputText id="username" value="#{emailAction.CPF}" required="true"
+					requiredMessage="O campo CPF é obrigatório!"> 
 						<rich:jQuery id="usernameMascara" selector="#username" query="mask('999.999.999-99')" timing="onload" />
 					</h:inputText>
 						
@@ -66,9 +67,8 @@
 				</div>
 				<br/>
 					
-				<h:commandLink action="#{emailAction.botaoPressionado}">
-					<h:outputText value="Esqueci minha senha" />
-				</h:commandLink> 
+				<h:commandLink action="#{emailAction.botaoPressionado}" value="Esqueci minha senha..."
+					type="submit"/>
 				
 				<br/>
 				<br/>
@@ -81,23 +81,21 @@
                     
                     <h:panelGrid columns="2" rowClasses="prop1" columnClasses="name1,value1">
 					
-					<div align="right"> CPF </div>
+					<div align="right"> Digite seu e-mail: </div>
 
-					<h:inputText id="usernameEmail" value="#{emailAction.CPF}"> 
-						<rich:jQuery id="usernameMascaraEmail" selector="#username" query="mask('999.999.999-99')" timing="onload" />
-					</h:inputText>
+					<h:inputText value="#{emailAction.email}"/> 
 					
 					</h:panelGrid>
 					
 					</div>
 					
 					<div class="actionButtons">
+					<h:commandButton value="Cancelar" action="#{emailAction.cancelar()}" />
 					<h:commandButton value="Recuperar" action="#{emailAction.enviar()}" />						
 					</div>
 					<br/>
                  
                 </rich:panel>
-		<h:commandButton action="#{contextListener.updateDB}" value="Atualizar Banco" />				
 		</rich:panel></center>
 	</h:form>
 

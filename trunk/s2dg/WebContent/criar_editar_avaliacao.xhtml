@@ -9,40 +9,57 @@
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
 	<h:form id="form_avaliacao">
-	<rich:panel id="criar_avaliacao" style="width: 260px;">
-		<f:facet name="header">
-			<h:outputText
-				value="#{avaliacaoBean.criarOuEditar?'Criar':'Editar'} Avaliação" />
-		</f:facet>
-		<table>
-			<tr>
-				<td><h:outputText value="Nome: " /></td>
-				<td><h:inputText id="nome_avaliacao"
-					value="#{avaliacaoBean.avaliacao.nome}" required="true"
-					requiredMessage="Obrigatório">
-					<f:validateLength maximum="50" />
-				</h:inputText> <br />
-				<h:message for="nome_avaliacao" style="color: red;" /></td>
-				<td><a4j:commandButton type="submit"
-					rendered="#{not avaliacaoBean.criarOuEditar}"
-					reRender="criar_avaliacao, tabela_avaliacoes" value="Atualizar"
-					action="#{avaliacaoBean.atualizarAvaliacao}" /></td>
-			</tr>
-			<tr>
-				<td><h:outputText value="Peso:" /></td>
-				<td><rich:inputNumberSpinner minValue="1" cycled="false"
-					value="#{avaliacaoBean.avaliacao.peso}" /></td>
-				<td><a4j:commandButton styleClass="botao_criar" type="submit"
-					rendered="#{avaliacaoBean.criarOuEditar}" value="Criar"
-					action="#{avaliacaoBean.criarAvaliacao}"
-					reRender="tabela_avaliacoes, criar_avaliacao, checkboxmedia">
-					</a4j:commandButton>					 
-					<a4j:commandButton
-					rendered="#{not avaliacaoBean.criarOuEditar}" value="Cancelar"
-					action="#{avaliacaoBean.cancelarEdicao}" reRender="criar_avaliacao, tabela_avaliacoes" /></td>
-			</tr>
-		</table>
-	</rich:panel>
+		<rich:panel id="criar_avaliacao" style="width: 260px;">
+			<f:facet name="header">
+				<h:outputText value="#{avaliacaoBean.criarOuEditar?'Criar':'Editar'} Avaliação" />
+			</f:facet>
+			<table>
+				<tr>
+					<td>
+						<h:outputText value="Nome: " />
+					</td>
+					<td>
+						<h:inputText id="nome_avaliacao" value="#{avaliacaoBean.avaliacao.nome}" required="true"
+							requiredMessage="Obrigatório">
+							<f:validateLength maximum="50" />
+						</h:inputText>
+						<br />
+						<h:message for="nome_avaliacao" style="color: red;" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputText value="Peso:" />
+					</td>
+					<td>
+						<rich:inputNumberSpinner minValue="1" cycled="false" value="#{avaliacaoBean.avaliacao.peso}" />
+					</td>
+					<td>
+						<a4j:commandButton type="submit" rendered="#{not avaliacaoBean.criarOuEditar}"
+							reRender="criar_avaliacao, tabela_avaliacoes, organizerxxxxx" value="Atualizar"
+							action="#{avaliacaoBean.atualizarAvaliacao}" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h:outputText value="Data:" />
+					</td>
+					<td>
+						<rich:calendar value="#{avaliacaoBean.avaliacao.dataEvento.data}"
+							locale="pt_BR" />
+					</td>
+					<td>
+						<a4j:commandButton styleClass="botao_criar" type="submit"
+							rendered="#{avaliacaoBean.criarOuEditar}" value="Criar"
+							action="#{avaliacaoBean.criarAvaliacao}" 
+							reRender="tabela_avaliacoes, criar_avaliacao, checkboxmedia, organizerxxxxx"/>
+						<a4j:commandButton rendered="#{not avaliacaoBean.criarOuEditar}"
+							value="Cancelar" action="#{avaliacaoBean.cancelarEdicao}"
+							reRender="criar_avaliacao, tabela_avaliacoes" />
+					</td>
+				</tr>
+			</table>
+		</rich:panel>
 	</h:form>
 
 </ui:composition>

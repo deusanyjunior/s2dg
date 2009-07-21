@@ -9,6 +9,20 @@
 	<a4j:outputPanel id="msgs" ajaxRendered="true">
       <script type="text/javascript">        
            jQuery(document).ready(function() {
+
+   			// define top position on scroll - ainda n funciona
+			var hheight=0;
+			if (self.screen) { hheight = screen.height}
+			else if (self.java) {   var jkit = java.awt.Toolkit.getDefaultToolkit();var scrsize = jkit.getScreenSize();hheight = scrsize.height; }
+		    var y_fixo = (hheight/2);
+		    window.scroll(function () {
+		    	JQuery("#msgs .messages").animate({
+		            top: y_fixo+document.scrollTop()+"px"
+		            },{duration:500,queue:false}
+		        );
+		    });
+
+               
              // change the message properties
              jQuery('#msgs .messages').css({
                    position: "absolute",

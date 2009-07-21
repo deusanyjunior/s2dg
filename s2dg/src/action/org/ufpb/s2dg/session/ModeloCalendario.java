@@ -35,10 +35,12 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
 		
 		List<DataEvento> datasEEventos = new ArrayList<DataEvento>();
 		List<Avaliacao> avaliacoes = fachada.getAvaliacoes();
-		for(Avaliacao a : avaliacoes) {
-			DataEvento de = a.getDataEvento(); 
-			if(de != null)
-				datasEEventos.add(de);
+		if(avaliacoes != null) {
+			for(Avaliacao a : avaliacoes) {
+				DataEvento de = a.getDataEvento(); 
+				if(de != null)
+					datasEEventos.add(de);
+			}
 		}
 		
 		String eventos = "";

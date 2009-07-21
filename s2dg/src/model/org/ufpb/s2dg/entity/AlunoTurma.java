@@ -52,7 +52,7 @@ public class AlunoTurma implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "id_turma", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "id_turma", nullable = false)
 	@NotNull
 	public Turma getTurma() {
 		return this.turma;
@@ -63,7 +63,7 @@ public class AlunoTurma implements Serializable {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "matricula_aluno", nullable = false, insertable = false, updatable = false)
+	@JoinColumn(name = "matricula_aluno", nullable = false)
 	@NotNull
 	public Aluno getAluno() {
 		return this.aluno;

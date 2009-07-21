@@ -5,8 +5,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.model.SelectItem;
+import javax.persistence.EntityManager;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
@@ -44,9 +46,11 @@ public class MatriculaBean {
 		listaTurmasAptas();
 	}
 	
+	//Só para testes:
+	@In
+	EntityManager entityManager;
 	public void listaTurmasAptas() {
-		/* p/ Daniel Marques fazer...
-		 * preenche a lista de turmas aptas em List<Turma> turmasAptas */
+		turmasAptas = entityManager.createQuery("select turma from Turma as turma").getResultList();
 	}
 	
 	public void fazMatricula() {
@@ -211,7 +215,7 @@ public class MatriculaBean {
 		this.turmasSelecionadas = turmasSelecionadas;
 	}
 	
-	/*public List<Professor> listaProfessores(Turma turma) {
+	public List<Professor> listaProfessores(Turma turma) {
 		if(turma != null) {
 			Set<Professor> setProfessores = turma.getProfessores();
 			if(setProfessores != null) {
@@ -223,10 +227,6 @@ public class MatriculaBean {
 			}
 		}
 		return null;
-	}*/
-	
-	public List<Professor> listaProfessores(Turma turma) {
-		return new ArrayList<Professor>(turma.getProfessores());
 	}
 	
 	public void selecionaTurma(Turma turma) {

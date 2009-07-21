@@ -28,6 +28,8 @@ public class Usuario implements Serializable {
 	private String cpf;
 	private Set<Role> roles = new HashSet<Role>(0);
 	private String email;
+	private String pergunta;
+	private String resposta;
 
 	public Usuario() {
 	}
@@ -119,6 +121,24 @@ public class Usuario implements Serializable {
 
 	public String getEmail() {
 		return email;
+	}
+
+	@Column(name="pergunta")
+	public void setPergunta(String pergunta) {
+		this.pergunta = pergunta;
+	}
+
+	public String getPergunta() {
+		return pergunta;
+	}
+
+	@Column(name="resposta")
+	public void setResposta(String resposta) {
+		this.resposta = resposta;
+	}
+
+	public String getResposta() {
+		return resposta;
 	}
 
 }

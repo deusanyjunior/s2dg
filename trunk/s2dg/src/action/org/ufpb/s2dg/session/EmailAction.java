@@ -37,13 +37,14 @@ public class EmailAction {
     private static final String SMTP_PORT  = "465";
 
     private static final String EMAIL = "es.s2dg@gmail.com"; 
-    private static final String TITULO = "Sistema Acadêmico da Graduação - UFPB";
-    private static final String MSG = "Oi!\nUma nova senha foi gerada automaticamente para você.\n"+
-    								  "Você deve muda-la assim que logar novamente.\nSua nova senha é: ";
+    private static final String TITULO = "Sistema Academico da Graduacao - UFPB";
+    private static final String MSG = "Oi!\nUma nova senha foi gerada automaticamente para voce.\n"+
+    								  "Voce deve muda-la assim que logar novamente.\nSua nova senha e: ";
     
     private String CPF;
     private boolean clicou = false;
     private String email;
+    private String resposta;
     
     @In
     Fachada fachada;
@@ -56,7 +57,7 @@ public class EmailAction {
     public String enviar(){
     	Usuario usuario = fachada.getUsuarioDoBanco(CPF);
     	if(usuario != null) {
-    		if(usuario.getEmail().equals(email)) {
+    		if(usuario.getResposta().equals(resposta)) {
     			String novaSenha = geraSenha();
     			usuario.setSenha(Utils.generateHash(novaSenha));
     			fachada.atualizaUsuario(usuario);
@@ -80,11 +81,11 @@ public class EmailAction {
     			}
     		}
     		else {
-    			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"E-mail incorreto.",null));
+    			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Resposta incorreta.",null));
     		}
     	}
     	else {
-    		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Usuário não encontrado.",null));
+    		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Usuario nao encontrado.",null));
     	}
     	clicou = false;
     	return null;
@@ -212,6 +213,26 @@ public class EmailAction {
 	public String cancelar() {
 		clicou = false;
 		return null;
+	}
+	
+	public String getPergunta(){
+		Usuario usuario = fachada.getUsuarioDoBanco(CPF);
+		
+		return usuario.getPergunta();
+	}
+	
+	public String getRespostaBanco(){
+		Usuario usuario = fachada.getUsuarioDoBanco(CPF);
+		
+		return usuario.getResposta();
+	}
+
+	public String getResposta() {
+		return this.resposta;
+	}
+	
+	public void setResposta(String resposta) {
+		this.resposta = resposta;
 	}
 	
 }

@@ -2,7 +2,6 @@ package org.ufpb.s2dg.session;
 
 
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.ScopeType;
@@ -11,6 +10,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.Avaliacao;
+import org.ufpb.s2dg.entity.DataEvento;
 import org.ufpb.s2dg.entity.Turma;
 
 @Name("avaliacaoBean")
@@ -18,8 +18,8 @@ import org.ufpb.s2dg.entity.Turma;
 @AutoCreate
 public class AvaliacaoBean {
 	
-	private Avaliacao avaliacao = new Avaliacao();
-	private boolean criarOuEditar = true;
+	private Avaliacao avaliacao;
+	private boolean criarOuEditar;
 	private Avaliacao avaliacaoParaExclusao;
 	
 	@In
@@ -27,6 +27,12 @@ public class AvaliacaoBean {
 	@In
 	FacesContext facesContext;
 
+	public AvaliacaoBean() {
+		avaliacao = new Avaliacao();
+		avaliacao.setDataEvento(new DataEvento());
+		criarOuEditar = true;
+	}
+	
 	public Avaliacao getAvaliacao() {
 		return avaliacao;
 	}
@@ -46,10 +52,13 @@ public class AvaliacaoBean {
 	public void setAvaliacaoParaEdicao(Avaliacao avaliacao) {
 		this.avaliacao = avaliacao;
 		criarOuEditar = false;
+		if(avaliacao.getDataEvento() == null)
+			avaliacao.setDataEvento(new DataEvento());
 	}
 	
 	public void cancelarEdicao() {
 		this.avaliacao = new Avaliacao();
+		avaliacao.setDataEvento(new DataEvento());
 		criarOuEditar = true;
 	}
 	
@@ -62,23 +71,34 @@ public class AvaliacaoBean {
 	}
 	
 	public void atualizarAvaliacao() {
+		if(avaliacao.getDataEvento().getData() == null)
+			avaliacao.setDataEvento(null);
+		else
+			avaliacao.getDataEvento().setEvento("Avaliação: "+avaliacao.getNome());
 		fachada.atualizaAvaliacao(avaliacao);
 		if((fachada.getTurma().isCalcularMediaAutomaticamente())){
 			fachada.atualizaAlunoTurmas();
 		}
 		this.avaliacao = new Avaliacao();
+		avaliacao.setDataEvento(new DataEvento());
 		criarOuEditar = true;
 		fachada.initAvaliacoes();
 	}
 	
 	public void cancelaExclusao() {
 		this.avaliacao = new Avaliacao();
+		avaliacao.setDataEvento(new DataEvento());
 	}
 	
 	public void excluiAvaliacao() {
 		if(avaliacaoParaExclusao != null) {
 			avaliacaoParaExclusao.setTurma(fachada.getTurma());
 			fachada.excluiAvaliacao(avaliacaoParaExclusao);
+			if(avaliacao.getId() == avaliacaoParaExclusao.getId()) {
+				avaliacao = new Avaliacao();
+				avaliacao.setDataEvento(new DataEvento());
+				criarOuEditar = true;
+			}
 			avaliacaoParaExclusao = null;
 			if((fachada.getAvaliacoes().size()==1) && (fachada.getTurma().isCalcularMediaAutomaticamente())){
 				fachada.getTurma().setCalcularMediaAutomaticamente(false);
@@ -92,10 +112,15 @@ public class AvaliacaoBean {
 		Turma turmaAtual = fachada.getTurma();
 		if((avaliacao != null)&&(turmaAtual != null)) {			
 			if(fachada.getAvaliacoes().size()<8){
+				if(avaliacao.getDataEvento().getData() == null)
+					avaliacao.setDataEvento(null);
+				else
+					avaliacao.getDataEvento().setEvento("Avaliação: "+avaliacao.getNome());
 				fachada.criaAvaliacao(avaliacao);
 				fachada.atualizaAlunoTurmas();
 				avaliacao = new Avaliacao();
-
+				avaliacao.setDataEvento(new DataEvento());
+				turmaAtual.setCalcularMediaAutomaticamente(true);
 			}
 			else{
 				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Número máximo de avaliações atingido.",null);

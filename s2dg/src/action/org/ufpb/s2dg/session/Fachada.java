@@ -338,5 +338,4 @@ public class Fachada {
 	public void excluiDataEvento(DataEvento dataEvento) {
 		dataEventoDAO.exclui(dataEvento);
 	}
-	
 }

@@ -79,11 +79,13 @@
                     </f:facet>
                     <div class="dialog">
                     
+                    <div>
+                    	<h:outputText value="#{emailAction.pergunta}" />
+                    </div>
+                    
                     <h:panelGrid columns="2" rowClasses="prop1" columnClasses="name1,value1">
-					
-					<div align="right"> Digite seu e-mail: </div>
 
-					<h:inputText value="#{emailAction.email}"/> 
+					<h:inputText value="#{emailAction.resposta}"/> 
 					
 					</h:panelGrid>
 					

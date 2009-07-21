@@ -1,7 +1,6 @@
 package org.ufpb.s2dg.session.persistence;
 
 import javax.persistence.EntityManager;
-
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -10,7 +9,6 @@ import org.ufpb.s2dg.entity.Usuario;
 @AutoCreate
 @Name("usuarioDAO")
 public class UsuarioDAO {
-
 	@In
 	EntityManager entityManager;
 	
@@ -80,5 +78,5 @@ public class UsuarioDAO {
 		entityManager.flush();
 		return true;
 	}
-
+	
 }

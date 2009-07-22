@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.1.xsd"
+      no-conversation-view-id="/PeriodoList.xhtml"
+      login-required="true">
+
+   <begin-conversation join="true" flush-mode="MANUAL"/>
+
+   <action execute="#{periodoHome.wire}"/>
+
+   <param name="periodoFrom"/>
+   <param name="periodoId" value="#{periodoHome.periodoId}"/>
+
+
+   <navigation from-action="#{periodoHome.persist}">
+      <rule if-outcome="persisted">
+         <end-conversation/>
+         <redirect view-id="/Periodo.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{periodoHome.update}">
+      <rule if-outcome="updated">
+         <end-conversation/>
+         <redirect view-id="/Periodo.xhtml"/>
+      </rule>
+   </navigation>
+
+   <navigation from-action="#{periodoHome.remove}">
+      <rule if-outcome="removed">
+         <end-conversation/>
+         <redirect view-id="/PeriodoList.xhtml"/>
+      </rule>
+   </navigation>
+
+</page>

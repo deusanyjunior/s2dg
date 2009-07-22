@@ -1,0 +1,161 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="professor" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{professorHome.managed ? 'Edit' : 'Add'} Professor</f:facet>
+
+
+            <s:decorate id="matriculaField" template="layout/edit.xhtml">
+                <ui:define name="label">Matricula</ui:define>
+                <h:inputText id="matricula"
+                       disabled="#{professorHome.managed}"
+                       required="true"
+                           size="15"
+                      maxlength="15"
+                          value="#{professorHome.instance.matricula}">
+                    <a:support event="onblur" reRender="matriculaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{professorHome.persist}"
+                       disabled="#{!professorHome.wired}"
+                       rendered="#{!professorHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{professorHome.update}"
+                       rendered="#{professorHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{professorHome.remove}"
+                      immediate="true"
+                       rendered="#{professorHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Professor.xhtml"
+                rendered="#{professorHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty professorFrom ? 'ProfessorList' : professorFrom}.xhtml"
+                rendered="#{!professorHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Usuarios">
+        <h:form styleClass="association" id="usuariosChildren">
+
+            <h:outputText value="There are no usuarios associated with this professor."
+                       rendered="#{empty professorHome.usuarios}"/>
+
+            <rich:dataTable value="#{professorHome.usuarios}"
+                           var="_usuario"
+                      rendered="#{not empty professorHome.usuarios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="usuariosTable">
+                <rich:column sortBy="#{_usuario.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_usuario.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.senha}">
+                    <f:facet name="header">Senha</f:facet>
+                    <h:outputText value="#{_usuario.senha}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.nome}">
+                    <f:facet name="header">Nome</f:facet>
+                    <h:outputText value="#{_usuario.nome}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.cpf}">
+                    <f:facet name="header">Cpf</f:facet>
+                    <h:outputText value="#{_usuario.cpf}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{professorHome.managed}" id="usuarios">
+        <div class="actionButtons">
+            <s:button id="addusuario"
+                   value="Add usuario"
+                    view="/UsuarioEdit.xhtml"
+             propagation="none">
+                 <f:param name="professorMatricula"
+                         value="#{professorHome.instance.matricula}"/>
+                 <f:param name="usuarioFrom" value="Professor"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Turmas">
+        <h:form styleClass="association" id="turmasChildren">
+
+            <h:outputText value="There are no turmas associated with this professor."
+                       rendered="#{empty professorHome.turmas}"/>
+
+            <rich:dataTable value="#{professorHome.turmas}"
+                           var="_turma"
+                      rendered="#{not empty professorHome.turmas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="turmasTable">
+                <rich:column sortBy="#{_turma.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_turma.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_turma.numero}">
+                    <f:facet name="header">Numero</f:facet>
+                    <h:outputText value="#{_turma.numero}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{professorHome.managed}" id="turmas">
+        <div class="actionButtons">
+            <s:button id="addturma"
+                   value="Add turma"
+                    view="/TurmaEdit.xhtml"
+             propagation="none">
+                 <f:param name="professorMatricula"
+                         value="#{professorHome.instance.matricula}"/>
+                 <f:param name="turmaFrom" value="Professor"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -55,7 +55,7 @@
 							reRender="tabela_avaliacoes, criar_avaliacao, checkboxmedia, organizerxxxxx"/>
 						<a4j:commandButton rendered="#{not avaliacaoBean.criarOuEditar}"
 							value="Cancelar" action="#{avaliacaoBean.cancelarEdicao}"
-							reRender="criar_avaliacao, tabela_avaliacoes" />
+							reRender="criar_avaliacao, tabela_avaliacoes" immediate="true"/>
 					</td>
 				</tr>
 			</table>

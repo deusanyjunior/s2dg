@@ -1,0 +1,233 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="turma" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{turmaHome.managed ? 'Edit' : 'Add'} Turma</f:facet>
+
+
+            <s:decorate id="idField" template="layout/edit.xhtml">
+                <ui:define name="label">Id</ui:define>
+                <h:inputText id="id"
+                       required="true"
+                       disabled="#{turmaHome.managed}"
+                          value="#{turmaHome.instance.id}">
+                    <a:support event="onblur" reRender="idField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+
+
+            <s:decorate id="numeroField" template="layout/edit.xhtml">
+                <ui:define name="label">Numero</ui:define>
+                <h:inputText id="numero"
+                       required="true"
+                           size="2"
+                      maxlength="2"
+                          value="#{turmaHome.instance.numero}">
+                    <a:support event="onblur" reRender="numeroField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{turmaHome.persist}"
+                       disabled="#{!turmaHome.wired}"
+                       rendered="#{!turmaHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{turmaHome.update}"
+                       rendered="#{turmaHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{turmaHome.remove}"
+                      immediate="true"
+                       rendered="#{turmaHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Turma.xhtml"
+                rendered="#{turmaHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty turmaFrom ? 'TurmaList' : turmaFrom}.xhtml"
+                rendered="#{!turmaHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Professor">
+    <div class="association" id="professorParent">
+
+        <h:outputText value="There is no professor associated with this turma."
+                   rendered="#{turmaHome.instance.professor == null}"/>
+
+        <rich:dataTable var="_professor"
+                   value="#{turmaHome.instance.professor}"
+                rendered="#{turmaHome.instance.professor != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="professorTable">
+            <h:column>
+                <f:facet name="header">Matricula</f:facet>
+                <h:outputText value="#{_professor.matricula}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{turmaHome.instance.professor != null ? 'changeParent' : 'selectParent'}" value="#{turmaHome.instance.professor != null ? 'Change' : 'Select'} professor"
+                       view="/ProfessorList.xhtml">
+                <f:param name="from" value="TurmaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Periodo">
+    <div class="association" id="periodoParent">
+
+        <h:outputText value="There is no periodo associated with this turma."
+                   rendered="#{turmaHome.instance.periodo == null}"/>
+
+        <rich:dataTable var="_periodo"
+                   value="#{turmaHome.instance.periodo}"
+                rendered="#{turmaHome.instance.periodo != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="periodoTable">
+            <h:column>
+                <f:facet name="header">Id</f:facet>
+                <h:outputText value="#{_periodo.id}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Ano</f:facet>
+                <h:outputText value="#{_periodo.ano}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Semestre</f:facet>
+                <h:outputText value="#{_periodo.semestre}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{turmaHome.instance.periodo != null ? 'changeParent' : 'selectParent'}" value="#{turmaHome.instance.periodo != null ? 'Change' : 'Select'} periodo"
+                       view="/PeriodoList.xhtml">
+                <f:param name="from" value="TurmaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Disciplina *" labelClass="required">
+    <div class="association" id="disciplinaParent">
+
+        <h:outputText value="There is no disciplina associated with this turma."
+                   rendered="#{turmaHome.instance.disciplina == null}"/>
+
+        <rich:dataTable var="_disciplina"
+                   value="#{turmaHome.instance.disciplina}"
+                rendered="#{turmaHome.instance.disciplina != null}"
+              rowClasses="rvgRowOne,rvgRowTwo"
+                      id="disciplinaTable">
+            <h:column>
+                <f:facet name="header">Codigo</f:facet>
+                <h:outputText value="#{_disciplina.codigo}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Nome</f:facet>
+                <h:outputText value="#{_disciplina.nome}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">Creditos</f:facet>
+                <h:outputText value="#{_disciplina.creditos}"/>
+            </h:column>
+        </rich:dataTable>
+
+        <div class="actionButtons">
+            <s:button id="#{turmaHome.instance.disciplina != null ? 'changeParent' : 'selectParent'}" value="#{turmaHome.instance.disciplina != null ? 'Change' : 'Select'} disciplina"
+                       view="/DisciplinaList.xhtml">
+                <f:param name="from" value="TurmaEdit"/>
+            </s:button>
+        </div>
+
+    </div>
+    </rich:tab>
+
+    <rich:tab label="Aluno turmas">
+        <h:form styleClass="association" id="alunoTurmasChildren">
+
+            <h:outputText value="There are no alunoTurmas associated with this turma."
+                       rendered="#{empty turmaHome.alunoTurmas}"/>
+
+            <rich:dataTable value="#{turmaHome.alunoTurmas}"
+                           var="_alunoTurma"
+                      rendered="#{not empty turmaHome.alunoTurmas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="alunoTurmasTable">
+                <rich:column sortBy="#{_alunoTurma.id.matriculaAluno}">
+                    <f:facet name="header">Matricula aluno</f:facet>
+                    <h:outputText value="#{_alunoTurma.id.matriculaAluno}"/>
+                </rich:column>
+                <rich:column sortBy="#{_alunoTurma.id.idTurma}">
+                    <f:facet name="header">Id turma</f:facet>
+                    <h:outputText value="#{_alunoTurma.id.idTurma}"/>
+                </rich:column>
+                <rich:column sortBy="#{_alunoTurma.media}">
+                    <f:facet name="header">Media</f:facet>
+                    <h:outputText value="#{_alunoTurma.media}"/>
+                </rich:column>
+                <rich:column sortBy="#{_alunoTurma.frequencia}">
+                    <f:facet name="header">Frequencia</f:facet>
+                    <h:outputText value="#{_alunoTurma.frequencia}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{turmaHome.managed}" id="alunoTurmas">
+        <div class="actionButtons">
+            <s:button id="addalunoTurma"
+                   value="Add alunoTurma"
+                    view="/AlunoTurmaEdit.xhtml"
+             propagation="none">
+                 <f:param name="turmaId"
+                         value="#{turmaHome.instance.id}"/>
+                 <f:param name="alunoTurmaFrom" value="Turma"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.faces.FacesMessages;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaAvaliacao;
 import org.ufpb.s2dg.entity.Avaliacao;
@@ -25,7 +27,7 @@ public class AlunoTurmasBean {
 	@In
 	private Fachada fachada;
 	@In
-	private FacesMessages facesMessages;
+	private FacesContext facesContext;
 
 	public void init() {
 		Turma turmaAtual = fachada.getTurma();
@@ -65,7 +67,7 @@ public class AlunoTurmasBean {
 				for(int i = 0; i < alunoTurmas.size(); i++)
 					fachada.atualizaAlunoTurma(alunoTurmas.get(i));
 			}
-			facesMessages.add("Informações salvas com sucesso!");
+			facesContext.addMessage("form_avaliacoes:checkboxmedia", new FacesMessage("Informações salvas com sucesso!"));
 		}
 	}
 	

@@ -103,7 +103,7 @@ public class MatriculaBean {
 						for(Horario h2: horario2) {
 							if(h1.temChoque(h2)) {
 								sucesso = false;
-								msg = t1.getDisciplina().getNome()+", Turma "+t1.getNumero()+" possue choque de horário com "+t2.getDisciplina().getNome()+", Turma "+t2.getNumero()+".";
+								msg = t1.getDisciplina().getNome()+", Turma "+t1.getNumero()+" possui choque de horário com "+t2.getDisciplina().getNome()+", Turma "+t2.getNumero()+".";
 								return true;
 							}
 						}

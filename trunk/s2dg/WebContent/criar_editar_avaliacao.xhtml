@@ -13,6 +13,7 @@
 			<f:facet name="header">
 				<h:outputText value="#{avaliacaoBean.criarOuEditar?'Criar':'Editar'} Avaliação" />
 			</f:facet>
+			<h:message for="nome_avaliacao" style="color: red;" />
 			<table>
 				<tr>
 					<td>
@@ -20,11 +21,10 @@
 					</td>
 					<td>
 						<h:inputText id="nome_avaliacao" value="#{avaliacaoBean.avaliacao.nome}" required="true"
-							requiredMessage="Obrigatório">
+							requiredMessage="Campo 'Nome' obrigatório.">
 							<f:validateLength maximum="50" />
 						</h:inputText>
 						<br />
-						<h:message for="nome_avaliacao" style="color: red;" />
 					</td>
 				</tr>
 				<tr>
@@ -46,7 +46,7 @@
 					</td>
 					<td>
 						<rich:calendar value="#{avaliacaoBean.avaliacao.dataEvento.data}"
-							locale="pt_BR" />
+							datePattern="dd/MM/yyyy" locale="pt_BR" inputSize="10" />
 					</td>
 					<td>
 						<a4j:commandButton styleClass="botao_criar" type="submit"

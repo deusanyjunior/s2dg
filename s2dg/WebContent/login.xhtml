@@ -38,10 +38,14 @@
 			<center>
 			<rich:panel style="width:400px;">
 				<f:facet name="header">Login</f:facet>
+				<div style="width: 100%; height: 20px">
+				<h:messages style="text-align: left; color: red;"  />
+				</div>
 
-				<p>Por favor, faça login aqui.</p>
-
-				<div class="dialog"><h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
+				<div class="dialog">
+					<h:outputText value="Por favor, faça login aqui." />
+					<br/>
+					<h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
 					
 					<div align="right"> CPF </div>
 					

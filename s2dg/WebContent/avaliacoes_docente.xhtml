@@ -9,8 +9,11 @@
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
 	<rich:panel styleClass="border_zero">
-		<h:form>
+		<h:form id="form_avaliacoes">
 			<rich:panel styleClass="border_zero" id="tabela_avaliacoes">
+				<h:message style="text-align: left;" for="checkboxmedia"  />
+				<br/>
+				<br/>
 				<rich:dataTable var="alunoTurma"
 					value="#{alunoTurmasBean.alunoTurmas}" style="text-align: center;">
 					<rich:column styleClass="matricula" sortBy="#{alunoTurma.aluno.matricula}">
@@ -27,20 +30,37 @@
 					</rich:column>
 					<rich:columns value="#{avaliacoesBean.avaliacoes}" var="avaliacao" >
 						<f:facet name="header">
-							<h:panelGroup>
+							<h:panelGroup >
 								<h:outputText value="#{avaliacao.geraNomeTruncado()}" />
+								<br/>
+								<h:outputText value="peso: #{avaliacao.peso}" style="color: gray;" />
+								<br/>
+								<h:outputText value="#{avaliacao.dataEvento.data}"
+									rendered="#{not empty avaliacao.dataEvento}"
+									style="text-align: center; color: gray;">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<br/>
 								<a4j:commandLink id="excluir#{avaliacao.id}"
 									action="#{avaliacaoBean.setAvaliacaoParaExclusao(avaliacao)}"
 									oncomplete="Richfaces.showModalPanel('myModalPanel',{width:485, top:200});"
 									reRender="myModalDiv">
 									<img alt="remover" src="img/del.png" />
+									<rich:toolTip direction="top-right">
+            							<span style="white-space:nowrap">
+							               Excluir
+							            </span>
+							        </rich:toolTip>
 								</a4j:commandLink>
-								<br />
-								<h:outputText value="peso: #{avaliacao.peso}" />
 								<a4j:commandLink
 									action="#{avaliacaoBean.setAvaliacaoParaEdicao(avaliacao)}"
 									reRender="criar_avaliacao">
 									<img alt="editar" src="img/edit.png" />
+									<rich:toolTip direction="top-right">
+            							<span style="white-space:nowrap">
+							               Editar
+							            </span>
+							        </rich:toolTip>
 								</a4j:commandLink>
 							</h:panelGroup>
 						</f:facet>

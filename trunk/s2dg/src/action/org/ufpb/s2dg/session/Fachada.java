@@ -17,6 +17,7 @@ import org.ufpb.s2dg.entity.Calendario;
 import org.ufpb.s2dg.entity.Curriculo;
 import org.ufpb.s2dg.entity.Curso;
 import org.ufpb.s2dg.entity.DataEvento;
+import org.ufpb.s2dg.entity.Disciplina;
 import org.ufpb.s2dg.entity.Global;
 import org.ufpb.s2dg.entity.Oferta;
 import org.ufpb.s2dg.entity.Periodo;
@@ -30,6 +31,7 @@ import org.ufpb.s2dg.session.persistence.CalendarioDAO;
 import org.ufpb.s2dg.session.persistence.CurriculoDAO;
 import org.ufpb.s2dg.session.persistence.CursoDAO;
 import org.ufpb.s2dg.session.persistence.DataEventoDAO;
+import org.ufpb.s2dg.session.persistence.DisciplinaDAO;
 import org.ufpb.s2dg.session.persistence.GlobalDAO;
 import org.ufpb.s2dg.session.persistence.OfertaDAO;
 import org.ufpb.s2dg.session.persistence.ProfessorDAO;
@@ -65,6 +67,8 @@ public class Fachada {
 	private CurriculoDAO curriculoDAO;
 	@In
 	private DataEventoDAO dataEventoDAO;
+	@In
+	private DisciplinaDAO disciplinaDAO;
 	
 	@In
 	private UsuarioBean usuarioBean;
@@ -86,11 +90,14 @@ public class Fachada {
 	private CalendarioBean calendarioBean;
 	@In
 	private EmailAction emailAction;
+	@In
+	private TurmasMatriculadasBean turmasMatriculadasBean;
 	
 	@Create
 	public void init() {
 		globalBean.setGlobal(getGlobalDoBanco());
 		calendarioBean.setCalendario(getCalendarioDoBanco());
+		turmasMatriculadasBean.init();
 	}
 	
 	public Usuario getUsuarioDoBanco(String username) {
@@ -118,7 +125,7 @@ public class Fachada {
 		return usuarioDAO.getUsuarioAluno(matricula);
 	}
 
-	/* ESSES M�TODOS AINDA S�O NECESS�RIOS??
+	/* ESSES MÉTODOS AINDA SÃO NECESSÁRIOS??
 	//Criado por Julio e Rennan
 	public String getEmail(String cpf) {
 		if (cpf.equals("") || cpf == null) {
@@ -337,5 +344,41 @@ public class Fachada {
 
 	public void excluiDataEvento(DataEvento dataEvento) {
 		dataEventoDAO.exclui(dataEvento);
+	}
+
+	public List<Disciplina> getDisciplinasDoBanco(Curriculo curriculo) {
+		return disciplinaDAO.getDisciplinas(curriculo);
+	}
+
+	public List<AlunoTurma> getTodosAlunoTurma(Aluno aluno) {
+		return alunoTurmaDAO.getAlunoTurmas(aluno);
+	}
+
+	public Turma getTurmaDoBanco(AlunoTurma at) {
+		return turmaDAO.getTurma(at);
+	}
+
+	public Disciplina getDisciplinaDoBanco(Turma t) {
+		return disciplinaDAO.getDisciplinas(t);
+	}
+
+	public List<Turma> getTurmasDoBanco(Disciplina d) {
+		return turmaDAO.getTurmas(d, getPeriodoAtual());
+	}
+
+	public Curso getCursoDoBanco(Curriculo curriculo) {
+		return cursoDAO.getCurso(curriculo);
+	}
+
+	public Oferta getOfertaDoBanco(Curso curso, Turma t) {
+		return ofertaDAO.getOferta(curso, t);
+	}
+
+	public List<Disciplina> getCoRequisitosDoBanco(Disciplina d) {
+		return disciplinaDAO.getCoRequisitos(d);
+	}
+
+	public void initTurmasMatriculadas() {
+		turmasMatriculadasBean.init();
 	}
 }

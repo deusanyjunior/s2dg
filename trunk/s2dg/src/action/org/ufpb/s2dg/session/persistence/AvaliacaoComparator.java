@@ -18,7 +18,7 @@ public class AvaliacaoComparator implements Comparator<Avaliacao> {
 			else if(d2 == null)
 				return -1;
 			else {
-				return arg0.getNome().compareTo(arg1.getNome());
+				return arg1.getNome().compareTo(arg0.getNome());
 			}
 		}
 	}

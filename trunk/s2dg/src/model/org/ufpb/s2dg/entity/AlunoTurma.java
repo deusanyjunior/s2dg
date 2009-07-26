@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,32 +18,39 @@ import org.hibernate.validator.NotNull;
 @Table(name = "aluno_turma")
 public class AlunoTurma implements Serializable {
 
+	public enum Situacao {APROVADO, DISPENSADO, TRANCADO, REPROVADO_POR_FALTA, REPROVADO_POR_MEDIA, EM_CURSO};
+	
 	private static final long serialVersionUID = 1L;
 	private long id;
 	private Turma turma;
 	private Aluno aluno;
 	private Float media;
 	private Integer faltas;
+	private Situacao situacao;
 
 	public AlunoTurma() {
+		situacao = Situacao.EM_CURSO;
 	}
 
-	public AlunoTurma(long id, Turma turma, Aluno aluno) {
+	public AlunoTurma(long id, Turma turma, Aluno aluno, Situacao situacao) {
 		this.id = id;
 		this.turma = turma;
 		this.aluno = aluno;
+		this.situacao = situacao;
 	}
 
 	public AlunoTurma(long id, Turma turma, Aluno aluno, Float media,
-			Integer frequencia) {
+			Integer frequencia, Situacao situacao) {
 		this.id = id;
 		this.turma = turma;
 		this.aluno = aluno;
 		this.media = media;
 		this.faltas = frequencia;
+		this.situacao = situacao;
 	}
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	@Column(name = "id", unique = true, nullable = false)
 	public long getId() {
 		return this.id;
@@ -89,6 +98,15 @@ public class AlunoTurma implements Serializable {
 
 	public void setFaltas(Integer faltas) {
 		this.faltas = faltas;
+	}
+
+	@Column(name = "situacao")
+	public Situacao getSituacao() {
+		return situacao;
+	}
+
+	public void setSituacao(Situacao situacao) {
+		this.situacao = situacao;
 	}
 
 }

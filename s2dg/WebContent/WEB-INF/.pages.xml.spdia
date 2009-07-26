@@ -61,10 +61,10 @@
   <output ID="/error.xhtml" NAME="output" PATH="/error.xhtml"
    TARGET="#xerror.xhtml" model-entity="SeamPagesDiagramItemOutput"/>
  </item>
- <item NAME="#xhome.xhtml" PATH="/home.xhtml" SHAPE="344,17,0,0"
-  TYPE="page" model-entity="SeamPagesDiagramItem"/>
  <item NAME="#xlogin.xhtml" PATH="/login.xhtml" SHAPE="344,849,0,0"
   TYPE="page" model-entity="SeamPagesDiagramItem"/>
  <item NAME="#xerror.xhtml" PATH="/error.xhtml" SHAPE="472,121,0,0"
+  TYPE="page" model-entity="SeamPagesDiagramItem"/>
+ <item NAME="#xhome.xhtml" PATH="/home.xhtml" SHAPE="344,17,0,0"
   TYPE="page" model-entity="SeamPagesDiagramItem"/>
 </diagram>

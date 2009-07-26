@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
@@ -20,7 +19,6 @@ public class TurmasMatriculadasBean {
 	@In
 	Fachada fachada;
 	
-	@Create
 	public void init() {
 		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
 		if(ats != null) {

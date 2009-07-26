@@ -3,6 +3,7 @@ package org.ufpb.s2dg.session.persistence;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
@@ -46,6 +47,15 @@ public class AlunoTurmaDAO {
 			entityManager.merge(alunoTurma);
 		else
 			entityManager.persist(alunoTurma);
+	}
+
+	public List<AlunoTurma> getAlunoTurmas(Aluno aluno) {
+		Query q = entityManager.createQuery("Select at from AlunoTurma as at where at.aluno = :aluno")
+		.setParameter("aluno", aluno);
+		List<AlunoTurma> list = q.getResultList();
+		if(list.size() > 0)
+			return list;
+		return null;
 	}
 	
 	

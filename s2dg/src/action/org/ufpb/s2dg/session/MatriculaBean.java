@@ -2,13 +2,12 @@ package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.faces.model.SelectItem;
-import javax.persistence.EntityManager;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
@@ -21,17 +20,20 @@ import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Calendario;
 import org.ufpb.s2dg.entity.Curriculo;
+import org.ufpb.s2dg.entity.Curso;
+import org.ufpb.s2dg.entity.Disciplina;
 import org.ufpb.s2dg.entity.Horario;
 import org.ufpb.s2dg.entity.Oferta;
 import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Turma;
+import org.ufpb.s2dg.entity.AlunoTurma.Situacao;
 
 @Name("matriculaBean")
 @Scope(ScopeType.PAGE)
 @AutoCreate
 public class MatriculaBean {
 
-	List<Turma> turmasAptas;
+	List<Turma> turmasAptas = new ArrayList<Turma>();
 	List<Turma> turmasSelecionadas = new ArrayList<Turma>();
 	Aluno aluno;
 	boolean sucesso;
@@ -46,30 +48,180 @@ public class MatriculaBean {
 		listaTurmasAptas();
 	}
 	
-	//Só para testes:
-	@In
-	EntityManager entityManager;
 	public void listaTurmasAptas() {
-		turmasAptas = entityManager.createQuery("select turma from Turma as turma").getResultList();
+		aluno.setCurriculo(fachada.getCurriculoDoBanco(aluno));
+		/* todas as disciplinas do curriculo: */
+		List<Disciplina> disciplinasDoCurriculo = fachada.getDisciplinasDoBanco(aluno.getCurriculo());
+		/* todas as turmas cursadas: */
+		List<AlunoTurma> alunoTurmas = fachada.getTodosAlunoTurma(aluno);
+		/* remover as disciplinas já cursadas: */
+		removerDisciplinasCursadas(disciplinasDoCurriculo, alunoTurmas);
+		/* remover disciplinas que não atendem aos pre-requisitos */
+		removerDisciplinasSemPreRequisitos(disciplinasDoCurriculo, alunoTurmas);
+		/* remover disciplinas já matriculadas */
+		removerDisciplinasJaMatriculadas(disciplinasDoCurriculo, alunoTurmas);
+		/* listar turmas aptas, removendo disciplinas que não possuem oferta de turma */
+		litarTurmasAptas(disciplinasDoCurriculo);
+		ordenarHorarios();
 	}
 	
-	public void fazMatricula() {
-		if(isCreditosCorretos()) {
-			if(!isChoqueDeHorario()) {
-				if(isVagasSuficientes()) {
-					for(Turma turma : turmasSelecionadas) {
-						AlunoTurma novoAlunoTurma = new AlunoTurma();
-						novoAlunoTurma.setAluno(aluno);
-						novoAlunoTurma.setTurma(turma);
-						novoAlunoTurma.setFaltas(0);
-						fachada.criaAlunoTurma(novoAlunoTurma);
+	private void ordenarHorarios() {
+		for(Turma t : turmasAptas) {
+			ArrayList<Horario> list = new ArrayList<Horario>(t.getHorarios());
+			Collections.sort(list,new HorarioComparator());
+			t.setHorarios(new HashSet<Horario>(list));
+		}
+	}
+
+	private void removerDisciplinasJaMatriculadas(
+			List<Disciplina> disciplinasDoCurriculo,
+			List<AlunoTurma> alunoTurmas) {
+		if(alunoTurmas != null) {
+			for(AlunoTurma at : alunoTurmas) {
+				Turma t = at.getTurma();
+				if(t == null) {
+					t = fachada.getTurmaDoBanco(at);
+					at.setTurma(t);
+				}
+				Disciplina d = t.getDisciplina();
+				if(d == null) {
+					d = fachada.getDisciplinaDoBanco(t);
+					t.setDisciplina(d);
+				}
+				if(at.getSituacao() == Situacao.EM_CURSO) {
+					for(Disciplina disc : disciplinasDoCurriculo) {
+						if(disc.getCodigo() == d.getCodigo()) {
+							int i = disciplinasDoCurriculo.indexOf(disc);
+							disciplinasDoCurriculo.remove(i);
+							break;
+						}
 					}
-					turmasSelecionadas.clear();
-					sucesso = true;
-					msg = "Matrícula realizada com sucesso.";
 				}
 			}
 		}
+		
+	}
+
+	private void litarTurmasAptas(
+			List<Disciplina> disciplinasDoCurriculo) {
+		if(disciplinasDoCurriculo != null) {
+			for(Disciplina d : disciplinasDoCurriculo) {
+				Curso curso = fachada.getCursoDoBanco(aluno.getCurriculo());
+				List<Turma> turmas = fachada.getTurmasDoBanco(d);
+				if(turmas != null) {
+					for(Turma t : turmas) {
+						Oferta o = fachada.getOfertaDoBanco(curso, t);
+						if(o != null) {
+							turmasAptas.add(t);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void removerDisciplinasSemPreRequisitos(
+			List<Disciplina> disciplinasDoCurriculo,
+			List<AlunoTurma> alunoTurmas) {
+		if(disciplinasDoCurriculo != null) {
+			for(Disciplina d1 : disciplinasDoCurriculo) {
+				Set<Disciplina> preRequisitos = d1.getPre_requisitos();
+				if(preRequisitos != null) {
+					loop: for(Disciplina preReq : preRequisitos) {
+						for(int i = 0; i < alunoTurmas.size(); i++) {
+							AlunoTurma at = alunoTurmas.get(i);
+							Turma t = at.getTurma();
+							if(t == null) {
+								t = fachada.getTurmaDoBanco(at);
+								at.setTurma(t);
+							}
+							Disciplina d2 = t.getDisciplina();
+							if(d2 == null) {
+								d2 = fachada.getDisciplinaDoBanco(t);
+								t.setDisciplina(d2);
+							}
+							if(d2.getCodigo() == preReq.getCodigo())
+								break;
+							else if(i == alunoTurmas.size()-1) {
+								int j = disciplinasDoCurriculo.indexOf(d1);
+								disciplinasDoCurriculo.remove(j);
+								break loop;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private void removerDisciplinasCursadas(
+			List<Disciplina> disciplinasDoCurriculo,
+			List<AlunoTurma> alunoTurmas) {
+		if(alunoTurmas != null) {
+			for(AlunoTurma at : alunoTurmas) {
+				Turma t = at.getTurma();
+				if(t == null) {
+					t = fachada.getTurmaDoBanco(at);
+					at.setTurma(t);
+				}
+				Disciplina d = t.getDisciplina();
+				if(d == null) {
+					d = fachada.getDisciplinaDoBanco(t);
+					t.setDisciplina(d);
+				}
+				if((at.getSituacao() == Situacao.APROVADO)||(at.getSituacao() == Situacao.DISPENSADO)) {
+					int i = disciplinasDoCurriculo.indexOf(d);
+					disciplinasDoCurriculo.remove(i);
+				}
+			}
+		}
+	}
+
+	public void fazMatricula() {
+		if(isCoRequisitosPresentes()) {
+			if(isCreditosCorretos()) {
+				if(!isChoqueDeHorario()) {
+					if(isVagasSuficientes()) {
+						for(Turma turma : turmasSelecionadas) {
+							AlunoTurma novoAlunoTurma = new AlunoTurma();
+							novoAlunoTurma.setAluno(aluno);
+							novoAlunoTurma.setTurma(turma);
+							novoAlunoTurma.setFaltas(0);
+							fachada.criaAlunoTurma(novoAlunoTurma);
+						}
+						turmasSelecionadas.clear();
+						sucesso = true;
+						msg = "Matrícula realizada com sucesso.";
+						fachada.initTurmasMatriculadas();
+					}
+				}
+			}
+		}
+	}
+
+	private boolean isCoRequisitosPresentes() {
+		for(Turma turma : turmasSelecionadas) {
+			Disciplina d = turma.getDisciplina();
+			List<Disciplina> coRequisitos = fachada.getCoRequisitosDoBanco(d);
+			if(coRequisitos != null) {
+				for(Disciplina coReq : coRequisitos) {
+					for(int i = 0; i < turmasSelecionadas.size(); i++) {
+						Turma t = turmasSelecionadas.get(i);
+						if(t.getId() != turma.getId()) {
+							if(t.getDisciplina().getCodigo() == coReq.getCodigo()) {
+								break;
+							}
+						}
+						else if(i == turmasSelecionadas.size()-1) {
+							sucesso = false;
+							msg = "Você deve selecionar as disciplinas "+d.getNome()+" e "+coReq.getNome()+" conjuntamente, pois possuem co-requisitos entre si";
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 	@Transactional
@@ -115,8 +267,7 @@ public class MatriculaBean {
 	}
 
 	private boolean isCreditosCorretos() {
-		//Curriculo curriculo = aluno.getCurriculo();
-		Curriculo curriculo = fachada.getCurriculoDoBanco(aluno);
+		Curriculo curriculo = aluno.getCurriculo();
 		if(curriculo != null) {
 			int minimo = curriculo.getMinimoCreditos();
 			int maximo = curriculo.getMaximoCreditos();
@@ -192,19 +343,6 @@ public class MatriculaBean {
 
 	public void setMsg(String msg) {
 		this.msg = msg;
-	}
-	
-	public List<SelectItem> listaSelectItems() {
-		List<SelectItem> list = new ArrayList<SelectItem>();
-		if((turmasAptas != null)&&(turmasAptas.size() > 0)) {
-			for(Turma turma: turmasAptas) {
-				SelectItem si = new SelectItem();
-				si.setLabel(turma.getDisciplina().getNome()+", Turma "+turma.getNumero());
-				si.setValue(Long.toString(turma.getId()));
-				list.add(si);
-			}
-		}
-		return list;
 	}
 
 	public List<Turma> getTurmasSelecionadas() {

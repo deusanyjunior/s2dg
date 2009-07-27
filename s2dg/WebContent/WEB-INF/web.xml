@@ -88,4 +88,20 @@
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>INCLUDE</dispatcher>
 	</filter-mapping>
+	
+    <servlet>
+
+        <servlet-name>Document Store Servlet</servlet-name>
+
+        <servlet-class>org.jboss.seam.pdf.DocumentStoreServlet</servlet-class>
+
+    </servlet>
+
+    <servlet-mapping>
+
+        <servlet-name>Document Store Servlet</servlet-name>
+
+        <url-pattern>*.pdf</url-pattern>
+
+    </servlet-mapping>
 </web-app>

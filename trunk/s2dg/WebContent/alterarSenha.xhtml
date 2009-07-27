@@ -18,16 +18,19 @@
                         Alterar Senha 
                     </f:facet>
                     
+                    <h:message for="nome_avaliacao" style="color: red;" />
+                    <br />
+                    <br />
+                    
                     <h:panelGrid columns="2">
                         <h:outputText value="Digite sua senha atual:"/>
                         <h:inputSecret value="#{alterarSenha.senhaAtual}" required="true"/>
 
-                      <h:outputText value="Digite uma nova senha:"/>
+                        <h:outputText value="Digite uma nova senha:"/>
                         <h:inputSecret value="#{alterarSenha.novaSenha1}" required="true"/>
 
                         <h:outputText value="Digite a nova senha novamente:" size="200"/>
                         <h:inputSecret value="#{alterarSenha.novaSenha2}" required="true"/>
-
                     </h:panelGrid>
                     
                     
@@ -39,6 +42,44 @@
                     <br/>
                 </rich:panel>
         </h:form>
+        
+        <br />
+        <br /> 
+        
+		<h:form>
+                <rich:panel id="homepanel" style="width:400px;">
+                    <f:facet name="header">
+                        Alterar Pergunta Secreta 
+                    </f:facet>
+                    
+                    <h:message for="nome_avaliacao" style="color: red;" />
+                    <br />
+                    <br />
+                    
+                    <h:panelGrid columns="2">
+                    	<h:outputText value="Digite sua senha:"/>
+                        <h:inputSecret value="#{alterarSenha.senhaAtual}" required="true"/>
+                    	
+                        <h:outputText value="Digite a nova pergunta secreta:"/>
+                        <h:inputText value="#{alterarSenha.pergunta}" required="true"/>
+
+                        <h:outputText value="Digite a resposta para a nova pergunta:"/>
+                        <h:inputSecret value="#{alterarSenha.novaResposta1}" required="true"/>
+						
+						<h:outputText value="Digite novamente a resposta:"/>
+                        <h:inputSecret value="#{alterarSenha.novaResposta2}" required="true"/>
+                    </h:panelGrid>
+                    
+                    
+                    <h:commandButton action="#{alterarSenha.cancelar}" value="Cancelar"
+                    	type="submit"/>
+                    <h:commandButton action="#{alterarSenha.botaoPressionado2}" value="Alterar"
+                    	type="submit"/>
+                    
+                    <br/>
+                </rich:panel>
+        </h:form>
         </center>
+        
 	</ui:define>
 </ui:composition>

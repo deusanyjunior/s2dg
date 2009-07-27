@@ -23,11 +23,18 @@ public class AlterarSenhaBean {
 	private String novaSenha2;
 	private boolean clicou;
 	
+	private String pergunta;
+	private String novaResposta1;
+	private String novaResposta2;
+	
 	public AlterarSenhaBean(){
 		clicou = false;
 		senhaAtual = "";
 		novaSenha1 = "";
 		novaSenha2 = "";
+		pergunta = "";
+		novaResposta1 = "";
+		novaResposta2 = "";
 	}
 	
 	public String botaoPressionado(){
@@ -53,11 +60,60 @@ public class AlterarSenhaBean {
 		
 		return "home";
 	}
+	
+public String botaoPressionado2(){
+		
+		clicou = true;
+		
+		Usuario usuario = fachada.getUsuario();
+		
+		if(!novaResposta1.equals(novaResposta2)){
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Respostas diferentes.",null));
+			return null;
+		}
+		else if(!Utils.validatePassword(senhaAtual, usuario)){
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
+			return null;
+		}
+		
+		usuario.setPergunta(pergunta);
+		usuario.setResposta(novaResposta1);
+		
+		fachada.atualizaUsuario(usuario);
+		
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));
+		
+		return "home";
+	}
 
 	public String getSenhaAtual() {
 		return senhaAtual;
 	}
+	
+	public String getPergunta() {
+		return pergunta;
+	}
+	
+	public String getNovaResposta1() {
+		return novaResposta1;
+	}
 
+	public String getNovaResposta2() {
+		return novaResposta2;
+	}
+	
+	public void setPergunta(String pergunta) {
+		this.pergunta = pergunta;
+	}
+	
+	public void setNovaResposta1(String novaResposta1) {
+		this.novaResposta1 = novaResposta1;
+	}
+
+	public void setNovaResposta2(String novaResposta2) {
+		this.novaResposta2 = novaResposta2;
+	}
+	
 	public void setSenhaAtual(String senhaAtual) {
 		this.senhaAtual = senhaAtual;
 	}

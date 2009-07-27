@@ -49,8 +49,7 @@
       <action execute="#{redirect.returnToCapturedView}"/>
    </event>
    
-   <mail:mail-session host="smtp.hotmail.com" port="1234"
-  username="s2dg@hotmail.com" password="engenharia"/>
+
 
 	<!-- 
    		<mail:mail-session host="localhost" port="25"/>

@@ -97,7 +97,6 @@ public class Fachada {
 	public void init() {
 		globalBean.setGlobal(getGlobalDoBanco());
 		calendarioBean.setCalendario(getCalendarioDoBanco());
-		turmasMatriculadasBean.init();
 	}
 	
 	public Usuario getUsuarioDoBanco(String username) {
@@ -380,5 +379,9 @@ public class Fachada {
 
 	public void initTurmasMatriculadas() {
 		turmasMatriculadasBean.init();
+	}
+
+	public void setUsuario(Usuario usuario) {
+		usuarioBean.setUsuario(usuario);
 	}
 }

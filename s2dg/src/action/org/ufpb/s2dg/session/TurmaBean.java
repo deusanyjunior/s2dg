@@ -1,6 +1,7 @@
 package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -61,6 +62,7 @@ public class TurmaBean {
 				for(Professor professor: listProfessores) {
 					professor.setUsuario(fachada.getUsuarioProfessor(professor.getMatricula()));
 				}
+				Collections.sort(listProfessores,new ProfessorComparator());
 				return listProfessores;
 			}
 		}

@@ -1,6 +1,8 @@
 package org.ufpb.s2dg.entity;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,6 +37,7 @@ public class Turma implements java.io.Serializable {
 	private String planoDeCurso;
 	private Set<Oferta> ofertas;
 	private Set<Horario> horarios;
+	private List<TurmaSala> turmaSalas = new ArrayList<TurmaSala>(0);
 	
 	public Turma() {
 	}
@@ -48,7 +51,7 @@ public class Turma implements java.io.Serializable {
 	public Turma(long id, Set<Professor> professores, Periodo periodo,
 			Disciplina disciplina, String numero, Set<AlunoTurma> alunoTurmas,
 			Set<Avaliacao> avaliacoes, boolean calcularMediaAutomaticamente, String planoDeCurso, Set<Oferta> ofertas,
-			Set<Horario> horarios) {
+			Set<Horario> horarios, List<TurmaSala> turmaSalas) {
 		this.id = id;
 		this.professores = professores;
 		this.periodo = periodo;
@@ -60,6 +63,7 @@ public class Turma implements java.io.Serializable {
 		this.planoDeCurso = planoDeCurso;
 		this.ofertas = ofertas;
 		this.horarios = horarios;
+		this.turmaSalas = turmaSalas;
 	}
 
 	@Id
@@ -112,6 +116,15 @@ public class Turma implements java.io.Serializable {
 
 	public void setNumero(String numero) {
 		this.numero = numero;
+	}
+	
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "turma")
+	public List<TurmaSala> getTurmaSalas() {
+		return turmaSalas;
+	}
+
+	public void setTurmaSalas(List<TurmaSala> turmaSalas) {
+		this.turmaSalas = turmaSalas;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "turma")

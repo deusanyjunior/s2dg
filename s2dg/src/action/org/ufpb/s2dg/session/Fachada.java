@@ -384,4 +384,8 @@ public class Fachada {
 	public void setUsuario(Usuario usuario) {
 		usuarioBean.setUsuario(usuario);
 	}
+	
+	public int cargaHoraria(int creditos) {
+		return creditos*15;
+	}
 }

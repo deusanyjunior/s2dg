@@ -78,6 +78,10 @@ public class Disciplina implements Serializable {
 	public int getCreditos() {
 		return this.creditos;
 	}
+	
+	/*public int getCargaHoraria() {
+		return creditos*15;
+	}*/
 
 	public void setCreditos(int creditos) {
 		this.creditos = creditos;

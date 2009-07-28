@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich">
+    <style>
+        .header{
+            font-weight:bold;
+        }
+        .rich-calendar-header{
+            text-align:center;
+        }
+    </style>
+    
+    <ui:repeat value="#{turmasMatriculadasBean.alunoTurmas}" var="alunoTurma">
+    	<h:outputText value="#{alunoTurma.turma.numero}   
+    	#{alunoTurma.turma.disciplina.codigo}  #{alunoTurma.turma.disciplina.nome}  
+    	#{alunoTurma.turma.disciplina.creditos}   
+    	#{fachada.cargaHoraria(alunoTurma.turma.disciplina.creditos)}  
+    	#{alunoTurma.turma.horarios}"/> <br/>
+    </ui:repeat>
+</ui:composition>
+
+
+<!-- <h:outputText value="#{alunoTurma.turma.disciplina.codigo}  " />
+    	<h:outputText value="#{alunoTurma.turma.disciplina.nome}  " />
+    	<h:outputText value="#{alunoTurma.turma.disciplina.creditos}   " />
+    	<h:outputText value="#{fachada.cargaHoraria(alunoTurma.turma.disciplina.creditos)}  " />
+    	<h:outputText value="#{alunoTurma.turma.horarios}" /> 
+    	
+    	<ui:repeat value="#{alunoTurma.turma.turmaSalas}" var="sala">
+    		<h:outputText value="#{sala.sala}" />
+    	</ui:repeat> -->

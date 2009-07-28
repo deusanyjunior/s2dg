@@ -16,7 +16,7 @@
 		value="Turma #{alunoTurmaBean.alunoTurma.turma.numero}" />
 	<br />
 	<h:outputText value="Professores:" />
-	<rich:dataList value="#{turmaBean.listaProfessores()}" var="professor">
+	<rich:dataList id="professores_turma" value="#{turmaBean.listaProfessores()}" var="professor">
 		<h:outputText value="#{professor.usuario.nome}" />
 	</rich:dataList>
 

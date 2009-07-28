@@ -26,9 +26,6 @@ public class Authenticator
     @In
     Fachada fachada;
     
-    @In
-    UsuarioBean usuarioBean;
-    
     public boolean authenticate()
     {
     	credentials.setUsername(fachada.getCPF());
@@ -50,7 +47,9 @@ public class Authenticator
         	return false;
         }
         
-        usuarioBean.setUsuario(usuario);
+        fachada.setUsuario(usuario);
+        if(usuario.getAluno() != null)
+        	fachada.initTurmasMatriculadas();
         
         return true;
     }

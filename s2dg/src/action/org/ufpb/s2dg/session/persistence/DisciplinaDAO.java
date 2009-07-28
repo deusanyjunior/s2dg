@@ -20,11 +20,13 @@ public class DisciplinaDAO {
 	EntityManager entityManager;
 
 	public List<Disciplina> getDisciplinas(Curriculo curriculo) {
-		Query q = entityManager.createQuery("select d from Disciplina as d where :curriculo member of d.curriculos order by d.nome")
-		.setParameter("curriculo", curriculo);
-		List<Disciplina> list = q.getResultList();
-		if(list.size() > 0)
-			return list;
+		if(curriculo != null) {
+			Query q = entityManager.createQuery("select d from Disciplina as d where :curriculo member of d.curriculos order by d.nome")
+			.setParameter("curriculo", curriculo);
+			List<Disciplina> list = q.getResultList();
+			if(list.size() > 0)
+				return list;
+		}
 		return null;
 	}
 

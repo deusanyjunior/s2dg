@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +35,7 @@ public class MatriculaBean {
 
 	List<Turma> turmasAptas = new ArrayList<Turma>();
 	List<Turma> turmasSelecionadas = new ArrayList<Turma>();
+	HashMap<Turma, Oferta> ofertas = new HashMap<Turma, Oferta>();
 	Aluno aluno;
 	boolean sucesso;
 	String msg;
@@ -61,16 +62,7 @@ public class MatriculaBean {
 		/* remover disciplinas já matriculadas */
 		removerDisciplinasJaMatriculadas(disciplinasDoCurriculo, alunoTurmas);
 		/* listar turmas aptas, removendo disciplinas que não possuem oferta de turma */
-		litarTurmasAptas(disciplinasDoCurriculo);
-		ordenarHorarios();
-	}
-	
-	private void ordenarHorarios() {
-		for(Turma t : turmasAptas) {
-			ArrayList<Horario> list = new ArrayList<Horario>(t.getHorarios());
-			Collections.sort(list,new HorarioComparator());
-			t.setHorarios(new HashSet<Horario>(list));
-		}
+		listarTurmasAptas(disciplinasDoCurriculo);
 	}
 
 	private void removerDisciplinasJaMatriculadas(
@@ -102,7 +94,7 @@ public class MatriculaBean {
 		
 	}
 
-	private void litarTurmasAptas(
+	private void listarTurmasAptas(
 			List<Disciplina> disciplinasDoCurriculo) {
 		if(disciplinasDoCurriculo != null) {
 			for(Disciplina d : disciplinasDoCurriculo) {
@@ -113,6 +105,7 @@ public class MatriculaBean {
 						Oferta o = fachada.getOfertaDoBanco(curso, t);
 						if(o != null) {
 							turmasAptas.add(t);
+							ofertas.put(t, o);
 						}
 					}
 				}
@@ -244,7 +237,36 @@ public class MatriculaBean {
 	}
 
 	private boolean isChoqueDeHorario() {
+		List<AlunoTurma> alunoTurmas = fachada.getAlunoTurmaDoBanco();
+		List<Turma> matriculadas = new ArrayList<Turma>();
+		if((alunoTurmas != null)&&(alunoTurmas.size() > 0)) {
+			for(AlunoTurma at : alunoTurmas) {
+				Turma t = at.getTurma(); 
+				if(t == null) {
+					t = fachada.getTurmaDoBanco(at);
+					at.setTurma(t);
+				}
+				matriculadas.add(t);
+			}
+		}
 		for(int i = 0; i < turmasSelecionadas.size(); i++) {
+			/*turmas já matriculadas*/
+			for(int j = 0; j < matriculadas.size(); j++) {
+				Turma t1 = turmasSelecionadas.get(i);
+				Turma t2 = matriculadas.get(j);
+				List<Horario> horario1 = new ArrayList<Horario>(t1.getHorarios());
+				List<Horario> horario2 = new ArrayList<Horario>(t2.getHorarios());
+				for(Horario h1: horario1) {
+					for(Horario h2: horario2) {
+						if(h1.temChoque(h2)) {
+							sucesso = false;
+							msg = t1.getDisciplina().getNome()+", Turma "+t1.getNumero()+" possui choque de horário com "+t2.getDisciplina().getNome()+", Turma "+t2.getNumero()+", matriculada anteriormente.";
+							return true;
+						}
+					}
+				}
+			}
+			/* turmas selecionadas */
 			for(int j = 0; j < turmasSelecionadas.size(); j++) {
 				if(i != j) {
 					Turma t1 = turmasSelecionadas.get(i);
@@ -272,6 +294,24 @@ public class MatriculaBean {
 			int minimo = curriculo.getMinimoCreditos();
 			int maximo = curriculo.getMaximoCreditos();
 			int atual = 0;
+			/* turmas já matriculadas */
+			List<AlunoTurma> matriculadas = fachada.getAlunoTurmaDoBanco();
+			if((matriculadas != null)&&(matriculadas.size() > 0)) {
+				for(AlunoTurma at : matriculadas) {
+					Turma t = at.getTurma(); 
+					if(t == null) {
+						t = fachada.getTurmaDoBanco(at);
+						at.setTurma(t);
+					}
+					Disciplina d = t.getDisciplina();
+					if(d == null) {
+						d = fachada.getDisciplinaDoBanco(t);
+						t.setDisciplina(d);
+					}
+					atual += d.getCreditos();
+				}
+			}
+			/* turmas selecionadas */
 			if((turmasSelecionadas != null)&&(turmasSelecionadas.size() > 0)) {
 				for(Turma turma: turmasSelecionadas) {
 					atual += turma.getDisciplina().getCreditos();
@@ -361,6 +401,7 @@ public class MatriculaBean {
 				for(Professor professor: listProfessores) {
 					professor.setUsuario(fachada.getUsuarioProfessor(professor.getMatricula()));
 				}
+				Collections.sort(listProfessores, new ProfessorComparator());
 				return listProfessores;
 			}
 		}
@@ -379,6 +420,16 @@ public class MatriculaBean {
 		if(i > -1)
 			turmasSelecionadas.remove(i);
 		turmasAptas.add(turma);
+	}
+	
+	public List<Horario> getHorariosOrdenados(Set<Horario> horarios) {
+		List<Horario> list = new ArrayList<Horario>(horarios);
+		Collections.sort(list, new HorarioComparator());
+		return list;
+	}
+	
+	public Oferta getOferta(Turma t) {
+		return ofertas.get(t);
 	}
 	
 }

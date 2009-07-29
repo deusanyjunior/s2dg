@@ -22,6 +22,7 @@ import org.ufpb.s2dg.entity.Calendario;
 import org.ufpb.s2dg.entity.Curriculo;
 import org.ufpb.s2dg.entity.Curso;
 import org.ufpb.s2dg.entity.Disciplina;
+import org.ufpb.s2dg.entity.DisciplinaTurmas;
 import org.ufpb.s2dg.entity.Horario;
 import org.ufpb.s2dg.entity.Oferta;
 import org.ufpb.s2dg.entity.Professor;
@@ -36,6 +37,7 @@ public class MatriculaBean {
 	List<Turma> turmasAptas = new ArrayList<Turma>();
 	List<Turma> turmasSelecionadas = new ArrayList<Turma>();
 	HashMap<Turma, Oferta> ofertas = new HashMap<Turma, Oferta>();
+	List<DisciplinaTurmas> turmasAptasPorDisciplina;
 	Aluno aluno;
 	boolean sucesso;
 	String msg;
@@ -63,6 +65,12 @@ public class MatriculaBean {
 		removerDisciplinasJaMatriculadas(disciplinasDoCurriculo, alunoTurmas);
 		/* listar turmas aptas, removendo disciplinas que não possuem oferta de turma */
 		listarTurmasAptas(disciplinasDoCurriculo);
+		geraTurmasAptasPorDisciplina();
+	}
+
+	private void geraTurmasAptasPorDisciplina() {
+		Collections.sort(turmasAptas, new TurmaComparator());
+		turmasAptasPorDisciplina = DisciplinaTurmas.geraTurmasPorDisciplina(turmasAptas);
 	}
 
 	private void removerDisciplinasJaMatriculadas(
@@ -186,6 +194,7 @@ public class MatriculaBean {
 						sucesso = true;
 						msg = "Matrícula realizada com sucesso.";
 						fachada.initTurmasMatriculadas();
+						geraTurmasAptasPorDisciplina();
 					}
 				}
 			}
@@ -413,6 +422,7 @@ public class MatriculaBean {
 		int i = turmasAptas.indexOf(turma);
 		if(i > -1)
 			turmasAptas.remove(i);
+		geraTurmasAptasPorDisciplina();
 	}
 	
 	public void deselecionaTurma(Turma turma) {
@@ -420,6 +430,7 @@ public class MatriculaBean {
 		if(i > -1)
 			turmasSelecionadas.remove(i);
 		turmasAptas.add(turma);
+		geraTurmasAptasPorDisciplina();
 	}
 	
 	public List<Horario> getHorariosOrdenados(Set<Horario> horarios) {
@@ -430,6 +441,15 @@ public class MatriculaBean {
 	
 	public Oferta getOferta(Turma t) {
 		return ofertas.get(t);
+	}
+
+	public List<DisciplinaTurmas> getTurmasAptasPorDisciplina() {
+		return turmasAptasPorDisciplina;
+	}
+
+	public void setTurmasAptasPorDisciplina(
+			List<DisciplinaTurmas> turmasAptasPorDisciplina) {
+		this.turmasAptasPorDisciplina = turmasAptasPorDisciplina;
 	}
 	
 }

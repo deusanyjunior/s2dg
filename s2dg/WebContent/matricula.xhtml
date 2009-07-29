@@ -32,23 +32,28 @@
 			<f:facet name="header">Créditos</f:facet>
 			<h:outputText value="#{turma.disciplina.creditos}" />
 		</rich:column>
-		<rich:column>
+		<rich:column sortBy="#{matriculaBean.listaProfessores(turma).get(0).usuario.nome}">
 			<f:facet name="header">Professor(es)</f:facet>
-			<a4j:repeat value="#{matriculaBean.listaProfessores(turma)}" var="professor">
+			<rich:dataList value="#{matriculaBean.listaProfessores(turma)}" var="professor">
 				<h:outputText value="#{professor.usuario.nome}" />
-				<br/>
-			</a4j:repeat>
+			</rich:dataList>
 		</rich:column>
-		<rich:column>
+		<rich:column sortBy="#{matriculaBean.getHorariosOrdenados(turma.horarios).get(0).dia}">
 			<f:facet name="header">Horário</f:facet>
-			<a4j:repeat value="#{turma.horarios}" var="horario">
+			<rich:dataList value="#{matriculaBean.getHorariosOrdenados(turma.horarios)}" var="horario">
 				<h:outputText value="#{horario.toString()}" />
-				<br/>
-			</a4j:repeat>
+			</rich:dataList>
+		</rich:column>
+		<rich:column sortBy="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}">
+			<f:facet name="header">Vagas</f:facet>
+			<h:outputText value="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(turma).numeroDeVagasOfertadas}" />
 		</rich:column>
 		<rich:column>
 			<a4j:commandButton action="#{matriculaBean.selecionaTurma(turma)}" value="Selecionar"
+				rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis > 0}"
 				reRender="turmas_selecionadas, turmas_aptas" ajaxSingle="true" />
+			<h:outputText value="Não há mais vagas disponíveis" style="color: red;"
+				rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis == 0}"/>
 		</rich:column>
 	</rich:dataTable>
 	<br/>
@@ -68,19 +73,21 @@
 			<f:facet name="header">Créditos</f:facet>
 			<h:outputText value="#{turma.disciplina.creditos}" />
 		</rich:column>
-		<rich:column>
+		<rich:column sortBy="#{matriculaBean.listaProfessores(turma).get(0).usuario.nome}">
 			<f:facet name="header">Professor(es)</f:facet>
-			<a4j:repeat value="#{matriculaBean.listaProfessores(turma)}" var="professor">
+			<rich:dataList value="#{matriculaBean.listaProfessores(turma)}" var="professor">
 				<h:outputText value="#{professor.usuario.nome}" />
-				<br/>
-			</a4j:repeat>
+			</rich:dataList>
 		</rich:column>
-		<rich:column>
+		<rich:column sortBy="#{matriculaBean.getHorariosOrdenados(turma.horarios).get(0).dia}">
 			<f:facet name="header">Horário</f:facet>
-			<a4j:repeat value="#{turma.horarios}" var="horario">
+			<rich:dataList value="#{matriculaBean.getHorariosOrdenados(turma.horarios)}" var="horario">
 				<h:outputText value="#{horario.toString()}" />
-				<br/>
-			</a4j:repeat>
+			</rich:dataList>
+		</rich:column>
+		<rich:column sortBy="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}">
+			<f:facet name="header">Vagas</f:facet>
+			<h:outputText value="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(turma).numeroDeVagasOfertadas}" />
 		</rich:column>
 		<rich:column>
 			<a4j:commandButton action="#{matriculaBean.deselecionaTurma(turma)}"

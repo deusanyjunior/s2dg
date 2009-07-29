@@ -32,7 +32,7 @@ public class DisciplinaTurmas {
 		if((turmas == null)||(turmas.size() == 0))
 			return null;
 	
-		/* PRESSUPOSTO: A lista de turmas j· vem do banco ordenada por disciplina */
+		/* PRESSUPOSTO: A lista de turmas j√° vem do banco ordenada por disciplina */
 		
 		List<DisciplinaTurmas> disciplinaTurmas = new ArrayList<DisciplinaTurmas>();
 		Disciplina disciplinaAnterior = null;
@@ -54,6 +54,16 @@ public class DisciplinaTurmas {
 		
 		return disciplinaTurmas;
 		
+	}
+	
+	public List<Turma> listaTurmasSemUltima() {
+		List<Turma> temp = new ArrayList<Turma>(turmas);
+		temp.remove(turmas.size()-1);
+		return temp;
+	}
+	
+	public Turma getUltimaTurma() {
+		return turmas.get(turmas.size()-1);
 	}
 	
 }

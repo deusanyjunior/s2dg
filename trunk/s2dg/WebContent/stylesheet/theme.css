@@ -12,6 +12,33 @@ body {
 	vertical-align: top;
 }
 
+/* mensagens de erro */
+.info, .error, .warn, .fatal {
+	text-align: left;
+	padding: 5px;
+	width: 100%;
+	display:block;	
+}
+.info {
+	color: white;
+	background-color: blue;
+}
+.error {
+	color: white;
+	background-color: red;
+}
+.warn {
+	color: black;
+	background-color: yellow;
+}
+.fatal {
+	color: black;
+	background-color: red;
+}
+/* fim das mensagens de erro */
+
+
+
 .topo {
 	height: 105px;
 	border-style: none;
@@ -78,7 +105,31 @@ body {
 }
 
 .menu_disciplina_nome {
-	background-color: #E4E4E4;
+	background-color: #ecf4fe;
+	display: block;
+	font-size: 1em;
+	line-height: 2em;
+	padding-left: 5px;
+	text-decoration: none;
+}
+
+
+.menu_opcoes {
+	background-color: #BED6F8;
+	padding: 5px;
+	font-weight: bold;
+}
+
+.menu_opcoes_titulo {
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 10px;
+	margin: 10px;	
+}
+
+.opcao_menu {
+	background-color: #ecf4fe;
 	display: block;
 	font-size: 1em;
 	line-height: 2em;
@@ -113,6 +164,7 @@ element.style {
 }
 
 .aluno {
+	text-align: left;
 	width: 200px;
 }
 

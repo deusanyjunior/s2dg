@@ -13,7 +13,8 @@
 			<f:facet name="header">
 				<h:outputText value="#{avaliacaoBean.criarOuEditar?'Criar Avaliação (No Máximo 8 Avaliações)':'Editar Avaliação'}" />
 			</f:facet>
-			<h:message for="nome_avaliacao" style="color: red;" />
+			<h:message for="nome_avaliacao" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+			<br />
 			<table>
 				<tr>
 					<td>

@@ -96,7 +96,7 @@ public class Turma implements java.io.Serializable {
 		this.periodo = periodo;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "id_disciplina", nullable = false)
 	@NotNull
 	public Disciplina getDisciplina() {

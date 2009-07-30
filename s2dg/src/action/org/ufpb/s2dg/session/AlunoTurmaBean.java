@@ -9,6 +9,8 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
+import org.ufpb.s2dg.entity.Disciplina;
+import org.ufpb.s2dg.entity.Turma;
 
 @Name("alunoTurmaBean")
 @Scope(ScopeType.SESSION)
@@ -26,8 +28,16 @@ public class AlunoTurmaBean {
 
 	public void setAlunoTurma(AlunoTurma alunoTurma) {
 		this.alunoTurma = alunoTurma;
-		if(alunoTurma != null)
-			fachada.setTurma(alunoTurma.getTurma());
+		if(alunoTurma != null) {
+			Turma t = alunoTurma.getTurma();
+			if(t == null)
+				t = fachada.getTurmaDoBanco(alunoTurma);
+			Disciplina d = t.getDisciplina();
+			if(d == null)
+				d = fachada.getDisciplinaDoBanco(t);
+			t.setDisciplina(d);
+			fachada.setTurma(t);
+		}
 	}
 	
 	public List<AlunoTurma> getAlunoTurmaAsList() {

@@ -26,13 +26,29 @@
 			</h:form>
 		</rich:panel>
 	</div>
-	<br/>
-	<center>
-	<h:form>
-	<h:commandLink disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
-		value="Efetuar Matrícula" action="matricula" />
-	</h:form>
-	</center>
+	<br />
+	<br />	
+	
+	<div class="menu_opcoes">
+		<center>
+			<h:outputText styleClass="menu_opcoes_titulo" value="Opcoes do Usuario" />
+		
+		<rich:panel>
+			<h:form>
+				<h:commandLink styleClass="opcao_menu" disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
+					value="Efetuar Matrícula" action="matricula" />
+				<br />
+				<h:commandLink styleClass="opcao_menu" 
+					value="Historico - Falta Implementar" action="ver_historico" />
+				<br />
+				<h:commandLink styleClass="opcao_menu"
+					value="Horario - Falta Implementar" action="ver_horario" />
+			</h:form>
+		</rich:panel>
+		
+		</center>
+	</div>
+	
 	<br/>
 </ui:define>
 			

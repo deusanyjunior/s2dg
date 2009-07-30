@@ -34,13 +34,14 @@
 </ui:define>
     
 	<ui:define name="body">
+	<body onLoad="document.getElementById('login:username').focus();">
 		<h:form id="login">
 			<center>
 			<rich:panel style="width:400px;">
 				<f:facet name="header">Login</f:facet>
-				<div style="width: 100%; height: 20px">
-				<h:messages style="text-align: left; color: red;"  />
-				</div>
+				
+				<h:messages  infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+				<br />
 
 				<div class="dialog">
 					<h:outputText value="Por favor, faça login aqui." />
@@ -52,7 +53,7 @@
 					
 						
 					<h:inputText id="username" value="#{emailAction.CPF}" required="true"
-					requiredMessage="O campo CPF é obrigatório!"> 
+						requiredMessage="O campo CPF é obrigatório!"> 
 						<rich:jQuery id="usernameMascara" selector="#username" query="mask('999.999.999-99')" timing="onload" />
 					</h:inputText>
 						
@@ -104,6 +105,6 @@
                 </rich:panel>
 		</rich:panel></center>
 	</h:form>
-
+	</body>
 	</ui:define>
 </ui:composition>

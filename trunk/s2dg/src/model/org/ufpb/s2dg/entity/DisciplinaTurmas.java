@@ -56,14 +56,12 @@ public class DisciplinaTurmas {
 		
 	}
 	
-	public List<Turma> listaTurmasSemUltima() {
-		List<Turma> temp = new ArrayList<Turma>(turmas);
-		temp.remove(turmas.size()-1);
-		return temp;
-	}
-	
-	public Turma getUltimaTurma() {
-		return turmas.get(turmas.size()-1);
+	public List<Turma> getTurmasExcetoPrimeira() {
+		List<Turma> list = new ArrayList<Turma>();
+		for(int i = 1; i < turmas.size(); i++) {
+			list.add(turmas.get(i));
+		}
+		return list;
 	}
 	
 }

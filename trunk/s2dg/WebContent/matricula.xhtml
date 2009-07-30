@@ -17,104 +17,132 @@
 	<h:outputText id="matricula_msg" value="#{matriculaBean.msg}"
 		style="float: left; color: red;" />
 	<br/>
-	<rich:dataTable value="#{matriculaBean.turmasAptasPorDisciplina}" var="disciplinaTurmas"
-		id="turmas_aptas" style="text-align: center" >
-		<f:facet name="header">Turmas Aptas</f:facet>
-		<rich:column sortOrder="ASCENDING"
-			sortBy="#{disciplinaTurmas.disciplina.nome}">
-			<f:facet name="header">Disciplina</f:facet>
-			<h:outputText value="#{disciplinaTurmas.disciplina.nome}" />
-		</rich:column>
-		<rich:column sortBy="#{disciplinaTurmas.disciplina.creditos}">
-			<f:facet name="header">Créditos</f:facet>
-			<h:outputText value="#{disciplinaTurmas.disciplina.creditos}" />
-		</rich:column>
-		<rich:column>
-			<f:facet name="header">Turma</f:facet>
-			<a4j:repeat value="#{disciplinaTurmas.listaTurmasSemUltima()}" var="turma">
-				<h:outputText value="#{turma.numero}" />
-				<hr/>
+	<a4j:outputPanel id="turmas_aptas">
+	<table class="dr-table rich-table" cellspacing="0" cellpadding="0" border="0"
+		style="text-align: center;">
+		<colgroup span="7"/>
+		<thead class="dr-table-thead">
+			<tr class="dr-table-header rich-table-header">
+				<th class="dr-table-headercell rich-table-headercell" scope="colgroup" colspan="7">Turmas Aptas</th>
+			</tr>
+			<tr class="dr-table-subheader rich-table-subheader">
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Disciplina
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Créditos
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Turmas
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Professor(es)
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Horário
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Vagas
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col"/>
+			</tr>
+		</thead>
+		<tbody>
+			<a4j:repeat value="#{matriculaBean.turmasAptasPorDisciplina}" var="disciplinaTurmas">
+				<tr class="dr-table-firstrow rich-table-firstrow">
+					<td class="dr-table-cell rich-table-cell" rowspan="#{disciplinaTurmas.turmas.size}"
+						style="vertical-align: middle;">
+						<h:outputText value="#{disciplinaTurmas.disciplina.nome}" />
+					</td>
+					<td class="dr-table-cell rich-table-cell" rowspan="#{disciplinaTurmas.turmas.size}"
+						style="vertical-align: middle;">
+						<h:outputText value="#{disciplinaTurmas.disciplina.creditos}" />
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<h:outputText value="#{disciplinaTurmas.turmas.get(0).numero}" />
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<rich:dataList value="#{matriculaBean.listaProfessores(disciplinaTurmas.turmas.get(0))}" var="professor">
+							<h:outputText value="#{professor.usuario.nome}" />
+						</rich:dataList>
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<rich:dataList value="#{matriculaBean.getHorariosOrdenados(disciplinaTurmas.turmas.get(0).horarios)}" var="horario">
+							<h:outputText value="#{horario.toString()}" />
+						</rich:dataList>
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<h:outputText value="#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasOfertadas}" />
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<a4j:commandButton action="#{matriculaBean.selecionaTurma(disciplinaTurmas.turmas.get(0),disciplinaTurmas)}" value="Selecionar"
+							rendered="#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasDisponiveis > 0}"
+							reRender="turmas_selecionadas, turmas_aptas" ajaxSingle="true" />
+						<h:outputText value="Não há mais vagas disponíveis" style="color: red;"
+							rendered="#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasDisponiveis == 0}"/>
+					</td>
+				</tr>
+				<a4j:repeat value="#{disciplinaTurmas.turmasExcetoPrimeira}" var="turma">
+					<tr class="dr-table-firstrow rich-table-firstrow">
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<h:outputText value="#{turma.numero}" />
+						</td>
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<rich:dataList value="#{matriculaBean.listaProfessores(turma)}" var="professor">
+								<h:outputText value="#{professor.usuario.nome}" />
+							</rich:dataList>
+						</td>
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<rich:dataList value="#{matriculaBean.getHorariosOrdenados(turma.horarios)}" var="horario">
+								<h:outputText value="#{horario.toString()}" />
+							</rich:dataList>
+						</td>
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<h:outputText value="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(turma).numeroDeVagasOfertadas}" />
+						</td>
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<a4j:commandButton action="#{matriculaBean.selecionaTurma(turma,disciplinaTurmas)}" value="Selecionar"
+								rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis > 0}"
+								reRender="turmas_selecionadas, turmas_aptas" ajaxSingle="true" />
+							<h:outputText value="Não há mais vagas disponíveis" style="color: red;"
+								rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis == 0}"/>
+						</td>
+					</tr>
+				</a4j:repeat>
 			</a4j:repeat>
-			<h:outputText value="#{disciplinaTurmas.ultimaTurma.numero}" />
-		</rich:column>
-		<rich:column>
-			<f:facet name="header">Professor(es)</f:facet>
-			<a4j:repeat value="#{disciplinaTurmas.listaTurmasSemUltima()}" var="turma">
-				<rich:dataList value="#{matriculaBean.listaProfessores(turma)}" var="professor">
-					<h:outputText value="#{professor.usuario.nome}" />
-				</rich:dataList>
-				<hr/>
-			</a4j:repeat>
-			<rich:dataList value="#{matriculaBean.listaProfessores(disciplinaTurmas.ultimaTurma)}" var="professor">
-				<h:outputText value="#{professor.usuario.nome}" />
-			</rich:dataList>
-		</rich:column>
-		<rich:column>
-			<f:facet name="header">Horário</f:facet>
-			<a4j:repeat value="#{disciplinaTurmas.listaTurmasSemUltima()}" var="turma">
-				<rich:dataList value="#{matriculaBean.getHorariosOrdenados(turma.horarios)}" var="horario">
-					<h:outputText value="#{horario.toString()}" />
-				</rich:dataList>
-				<hr/>
-			</a4j:repeat>
-			<rich:dataList value="#{matriculaBean.getHorariosOrdenados(disciplinaTurmas.ultimaTurma.horarios)}" var="horario">
-				<h:outputText value="#{horario.toString()}" />
-			</rich:dataList>
-		</rich:column>
-		<rich:column>
-			<f:facet name="header">Vagas</f:facet>
-			<a4j:repeat value="#{disciplinaTurmas.listaTurmasSemUltima()}" var="turma">
-				<h:outputText value="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(turma).numeroDeVagasOfertadas}" />
-				<hr/>
-			</a4j:repeat>
-			<h:outputText value="#{matriculaBean.getOferta(disciplinaTurmas.ultimaTurma).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(disciplinaTurmas.ultimaTurma).numeroDeVagasOfertadas}" />
-		</rich:column>
-		<rich:column>
-			<a4j:repeat value="#{disciplinaTurmas.listaTurmasSemUltima()}" var="turma">
-				<a4j:commandButton action="#{matriculaBean.selecionaTurma(turma)}" value="Selecionar"
-					rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis > 0}"
-					reRender="turmas_selecionadas, turmas_aptas" ajaxSingle="true" />
-				<h:outputText value="Não há mais vagas disponíveis" style="color: red;"
-					rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis == 0}"/>
-				<hr/>
-			</a4j:repeat>
-			<a4j:commandButton action="#{matriculaBean.selecionaTurma(disciplinaTurmas.ultimaTurma)}" value="Selecionar"
-				rendered="#{matriculaBean.getOferta(disciplinaTurmas.ultimaTurma).numeroDeVagasDisponiveis > 0}"
-				reRender="turmas_selecionadas, turmas_aptas" ajaxSingle="true" />
-			<h:outputText value="Não há mais vagas disponíveis" style="color: red;"
-				rendered="#{matriculaBean.getOferta(disciplinaTurmas.ultimaTurma).numeroDeVagasDisponiveis == 0}"/>
-		</rich:column>
-		</rich:dataTable>
+		</tbody>
+	</table>
+	</a4j:outputPanel>
 	<br/>
 	<br/>
 	<rich:dataTable value="#{matriculaBean.turmasSelecionadas}" var="turma" id="turmas_selecionadas"
 		style="text-align: center" >
 		<f:facet name="header">Turmas Selecionadas</f:facet>
-		<rich:column sortOrder="ASCENDING" sortBy="#{turma.disciplina.nome}">
+		<rich:column>
 			<f:facet name="header">Disciplina</f:facet>
 			<h:outputText value="#{turma.disciplina.nome}" />
 		</rich:column>
-		<rich:column sortBy="#{turma.disciplina.creditos}">
+		<rich:column>
 			<f:facet name="header">Créditos</f:facet>
 			<h:outputText value="#{turma.disciplina.creditos}" />
 		</rich:column>
-		<rich:column sortBy="#{turma.numero}">
+		<rich:column>
 			<f:facet name="header">Turma</f:facet>
 			<h:outputText value="#{turma.numero}" />
 		</rich:column>
-		<rich:column sortBy="#{matriculaBean.listaProfessores(turma).get(0).usuario.nome}">
+		<rich:column>
 			<f:facet name="header">Professor(es)</f:facet>
 			<rich:dataList value="#{matriculaBean.listaProfessores(turma)}" var="professor">
 				<h:outputText value="#{professor.usuario.nome}" />
 			</rich:dataList>
 		</rich:column>
-		<rich:column sortBy="#{matriculaBean.getHorariosOrdenados(turma.horarios).get(0).dia}">
+		<rich:column>
 			<f:facet name="header">Horário</f:facet>
 			<rich:dataList value="#{matriculaBean.getHorariosOrdenados(turma.horarios)}" var="horario">
 				<h:outputText value="#{horario.toString()}" />
 			</rich:dataList>
 		</rich:column>
-		<rich:column sortBy="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}">
+		<rich:column>
 			<f:facet name="header">Vagas</f:facet>
 			<h:outputText value="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(turma).numeroDeVagasOfertadas}" />
 		</rich:column>
@@ -126,7 +154,7 @@
 	<br/>
 	<a4j:commandButton styleClass="botao_salvar" action="#{matriculaBean.fazMatricula()}"
 		value="Matricular" ajaxSingle="true" limitToList="true" reRender="matricula_msg, turmas_selecionadas" />
-	<h:commandButton styleClass="botao_salvar" action="home" value="Cancelar" />
+	<h:commandButton styleClass="botao_salvar" action="home" value="Voltar" />
 	<br/>
 	<br/>
 	</h:form>

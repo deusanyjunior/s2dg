@@ -13,9 +13,11 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
+import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
+import org.jboss.seam.log.Log;
 import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Calendario;
@@ -38,12 +40,15 @@ public class MatriculaBean {
 	List<Turma> turmasSelecionadas = new ArrayList<Turma>();
 	HashMap<Turma, Oferta> ofertas = new HashMap<Turma, Oferta>();
 	List<DisciplinaTurmas> turmasAptasPorDisciplina;
+	List<DisciplinaTurmas> temporario = new ArrayList<DisciplinaTurmas>();
 	Aluno aluno;
 	boolean sucesso;
 	String msg;
 	
 	@In
 	Fachada fachada;
+	@Logger
+	private Log log;
 	
 	@Create
 	public void init() {
@@ -189,11 +194,16 @@ public class MatriculaBean {
 							novoAlunoTurma.setTurma(turma);
 							novoAlunoTurma.setFaltas(0);
 							fachada.criaAlunoTurma(novoAlunoTurma);
+							log.info("Aluno {0} (CPF:{1}) foi matriculado com sucesso na disciplina {2} (código:{3}), turma {4} (id:{5})",
+									fachada.getUsuario().getNome(),fachada.getUsuario().getCpf(),
+									turma.getDisciplina().getNome(),turma.getDisciplina().getCodigo(),
+									turma.getNumero(),turma.getId());
 						}
 						turmasSelecionadas.clear();
 						sucesso = true;
 						msg = "Matrícula realizada com sucesso.";
 						fachada.initTurmasMatriculadas();
+						temporario.clear();
 						geraTurmasAptasPorDisciplina();
 					}
 				}
@@ -417,26 +427,36 @@ public class MatriculaBean {
 		return null;
 	}
 	
-	public void selecionaTurma(Turma turma) {
+	public void selecionaTurma(Turma turma, DisciplinaTurmas dts) {
 		turmasSelecionadas.add(turma);
-		int i = turmasAptas.indexOf(turma);
-		if(i > -1)
-			turmasAptas.remove(i);
+		for(Turma t : dts.getTurmas()) {
+			turmasAptas.remove(t);
+		}
+		temporario.add(dts);
 		geraTurmasAptasPorDisciplina();
 	}
 	
 	public void deselecionaTurma(Turma turma) {
-		int i = turmasSelecionadas.indexOf(turma);
-		if(i > -1)
-			turmasSelecionadas.remove(i);
-		turmasAptas.add(turma);
+		turmasSelecionadas.remove(turma);
+		for(DisciplinaTurmas dts : temporario) {
+			if(dts.getDisciplina().getCodigo() == turma.getDisciplina().getCodigo()) {
+				for(Turma t : dts.getTurmas()) {
+					turmasAptas.add(t);
+				}
+				temporario.remove(dts);
+				break;
+			}
+		}
 		geraTurmasAptasPorDisciplina();
 	}
 	
 	public List<Horario> getHorariosOrdenados(Set<Horario> horarios) {
-		List<Horario> list = new ArrayList<Horario>(horarios);
-		Collections.sort(list, new HorarioComparator());
-		return list;
+		if(horarios != null) {
+			List<Horario> list = new ArrayList<Horario>(horarios);
+			Collections.sort(list, new HorarioComparator());
+			return list;
+		}
+		return null;
 	}
 	
 	public Oferta getOferta(Turma t) {

@@ -15,22 +15,58 @@
         }
     </style>
     
-    <ui:repeat value="#{turmasMatriculadasBean.alunoTurmas}" var="alunoTurma">
-    	<h:outputText value="#{alunoTurma.turma.numero}   
-    	#{alunoTurma.turma.disciplina.codigo}  #{alunoTurma.turma.disciplina.nome}  
-    	#{alunoTurma.turma.disciplina.creditos}   
-    	#{fachada.cargaHoraria(alunoTurma.turma.disciplina.creditos)}  
-    	#{alunoTurma.turma.horarios}"/> <br/>
-    </ui:repeat>
-</ui:composition>
-
-
-<!-- <h:outputText value="#{alunoTurma.turma.disciplina.codigo}  " />
-    	<h:outputText value="#{alunoTurma.turma.disciplina.nome}  " />
-    	<h:outputText value="#{alunoTurma.turma.disciplina.creditos}   " />
-    	<h:outputText value="#{fachada.cargaHoraria(alunoTurma.turma.disciplina.creditos)}  " />
-    	<h:outputText value="#{alunoTurma.turma.horarios}" /> 
+    <rich:dataTable width="700" border="0" var="alunoTurma" 
+    value="#{turmasMatriculadasBean.alunoTurmas}" cellpadding="0" cellspacing="0" >
+    	<f:facet name="header">
+    		<rich:columnGroup>
+    			<rich:column>
+	                <h:outputText value="Numero" />
+	            </rich:column>
+	            <rich:column>
+	                <h:outputText value="Codigo" />
+	            </rich:column>
+	            <rich:column>
+	                <h:outputText value="Nome" />
+	            </rich:column>
+	            <rich:column>
+	                <h:outputText value="Creditos" />
+	            </rich:column>
+	           	<rich:column>
+	                <h:outputText value="Carga  Horaria" />
+	            </rich:column>
+	            <rich:column>
+	                <h:outputText value="Horarios" />
+	            </rich:column>
+	            <rich:column>
+	                <h:outputText value="Sala(s)" />
+	            </rich:column>
+    		</rich:columnGroup>
+    	</f:facet>
     	
-    	<ui:repeat value="#{alunoTurma.turma.turmaSalas}" var="sala">
-    		<h:outputText value="#{sala.sala}" />
-    	</ui:repeat> -->
+    	<rich:column>
+    		<h:outputText value="#{alunoTurma.turma.numero}" />
+    	</rich:column>
+    	<rich:column>
+    		<h:outputText value="#{alunoTurma.turma.disciplina.codigo}" />
+    	</rich:column>
+    	<rich:column>
+    		<h:outputText value="#{alunoTurma.turma.disciplina.nome}" />
+    	</rich:column>
+    	<rich:column>
+    		<h:outputText value="#{alunoTurma.turma.disciplina.creditos}" />
+    	</rich:column>
+    	<rich:column>
+    		<h:outputText value="#{fachada.cargaHoraria(alunoTurma.turma.disciplina.creditos)}" />
+    	</rich:column>
+    	<rich:column>
+    		<ui:repeat value="#{matriculaBean.getHorariosOrdenados(alunoTurma.turma.horarios)}" var="horario">
+	    		<h:outputText value="#{horario}"/> <br/>
+	    	</ui:repeat>
+    	</rich:column>
+    	<rich:column>
+    		<ui:repeat value="#{alunoTurma.turma.turmaSalas}" var="sala">
+	    		<h:outputText value="#{sala.sala}"/><br/>
+	    	</ui:repeat>
+    	</rich:column>
+    </rich:dataTable>
+</ui:composition>

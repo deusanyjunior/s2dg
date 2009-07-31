@@ -116,41 +116,41 @@
 	<rich:dataTable value="#{matriculaBean.turmasSelecionadas}" var="turma" id="turmas_selecionadas"
 		style="text-align: center" >
 		<f:facet name="header">Turmas Selecionadas</f:facet>
-		<rich:column>
-			<f:facet name="header">Disciplina</f:facet>
-			<h:outputText value="#{turma.disciplina.nome}" />
+		<rich:column style="vertical-align: middle" >
+			<f:facet name="header" >Disciplina</f:facet>
+			<h:outputText value="#{turma.disciplina.nome}" style="vertical-align: middle"/>
 		</rich:column>
-		<rich:column>
+		<rich:column style="vertical-align: middle" >
 			<f:facet name="header">Créditos</f:facet>
 			<h:outputText value="#{turma.disciplina.creditos}" />
 		</rich:column>
-		<rich:column>
+		<rich:column style="vertical-align: middle" >
 			<f:facet name="header">Turma</f:facet>
 			<h:outputText value="#{turma.numero}" />
 		</rich:column>
-		<rich:column>
+		<rich:column style="vertical-align: middle" >
 			<f:facet name="header">Professor(es)</f:facet>
-			<rich:dataList value="#{matriculaBean.listaProfessores(turma)}" var="professor">
+			<rich:dataList value="#{matriculaBean.listaProfessores(turma)}" var="professor" >
 				<h:outputText value="#{professor.usuario.nome}" />
 			</rich:dataList>
 		</rich:column>
-		<rich:column>
+		<rich:column style="vertical-align: middle" >
 			<f:facet name="header">Horário</f:facet>
 			<rich:dataList value="#{matriculaBean.getHorariosOrdenados(turma.horarios)}" var="horario">
 				<h:outputText value="#{horario.toString()}" />
 			</rich:dataList>
 		</rich:column>
-		<rich:column>
+		<rich:column style="vertical-align: middle" >
 			<f:facet name="header">Vagas</f:facet>
 			<h:outputText value="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(turma).numeroDeVagasOfertadas}" />
 		</rich:column>
-		<rich:column>
+		<rich:column style="vertical-align: middle" >
 			<a4j:commandButton action="#{matriculaBean.deselecionaTurma(turma)}"
 				value="Remover" reRender="turmas_selecionadas, turmas_aptas" ajaxSingle="true" />
 		</rich:column>
 	</rich:dataTable>
 	<br/>
-	<a4j:commandButton styleClass="botao_salvar" action="#{matriculaBean.fazMatricula()}"
+	<a4j:commandButton styleClass="botao_salvar" action="#{matriculaBean.fazMatricula(MenuDiscenteAction)}"
 		value="Matricular" ajaxSingle="true" limitToList="true" reRender="matricula_msg, turmas_selecionadas" />
 	<!--  <h:commandButton styleClass="botao_salvar" action="home" value="Voltar" /> -->
 	<br/>

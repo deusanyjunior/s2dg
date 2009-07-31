@@ -56,7 +56,7 @@
     		<h:outputText value="#{alunoTurma.turma.disciplina.creditos}" />
     	</rich:column>
     	<rich:column>
-    		<h:outputText value="#{fachada.cargaHoraria(alunoTurma.turma.disciplina.creditos)}" />
+    		<h:outputText value="#{turmasMatriculadasBean.cargaHoraria(alunoTurma.turma.disciplina.creditos)}" />
     	</rich:column>
     	<rich:column>
     		<ui:repeat value="#{matriculaBean.getHorariosOrdenados(alunoTurma.turma.horarios)}" var="horario">
@@ -64,9 +64,7 @@
 	    	</ui:repeat>
     	</rich:column>
     	<rich:column>
-    		<ui:repeat value="#{alunoTurma.turma.turmaSalas}" var="sala">
-	    		<h:outputText value="#{sala.sala}"/><br/>
-	    	</ui:repeat>
+    		
     	</rich:column>
     </rich:dataTable>
 </ui:composition>

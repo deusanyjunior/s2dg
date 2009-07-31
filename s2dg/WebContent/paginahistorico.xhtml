@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition 
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a4j="http://richfaces.org/a4j">
+
+	<rich:panel>
+		<f:facet name="header">H I S T O R I C O    E S C O L A R</f:facet>
+	
+					<h:outputText value="H I S T O R I C O  E S C O L A R" />
+					<br/><br/>
+					<h:outputText value="ALUNO: #{fachada.aluno.matricula}--#{fachada.usuario.nome}" />	  
+					<br/>
+					<h:outputText value="CURSO: #{fachada.aluno.curriculo.curso.codigo}--#{fachada.aluno.curriculo.curso.nome}  " />
+					<h:outputText value="CURRICULO: #{fachada.aluno.curriculo.numero}" />
+					<br/>
+					<h:outputText value="RECONHECIMENTO: #{fachada.aluno.curriculo.curso.cur_ato_criacao}   RG: #{fachada.usuario.rg}   " />
+					<br/><br/><br/>
+					<h:outputText value="CODIGO   NOME DA DISCIPLINA                           CR CH. PERIODO MEDIA SITUACAO"/>
+					<br/>
+					<h:outputText value="============================   DISCIPLINAS OBRIGATORIAS  =========================="/>
+					<br/>
+					<ui:repeat value="#{turmasMatriculadasBean.alunoTurmas}"
+						var="alunoTurma">
+						<h:outputText value="#{alunoTurma.turma.disciplina.codigo} "/>
+						<h:outputText value="#{alunoTurma.turma.disciplina.nome} "/>
+						<h:outputText value="#{alunoTurma.turma.disciplina.creditos} "/>
+						<h:outputText value="#{turmasMatriculadasBean.cargaHoraria(alunoTurma.turma.disciplina.creditos)} "/>
+						<h:outputText value="#{alunoTurma.turma.periodo.ano} "/>
+						<h:outputText value="#{alunoTurma.turma.periodo.semestre} "/>
+						<h:outputText value="#{turmasMatriculadasBean.geraMedia(alunoTurma)} "/>
+						<h:outputText value="#{alunoTurma.situacao}" />
+						<br />
+					</ui:repeat>
+					<h:outputText value="==============================================================================="/>
+					<br/>
+					<h:outputText value="DADOS INERENTES A INTEGRALIZACAO CURRICULAR"/>
+					<br/>
+					<h:outputText value="-CARGA HORARIA-  ---CREDITOS---  -DISCIPLINAS-"/>
+					<br/>
+					<h:outputText value="INTEGRALIZACAO CURRICULAR     Minimo Integr.  Minima Integr.  Minimo Integr"/>
+					<br/>
+					<h:outputText value="---------------------------------------------------------------------------"/>
+					<br/>
+					<h:outputText value="Disciplinas Obrigatorias......#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosCurriculo)}
+										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizados())}
+										#{fachada.aluno.curriculo.minimoCreditosCurriculo}
+										#{turmasMatriculadasBean.geraCreditosIntegralizados()} 
+										#{fachada.aluno.curriculo.minimoDisciplinas} #{turmasMatriculadasBean.alunoTurmas.size()}"/>
+					<br/>
+					<h:outputText value="Disciplinas Optativas........." />
+					<br/>
+					<h:outputText value="Disciplinas Eletivas........." />
+					<br/>
+					<h:outputText value="Disciplinas Complementares........." />
+					<br/>
+					<h:outputText value="TOTAIS DO CURRICULO =========>#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosCurriculo)}
+										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizados())}
+										#{fachada.aluno.curriculo.minimoCreditosCurriculo}
+										#{turmasMatriculadasBean.geraCreditosIntegralizados()} 
+										#{fachada.aluno.curriculo.minimoDisciplinas} #{turmasMatriculadasBean.alunoTurmas.size()}" />
+					<br/>
+					<h:outputText value="Disciplinas Extra-Curriculares" />
+					<br/>
+					<h:outputText value="---------------------------------------------------------------------------" />
+					<br/>
+					<h:outputText value="Numero de semestres cursados..    (Minimo: #{fachada.aluno.curriculo.minimoSemestres} , Maximo: #{fachada.aluno.curriculo.maximoSemestres}) de  ativos" />
+					<br/>
+					<h:outputText value="Trancamentos Totais efetuados.    (Max:#{fachada.aluno.curriculo.trancamentosTotais}  sem)" />
+					<br/>
+					<h:outputText value="Matriculas Institucionais ....     (Max:#{fachada.aluno.curriculo.matriculaInstitucional}  sem)" />
+					<br/>
+					<h:outputText value="Trancamentos Parciais efetuad. #{turmasMatriculadasBean.geraTrancamentosParciais()}
+							 (Minimo: --, Maximo:#{fachada.aluno.curriculo.maximoTrancamentosParciais}  )" />
+					<br/>
+					<h:outputText value="Matriculado atualmente em ....    #{turmasMatriculadasBean.geraCreditosIntegralizados()}
+										 Creditos (Minimo: #{fachada.aluno.curriculo.minimoCreditos}  , 
+										 Maximo: #{fachada.aluno.curriculo.maximoCreditos}  )" />
+					<br/>
+					<h:outputText value="---------------------------------------------------------------------------" />
+					<br/>
+					<h:outputText value="Situacao academica............#{fachada.aluno.situacaoAcademica}   CRE: " />
+					<h:outputText value="#{turmasMatriculadasBean.geraCRE()}">
+						<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+									locale="pt_BR" />
+					</h:outputText>
+					<br/>
+					<h:outputText value="Forma de ingresso.............#{fachada.aluno.formaIngresso}(em #{fachada.turma.periodo.ano} #{fachada.turma.periodo.semestre})" />
+					<br/>
+					<h:outputText value="---------------------------------------------------------------------------" />
+					<br/>
+					<h:outputText value="A MATRICULA E OBRIGATORIA EM TODO PERIODO LETIVO, EVITE SITUACAO DE ABANDONO" />
+					<br/><br/><br/>
+					<h:outputText value="HISTORICO EMITIDO PARA SIMPLES CONFERENCIA. NAO VALE COMO DOCUMENTO OFICIAL" />
+
+</rich:panel>
+</ui:composition>

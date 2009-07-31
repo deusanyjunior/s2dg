@@ -15,8 +15,8 @@
         }
     </style>
 
-    <h:form>
-        <a4j:jsFunction name="ajaxSubmit" oncomplete="#{rich:component('panel')}.show()" reRender="editContent" />
+    <a4j:form id="calendar">
+        <a4j:jsFunction name="ajaxSubmit" oncomplete="#{rich:component('panel')}.show()" reRender="calendar, outputPanelCalendar, organizerxxxxx" />
         <center>
         <rich:calendar popup="false" showApplyButton="false"
             cellWidth="100px" cellHeight="100px" mode="ajax"
@@ -25,7 +25,7 @@
             onchanged="if (event.rich.date) {ajaxSubmit();}" 
             oncurrentdateselect="return true" id="organizerxxxxx" 
             showFooter="false">
-            <a4j:outputPanel layout="block"
+            <a4j:outputPanel id="outputPanelCalendar" layout="block"
             onclick="#{rich:component('organizerxxxxx')}.resetSelectedDate()" style="height: 100%;">
                 <h:panelGrid columns="1">
                     <h:outputText value="{day}" style="align:center"/>
@@ -35,7 +35,7 @@
             </a4j:outputPanel>
         </rich:calendar>
         </center>
-    </h:form>
+    </a4j:form>
 </ui:composition>
 
 <!-- valueChangeListener="#{calendarDataModel.valueChanged}"  value="#{calendarBean.selectedDate}"-->

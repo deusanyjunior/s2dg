@@ -3,6 +3,8 @@ package org.ufpb.s2dg.session;
 import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
@@ -52,6 +54,10 @@ public class PDFAction {
 		geraTabelaRelatorioDeNotas(list);
         
         this.doc.close();   
+	}
+	
+	public void geraPdf(String nome, ArrayList<HashMap<String, String>> informacoes){
+		//TE VIRA NEGAO
 	}
 	
 	public void addParagrafo(String text){

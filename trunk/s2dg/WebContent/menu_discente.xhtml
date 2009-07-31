@@ -20,7 +20,8 @@
 					<a4j:commandLink
 						action="#{alunoTurmaBean.setAlunoTurma(alunoTurma)}"
 						value=":: #{alunoTurma.turma.disciplina.nome}"
-						reRender="discente_mutavel, planoDeCurso, titulo_disciplina_dis, titulo_turma_dis, professores_turma" />
+						reRender="corpo" />
+						<!-- discente_mutavel, planoDeCurso, titulo_disciplina_dis, titulo_turma_dis, professores_turma -->
 					<br/>
 				</ui:repeat>
 			</h:form>
@@ -28,38 +29,27 @@
 	</div>
 	<br />
 	<br />	
-	
+	 <a4j:keepAlive beanName="MenuDiscenteAction" />
 	<div class="menu_opcoes">
 		<center>
 			<h:outputText styleClass="menu_opcoes_titulo" value="Opcoes do Usuario" />
 		
 		<rich:panel>
 			<h:form>
-				<h:commandLink styleClass="opcao_menu" disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
-					value="Efetuar Matrícula" action="matricula" />
+				<a4j:commandLink styleClass="opcao_menu" disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
+					value="Efetuar Matricula" action="#{MenuDiscenteAction.setId_Menu(1)}" reRender="corpo" />
 				<br />
-				<h:commandLink styleClass="opcao_menu" 
-					value="Historico - Falta Implementar" action="ver_historico" />
+				<a4j:commandLink styleClass="opcao_menu" 
+					value="Historico - Nao Funciona" action="#{MenuDiscenteAction.setId_Menu(2)}" reRender="corpo" />
 				<br />
-				<h:commandLink styleClass="opcao_menu"
-					value="Horario" action="paginahorario"  />
+				<a4j:commandLink styleClass="opcao_menu"
+					value="Horario" action="#{MenuDiscenteAction.setId_Menu(3)}" reRender="corpo" />
 			</h:form>
 		</rich:panel>
 		
 		</center>
 	</div>
 	
-	
-	<br/>
-	<center>
-	<h:form>
-	<h:commandLink disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
-		value="Efetuar Matrícula" action="matricula" />
-	<br/>	
-	<h:commandLink value="Consultar Historico" action="historico" />	
-	</h:form>
-	</center>
-	<br/>
 </ui:define>
 			
 </ui:composition>

@@ -10,14 +10,15 @@
 
 	<h:outputText styleClass="body_titulo_disciplina"
 		id="titulo_disciplina_dis"
-		value="Disciplina: #{alunoTurmaBean.alunoTurma.turma.disciplina.codigo} - #{alunoTurmaBean.alunoTurma.turma.disciplina.nome}" />
-	<br />
+		value="#{alunoTurmaBean.alunoTurma.turma.disciplina.codigo} - #{alunoTurmaBean.alunoTurma.turma.disciplina.nome}" />
 	<h:outputText styleClass="body_outras_info" id="titulo_turma_dis"
-		value="Turma #{alunoTurmaBean.alunoTurma.turma.numero}" />
+		value=", Turma #{alunoTurmaBean.alunoTurma.turma.numero}" />
 	<br />
-	<h:outputText value="Professores:" />
-	<rich:dataList id="professores_turma" value="#{turmaBean.listaProfessores()}" var="professor">
-		<h:outputText value="#{professor.usuario.nome}" />
-	</rich:dataList>
-
+	<h:outputText value="Professor(es):" />
+<!--	<rich:dataList id="professores_turma" value="#{turmaBean.listaProfessores()}" var="professor">-->
+<!--		<h:outputText value="#{professor.usuario.nome}" />-->
+<!--	</rich:dataList>-->
+	<a4j:repeat value="#{turmaBean.listaProfessores()}" var="professor">
+		<h:outputText value="#{professor.usuario.nome}. " />
+	</a4j:repeat>
 </ui:composition>

@@ -1,5 +1,7 @@
 package org.ufpb.s2dg.session;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.jboss.seam.ScopeType;
@@ -21,6 +23,12 @@ public class TurmasMatriculadasBean {
 	
 	@In
 	Fachada fachada;
+	
+	@In
+	MatriculaBean matriculaBean;
+	
+	@In
+	PDFAction pdfAction;
 	
 	public void init() {
 		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
@@ -58,5 +66,25 @@ public class TurmasMatriculadasBean {
 	
 	public List<Sala> getSalasDoBanco(long id) {
 		return fachada.getSalaDoBanco(id);
+	}
+	
+	public void exportarPDF() {
+		ArrayList<HashMap<String, String>> mapas = new ArrayList<HashMap<String, String>>();
+		//Numero - Codigo - Nome da disciplina - Creditos - CargaHoraria - Horarios - Sala
+		for (AlunoTurma at : alunoTurmas) {
+			HashMap<String, String> mapa = new HashMap<String, String>();
+			mapa.put("Numero", at.getTurma().getNumero());
+			mapa.put("Codigo", at.getTurma().getDisciplina().getCodigo());
+			mapa.put("Nome", at.getTurma().getDisciplina().getNome());
+			mapa.put("Horarios", matriculaBean.getHorariosOrdenados(at.getTurma().getHorarios()).toString());
+			mapa.put("Sala", getSalasDoBanco(at.getTurma().getId()).toString());
+			int creditos = at.getTurma().getDisciplina().getCreditos();
+			mapa.put("Creditos", String.valueOf(creditos));
+			mapa.put("Carga Horaria", String.valueOf(creditos*15));
+			
+			mapas.add(mapa);
+		}
+		
+		pdfAction.geraPdf("Horario Individual", mapas);
 	}
 }

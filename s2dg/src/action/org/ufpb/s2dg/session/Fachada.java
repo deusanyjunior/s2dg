@@ -390,7 +390,7 @@ public class Fachada {
 		usuarioBean.setUsuario(usuario);
 	}
 	
-	public List<Sala> getSalasDoBanco(Turma turma) {
-		return salaDAO.getSalas(turma);
+	public List<Sala> getSalaDoBanco(long id) {
+		return salaDAO.getSalas(id);
 	}
 }

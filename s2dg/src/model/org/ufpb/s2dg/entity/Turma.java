@@ -1,8 +1,6 @@
 package org.ufpb.s2dg.entity;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -37,7 +35,7 @@ public class Turma implements java.io.Serializable {
 	private String planoDeCurso;
 	private Set<Oferta> ofertas;
 	private Set<Horario> horarios;
-	private List<TurmaSala> turmaSalas = new ArrayList<TurmaSala>(0);
+	private Set<Sala> salas = new HashSet<Sala>(0);
 	
 	public Turma() {
 	}
@@ -51,7 +49,7 @@ public class Turma implements java.io.Serializable {
 	public Turma(long id, Set<Professor> professores, Periodo periodo,
 			Disciplina disciplina, String numero, Set<AlunoTurma> alunoTurmas,
 			Set<Avaliacao> avaliacoes, boolean calcularMediaAutomaticamente, String planoDeCurso, Set<Oferta> ofertas,
-			Set<Horario> horarios, List<TurmaSala> turmaSalas) {
+			Set<Horario> horarios, Set<Sala> salas) {
 		this.id = id;
 		this.professores = professores;
 		this.periodo = periodo;
@@ -63,7 +61,7 @@ public class Turma implements java.io.Serializable {
 		this.planoDeCurso = planoDeCurso;
 		this.ofertas = ofertas;
 		this.horarios = horarios;
-		this.turmaSalas = turmaSalas;
+		this.salas = salas;
 	}
 
 	@Id
@@ -118,13 +116,14 @@ public class Turma implements java.io.Serializable {
 		this.numero = numero;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "turma")
-	public List<TurmaSala> getTurmaSalas() {
-		return turmaSalas;
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "turma_sala", schema = "public", joinColumns = { @JoinColumn(name = "id_turma", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "id_sala", nullable = false, updatable = false) })
+	public Set<Sala> getSalas() {
+		return salas;
 	}
 
-	public void setTurmaSalas(List<TurmaSala> turmaSalas) {
-		this.turmaSalas = turmaSalas;
+	public void setSalas(Set<Sala> salas) {
+		this.salas = salas;
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "turma")

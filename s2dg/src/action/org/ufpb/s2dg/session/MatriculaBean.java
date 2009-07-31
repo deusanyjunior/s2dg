@@ -206,11 +206,12 @@ public class MatriculaBean {
 						temporario.clear();
 						geraTurmasAptasPorDisciplina();
 						menuDiscenteAction.setId_Menu(3);
+						return "/home.seam";
 					}
 				}
 			}
 		}
-		return "/home.seam";
+		return null;
 	}
 
 	private boolean isCoRequisitosPresentes() {

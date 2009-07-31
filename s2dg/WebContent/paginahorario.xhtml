@@ -64,7 +64,9 @@
 	    	</ui:repeat>
     	</rich:column>
     	<rich:column>
-    		
+    		<ui:repeat value="#{turmasMatriculadasBean.getSalasDoBanco(alunoTurma.turma.id)}" var="sala">
+    			<h:outputText value="#{sala.sala}"/> <br/>
+    		</ui:repeat>
     	</rich:column>
     </rich:dataTable>
 </ui:composition>

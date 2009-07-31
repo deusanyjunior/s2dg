@@ -56,8 +56,7 @@ public class TurmasMatriculadasBean {
 		return creditos*15;
 	}
 	
-	public List<Sala> getSalasDoBanco(Turma turma) {
-		List<Sala> salas = fachada.getSalasDoBanco(turma);
-		return salas;
+	public List<Sala> getSalasDoBanco(long id) {
+		return fachada.getSalaDoBanco(id);
 	}
 }

@@ -20,6 +20,7 @@ public class AvaliacaoBean {
 	
 	private Avaliacao avaliacao;
 	private boolean criarOuEditar;
+	private boolean avaliacaoVazia;
 	private Avaliacao avaliacaoParaExclusao;
 	
 	@In
@@ -31,6 +32,7 @@ public class AvaliacaoBean {
 		avaliacao = new Avaliacao();
 		avaliacao.setDataEvento(new DataEvento());
 		criarOuEditar = true;
+		setAvaliacaoVazia(false);
 	}
 	
 	public Avaliacao getAvaliacao() {
@@ -44,10 +46,19 @@ public class AvaliacaoBean {
 	public boolean isCriarOuEditar() {
 		return criarOuEditar;
 	}
-
+	
 	public void setCriarOuEditar(boolean criarOuEditar) {
 		this.criarOuEditar = criarOuEditar;
 	}
+	
+	public boolean isAvaliacaoVazia() {
+		return avaliacaoVazia;
+	}
+
+	public void setAvaliacaoVazia(boolean avaliacaoVazia) {
+		this.avaliacaoVazia = avaliacaoVazia;
+	}
+	
 	
 	public void setAvaliacaoParaEdicao(Avaliacao avaliacao) {
 		this.avaliacao = avaliacao;
@@ -82,6 +93,7 @@ public class AvaliacaoBean {
 		this.avaliacao = new Avaliacao();
 		avaliacao.setDataEvento(new DataEvento());
 		criarOuEditar = true;
+//		setAvaliacaoVazia(false);
 		fachada.initAvaliacoes();
 	}
 	
@@ -102,6 +114,7 @@ public class AvaliacaoBean {
 			avaliacaoParaExclusao = null;
 			if((fachada.getAvaliacoes().size()==1) && (fachada.getTurma().isCalcularMediaAutomaticamente())){
 				fachada.getTurma().setCalcularMediaAutomaticamente(false);
+				setAvaliacaoVazia(true);
 				fachada.atualizaTurma();
 			}
 		}
@@ -121,6 +134,7 @@ public class AvaliacaoBean {
 				avaliacao = new Avaliacao();
 				avaliacao.setDataEvento(new DataEvento());
 				turmaAtual.setCalcularMediaAutomaticamente(true);
+				setAvaliacaoVazia(false);
 			}
 			else{
 				FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR,"Número máximo de avaliações atingido.",null);

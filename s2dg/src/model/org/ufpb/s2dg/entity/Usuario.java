@@ -30,6 +30,7 @@ public class Usuario implements Serializable {
 	private String email;
 	private String pergunta;
 	private String resposta;
+	private String rg;
 
 	public Usuario() {
 	}
@@ -39,7 +40,7 @@ public class Usuario implements Serializable {
 	}
 
 	public Usuario(long id, Aluno aluno, Professor professor, byte[] senha,
-			String nome, String cpf, Set<Role> roles) {
+			String nome, String cpf, Set<Role> roles, String rg) {
 		this.id = id;
 		this.aluno = aluno;
 		this.professor = professor;
@@ -47,6 +48,7 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 		this.cpf = cpf;
 		this.roles = roles;
+		this.rg = rg;
 	}
 
 	@Id
@@ -139,6 +141,15 @@ public class Usuario implements Serializable {
 
 	public String getResposta() {
 		return resposta;
+	}
+
+	@Column(name="rg")
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
 	}
 
 }

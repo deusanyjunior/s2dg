@@ -183,7 +183,7 @@ public class MatriculaBean {
 		}
 	}
 
-	public void fazMatricula() {
+	public String fazMatricula(MenuDiscenteAction menuDiscenteAction) {
 		if(isCoRequisitosPresentes()) {
 			if(isCreditosCorretos()) {
 				if(!isChoqueDeHorario()) {
@@ -205,10 +205,12 @@ public class MatriculaBean {
 						fachada.initTurmasMatriculadas();
 						temporario.clear();
 						geraTurmasAptasPorDisciplina();
+						menuDiscenteAction.setId_Menu(3);
 					}
 				}
 			}
 		}
+		return "/home.seam";
 	}
 
 	private boolean isCoRequisitosPresentes() {

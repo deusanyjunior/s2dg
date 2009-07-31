@@ -26,4 +26,13 @@
  </PROCESS-ITEM>
  <PROCESS-ITEM NAME="rules:#matricula.xhtml" PATH="/matricula.xhtml"
   SHAPE="240,257,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules::3" SHAPE="32,353,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::3" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT ID="paginahorario::#paginahorario.xhtml"
+    NAME="output" PATH="/paginahorario.xhtml"
+    TARGET="rules:#paginahorario.xhtml" TITLE="paginahorario" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#paginahorario.xhtml"
+  PATH="/paginahorario.xhtml" SHAPE="240,369,0,0" model-entity="JSFProcessGroup"/>
 </PROCESS>

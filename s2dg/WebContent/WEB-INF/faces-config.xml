@@ -20,6 +20,12 @@
    <to-view-id>/matricula.xhtml</to-view-id>
   </navigation-case>
  </navigation-rule>
+ <navigation-rule>
+  <navigation-case>
+   <from-outcome>paginahorario</from-outcome>
+   <to-view-id>/paginahorario.xhtml</to-view-id>
+  </navigation-case>
+ </navigation-rule>
  <application>
   <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
   <locale-config>

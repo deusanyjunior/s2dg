@@ -11,7 +11,7 @@
 	<rich:panel styleClass="border_zero">
 		<h:form id="form_avaliacoes">
 			<rich:panel styleClass="border_zero" id="tabela_avaliacoes">
-				<h:message infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" for="checkboxmedia"  />
+				<h:message infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" for="checkboxmedia" /> 
 				<br/>
 				<br/>
 				<rich:dataTable var="alunoTurma"
@@ -94,9 +94,9 @@
 				value="Salvar"
 				action="#{alunoTurmasBean.atualizaAlunoTurmas}"
 				reRender="tabela_avaliacoes" />
-			
+				
 			 <a4j:commandButton action="#{pdfAction.geraPdf('Relatorio_de_Notas.pdf', alunoTurmasBean.alunoTurmas)}" value="Gerar Relatorio" styleClass="botao_salvar"/>
-			
+		
 		</h:form>
 		<br />
 		<br />

@@ -26,6 +26,14 @@ public class Curriculo implements Serializable {
 	private Set<Disciplina> disciplinas;
 	private int minimoCreditos;
 	private int maximoCreditos;
+	private String numero;
+	private int minimoCreditosCurriculo;
+	private int minimoDisciplinas;
+	private int maximoTrancamentosParciais;
+	private int minimoSemestres;
+	private int maximoSemestres;
+	private int trancamentosTotais;
+	private int matriculaInstitucional;
 
 	public Curriculo() {
 	}
@@ -35,13 +43,23 @@ public class Curriculo implements Serializable {
 	}
 	
 	public Curriculo(long id, Set<Aluno> alunos, Curso curso, Set<Disciplina> disciplinas,
-			int minimoCreditos, int maximoCreditos) {
+			int minimoCreditos, int maximoCreditos, String numero, int minimoCreditosCurriculo,
+			int minimoDisciplinas, int maximoTrancamentosParciais, int minimoSemestres, int maximoSemestres,
+			int trancamentosTotais, int matriculaInstitucional) {
 		this.id = id;
 		this.alunos = alunos;
 		this.curso = curso;
 		this.disciplinas = disciplinas;
 		this.minimoCreditos = minimoCreditos;
 		this.maximoCreditos = maximoCreditos;
+		this.numero = numero;
+		this.minimoCreditosCurriculo = minimoCreditosCurriculo;
+		this.minimoDisciplinas = minimoDisciplinas;
+		this.maximoTrancamentosParciais = maximoTrancamentosParciais;
+		this.minimoSemestres = minimoSemestres;
+		this.maximoSemestres = maximoSemestres;
+		this.trancamentosTotais = trancamentosTotais;
+		this.matriculaInstitucional = matriculaInstitucional;
 	}
 
 	@Id
@@ -99,6 +117,78 @@ public class Curriculo implements Serializable {
 
 	public void setMaximoCreditos(int maximoCreditos) {
 		this.maximoCreditos = maximoCreditos;
+	}
+
+	@Column(name = "numero")
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	@Column(name = "min_creditos_curriculo")
+	public int getMinimoCreditosCurriculo() {
+		return minimoCreditosCurriculo;
+	}
+
+	public void setMinimoCreditosCurriculo(int minimoCreditosCurriculo) {
+		this.minimoCreditosCurriculo = minimoCreditosCurriculo;
+	}
+
+	@Column(name = "min_disciplinas")
+	public int getMinimoDisciplinas() {
+		return minimoDisciplinas;
+	}
+
+	public void setMinimoDisciplinas(int minimoDisciplinas) {
+		this.minimoDisciplinas = minimoDisciplinas;
+	}
+
+	@Column(name = "max_trancamento_parcial")
+	public int getMaximoTrancamentosParciais() {
+		return maximoTrancamentosParciais;
+	}
+
+	public void setMaximoTrancamentosParciais(int maximoTrancamentosParciais) {
+		this.maximoTrancamentosParciais = maximoTrancamentosParciais;
+	}
+
+	@Column(name = "min_semestres")
+	public int getMinimoSemestres() {
+		return minimoSemestres;
+	}
+
+	public void setMinimoSemestres(int minimoSemestres) {
+		this.minimoSemestres = minimoSemestres;
+	}
+
+	@Column(name = "max_semestres")
+	public int getMaximoSemestres() {
+		return maximoSemestres;
+	}
+
+	public void setMaximoSemestres(int maximoSemestres) {
+		this.maximoSemestres = maximoSemestres;
+	}
+
+	@Column(name = "trancamentos_totais")
+	public int getTrancamentosTotais() {
+		return trancamentosTotais;
+	}
+
+	public void setTrancamentosTotais(int trancamentosTotais) {
+		this.trancamentosTotais = trancamentosTotais;
+	}
+
+	@Column(name = "matricula_institucional")
+	public int getMatriculaInstitucional() {
+		return matriculaInstitucional;
+	}
+
+	public void setMatriculaInstitucional(int matriculaInstitucional) {
+		this.matriculaInstitucional = matriculaInstitucional;
 	}
 
 }

@@ -18,6 +18,8 @@ public class Curso implements Serializable {
 	private Set<Curriculo> curriculos;
 	private Set<Oferta> ofertas;
 	private String nome;
+	private String codigo;
+	private String cur_ato_criacao;
 	
 	public Curso() {
 	}
@@ -26,11 +28,13 @@ public class Curso implements Serializable {
 		this.id = id;
 	}
 	
-	public Curso(long id, Set<Curriculo> curriculos, Set<Oferta> ofertas, String nome) {
+	public Curso(long id, Set<Curriculo> curriculos, Set<Oferta> ofertas, String nome, String codigo, String cur_ato_criacao) {
 		this.id = id;
 		this.curriculos = curriculos;
 		this.ofertas = ofertas;
 		this.nome = nome;
+		this.codigo = codigo;
+		this.cur_ato_criacao = cur_ato_criacao;
 	}
 
 	@Id
@@ -69,5 +73,23 @@ public class Curso implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	@Column(name = "codigo", length = 9)
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
 	
+	@Column(name = "cur_ato_criacao", length = 100)
+	public String getCur_ato_criacao() {
+		return cur_ato_criacao;
+	}
+
+	public void setCur_ato_criacao(String cur_ato_criacao) {
+		this.cur_ato_criacao = cur_ato_criacao;
+	}
+
+
 }

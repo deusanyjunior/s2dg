@@ -13,6 +13,7 @@ import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Disciplina;
 import org.ufpb.s2dg.entity.Sala;
 import org.ufpb.s2dg.entity.Turma;
+import org.ufpb.s2dg.entity.AlunoTurma.Situacao;
 
 @Name("turmasMatriculadasBean")
 @Scope(ScopeType.SESSION)
@@ -23,13 +24,13 @@ public class TurmasMatriculadasBean {
 	
 	@In
 	Fachada fachada;
-	
+
 	@In
 	MatriculaBean matriculaBean;
 	
 	@In
 	PDFAction pdfAction;
-	
+		
 	public void init() {
 		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
 		if(ats != null) {
@@ -60,14 +61,62 @@ public class TurmasMatriculadasBean {
 		this.alunoTurmas = alunoTurmas;
 	}
 	
-	public int cargaHoraria(int creditos) {
+	public int geraCreditosIntegralizados(){
+		int creditosIntegralizados = 0;
+		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
+		if(ats != null){
+			for(int i=0; i < ats.size(); i++){
+				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) 
+						|| (ats.get(i).getSituacao()==Situacao.REPROVADO_POR_MEDIA)){
+					creditosIntegralizados += ats.get(i).getTurma().getDisciplina().getCreditos();
+				}
+			}
+		}
+		return creditosIntegralizados;
+	}
+	public float geraCRE(){
+		float somaMedias = 0;
+		float somaCreditos = (float)geraCreditosIntegralizados();
+		
+		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
+		if(ats != null){
+			for(int i=0; i < ats.size(); i++){
+				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) 
+						|| (ats.get(i).getSituacao()==Situacao.REPROVADO_POR_MEDIA)){
+					somaMedias += (ats.get(i).getTurma().getDisciplina().getCreditos())*(ats.get(i).getMedia());
+				}	
+			}
+		}
+		return (somaMedias/somaCreditos);
+	}
+		public int cargaHoraria(int creditos) {
 		return creditos*15;
 	}
 	
 	public List<Sala> getSalasDoBanco(long id) {
-		return fachada.getSalaDoBanco(id);
+		return fachada.getSalaDoBanco(id);}
+	
+	public float geraMedia(AlunoTurma alunoTurma){
+		if((alunoTurma.getSituacao()==Situacao.APROVADO) ||( alunoTurma.getSituacao()==Situacao.DISPENSADO) 
+			|| (alunoTurma.getSituacao()==Situacao.REPROVADO_POR_MEDIA)){
+			return alunoTurma.getMedia();
+		}
+		return 0;
 	}
 	
+	public int geraTrancamentosParciais(){
+		int trancamentosParciais = 0;
+		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
+		if(ats != null){
+			for(int i=0; i < ats.size(); i++){
+				if(ats.get(i).getSituacao()==Situacao.TRANCADO){
+					trancamentosParciais++;
+				}
+			}
+			return trancamentosParciais;
+		}
+		return trancamentosParciais;
+	}
 	public void exportarPDF() {
 		ArrayList<HashMap<String, String>> mapas = new ArrayList<HashMap<String, String>>();
 		//Numero - Codigo - Nome da disciplina - Creditos - CargaHoraria - Horarios - Sala
@@ -87,4 +136,6 @@ public class TurmasMatriculadasBean {
 		
 		pdfAction.geraPdf("Horario Individual", mapas);
 	}
+	
+
 }

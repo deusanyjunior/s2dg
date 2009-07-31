@@ -49,6 +49,16 @@
 		</center>
 	</div>
 	
+	
+	<br/>
+	<center>
+	<h:form>
+	<h:commandLink disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
+		value="Efetuar Matrícula" action="matricula" />
+	<br/>	
+	<h:commandLink value="Consultar Historico" action="historico" />	
+	</h:form>
+	</center>
 	<br/>
 </ui:define>
 			

@@ -95,7 +95,7 @@
 				action="#{alunoTurmasBean.atualizaAlunoTurmas}"
 				reRender="tabela_avaliacoes" />
 				
-			 <a4j:commandButton action="#{pdfAction.geraPdf('Relatorio_de_Notas.pdf', alunoTurmasBean.alunoTurmas)}" value="Gerar Relatorio" styleClass="botao_salvar"/>
+			  <a4j:commandButton action="#{pdfAction.geraPdf('Relatorio_de_Notas.pdf', alunoTurmasBean.alunoTurmas)}" value="Gerar Relatorio" styleClass="botao_salvar" type="submit"/>
 		
 		</h:form>
 		<br />

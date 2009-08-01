@@ -11,6 +11,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Disciplina;
+import org.ufpb.s2dg.entity.Horario;
 import org.ufpb.s2dg.entity.Sala;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.AlunoTurma.Situacao;
@@ -118,23 +119,43 @@ public class TurmasMatriculadasBean {
 		return trancamentosParciais;
 	}
 	public void exportarPDF() {
+		System.out.println("***********************************geraTabelaHoratio");
 		ArrayList<HashMap<String, String>> mapas = new ArrayList<HashMap<String, String>>();
 		//Numero - Codigo - Nome da disciplina - Creditos - CargaHoraria - Horarios - Sala
 		for (AlunoTurma at : alunoTurmas) {
 			HashMap<String, String> mapa = new HashMap<String, String>();
 			mapa.put("Numero", at.getTurma().getNumero());
+			
 			mapa.put("Codigo", at.getTurma().getDisciplina().getCodigo());
+			
 			mapa.put("Nome", at.getTurma().getDisciplina().getNome());
-			mapa.put("Horarios", matriculaBean.getHorariosOrdenados(at.getTurma().getHorarios()).toString());
-			mapa.put("Sala", getSalasDoBanco(at.getTurma().getId()).toString());
+
+			String horarios = "";
+			for (Horario h : matriculaBean.getHorariosOrdenados(at.getTurma().getHorarios())) {
+				horarios += h.toString()+ "\n";
+			}
+			
+			mapa.put("Horarios", horarios);
+			
+			String salas = "";
+			
+			for (Sala s : getSalasDoBanco(at.getTurma().getId())) {
+				salas += s.getSala() + "\n";
+			}
+			
+			mapa.put("Sala", salas);
+			mapa.put("Turma", at.getTurma().getNumero());
+
 			int creditos = at.getTurma().getDisciplina().getCreditos();
 			mapa.put("Creditos", String.valueOf(creditos));
+			System.out.println(at.getTurma().getNumero());
 			mapa.put("Carga Horaria", String.valueOf(creditos*15));
+			System.out.println(at.getTurma().getNumero());
 			
 			mapas.add(mapa);
 		}
 		
-		pdfAction.geraPdf("Horario Individual", mapas);
+		pdfAction.geraPdf("Horario_Individual.pdf", mapas);
 	}
 	
 

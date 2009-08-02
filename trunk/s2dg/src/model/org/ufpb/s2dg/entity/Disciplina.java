@@ -21,7 +21,9 @@ import org.hibernate.validator.NotNull;
 @Entity
 @Table(name = "disciplina")
 public class Disciplina implements Serializable {
-
+	
+	public enum Tipo {OBRIGATORIA, OPTATIVA,COMPLEMENTAR};
+	
 	private static final long serialVersionUID = 1L;
 	private String codigo;
 	private String nome;
@@ -30,6 +32,7 @@ public class Disciplina implements Serializable {
 	private Set<Curriculo> curriculos;
 	private Set<Disciplina> pre_requisitos;
 	private Set<Disciplina> co_requisitos;
+	private Tipo tipo;
 
 	public Disciplina() {
 	}
@@ -41,7 +44,8 @@ public class Disciplina implements Serializable {
 	}
 
 	public Disciplina(String codigo, String nome, int creditos,
-			Set<Turma> turmas, Set<Curriculo> curriculos, Set<Disciplina> pre_requisitos, Set<Disciplina> co_requisitos) {
+			Set<Turma> turmas, Set<Curriculo> curriculos, Set<Disciplina> pre_requisitos, Set<Disciplina> co_requisitos,
+			Tipo tipo) {
 		this.codigo = codigo;
 		this.nome = nome;
 		this.creditos = creditos;
@@ -49,6 +53,7 @@ public class Disciplina implements Serializable {
 		this.curriculos = curriculos;
 		this.pre_requisitos = pre_requisitos;
 		this.co_requisitos = co_requisitos;
+		this.tipo = tipo;
 	}
 
 	@Id
@@ -124,6 +129,15 @@ public class Disciplina implements Serializable {
 
 	public void setCo_requisitos(Set<Disciplina> co_requisitos) {
 		this.co_requisitos = co_requisitos;
+	}
+	
+	@Column(name = "tipo")
+	public Tipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
 	}
 
 }

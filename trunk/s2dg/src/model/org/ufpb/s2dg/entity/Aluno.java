@@ -38,6 +38,7 @@ public class Aluno implements Serializable {
 	private Curriculo curriculo;
 	private SituacaoAcademica situacaoAcademica;
 	private FormaIngresso formaIngresso;
+	private Set<DisciplinaVestibular> disciplinasVestibular = new HashSet<DisciplinaVestibular>(0);
 
 	public Aluno() {
 		situacaoAcademica = SituacaoAcademica.REGULAR;
@@ -49,13 +50,14 @@ public class Aluno implements Serializable {
 
 	public Aluno(String matricula, Usuario usuario,
 			Set<AlunoTurma> alunoTurmas, Curriculo curriculo, SituacaoAcademica situacaoAcademica,
-			FormaIngresso formaIngresso) {
+			FormaIngresso formaIngresso, Set<DisciplinaVestibular> disciplinasVestibular) {
 		this.matricula = matricula;
 		this.alunoTurmas = alunoTurmas;
 		this.usuario = usuario;
 		this.curriculo = curriculo;
 		this.situacaoAcademica = situacaoAcademica;
 		this.formaIngresso = formaIngresso;
+		this.disciplinasVestibular = disciplinasVestibular;
 	}
 
 	@Id
@@ -79,6 +81,14 @@ public class Aluno implements Serializable {
 		this.alunoTurmas = alunoTurmas;
 	}
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "aluno")
+	public Set<DisciplinaVestibular> disciplinasVestibular() {
+		return disciplinasVestibular;
+	}
+	
+	public void setDisciplinasVestibular(Set<DisciplinaVestibular> disciplinasVestibular) {
+		this.disciplinasVestibular = disciplinasVestibular;
+	}
 	@OneToOne(mappedBy="aluno")
 	public Usuario getUsuario() {
 		return usuario;
@@ -97,7 +107,7 @@ public class Aluno implements Serializable {
 	public void setCurriculo(Curriculo curriculo) {
 		this.curriculo = curriculo;
 	}
-
+	
 	@Column(name = "situacao_academica")
 	public SituacaoAcademica getSituacaoAcademica() {
 		return situacaoAcademica;
@@ -116,4 +126,5 @@ public class Aluno implements Serializable {
 		this.formaIngresso = formaIngresso;
 	}
 
+	
 }

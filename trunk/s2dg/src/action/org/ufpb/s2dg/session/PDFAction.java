@@ -10,17 +10,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.ServletContext;
-
-
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.faces.FacesContext;
 import org.ufpb.s2dg.entity.AlunoTurma;
+import org.ufpb.s2dg.entity.AlunoTurmaAvaliacao;
 import org.ufpb.s2dg.entity.Avaliacao;
 
 import com.lowagie.text.BadElementException;
@@ -46,11 +45,11 @@ import com.lowagie.text.pdf.PdfWriter;
 @Scope(ScopeType.PAGE)
 public class PDFAction {
 	
-	//@In(create=true)
-	//AlunoTurmaAvaliacoesBean alunoTurmaAvaliacao;
+	@In(create=true)
+	AlunoTurmaAvaliacoesBean alunoTurmaAvaliacoesBean;
 	
-	//@In
-	//AvaliacoesBean avaliacoesBean;
+	@In
+    FacesContext facesContext;
 	
 	private Document doc;
 	
@@ -58,7 +57,7 @@ public class PDFAction {
 		
 	}
 
-	public void geraPdf(String nome, List<AlunoTurma> list){
+	public void geraPdfDiario(String nome, List<AlunoTurma> list, List<Avaliacao> avaliacoes){		
 		Rectangle pageSize = new Rectangle(PageSize.A4);
  
 		pageSize.setBackgroundColor(Color.WHITE);
@@ -74,16 +73,14 @@ public class PDFAction {
 		}
 
 		this.doc.open();
-		
-		addParagrafo("Teste");
-		
-		//geraTabelaRelatorioDeNotas(list, avaliacoesBean.getAvaliacoes());
+				
+		geraTabelaRelatorioDeNotas(list, avaliacoes);
         
 		//geraCabecalho();
 		
-		addParagrafo("Teste");
-		
         this.doc.close(); 
+        
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Diário de Notas impresso com sucesso!",null));
 	}
 	
 	public void geraPdf(String nome, ArrayList<HashMap<String, String>> informacoes){
@@ -109,6 +106,8 @@ public class PDFAction {
 		//geraCabecalho();
 
         this.doc.close(); 
+        
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Horário Individual impresso com sucesso!",null));
 	}
 	
 	public void addParagrafo(String text){
@@ -269,26 +268,27 @@ public class PDFAction {
 	
 	public void geraTabelaRelatorioDeNotas(List<AlunoTurma> list, List<Avaliacao> avaliacoes){
 		
-        Font f1 = new Font(); f1.setStyle(Font.BOLD); f1.setSize(15);
-        Font f2 = new Font(); f2.setStyle(Font.ITALIC); f2.setSize(13);
+        Font f1 = new Font(); f1.setStyle(Font.BOLD); f1.setSize(12);
+        Font f2 = new Font(); f2.setStyle(Font.ITALIC); f2.setSize(8);
         
-        int size = 3 ;
+        int size = 3 + avaliacoes.size();
         
         System.out.println("***********************************"+size);
 
+        PdfPTable titulo = new PdfPTable(1);
         PdfPTable table = new PdfPTable(size);
         
-        PdfPCell [] cell = new PdfPCell[size];
+        PdfPCell [] cell = new PdfPCell[size+1];
         
         cell[0] = new PdfPCell(new Paragraph("Relatorio de Notas", f1));
-        cell[1] = new PdfPCell(new Paragraph("Nome", f2));
+        cell[1] = new PdfPCell(new Paragraph("Aluno", f2));
         cell[2] = new PdfPCell(new Paragraph("Faltas", f2));
         
-        cell[0].setBackgroundColor(Color.ORANGE);
+        cell[0].setBackgroundColor(Color.BLUE);
         cell[0].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell[0].setColspan(7);
         cell[0].setBorderWidthBottom(1);
-        cell[0].setBorderWidthTop(1);      
+        cell[0].setBorderWidthTop(1);    
         
         cell[1].setBackgroundColor(Color.LIGHT_GRAY);
         cell[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -296,40 +296,54 @@ public class PDFAction {
         cell[2].setBackgroundColor(Color.LIGHT_GRAY);
         cell[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         
-        /*
-        for(int i = 3; i < avaliacoes.size(); i++){
-        	Avaliacao avaliacao = avaliacoes.get(i-3);
-        	
-        	cell[i] = new PdfPCell(new Paragraph(avaliacao.getNome(), f2));
-        	cell[i].setBackgroundColor(Color.LIGHT_GRAY);
-            cell[i].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        }*/
-        /*
-        cell[size - 1] = new PdfPCell(new Paragraph("Media", f2));
-
-        cell[size - 1].setBackgroundColor(Color.LIGHT_GRAY);
-        cell[size - 1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        */
         
-        for(int i = 0; i < cell.length; i++){
-        	System.out.println("***********************************"+i);
+        for(int i = 0; i < size - 3; i++){
+        	Avaliacao avaliacao = avaliacoes.get(i);
+        	
+        	cell[i+3] = new PdfPCell(new Paragraph(avaliacao.getNome(), f2));
+        	cell[i+3].setBackgroundColor(Color.LIGHT_GRAY);
+            cell[i+3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            
+            System.out.println("¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬*****i: "+i);
+        }
+        
+        cell[cell.length - 1] = new PdfPCell(new Paragraph("Media", f2));
+
+        cell[cell.length - 1].setBackgroundColor(Color.LIGHT_GRAY);
+        cell[cell.length - 1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+
+        titulo.addCell(cell[0]);
+        for(int i = 1; i < cell.length; i++){
+        	System.out.println("¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬"+i);
         	table.addCell(cell[i]);
         }
 
-        /*
+        
         for(AlunoTurma aluno : list){
-            table.addCell(aluno.getAluno().getUsuario().getNome());
-            table.addCell(aluno.getFaltas()+"");
+        	cell[1] = new PdfPCell(new Paragraph(aluno.getAluno().getUsuario().getNome(), f2));
+        	cell[2] = new PdfPCell(new Paragraph(aluno.getFaltas()+"", f2));
+        	
+        	cell[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        	cell[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        	
+            table.addCell(cell[1]);
+            table.addCell(cell[2]);
             
             for(Avaliacao avaliacao : avaliacoes){
-            	//table.addCell(alunoTurmaAvaliacao.getAlunoTurmaAvaliacao(aluno, avaliacao).getNota()+"");
+            	PdfPCell cell0 = new PdfPCell(new Paragraph(alunoTurmaAvaliacoesBean.getAlunoTurmaAvaliacao(aluno, avaliacao).getNota()+"", f2));
+            	cell0.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            	table.addCell(cell0);
             }
             
-            table.addCell(aluno.getMedia()+"");
+            cell[3] = new PdfPCell(new Paragraph(aluno.getMedia()+"", f2));
+            cell[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            
+            table.addCell(cell[3]);
         }
-        */
+        
         try 
         {
+        	this.doc.add(titulo);
             this.doc.add(table);
         } 
         catch (DocumentException ex) {ex.printStackTrace();}

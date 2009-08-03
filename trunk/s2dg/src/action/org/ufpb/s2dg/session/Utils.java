@@ -1,7 +1,15 @@
 package org.ufpb.s2dg.session;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.ufpb.s2dg.entity.Usuario;
 
@@ -17,7 +25,8 @@ public class Utils {
 		try {
 			MessageDigest digestGen = MessageDigest.getInstance("SHA-1");
 			// Check digests
-			if (!digestGen.isEqual(generateHash(plainPassword), user.getSenha())) {
+			if (!digestGen
+					.isEqual(generateHash(plainPassword), user.getSenha())) {
 				System.out.println("Senha invalida");
 				return false;
 			}
@@ -55,5 +64,29 @@ public class Utils {
 		}
 		return result;
 	}
-	
+
+    public static byte[] getBytesFromFile(File file) throws IOException {
+        InputStream is = new FileInputStream(file);
+    
+        long length = file.length();
+    
+        if (length > Integer.MAX_VALUE) {
+            throw new IOException("O arquivo é muito grande: "+file.getName());
+        }
+        byte[] bytes = new byte[(int)length];
+    
+        int offset = 0;
+        int numRead = 0;
+        while (offset < bytes.length && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
+            offset += numRead;
+        }
+
+        if (offset < bytes.length) {
+            throw new IOException("Não foi possível ler o arquivo completamente: "+file.getName());
+        }
+
+        is.close();
+        return bytes;
+    }
+
 }

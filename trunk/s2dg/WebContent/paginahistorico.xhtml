@@ -9,6 +9,7 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:a4j="http://richfaces.org/a4j">
 
+<h:form>
 	<rich:panel>
 		<f:facet name="header">Historico Escolar</f:facet>
 	
@@ -318,7 +319,7 @@
 					<h:outputText value="HISTORICO EMITIDO PARA SIMPLES CONFERENCIA. NAO VALE COMO DOCUMENTO OFICIAL" />
 
 					<center>
-    					<a4j:commandButton action="#{turmasMatriculadasBean.exportarHistoricoPDF()}" value="Gerar PDF" />
+    					<a4j:commandButton action="#{turmasMatriculadasBean.exportarHistoricoPDF()}" value="Imprimir" />
     				</center>
 
 
@@ -376,4 +377,5 @@
 					<h:outputText value="---------------------------------------------------------------------------"/>
 					<br/>
 					</rich:panel>
+	</h:form>
 </ui:composition>

@@ -23,6 +23,7 @@ import org.ufpb.s2dg.entity.AlunoTurma.Situacao;
 import org.ufpb.s2dg.entity.Disciplina.Tipo;
 import org.ufpb.s2dg.session.persistence.AlunoDAO;
 
+@SuppressWarnings("unused")
 @Name("turmasMatriculadasBean")
 @Scope(ScopeType.SESSION)
 @AutoCreate
@@ -335,19 +336,20 @@ public class TurmasMatriculadasBean {
 		mapaCabecalho.put("Matricula", fachada.getAluno().getMatricula());
 		mapaCabecalho.put("Nome", fachada.getUsuario().getNome());
 		mapaCabecalho.put("Curso", fachada.getAluno().getCurriculo().getCurso().getCodigo());
-		mapaCabecalho.put("Nome", fachada.getAluno().getCurriculo().getCurso().getNome());
+		mapaCabecalho.put("NomeCurso", fachada.getAluno().getCurriculo().getCurso().getNome());
 		mapaCabecalho.put("Curriculo", fachada.getAluno().getCurriculo().getNumero());
 		mapaCabecalho.put("Reconhecimento", fachada.getAluno().getCurriculo().getCurso().getCur_ato_criacao());
 		mapaCabecalho.put("RG", fachada.getUsuario().getRg());
 		mapas.add(mapaCabecalho);
 		
+		List<AlunoTurma> aluno = getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()));
 		//CODIGO - NOME DA DISCIPLINA - CR - CH.- PERIODO - MEDIA -SITUACAO 
 		//Disciplinas Obrigatorias
-		for (AlunoTurma at : alunoTurmas) {
+		for (AlunoTurma at : aluno) {
 			if(at.getTurma().getDisciplina().getTipo()==Tipo.OBRIGATORIA){
 				HashMap<String, String> mapaDisciplinasObrigatorias = new HashMap<String, String>();
-				mapaDisciplinasObrigatorias.put("Codigo", at.getTurma().getNumero());
-				mapaDisciplinasObrigatorias.put("Disciplina", at.getTurma().getDisciplina().getCodigo());
+				mapaDisciplinasObrigatorias.put("Codigo", at.getTurma().getDisciplina().getCodigo());
+				mapaDisciplinasObrigatorias.put("Disciplina", at.getTurma().getDisciplina().getNome());
 				int creditos = at.getTurma().getDisciplina().getCreditos();
 				mapaDisciplinasObrigatorias.put("Creditos", String.valueOf(creditos));
 				mapaDisciplinasObrigatorias.put("Carga Horaria", String.valueOf(creditos*15));			
@@ -360,11 +362,11 @@ public class TurmasMatriculadasBean {
 		}
 		
 		//Disciplinas Optativas
-		for (AlunoTurma at : alunoTurmas) {
+		for (AlunoTurma at : aluno) {
 			if(at.getTurma().getDisciplina().getTipo()==Tipo.OPTATIVA){
 				HashMap<String, String> mapaDisciplinasOptativas = new HashMap<String, String>();
-				mapaDisciplinasOptativas.put("Codigo", at.getTurma().getNumero());
-				mapaDisciplinasOptativas.put("Disciplina", at.getTurma().getDisciplina().getCodigo());
+				mapaDisciplinasOptativas.put("Codigo", at.getTurma().getDisciplina().getCodigo());
+				mapaDisciplinasOptativas.put("Disciplina", at.getTurma().getDisciplina().getNome());
 				int creditos = at.getTurma().getDisciplina().getCreditos();
 				mapaDisciplinasOptativas.put("Creditos", String.valueOf(creditos));
 				mapaDisciplinasOptativas.put("Carga Horaria", String.valueOf(creditos*15));			
@@ -377,11 +379,11 @@ public class TurmasMatriculadasBean {
 		}
 		
 		//Disciplinas Complementares
-		for (AlunoTurma at : alunoTurmas) {
+		for (AlunoTurma at : aluno) {
 			if(at.getTurma().getDisciplina().getTipo()==Tipo.COMPLEMENTAR){
 				HashMap<String, String> mapaDisciplinasComplementares = new HashMap<String, String>();
-				mapaDisciplinasComplementares.put("Codigo", at.getTurma().getNumero());
-				mapaDisciplinasComplementares.put("Disciplina", at.getTurma().getDisciplina().getCodigo());
+				mapaDisciplinasComplementares.put("Codigo", at.getTurma().getDisciplina().getCodigo());
+				mapaDisciplinasComplementares.put("Disciplina", at.getTurma().getDisciplina().getNome());
 				int creditos = at.getTurma().getDisciplina().getCreditos();
 				mapaDisciplinasComplementares.put("Creditos", String.valueOf(creditos));
 				mapaDisciplinasComplementares.put("Carga Horaria", String.valueOf(creditos*15));			
@@ -397,9 +399,9 @@ public class TurmasMatriculadasBean {
 		mapaIntegralizacaoObrigatoria.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo())+"");
 		mapaIntegralizacaoObrigatoria.put("Integralizada", cargaHoraria(geraCreditosIntegralizados())+"");
 		mapaIntegralizacaoObrigatoria.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoObrigatoria.put("Integralizado", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
+		mapaIntegralizacaoObrigatoria.put("IntegralizadoCredito", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
 		mapaIntegralizacaoObrigatoria.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinas()+"");
-		mapaIntegralizacaoObrigatoria.put("Integralizado", alunoTurmas.size()+"");
+		mapaIntegralizacaoObrigatoria.put("IntegralizadoDisciplina", alunoTurmas.size()+"");
 		mapas.add(mapaIntegralizacaoObrigatoria);
 		
 		//Integralizacoes Disciplina Optativa
@@ -482,8 +484,8 @@ public class TurmasMatriculadasBean {
 		if(fachada.getAluno().getFormaIngresso()==FormaIngresso.VESTIBULAR){
 			
 		}
-		
-		//pdfAction.geraPdfHistorico("Historico Escolar", mapas);
+		System.out.println("¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬" + mapas.size());
+		pdfAction.geraPdfHistorico("Historico_Escolar.pdf", mapas);
 	}
 
 }

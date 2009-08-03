@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
@@ -42,11 +45,11 @@ public class MatriculaBean {
 	List<DisciplinaTurmas> turmasAptasPorDisciplina;
 	List<DisciplinaTurmas> temporario = new ArrayList<DisciplinaTurmas>();
 	Aluno aluno;
-	boolean sucesso;
-	String msg;
 	
 	@In
 	Fachada fachada;
+	@In
+	FacesContext facesContext;
 	@Logger
 	private Log log;
 	
@@ -200,8 +203,8 @@ public class MatriculaBean {
 									turma.getNumero(),turma.getId());
 						}
 						turmasSelecionadas.clear();
-						sucesso = true;
-						msg = "Matrícula realizada com sucesso.";
+						String msg = "Matrícula realizada com sucesso.";
+						facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,msg, null));
 						fachada.initTurmasMatriculadas();
 						temporario.clear();
 						geraTurmasAptasPorDisciplina();
@@ -228,8 +231,8 @@ public class MatriculaBean {
 							}
 						}
 						else if(i == turmasSelecionadas.size()-1) {
-							sucesso = false;
-							msg = "Você deve selecionar as disciplinas "+d.getNome()+" e "+coReq.getNome()+" conjuntamente, pois possuem co-requisitos entre si";
+							String msg = "Você deve selecionar as disciplinas "+d.getNome()+" e "+coReq.getNome()+" conjuntamente, pois possuem co-requisitos entre si";
+							facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,msg, null));
 							return false;
 						}
 					}
@@ -246,8 +249,8 @@ public class MatriculaBean {
 			Turma turma = turmasSelecionadas.get(i);
 			ofertas.add(fachada.getOferta(aluno.getCurriculo(),turma));
 			if(ofertas.get(i).getNumeroDeVagasDisponiveis() == 0) {
-				sucesso = false;
-				msg = turma.getDisciplina().getNome()+", Turma "+turma.getNumero()+" não possui mais vagas.";
+				String msg = turma.getDisciplina().getNome()+", Turma "+turma.getNumero()+" não possui mais vagas.";
+				facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,msg, null));
 				return false;
 			}
 		}
@@ -281,8 +284,8 @@ public class MatriculaBean {
 				for(Horario h1: horario1) {
 					for(Horario h2: horario2) {
 						if(h1.temChoque(h2)) {
-							sucesso = false;
-							msg = t1.getDisciplina().getNome()+", Turma "+t1.getNumero()+" possui choque de horário com "+t2.getDisciplina().getNome()+", Turma "+t2.getNumero()+", matriculada anteriormente.";
+							String msg = t1.getDisciplina().getNome()+", Turma "+t1.getNumero()+" possui choque de horário com "+t2.getDisciplina().getNome()+", Turma "+t2.getNumero()+", matriculada anteriormente.";
+							facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,msg, null));
 							return true;
 						}
 					}
@@ -298,8 +301,8 @@ public class MatriculaBean {
 					for(Horario h1: horario1) {
 						for(Horario h2: horario2) {
 							if(h1.temChoque(h2)) {
-								sucesso = false;
-								msg = t1.getDisciplina().getNome()+", Turma "+t1.getNumero()+" possui choque de horário com "+t2.getDisciplina().getNome()+", Turma "+t2.getNumero()+".";
+								String msg = t1.getDisciplina().getNome()+", Turma "+t1.getNumero()+" possui choque de horário com "+t2.getDisciplina().getNome()+", Turma "+t2.getNumero()+".";
+								facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,msg, null));
 								return true;
 							}
 						}
@@ -339,26 +342,26 @@ public class MatriculaBean {
 					atual += turma.getDisciplina().getCreditos();
 				}
 				if(atual < minimo) {
-					sucesso = false;
-					msg = "Quantidade de créditos ("+atual+") está abaixo do mínimo ("+minimo+").";
+					String msg = "Quantidade de créditos ("+atual+") está abaixo do mínimo ("+minimo+").";
+					facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,msg, null));
 					return false;
 				}
 				else if(atual > maximo) {
-					sucesso = false;
-					msg = "Quantidade de créditos ("+atual+") está acima do máximo ("+maximo+").";
+					String msg = "Quantidade de créditos ("+atual+") está acima do máximo ("+maximo+").";
+					facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,msg, null));
 					return false;
 				}
 				else
 					return true;
 			}
 			else {
-				sucesso = false;
-				msg = "Nenhuma turma selecionada.";
+				String msg = "Nenhuma turma selecionada.";
+				facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,msg, null));
 				return false;
 			}
 		}
-		sucesso = false;
-		msg = "Currículo não encontrado.";
+		String msg = "Currículo não encontrado.";
+		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,msg, null));
 		return false;
 	}
 
@@ -391,22 +394,6 @@ public class MatriculaBean {
 		this.turmasAptas = turmasAptas;
 	}
 
-	public boolean isSucesso() {
-		return sucesso;
-	}
-
-	public void setSucesso(boolean sucesso) {
-		this.sucesso = sucesso;
-	}
-
-	public String getMsg() {
-		return msg;
-	}
-
-	public void setMsg(String msg) {
-		this.msg = msg;
-	}
-
 	public List<Turma> getTurmasSelecionadas() {
 		return turmasSelecionadas;
 	}
@@ -432,11 +419,16 @@ public class MatriculaBean {
 	
 	public void selecionaTurma(Turma turma, DisciplinaTurmas dts) {
 		turmasSelecionadas.add(turma);
+		if(isChoqueDeHorario()) {
+			turmasSelecionadas.remove(turma);
+			return;
+		}
 		for(Turma t : dts.getTurmas()) {
 			turmasAptas.remove(t);
 		}
 		temporario.add(dts);
 		geraTurmasAptasPorDisciplina();
+		
 	}
 	
 	public void deselecionaTurma(Turma turma) {

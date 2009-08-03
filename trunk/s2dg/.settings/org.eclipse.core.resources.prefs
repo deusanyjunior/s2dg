@@ -1,4 +1,4 @@
-#Mon Jul 20 11:18:59 GMT-03:00 2009
+#Mon Aug 03 11:18:18 GMT-03:00 2009
 eclipse.preferences.version=1
 encoding//WebContent/avaliacoes_discente.xhtml=UTF-8
 encoding//WebContent/avaliacoes_docente.xhtml=UTF-8
@@ -13,5 +13,6 @@ encoding//WebContent/login.xhtml=UTF-8
 encoding//WebContent/matricula.xhtml=UTF-8
 encoding//WebContent/menu_discente.xhtml=UTF-8
 encoding//WebContent/msg_remover_avaliacao.xhtml=UTF-8
+encoding//WebContent/paginahorario.xhtml=UTF-8
 encoding//WebContent/plano_de_curso.xhtml=UTF-8
 encoding/<project>=UTF-8

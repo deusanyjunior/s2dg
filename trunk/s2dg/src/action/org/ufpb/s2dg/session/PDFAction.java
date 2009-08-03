@@ -241,7 +241,7 @@ public class PDFAction {
 			
 			image.scaleAbsolute(31, 45);
 			table = new PdfPTable(2);
-			float [] proporcao = new float[]{1f, 4f};
+			float [] proporcao = new float[]{1f, 2f};
 			table.setWidths(proporcao);
 			
 		} catch (BadElementException e) {
@@ -254,13 +254,14 @@ public class PDFAction {
 			e.printStackTrace();
 		}
 		Font f1 = new Font(); f1.setStyle(Font.NORMAL); f1.setSize(8);
+		Font f2 = new Font(); f2.setStyle(Font.NORMAL); f2.setSize(10);
 		
 		PdfPCell cell0 = new PdfPCell(image);
-        PdfPCell cell1 = new PdfPCell(new Paragraph("UNIVERISIDADE FEDERAL DA PARAÍBA\n\n"
-        		+ titulo, f1));
+        PdfPCell cell1 = new PdfPCell(new Paragraph("UNIVERSIDADE FEDERAL DA PARAÍBA\n\n"
+        		+ titulo, f2));
         
-        cell0.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
-        cell1.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell0.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
+        cell1.setHorizontalAlignment(PdfPCell.ALIGN_LEFT);
         
         cell0.setBorderColor(Color.WHITE);
         cell1.setBorderColor(Color.WHITE);
@@ -268,12 +269,14 @@ public class PDFAction {
         table.addCell(cell0);
 		table.addCell(cell1);
 		
-		
+		table.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 		try 
         {
             this.doc.add(table);
         } 
         catch (DocumentException ex) {ex.printStackTrace();}
+        
+        addParagrafo("\n");
 	}
 	
 	public void geraTabelaHoratio(ArrayList<HashMap<String, String>> informacoes){				

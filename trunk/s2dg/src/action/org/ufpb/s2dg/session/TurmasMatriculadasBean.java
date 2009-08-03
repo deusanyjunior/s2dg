@@ -151,6 +151,46 @@ public class TurmasMatriculadasBean {
 		}
 		return trancamentosParciais;
 	}
+	
+	public List<AlunoTurma> getObrigatoriasOrdenadas(List<AlunoTurma> alunoTurma){
+		
+		List<AlunoTurma> disciplinas = getDisciplinasOrdenadas(alunoTurma);
+		
+		for(int i = 0; i < disciplinas.size(); i++){
+			if(!isDisciplinaObrigatoria(disciplinas.get(i).getTurma().getDisciplina())){
+				disciplinas.remove(i--);
+			}
+		}
+		
+		return disciplinas;
+	}
+	
+	public List<AlunoTurma> getOptativasOrdenadas(List<AlunoTurma> alunoTurma){
+		
+		List<AlunoTurma> disciplinas = getDisciplinasOrdenadas(alunoTurma);
+		
+		for(int i = 0; i < disciplinas.size(); i++){
+			if(!isDisciplinaOptativa(disciplinas.get(i).getTurma().getDisciplina())){
+				disciplinas.remove(i--);
+			}
+		}
+		
+		return disciplinas;
+	}
+	
+	public List<AlunoTurma> getComplementaresOrdenadas(List<AlunoTurma> alunoTurma){
+		
+		List<AlunoTurma> disciplinas = getDisciplinasOrdenadas(alunoTurma);
+		
+		for(int i = 0; i < disciplinas.size(); i++){
+			if(!isDisciplinaComplementar(disciplinas.get(i).getTurma().getDisciplina())){
+				disciplinas.remove(i--);
+			}
+		}
+		
+		return disciplinas;
+	}
+	
 	public List<AlunoTurma> getDisciplinasOrdenadas(List<AlunoTurma> alunoTurma){
 		ArrayList<AlunoTurma> lista  = new ArrayList<AlunoTurma>(alunoTurma);
 		LinkedList<AlunoTurma> ordenada = new LinkedList<AlunoTurma>();

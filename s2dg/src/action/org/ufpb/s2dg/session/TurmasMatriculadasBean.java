@@ -414,8 +414,11 @@ public class TurmasMatriculadasBean {
 			
 			String salas = "";
 			
-			for (Sala s : getSalasDoBanco(at.getTurma().getId())) {
-				salas += s.getSala() + "\n";
+			List<Sala> salas_list = getSalasDoBanco(at.getTurma().getId());
+			if(salas_list != null) {
+				for (Sala s : salas_list) {
+					salas += s.getSala() + "\n";
+				}
 			}
 			
 			mapa.put("Sala", salas);

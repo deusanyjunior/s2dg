@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,14 +18,11 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
-import org.ufpb.s2dg.entity.AlunoTurmaAvaliacao;
 import org.ufpb.s2dg.entity.Avaliacao;
 import org.ufpb.s2dg.entity.Disciplina.Tipo;
 import org.ufpb.s2dg.session.persistence.AlunoDAO;
 
 import com.lowagie.text.BadElementException;
-import com.lowagie.text.Cell;
-import com.lowagie.text.Chunk;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
@@ -34,14 +30,11 @@ import com.lowagie.text.FontFactory;
 import com.lowagie.text.Image;
 import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
-import com.lowagie.text.Table;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-@SuppressWarnings("unused")
 @Name("pdfAction")
 @AutoCreate
 @Scope(ScopeType.PAGE)
@@ -52,6 +45,10 @@ public class PDFAction {
 	
 	@In
     FacesContext facesContext;
+	
+
+	@In(create=true)
+	ReportGenerator reportGenerator;
 	
 	@In
 	AlunoDAO alunoDAO;
@@ -91,7 +88,15 @@ public class PDFAction {
 		
         this.doc.close(); 
         
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Diário de Notas impresso com sucesso!",null));
+        try {
+        	reportGenerator.generate(nome);
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Diário de Notas impresso com sucesso!",null));
+		} catch (IOException e) {
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Não foi possível imprimir o documento!",null));
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
 	}
 	
 	public void geraPdf(String nome, ArrayList<HashMap<String, String>> informacoes){
@@ -116,8 +121,16 @@ public class PDFAction {
 		//geraCabecalho();
 
         this.doc.close(); 
+
+        try {
+        	reportGenerator.generate(nome);
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Horário Individual impresso com sucesso!",null));
+		} catch (IOException e) {
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Não foi possível imprimir o documento!",null));
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}        
         
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Horário Individual impresso com sucesso!",null));
 	}
 	
 	public void geraPdfHistorico(String nome, ArrayList<HashMap<String, String>> informacoes){
@@ -146,7 +159,14 @@ public class PDFAction {
 
         this.doc.close(); 
         
-        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Horário Individual impresso com sucesso!",null));
+        try {
+        	reportGenerator.generate(nome);
+        	facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Horário Individual impresso com sucesso!",null));
+		} catch (IOException e) {
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Não foi possível imprimir o documento!",null));
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
 	}
 	
 	public void addParagrafo(Paragraph p){
@@ -332,7 +352,9 @@ public class PDFAction {
         Font f1 = new Font(); f1.setStyle(Font.BOLD); f1.setSize(12);
         Font f2 = new Font(); f2.setStyle(Font.ITALIC); f2.setSize(8);
         
-        int size = 3 + avaliacoes.size();
+        int size = 3;
+        if (avaliacoes != null)
+         size = 3 + avaliacoes.size();
         
         System.out.println("***********************************"+size);
 
@@ -390,10 +412,14 @@ public class PDFAction {
             table.addCell(cell[1]);
             table.addCell(cell[2]);
             
+            if (avaliacoes != null) {
+            
             for(Avaliacao avaliacao : avaliacoes){
             	PdfPCell cell0 = new PdfPCell(new Paragraph(alunoTurmaAvaliacoesBean.getAlunoTurmaAvaliacao(aluno, avaliacao).getNota()+"", f2));
             	cell0.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             	table.addCell(cell0);
+            }
+            
             }
             
             cell[3] = new PdfPCell(new Paragraph(aluno.getMedia()+"", f2));

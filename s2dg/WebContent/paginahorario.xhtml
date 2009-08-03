@@ -16,18 +16,18 @@
             text-align:center;
         }
     </style>
-    
 
-<h:form>
+<h:form id="form_horario">
 <rich:panel>
-	<f:facet name="header">Horario</f:facet>
-        
+	<f:facet name="header">Horário</f:facet>
+    <h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+    <br/>
     <rich:dataTable width="700" border="0" var="alunoTurma" 
     value="#{turmasMatriculadasBean.alunoTurmas}" cellpadding="0" cellspacing="0" >
     	<f:facet name="header">
     		<rich:columnGroup>
 	            <rich:column>
-	                <h:outputText value="Codigo" />
+	                <h:outputText value="Código" />
 	            </rich:column>
 	            <rich:column>
 	                <h:outputText value="Disciplina" />
@@ -42,7 +42,7 @@
 	                <h:outputText value="CH" />
 	            </rich:column>
 	            <rich:column>
-	                <h:outputText value="Horarios" />
+	                <h:outputText value="Horários" />
 	            </rich:column>
 	            <rich:column>
 	                <h:outputText value="Sala(s)" />

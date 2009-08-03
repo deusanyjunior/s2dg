@@ -32,18 +32,18 @@
 	 <a4j:keepAlive beanName="MenuDiscenteAction" />
 	<div class="menu_opcoes">
 		<center>
-			<h:outputText styleClass="menu_opcoes_titulo" value="Opcoes do Usuario" />
+			<h:outputText styleClass="menu_opcoes_titulo" value="Opções do Usuário" />
 		
 		<rich:panel>
 			<h:form>
 				<a4j:commandLink styleClass="opcao_menu" disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
-					value="Efetuar Matricula" action="#{MenuDiscenteAction.setId_Menu(1)}" reRender="corpo" />
+					value="Efetuar Matrícula" action="#{MenuDiscenteAction.setId_Menu(1)}" reRender="corpo" />
 				<br />
 				<a4j:commandLink styleClass="opcao_menu" 
-					value="Historico" action="#{MenuDiscenteAction.setId_Menu(2)}" reRender="corpo" />
+					value="Histórico" action="#{MenuDiscenteAction.setId_Menu(2)}" reRender="corpo" />
 				<br />
 				<a4j:commandLink styleClass="opcao_menu"
-					value="Horario" action="#{MenuDiscenteAction.setId_Menu(3)}" reRender="corpo" />
+					value="Horário" action="#{MenuDiscenteAction.setId_Menu(3)}" reRender="corpo" />
 			</h:form>
 		</rich:panel>
 		

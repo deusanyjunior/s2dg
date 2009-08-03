@@ -32,8 +32,14 @@ public class Curriculo implements Serializable {
 	private int maximoTrancamentosParciais;
 	private int minimoSemestres;
 	private int maximoSemestres;
-	private int trancamentosTotais;
-	private int matriculaInstitucional;
+	private int maximoTrancamentosTotais;
+	private int maximoMatriculaInstitucional;
+	private int minimoCreditosObrigatorias;
+	private int minimoCreditosOptativas;
+	private int minimoCreditosComplementares;
+	private int minimoDisciplinasObrigatorias;
+	private int minimoDisciplinasOptativas;
+	private int minimoDisciplinasComplementares;
 
 	public Curriculo() {
 	}
@@ -45,7 +51,9 @@ public class Curriculo implements Serializable {
 	public Curriculo(long id, Set<Aluno> alunos, Curso curso, Set<Disciplina> disciplinas,
 			int minimoCreditos, int maximoCreditos, String numero, int minimoCreditosCurriculo,
 			int minimoDisciplinas, int maximoTrancamentosParciais, int minimoSemestres, int maximoSemestres,
-			int trancamentosTotais, int matriculaInstitucional) {
+			int maximoTrancamentosTotais, int maxMatriculaInstitucional,int minimoCreditosObrigatorias,
+			int minimoCreditosOptativas, int minimoCreditosComplementares, int minimoDisciplinasObrigatorias,
+			int minimoDisciplinasOptativas, int minimoDisciplinasComplementares) {
 		this.id = id;
 		this.alunos = alunos;
 		this.curso = curso;
@@ -58,8 +66,14 @@ public class Curriculo implements Serializable {
 		this.maximoTrancamentosParciais = maximoTrancamentosParciais;
 		this.minimoSemestres = minimoSemestres;
 		this.maximoSemestres = maximoSemestres;
-		this.trancamentosTotais = trancamentosTotais;
-		this.matriculaInstitucional = matriculaInstitucional;
+		this.maximoTrancamentosTotais = maximoTrancamentosTotais;
+		this.maximoMatriculaInstitucional = maxMatriculaInstitucional;
+		this.minimoCreditosObrigatorias = minimoCreditosObrigatorias;
+		this.minimoCreditosOptativas = minimoCreditosOptativas;
+		this.minimoCreditosComplementares = minimoCreditosComplementares;
+		this.minimoDisciplinasObrigatorias = minimoDisciplinasObrigatorias;
+		this.minimoDisciplinasOptativas = minimoDisciplinasOptativas;
+		this.minimoDisciplinasComplementares = minimoDisciplinasComplementares;
 	}
 
 	@Id
@@ -173,22 +187,79 @@ public class Curriculo implements Serializable {
 		this.maximoSemestres = maximoSemestres;
 	}
 
-	@Column(name = "trancamentos_totais")
-	public int getTrancamentosTotais() {
-		return trancamentosTotais;
+	@Column(name = "max_trancamentos_totais")
+	public int getMaximoTrancamentosTotais() {
+		return maximoTrancamentosTotais;
 	}
 
-	public void setTrancamentosTotais(int trancamentosTotais) {
-		this.trancamentosTotais = trancamentosTotais;
+	public void setMaximoTrancamentosTotais(int maximoTrancamentosTotais) {
+		this.maximoTrancamentosTotais = maximoTrancamentosTotais;
 	}
 
-	@Column(name = "matricula_institucional")
-	public int getMatriculaInstitucional() {
-		return matriculaInstitucional;
+	@Column(name = "max_matricula_institucional")
+	public int getMaximoMatriculaInstitucional() {
+		return maximoMatriculaInstitucional;
 	}
 
-	public void setMatriculaInstitucional(int matriculaInstitucional) {
-		this.matriculaInstitucional = matriculaInstitucional;
+	public void setMaximoMatriculaInstitucional(int maximoMatriculaInstitucional) {
+		this.maximoMatriculaInstitucional = maximoMatriculaInstitucional;
 	}
 
+	@Column(name = "min_creditos_obrigatorias")
+	public int getMinimoCreditosObrigatorias() {
+		return minimoCreditosObrigatorias;
+	}
+
+	public void setMinimoCreditosObrigatorias(int minimoCreditosObrigatorias) {
+		this.minimoCreditosObrigatorias = minimoCreditosObrigatorias;
+	}
+
+	@Column(name = "min_creditos_optativas")
+	public int getMinimoCreditosOptativas() {
+		return minimoCreditosOptativas;
+	}
+
+	public void setMinimoCreditosOptativas(int minimoCreditosOptativas) {
+		this.minimoCreditosOptativas = minimoCreditosOptativas;
+	}
+
+	
+	@Column(name = "min_creditos_complementares")
+	public int getMinimoCreditosComplementares() {
+		return minimoCreditosComplementares;
+	}
+
+	public void setMinimoCreditosComplementares(int minimoCreditosComplementares) {
+		this.minimoCreditosComplementares = minimoCreditosComplementares;
+	}
+
+	@Column(name = "min_disciplinas_obrigatorias")
+	public int getMinimoDisciplinasObrigatorias() {
+		return minimoDisciplinasObrigatorias;
+	}
+
+	public void setMinimoDisciplinasObrigatorias(int minimoDisciplinasObrigatorias) {
+		this.minimoDisciplinasObrigatorias = minimoDisciplinasObrigatorias;
+	}
+
+	@Column(name = "min_disciplinas_optativas")
+	public int getMinimoDisciplinasOptativas() {
+		return minimoDisciplinasOptativas;
+	}
+
+	public void setMinimoDisciplinasOptativas(int minimoDisciplinasOptativas) {
+		this.minimoDisciplinasOptativas = minimoDisciplinasOptativas;
+	}
+
+	@Column(name = "min_disciplinas_complementares")
+	public int getMinimoDisciplinasComplementares() {
+		return minimoDisciplinasComplementares;
+	}
+
+	public void setMinimoDisciplinasComplementares(
+			int minimoDisciplinasComplementares) {
+		this.minimoDisciplinasComplementares = minimoDisciplinasComplementares;
+	}
+
+	
 }

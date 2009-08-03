@@ -39,6 +39,7 @@ public class Aluno implements Serializable {
 	private SituacaoAcademica situacaoAcademica;
 	private FormaIngresso formaIngresso;
 	private Set<DisciplinaVestibular> disciplinasVestibular = new HashSet<DisciplinaVestibular>(0);
+	private int matriculasInstitucionais;
 
 	public Aluno() {
 		situacaoAcademica = SituacaoAcademica.REGULAR;
@@ -50,7 +51,7 @@ public class Aluno implements Serializable {
 
 	public Aluno(String matricula, Usuario usuario,
 			Set<AlunoTurma> alunoTurmas, Curriculo curriculo, SituacaoAcademica situacaoAcademica,
-			FormaIngresso formaIngresso, Set<DisciplinaVestibular> disciplinasVestibular) {
+			FormaIngresso formaIngresso, Set<DisciplinaVestibular> disciplinasVestibular, int matriculasInstitucionais) {
 		this.matricula = matricula;
 		this.alunoTurmas = alunoTurmas;
 		this.usuario = usuario;
@@ -58,6 +59,7 @@ public class Aluno implements Serializable {
 		this.situacaoAcademica = situacaoAcademica;
 		this.formaIngresso = formaIngresso;
 		this.disciplinasVestibular = disciplinasVestibular;
+		this.matriculasInstitucionais = matriculasInstitucionais;
 	}
 
 	@Id
@@ -124,6 +126,15 @@ public class Aluno implements Serializable {
 
 	public void setFormaIngresso(FormaIngresso formaIngresso) {
 		this.formaIngresso = formaIngresso;
+	}
+
+	@Column(name = "matriculas_institucionais")
+	public int getMatriculasInstitucionais() {
+		return matriculasInstitucionais;
+	}
+
+	public void setMatriculasInstitucionais(int matriculasInstitucionais) {
+		this.matriculasInstitucionais = matriculasInstitucionais;
 	}
 
 	

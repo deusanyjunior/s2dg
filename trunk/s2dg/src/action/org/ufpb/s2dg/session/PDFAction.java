@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
@@ -229,26 +230,44 @@ public class PDFAction {
         }
     }
 	
-	public void geraCabecalho(){
-		//ServletContext servletContext = (ServletContext)facesContext.getExternalContext().getContext();
-		//servletContext.getRealPath("/img");
+	public void geraCabecalho(String titulo){
+		ServletContext servletContext = (ServletContext)facesContext.getExternalContext().getContext();
+		servletContext.getRealPath("/img");
 		
 		Image image = null;
+		PdfPTable table = null;
 		try {
 			image = Image.getInstance("C:\\ambiente\\workspace\\s2dg\\WebContent\\img\\logo_ufpb2.png");
+			
+			image.scaleAbsolute(31, 45);
+			table = new PdfPTable(2);
+			float [] proporcao = new float[]{1f, 4f};
+			table.setWidths(proporcao);
+			
 		} catch (BadElementException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
 		}
+		Font f1 = new Font(); f1.setStyle(Font.NORMAL); f1.setSize(8);
 		
-		PdfPTable table = new PdfPTable(2);
-		table.addCell(image);
-		Paragraph cabecalho = new Paragraph("Formulario de Cadastramento Simples\n",FontFactory.getFont("ARIAL",12));
+		PdfPCell cell0 = new PdfPCell(image);
+        PdfPCell cell1 = new PdfPCell(new Paragraph("UNIVERISIDADE FEDERAL DA PARAÍBA\n\n"
+        		+ titulo, f1));
+        
+        cell0.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell1.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        
+        cell0.setBorderColor(Color.WHITE);
+        cell1.setBorderColor(Color.WHITE);
 		
-		table.addCell(cabecalho);
+        table.addCell(cell0);
+		table.addCell(cell1);
+		
 		
 		try 
         {
@@ -258,6 +277,8 @@ public class PDFAction {
 	}
 	
 	public void geraTabelaHoratio(ArrayList<HashMap<String, String>> informacoes){				
+		geraCabecalho("HORÁRIO INDIVIDUAL");
+		
 		Font f1 = new Font(); f1.setStyle(Font.BOLD); f1.setSize(12);
         Font f2 = new Font(); f2.setStyle(Font.ITALIC); f2.setSize(8);
 		
@@ -298,7 +319,7 @@ public class PDFAction {
         cell7.setBackgroundColor(Color.LIGHT_GRAY);
         cell7.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         
-        table.addCell(cell0);
+        //table.addCell(cell0);
         table.addCell(cell1);
         table.addCell(cell2);
         table.addCell(cell3);
@@ -348,6 +369,7 @@ public class PDFAction {
 	}
 	
 	public void geraTabelaRelatorioDeNotas(List<AlunoTurma> list, List<Avaliacao> avaliacoes){
+		geraCabecalho("DIÁRIO DE CLASSE");
 		
         Font f1 = new Font(); f1.setStyle(Font.BOLD); f1.setSize(12);
         Font f2 = new Font(); f2.setStyle(Font.ITALIC); f2.setSize(8);
@@ -395,7 +417,7 @@ public class PDFAction {
         cell[cell.length - 1].setBackgroundColor(Color.LIGHT_GRAY);
         cell[cell.length - 1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
-        titulo.addCell(cell[0]);
+        //titulo.addCell(cell[0]);
         for(int i = 1; i < cell.length; i++){
         	System.out.println("¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬"+i);
         	table.addCell(cell[i]);
@@ -438,11 +460,11 @@ public class PDFAction {
     }
 	
 	public void geraTabelaHistorico(ArrayList<HashMap<String, String>> informacoes){
-		Font f1 = new Font(); f1.setStyle(Font.TIMES_ROMAN); f1.setSize(8);
-        Font f2 = new Font(); f2.setStyle(Font.TIMES_ROMAN); f2.setSize(8);
+		geraCabecalho("H I S T Ó R I C O   E S C O L A R");
 		
-        addParagrafoCentralizado(new Paragraph("H I S T Ó R I C O   E S C O L A R\n\n", f2));
-        
+		Font f1 = new Font(); f1.setStyle(Font.NORMAL); f1.setSize(8);
+        Font f2 = new Font(); f2.setStyle(Font.NORMAL); f2.setSize(8);
+       
         addParagrafo(new Paragraph("ALUNO: " + informacoes.get(0).get("Matricula") + "--" + informacoes.get(0).get("Nome"), f2));
         addParagrafo(new Paragraph("CURSO: "+ informacoes.get(0).get("Curso") + "--" + informacoes.get(0).get("NomeCurso"), f2));
         addParagrafo(new Paragraph("CURRÍCULO: "+ informacoes.get(0).get("Curriculo"), f2));
@@ -691,28 +713,53 @@ public class PDFAction {
         } 
         catch (DocumentException ex) {ex.printStackTrace();}
         
+        
         addParagrafo(new Paragraph("Disciplinas Obrigatorias...... " + informacoes.get(1+obrigatorias+optativa+complementar).get("Carga Horaria Minima") + "   "
         		+ informacoes.get(1+obrigatorias+optativa+complementar).get("Integralizada") + "   "
         		+ informacoes.get(1+obrigatorias+optativa+complementar).get("Creditos Minimo") + "   "
         		+ informacoes.get(1+obrigatorias+optativa+complementar).get("IntegralizadoCredito") + "   "
         		+ informacoes.get(1+obrigatorias+optativa+complementar).get("Disciplinas Minimo") + "   "
         		+ informacoes.get(1+obrigatorias+optativa+complementar).get("IntegralizadoDisciplina") + "   ", f2));
-        addParagrafo(new Paragraph("Disciplinas Optativas......... " + informacoes.get(2+obrigatorias+optativa+complementar).get("Carga Horaria Minima"), f2));
-        addParagrafo(new Paragraph("Disciplinas Complementares.... " + informacoes.get(2+obrigatorias+optativa+complementar).get("Carga Horaria Minima"), f2));
-        addParagrafo(new Paragraph("TOTAIS DO CURRICULO =========> " + informacoes.get(2+obrigatorias+optativa+complementar).get("Carga Horaria Minima"), f2));
+        addParagrafo(new Paragraph("Disciplinas Optativas......... " + informacoes.get(2+obrigatorias+optativa+complementar).get("Carga Horaria Minima") + "   "
+        		+ informacoes.get(2+obrigatorias+optativa+complementar).get("Integralizada") + "   "
+        		+ informacoes.get(2+obrigatorias+optativa+complementar).get("Creditos Minimo") + "   "
+        		+ informacoes.get(2+obrigatorias+optativa+complementar).get("IntegralizadoCredito") + "   "
+        		+ informacoes.get(2+obrigatorias+optativa+complementar).get("Disciplinas Minimo") + "   "
+        		+ informacoes.get(2+obrigatorias+optativa+complementar).get("IntegralizadoDisciplina") + "   ", f2));
+        addParagrafo(new Paragraph("Disciplinas Complementares.... " + informacoes.get(3+obrigatorias+optativa+complementar).get("Carga Horaria Minima") + "   "
+        		+ informacoes.get(3+obrigatorias+optativa+complementar).get("Integralizada") + "   "
+        		+ informacoes.get(3+obrigatorias+optativa+complementar).get("Creditos Minimo") + "   "
+        		+ informacoes.get(3+obrigatorias+optativa+complementar).get("IntegralizadoCredito") + "   "
+        		+ informacoes.get(3+obrigatorias+optativa+complementar).get("Disciplinas Minimo") + "   "
+        		+ informacoes.get(3+obrigatorias+optativa+complementar).get("IntegralizadoDisciplina") + "   ", f2));
+        addParagrafo(new Paragraph("TOTAIS DO CURRICULO =========> " + informacoes.get(4+obrigatorias+optativa+complementar).get("Carga Horaria Minima") + "   "
+        		+ informacoes.get(4+obrigatorias+optativa+complementar).get("Integralizada") + "   "
+        		+ informacoes.get(4+obrigatorias+optativa+complementar).get("Creditos Minimo") + "   "
+        		+ informacoes.get(4+obrigatorias+optativa+complementar).get("IntegralizadoCredito") + "   "
+        		+ informacoes.get(4+obrigatorias+optativa+complementar).get("Disciplinas Minimo") + "   "
+        		+ informacoes.get(4+obrigatorias+optativa+complementar).get("IntegralizadoDisciplina") + "   ", f2));
         
         addParagrafo(new Paragraph("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", f2));
         
-        addParagrafo(new Paragraph("Número de semestres cursados..", f2));
-        addParagrafo(new Paragraph("Trancamentos Totais efetuados.", f2));
-        addParagrafo(new Paragraph("Matrículas Institucionais ....", f2));
-        addParagrafo(new Paragraph("Trancamentos Parciais efetuad.", f2));
-        addParagrafo(new Paragraph("Matriculado atualmente em ....", f2));
+        addParagrafo(new Paragraph("Número de semestres cursados..     "+ informacoes.get(5+obrigatorias+optativa+complementar).get("Cursados") + "   (Minimo:  " 
+        		+ informacoes.get(5+obrigatorias+optativa+complementar).get("Minimo") + ", Maximo: " + informacoes.get(5+obrigatorias+optativa+complementar).get("Maximo") 
+        		+ ") de " + informacoes.get(5+obrigatorias+optativa+complementar).get("Ativos") + " ativos", f2));
+        addParagrafo(new Paragraph("Trancamentos Totais efetuados.     "+ informacoes.get(6+obrigatorias+optativa+complementar).get("Trancamentos") + 
+        		" (Max: " + informacoes.get(6+obrigatorias+optativa+complementar).get("Maximo") + " sem)", f2));
+        addParagrafo(new Paragraph("Matrículas Institucionais ....     "+ informacoes.get(7+obrigatorias+optativa+complementar).get("Matriculas") + 
+        		" (Max: " + informacoes.get(7+obrigatorias+optativa+complementar).get("Maximo") + " sem)", f2));
+        addParagrafo(new Paragraph("Trancamentos Parciais efetuad.     "+ informacoes.get(8+obrigatorias+optativa+complementar).get("Trancamentos") + 
+        		" (Max: " + informacoes.get(8+obrigatorias+optativa+complementar).get("Maximo") + " sem)", f2));
+        addParagrafo(new Paragraph("Matriculado atualmente em ....     "+ informacoes.get(9+obrigatorias+optativa+complementar).get("Matriculados") + 
+        		" Creditos (Minimo:   " + informacoes.get(9+obrigatorias+optativa+complementar).get("Minimo") + ", Maximo:   "
+        		+ informacoes.get(9+obrigatorias+optativa+complementar).get("Minimo") + ")", f2));
         
         addParagrafo(new Paragraph("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", f2));
         
-        addParagrafo(new Paragraph("Situacao acadêmica............", f2));
-        addParagrafo(new Paragraph("Forma de ingresso.............", f2));
+        addParagrafo(new Paragraph("Situacao acadêmica............" + informacoes.get(10+obrigatorias+optativa+complementar).get("Situacao") + "             CRE: " 
+        		+ informacoes.get(10+obrigatorias+optativa+complementar).get("CRE"), f2));
+        addParagrafo(new Paragraph("Forma de ingresso............." + informacoes.get(10+obrigatorias+optativa+complementar).get("Forma de Ingresso") +
+        		 " (em " + informacoes.get(10+obrigatorias+optativa+complementar).get("Ano Ingresso") + ")", f2));
         
         addParagrafo(new Paragraph("----------------------------------------------------------------------- PROVAS E NOTAS DO VESTIBULAR -----------------------------------------------------------------------", f2));
         

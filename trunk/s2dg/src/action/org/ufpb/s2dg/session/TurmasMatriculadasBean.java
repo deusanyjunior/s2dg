@@ -514,9 +514,9 @@ public class TurmasMatriculadasBean {
 		mapaIntegralizacaoOptativa.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo())+"");
 		mapaIntegralizacaoOptativa.put("Integralizada", cargaHoraria(geraCreditosIntegralizados())+"");
 		mapaIntegralizacaoOptativa.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoOptativa.put("Integralizado", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
+		mapaIntegralizacaoOptativa.put("IntegralizadoCredito", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
 		mapaIntegralizacaoOptativa.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinas()+"");
-		mapaIntegralizacaoOptativa.put("Integralizado", alunoTurmas.size()+"");
+		mapaIntegralizacaoOptativa.put("IntegralizadoDisciplina", alunoTurmas.size()+"");
 		mapas.add(mapaIntegralizacaoOptativa);
 		
 		//Integralizacoes Disciplina Complementar
@@ -524,9 +524,9 @@ public class TurmasMatriculadasBean {
 		mapaIntegralizacaoComplementar.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo())+"");
 		mapaIntegralizacaoComplementar.put("Integralizada", cargaHoraria(geraCreditosIntegralizados())+"");
 		mapaIntegralizacaoComplementar.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoComplementar.put("Integralizado", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
+		mapaIntegralizacaoComplementar.put("IntegralizadoCredito", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
 		mapaIntegralizacaoComplementar.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinas()+"");
-		mapaIntegralizacaoComplementar.put("Integralizado", alunoTurmas.size()+"");
+		mapaIntegralizacaoComplementar.put("IntegralizadoDisciplina", alunoTurmas.size()+"");
 		mapas.add(mapaIntegralizacaoComplementar);
 		
 		//Integralizacao Total
@@ -534,9 +534,9 @@ public class TurmasMatriculadasBean {
 		mapaIntegralizacaoTotal.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo())+"");
 		mapaIntegralizacaoTotal.put("Integralizada", cargaHoraria(geraCreditosIntegralizados())+"");
 		mapaIntegralizacaoTotal.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoTotal.put("Integralizado", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
+		mapaIntegralizacaoTotal.put("IntegralizadoCredito", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
 		mapaIntegralizacaoTotal.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinas()+"");
-		mapaIntegralizacaoTotal.put("Integralizado", alunoTurmas.size()+"");
+		mapaIntegralizacaoTotal.put("IntegralizadoDisciplina", alunoTurmas.size()+"");
 		mapas.add(mapaIntegralizacaoTotal);
 
 		//Semestres cursados

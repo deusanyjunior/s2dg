@@ -189,12 +189,12 @@ public class TurmasMatriculadasBean {
 	public List<Sala> getSalasDoBanco(long id) {
 		return fachada.getSalaDoBanco(id);}
 	
-	public float geraMedia(AlunoTurma alunoTurma){
+	public String geraMedia(AlunoTurma alunoTurma){
 		if((alunoTurma.getSituacao()==Situacao.APROVADO) ||( alunoTurma.getSituacao()==Situacao.DISPENSADO) 
 			|| (alunoTurma.getSituacao()==Situacao.REPROVADO_POR_MEDIA)){
-			return alunoTurma.getMedia();
+			return String.valueOf(alunoTurma.getMedia());
 		}
-		return 0;
+		return "-----";
 	}
 	
 	public int geraTrancamentosParciais(){

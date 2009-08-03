@@ -9,7 +9,7 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:a4j="http://richfaces.org/a4j">
 
-<h:form>
+<h:form>	
 	<rich:panel>
 		<f:facet name="header">Historico Escolar</f:facet>
 	
@@ -243,60 +243,46 @@
     		</rich:columnGroup>
     	</f:facet>
     	
-    	<rich:subTable>
-    	<rich:column  style="vertical-align: middle; text-align: center" >
-    		<h:outputText value="Disciplinas Obrigatorias" />
-    	</rich:column>
-    	<rich:column style="vertical-align: middle; text-align: center" >
-    		<h:outputText value="#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosCurriculo)}" />
-    	</rich:column>
-    	<rich:column style="vertical-align: middle; text-align: center" >
-    		<h:outputText value="#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizados())}" />
-    	</rich:column>
-    	<rich:column style="vertical-align: middle; text-align: center" >
-    		<h:outputText value="#{fachada.aluno.curriculo.minimoCreditosCurriculo}"/>
-    	</rich:column>
-    	<rich:column  style="vertical-align: middle; text-align: center" >
-    		<h:outputText value="#{turmasMatriculadasBean.geraCreditosIntegralizados()}" />
-    	</rich:column>
-    	<rich:column style="vertical-align: middle; text-align: center" >
-    		<h:outputText value="#{fachada.aluno.curriculo.minimoDisciplinas}" />
-    	</rich:column>
-    	<rich:column style="vertical-align: middle; text-align: center" >
-    		<h:outputText value="#{turmasMatriculadasBean.alunoTurmas.size()}" />
-    	</rich:column>
-    	</rich:subTable>    	
-    	</rich:dataTable>
-    	<h:outputText value="Disciplinas Obrigatorias......#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosCurriculo)}
+    	    	</rich:dataTable>
+    	<h:outputText value="Disciplinas Obrigatorias......#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosObrigatorias)}
+										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizados(OBRIGATORIA))}
+										#{fachada.aluno.curriculo.minimoCreditosObrigatorias}
+										#{turmasMatriculadasBean.geraCreditosIntegralizados(OBRIGATORIA)} 
+										#{fachada.aluno.curriculo.minimoDisciplinasObrigatorias} #{turmasMatriculadasBean.geraDisciplinasIntegralizadas(OBRIGATORIA)}"/>
+					<br/>
+					<h:outputText value="Disciplinas Optativas.........#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosOptativas)}
+										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizados(OPTATIVA))}
+										#{fachada.aluno.curriculo.minimoCreditosOptativas}
+										#{turmasMatriculadasBean.geraCreditosIntegralizados(OPTATIVA)} 
+										#{fachada.aluno.curriculo.minimoDisciplinasOptativas} #{turmasMatriculadasBean.geraDisciplinasIntegralizadas(OPTATIVA)}"/>
+					<br/>
+					<h:outputText value="Disciplinas Complementares.........#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosComplementares)}
+										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizados(COMPLEMENTAR))}
+										#{fachada.aluno.curriculo.minimoCreditosComplementares}
+										#{turmasMatriculadasBean.geraCreditosIntegralizados(COMPLEMENTAR)} 
+										#{fachada.aluno.curriculo.minimoDisciplinasComplementares} #{turmasMatriculadasBean.geraDisciplinasIntegralizadas(COMPLEMENTAR)}" />
+					<br/>
+					<h:outputText value="TOTAIS DO CURRICULO =========>#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraMinimoCreditosCurriculo())}
 										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizados())}
-										#{fachada.aluno.curriculo.minimoCreditosCurriculo}
+										#{turmasMatriculadasBean.geraMinimoCreditosCurriculo()}
 										#{turmasMatriculadasBean.geraCreditosIntegralizados()} 
-										#{fachada.aluno.curriculo.minimoDisciplinas} #{turmasMatriculadasBean.alunoTurmas.size()}"/>
-					<br/>
-					<h:outputText value="Disciplinas Optativas........." />
-					<br/>
-					<h:outputText value="Disciplinas Complementares........." />
-					<br/>
-					<h:outputText value="TOTAIS DO CURRICULO =========>#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosCurriculo)}
-										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizados())}
-										#{fachada.aluno.curriculo.minimoCreditosCurriculo}
-										#{turmasMatriculadasBean.geraCreditosIntegralizados()} 
-										#{fachada.aluno.curriculo.minimoDisciplinas} #{turmasMatriculadasBean.alunoTurmas.size()}" />
-					<br/>
-					<h:outputText value="Disciplinas Extra-Curriculares" />
+										#{turmasMatriculadasBean.geraMinimoDisciplinasCurriculo()} #{turmasMatriculadasBean.geraDisciplinasIntegralizadas()}" />
+					
 					<br/>
 					<h:outputText value="---------------------------------------------------------------------------" />
 					<br/>
-					<h:outputText value="Numero de semestres cursados.. #{turmasMatriculadasBean.geraSemestresCursados(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}   (Minimo: #{fachada.aluno.curriculo.minimoSemestres} , Maximo: #{fachada.aluno.curriculo.maximoSemestres}) de  ativos" />
+					<h:outputText value="Numero de semestres cursados.. #{turmasMatriculadasBean.geraSemestresCursados(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}
+									   (Minimo: #{fachada.aluno.curriculo.minimoSemestres} , Maximo: #{fachada.aluno.curriculo.maximoSemestres}) de 
+									   #{turmasMatriculadasBean.geraSemestresAtivos(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} ativos" />
 					<br/>
-					<h:outputText value="Trancamentos Totais efetuados.   #{turmasMatriculadasBean.geraTrancamentosTotais(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} (Max:#{fachada.aluno.curriculo.trancamentosTotais}  sem)" />
+					<h:outputText value="Trancamentos Totais efetuados.   #{turmasMatriculadasBean.geraTrancamentosTotais(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} (Max:#{fachada.aluno.curriculo.maximoTrancamentosTotais}  sem)" />
 					<br/>	
-					<h:outputText value="Matriculas Institucionais ....    (Max:#{fachada.aluno.curriculo.matriculaInstitucional}  sem)" />
+					<h:outputText value="Matriculas Institucionais ....   #{fachada.aluno.matriculasInstitucionais} (Max:#{fachada.aluno.curriculo.maximoMatriculaInstitucional}  sem)" />
 					<br/>
 					<h:outputText value="Trancamentos Parciais efetuad. #{turmasMatriculadasBean.geraTrancamentosParciais()}
 							 (Minimo: --, Maximo:#{fachada.aluno.curriculo.maximoTrancamentosParciais}  )" />
 					<br/>
-					<h:outputText value="Matriculado atualmente em ....    #{turmasMatriculadasBean.geraCreditosIntegralizados()}
+					<h:outputText value="Matriculado atualmente em ....    #{turmasMatriculadasBean.geraCreditosPeriodoAtual(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}
 										 Creditos (Minimo: #{fachada.aluno.curriculo.minimoCreditos}  , 
 										 Maximo: #{fachada.aluno.curriculo.maximoCreditos}  )" />
 					<br/>
@@ -379,5 +365,5 @@
 					<h:outputText value="---------------------------------------------------------------------------"/>
 					<br/>
 					</rich:panel>
-	</h:form>
+	</h:form>					
 </ui:composition>

@@ -23,7 +23,6 @@ import org.ufpb.s2dg.entity.AlunoTurma.Situacao;
 import org.ufpb.s2dg.entity.Disciplina.Tipo;
 import org.ufpb.s2dg.session.persistence.AlunoDAO;
 
-@SuppressWarnings("unused")
 @Name("turmasMatriculadasBean")
 @Scope(ScopeType.SESSION)
 @AutoCreate
@@ -79,18 +78,49 @@ public class TurmasMatriculadasBean {
 		this.alunoTurmas = alunoTurmas;
 	}
 	
-	public int geraCreditosIntegralizados(){
+	public int geraCreditosIntegralizados(Tipo tipo){
+
 		int creditosIntegralizados = 0;
 		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
 		if(ats != null){
 			for(int i=0; i < ats.size(); i++){
-				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) 
-						|| (ats.get(i).getSituacao()==Situacao.REPROVADO_POR_MEDIA)){
-					creditosIntegralizados += ats.get(i).getTurma().getDisciplina().getCreditos();
+				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
+					if(ats.get(i).getTurma().getDisciplina().getTipo() == tipo){
+						creditosIntegralizados += ats.get(i).getTurma().getDisciplina().getCreditos();
+					}
 				}
 			}
 		}
 		return creditosIntegralizados;
+	}
+	
+	public int geraCreditosIntegralizados(){
+
+		int creditosIntegralizados = 0;
+		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
+		if(ats != null){
+			for(int i=0; i < ats.size(); i++){
+				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
+						creditosIntegralizados += ats.get(i).getTurma().getDisciplina().getCreditos();
+				}
+			}
+		}
+		return creditosIntegralizados;
+	}
+
+	public int geraCreditosPeriodoAtual(List<AlunoTurma> alunoTurmas){
+		int anoAtual = Integer.parseInt(alunoTurmas.get(alunoTurmas.size()-1).getTurma().getPeriodo().getAno());
+		int semestreAtual = (int)alunoTurmas.get(alunoTurmas.size()-1).getTurma().getPeriodo().getSemestre();
+		int creditosPeriodoAtual = 0;
+		for(int i=0; i < alunoTurmas.size(); i++){
+			int anoLista = Integer.parseInt(alunoTurmas.get(i).getTurma().getPeriodo().getAno());
+			int semestreLista = (int)alunoTurmas.get(i).getTurma().getPeriodo().getSemestre();
+			if((((anoLista == anoAtual)&&(semestreLista == semestreAtual))&&((alunoTurmas.get(i).getSituacao()==Situacao.EM_CURSO) ||( alunoTurmas.get(i).getSituacao()==Situacao.DISPENSADO))) ){
+				creditosPeriodoAtual += alunoTurmas.get(i).getTurma().getDisciplina().getCreditos();
+			}
+
+		}
+		return creditosPeriodoAtual;
 	}
 	public float geraCRE(){
 		float somaMedias = 0;
@@ -117,14 +147,43 @@ public class TurmasMatriculadasBean {
 		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
 		if(ats != null){
 			for(int i=0; i < ats.size(); i++){
-				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) 
-						|| (ats.get(i).getSituacao()==Situacao.REPROVADO_POR_MEDIA)){
+				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
 					disciplinasIntegralizadas++;
 				}
 			}
 			return disciplinasIntegralizadas;
 		}
-		return 0;
+		return disciplinasIntegralizadas;
+	}
+
+	public int geraDisciplinasIntegralizadas(Tipo tipo){
+		int disciplinasIntegralizadas = 0;
+		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
+		if(ats != null){
+			for(int i=0; i < ats.size(); i++){
+				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
+					if(ats.get(i).getTurma().getDisciplina().getTipo() == tipo){
+						disciplinasIntegralizadas++;
+					}
+				}
+			}
+			return disciplinasIntegralizadas;
+		}
+		return disciplinasIntegralizadas;
+	}
+
+	public int geraMinimoCreditosCurriculo(){
+		int minimoCreditosCurriculo = fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias()
+									+fachada.getAluno().getCurriculo().getMinimoCreditosOptativas()
+									+fachada.getAluno().getCurriculo().getMinimoCreditosComplementares();
+		return minimoCreditosCurriculo;
+	}
+	
+	public int geraMinimoDisciplinasCurriculo(){
+		int minimoDisciplinasCurriculo = fachada.getAluno().getCurriculo().getMinimoDisciplinasObrigatorias()
+									+fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas()
+									+fachada.getAluno().getCurriculo().getMinimoDisciplinasComplementares();
+		return minimoDisciplinasCurriculo;
 	}
 	
 	public List<Sala> getSalasDoBanco(long id) {
@@ -151,7 +210,7 @@ public class TurmasMatriculadasBean {
 		}
 		return trancamentosParciais;
 	}
-	
+		
 	public List<AlunoTurma> getObrigatoriasOrdenadas(List<AlunoTurma> alunoTurma){
 		
 		List<AlunoTurma> disciplinas = getDisciplinasOrdenadas(alunoTurma);
@@ -190,6 +249,7 @@ public class TurmasMatriculadasBean {
 		
 		return disciplinas;
 	}
+	
 	
 	public List<AlunoTurma> getDisciplinasOrdenadas(List<AlunoTurma> alunoTurma){
 		ArrayList<AlunoTurma> lista  = new ArrayList<AlunoTurma>(alunoTurma);
@@ -248,19 +308,19 @@ public class TurmasMatriculadasBean {
 		return ordenada;
 	}
 	
-	public int geraSemestresCursados (List<AlunoTurma> alunoTurma){
+	public int geraSemestresCursados (List<AlunoTurma> alunoTurmas){
 		
-		if(alunoTurma.size()==0){
+		if(alunoTurmas.size()==0){
 			return 0;
 		}
 		
-		int anoAtual = Integer.parseInt(alunoTurma.get(0).getTurma().getPeriodo().getAno());
-		int semestreAtual = (int)(alunoTurma.get(0).getTurma().getPeriodo().getSemestre());
+		int anoAtual = Integer.parseInt(alunoTurmas.get(0).getTurma().getPeriodo().getAno());
+		int semestreAtual = (int)(alunoTurmas.get(0).getTurma().getPeriodo().getSemestre());
 		int semestresCursados = 1;
 		
-		for(int i = 0; i < alunoTurma.size(); i++) {
-			int ano = Integer.parseInt(alunoTurma.get(i).getTurma().getPeriodo().getAno()), 
-			semestre = (int) alunoTurma.get(i).getTurma().getPeriodo().getSemestre();
+		for(int i = 0; i < alunoTurmas.size(); i++) {
+			int ano = Integer.parseInt(alunoTurmas.get(i).getTurma().getPeriodo().getAno()), 
+			semestre = (int) alunoTurmas.get(i).getTurma().getPeriodo().getSemestre();
 			
 			if(ano != anoAtual || semestre != semestreAtual){
 				semestresCursados++;
@@ -272,15 +332,20 @@ public class TurmasMatriculadasBean {
 		return semestresCursados;
 	}
 	
-	
-	public int geraTrancamentosTotais(List<AlunoTurma> alunoTurma){
+	public int geraSemestresAtivos(List<AlunoTurma> alunoTurmas){
 		
-		ArrayList<AlunoTurma> lista  = new ArrayList<AlunoTurma>(alunoTurma);
+		int semestresAtivos = geraSemestresCursados(alunoTurmas) - geraTrancamentosTotais(alunoTurmas);
+		return semestresAtivos;
+	}
+	
+	public int geraTrancamentosTotais(List<AlunoTurma> alunoTurmas){
+		
+		ArrayList<AlunoTurma> lista  = new ArrayList<AlunoTurma>(alunoTurmas);
 		LinkedList<AlunoTurma> listaPeriodo = new LinkedList<AlunoTurma>();
 		int trancamentosParciais = 0;
 		int trancamentosTotais = 0;
-		int anoAtual = Integer.parseInt(alunoTurma.get(0).getTurma().getPeriodo().getAno());
-		int semestreAtual = (int)(alunoTurma.get(0).getTurma().getPeriodo().getSemestre());
+		int anoAtual = Integer.parseInt(alunoTurmas.get(0).getTurma().getPeriodo().getAno());
+		int semestreAtual = (int)(alunoTurmas.get(0).getTurma().getPeriodo().getSemestre());
 		
 		for (int i = 0; i < lista.size(); i++) {
 			int anoLista = Integer.parseInt(lista.get(i).getTurma().getPeriodo().getAno()), 
@@ -382,7 +447,7 @@ public class TurmasMatriculadasBean {
 		mapaCabecalho.put("RG", fachada.getUsuario().getRg());
 		mapas.add(mapaCabecalho);
 		
-		List<AlunoTurma> aluno = getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()));
+		List<AlunoTurma> aluno = getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()));		
 		//CODIGO - NOME DA DISCIPLINA - CR - CH.- PERIODO - MEDIA -SITUACAO 
 		//Disciplinas Obrigatorias
 		for (AlunoTurma at : aluno) {
@@ -485,13 +550,13 @@ public class TurmasMatriculadasBean {
 		//Trancamentos Totais
 		HashMap<String, String> mapaTrancamentosTotais = new HashMap<String, String>();
 		mapaTrancamentosTotais.put("Trancamentos", geraTrancamentosTotais(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
-		mapaTrancamentosTotais.put("Maximo", fachada.getAluno().getCurriculo().getTrancamentosTotais()+"");
+		mapaTrancamentosTotais.put("Maximo", fachada.getAluno().getCurriculo().getMaximoTrancamentosTotais()+"");
 		mapas.add(mapaTrancamentosTotais);
 		
 		//Matriculas Institucionais
 		HashMap<String, String> mapaMatriculasInstitucionais = new HashMap<String, String>();
 		mapaMatriculasInstitucionais.put("Matriculas", geraTrancamentosTotais(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
-		mapaMatriculasInstitucionais.put("Maximo", fachada.getAluno().getCurriculo().getMatriculaInstitucional()+"");
+		mapaMatriculasInstitucionais.put("Maximo", fachada.getAluno().getCurriculo().getMaximoMatriculaInstitucional()+"");
 		mapas.add(mapaMatriculasInstitucionais);
 
 		//Trancamentos Parciais

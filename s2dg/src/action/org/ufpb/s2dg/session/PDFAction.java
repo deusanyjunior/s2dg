@@ -21,6 +21,8 @@ import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.AlunoTurmaAvaliacao;
 import org.ufpb.s2dg.entity.Avaliacao;
+import org.ufpb.s2dg.entity.Disciplina.Tipo;
+import org.ufpb.s2dg.session.persistence.AlunoDAO;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Cell;
@@ -50,6 +52,15 @@ public class PDFAction {
 	
 	@In
     FacesContext facesContext;
+	
+	@In
+	AlunoDAO alunoDAO;
+	
+	@In
+	UsuarioBean usuarioBean;
+	
+	@In
+	TurmasMatriculadasBean turmasMatriculadasBean;
 	
 	private Document doc;
 	
@@ -84,7 +95,6 @@ public class PDFAction {
 	}
 	
 	public void geraPdf(String nome, ArrayList<HashMap<String, String>> informacoes){
-		System.out.println("***********************************geraPdf");
 		Rectangle pageSize = new Rectangle(PageSize.A4);
 		 
 		pageSize.setBackgroundColor(Color.WHITE);
@@ -108,6 +118,58 @@ public class PDFAction {
         this.doc.close(); 
         
         facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Horário Individual impresso com sucesso!",null));
+	}
+	
+	public void geraPdfHistorico(String nome, ArrayList<HashMap<String, String>> informacoes){
+		System.out.println("¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬SIZE"+informacoes.size());
+		
+		Rectangle pageSize = new Rectangle(PageSize.A4);
+		 
+		pageSize.setBackgroundColor(Color.WHITE);
+		
+		doc = new Document(pageSize);
+		
+		try {
+			PdfWriter.getInstance(doc, new FileOutputStream(nome));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		
+		this.doc.open();
+		
+		geraTabelaHistorico(informacoes);
+		
+        
+		//geraCabecalho();
+
+        this.doc.close(); 
+        
+        facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Horário Individual impresso com sucesso!",null));
+	}
+	
+	public void addParagrafo(Paragraph p){
+		try
+        {
+            this.doc.add(p);
+        }
+        catch(DocumentException e)
+        {
+            e.printStackTrace();
+        }
+	}
+	
+	public void addParagrafoCentralizado(Paragraph p){
+		try
+        {
+			p.setAlignment(PdfPCell.ALIGN_CENTER);
+            this.doc.add(p);
+        }
+        catch(DocumentException e)
+        {
+            e.printStackTrace();
+        }
 	}
 	
 	public void addParagrafo(String text){
@@ -265,7 +327,6 @@ public class PDFAction {
         catch (DocumentException ex) {ex.printStackTrace();}
 	}
 	
-	
 	public void geraTabelaRelatorioDeNotas(List<AlunoTurma> list, List<Avaliacao> avaliacoes){
 		
         Font f1 = new Font(); f1.setStyle(Font.BOLD); f1.setSize(12);
@@ -350,8 +411,291 @@ public class PDFAction {
         
     }
 	
-	public void geraTabela(){
+	public void geraTabelaHistorico(ArrayList<HashMap<String, String>> informacoes){
+		Font f1 = new Font(); f1.setStyle(Font.TIMES_ROMAN); f1.setSize(8);
+        Font f2 = new Font(); f2.setStyle(Font.TIMES_ROMAN); f2.setSize(8);
 		
+        addParagrafoCentralizado(new Paragraph("H I S T Ó R I C O   E S C O L A R\n\n", f2));
+        
+        addParagrafo(new Paragraph("ALUNO: " + informacoes.get(0).get("Matricula") + "--" + informacoes.get(0).get("Nome"), f2));
+        addParagrafo(new Paragraph("CURSO: "+ informacoes.get(0).get("Curso") + "--" + informacoes.get(0).get("NomeCurso"), f2));
+        addParagrafo(new Paragraph("CURRÍCULO: "+ informacoes.get(0).get("Curriculo"), f2));
+        addParagrafo(new Paragraph("RECONHECIMENTO: "+ informacoes.get(0).get("Reconhecimento"), f2));
+        addParagrafo(new Paragraph("RG: "+ informacoes.get(0).get("RG"), f2));
+        addParagrafo("\n");
+        
+        List<AlunoTurma> aluno = turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()));
+                
+        int obrigatorias = 0;
+        int complementar = 0;
+        int optativa = 0;
+        
+        PdfPTable table = new PdfPTable(7);
+        PdfPCell cell0 = new PdfPCell(new Paragraph("Disciplicas Obrigatorias", f1));
+        PdfPCell cell = new PdfPCell(new Paragraph("Codigo", f2));
+        PdfPCell cell1 = new PdfPCell(new Paragraph("Disciplina", f2));
+        PdfPCell cell2 = new PdfPCell(new Paragraph("CR", f2));
+        PdfPCell cell3 = new PdfPCell(new Paragraph("CH", f2));
+        PdfPCell cell4 = new PdfPCell(new Paragraph("Período", f2));
+        PdfPCell cell5 = new PdfPCell(new Paragraph("Média", f2));
+        PdfPCell cell6 = new PdfPCell(new Paragraph("Situação", f2));
+        
+        cell0.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell0.setColspan(7);
+        
+        cell0.setBorderColor(Color.WHITE);
+        cell.setBorderColor(Color.WHITE);
+        cell1.setBorderColor(Color.WHITE);
+        cell2.setBorderColor(Color.WHITE);
+        cell3.setBorderColor(Color.WHITE);
+        cell4.setBorderColor(Color.WHITE);
+        cell5.setBorderColor(Color.WHITE);
+        cell6.setBorderColor(Color.WHITE);        
+        
+        table.addCell(cell0);
+        table.addCell(cell);
+        table.addCell(cell1);
+        table.addCell(cell2);
+        table.addCell(cell3);
+        table.addCell(cell4);
+        table.addCell(cell5);
+        table.addCell(cell6);
+        
+        for(AlunoTurma at : aluno){
+        	if(at.getTurma().getDisciplina().getTipo() == Tipo.OBRIGATORIA){
+        		obrigatorias++;
+        	}
+        	else if(at.getTurma().getDisciplina().getTipo() == Tipo.COMPLEMENTAR){
+        		complementar++;
+        	}
+        	else{
+        		optativa++;
+        	}
+        }
+        
+        for(int i = 0; i < obrigatorias; i++){        
+    		cell = new PdfPCell(new Paragraph(informacoes.get(i+1).get("Codigo"), f2));
+    		cell1 = new PdfPCell(new Paragraph(informacoes.get(i+1).get("Disciplina"), f2));
+            cell2 = new PdfPCell(new Paragraph(informacoes.get(i+1).get("Creditos"), f2));
+            cell3 = new PdfPCell(new Paragraph(informacoes.get(i+1).get("Carga Horaria"), f2));
+            cell4 = new PdfPCell(new Paragraph(informacoes.get(i+1).get("Periodo"), f2));
+            cell5 = new PdfPCell(new Paragraph(informacoes.get(i+1).get("Media"), f2));
+            cell6 = new PdfPCell(new Paragraph(informacoes.get(i+1).get("Situacao"), f2));
+            
+            cell.setBorderColor(Color.WHITE);
+            cell1.setBorderColor(Color.WHITE);
+            cell2.setBorderColor(Color.WHITE);
+            cell3.setBorderColor(Color.WHITE);
+            cell4.setBorderColor(Color.WHITE);
+            cell5.setBorderColor(Color.WHITE);
+            cell6.setBorderColor(Color.WHITE);       
+            
+            table.addCell(cell);
+            table.addCell(cell1);
+            table.addCell(cell2);
+            table.addCell(cell3);
+            table.addCell(cell4);
+            table.addCell(cell5);
+            table.addCell(cell6);
+        	
+        }                
+                
+        PdfPTable table1 = new PdfPTable(7);
+        cell0 = new PdfPCell(new Paragraph("Disciplicas Optativas", f1));  
+        cell = new PdfPCell(new Paragraph("Codigo", f2));
+        cell1 = new PdfPCell(new Paragraph("Disciplina", f2));
+        cell2 = new PdfPCell(new Paragraph("CR", f2));
+        cell3 = new PdfPCell(new Paragraph("CH", f2));
+        cell4 = new PdfPCell(new Paragraph("Período", f2));
+        cell5 = new PdfPCell(new Paragraph("Média", f2));
+        cell6 = new PdfPCell(new Paragraph("Situação", f2));
+        
+        cell0.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell0.setColspan(7);
+        
+        cell0.setBorderColor(Color.WHITE);
+        cell.setBorderColor(Color.WHITE);
+        cell1.setBorderColor(Color.WHITE);
+        cell2.setBorderColor(Color.WHITE);
+        cell3.setBorderColor(Color.WHITE);
+        cell4.setBorderColor(Color.WHITE);
+        cell5.setBorderColor(Color.WHITE);
+        cell6.setBorderColor(Color.WHITE);  
+                
+        table1.addCell(cell0);
+        table1.addCell(cell);
+        table1.addCell(cell1);
+        table1.addCell(cell2);
+        table1.addCell(cell3);
+        table1.addCell(cell4);
+        table1.addCell(cell5);
+        table1.addCell(cell6);
+   
+        for(int i = 0; i < optativa; i++){        
+    		cell = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias).get("Codigo"), f2));
+    		cell1 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias).get("Disciplina"), f2));
+            cell2 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias).get("Creditos"), f2));
+            cell3 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias).get("Carga Horaria"), f2));
+            cell4 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias).get("Periodo"), f2));
+            cell5 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias).get("Media"), f2));
+            cell6 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias).get("Situacao"), f2));
+            
+            cell.setBorderColor(Color.WHITE);
+            cell1.setBorderColor(Color.WHITE);
+            cell2.setBorderColor(Color.WHITE);
+            cell3.setBorderColor(Color.WHITE);
+            cell4.setBorderColor(Color.WHITE);
+            cell5.setBorderColor(Color.WHITE);
+            cell6.setBorderColor(Color.WHITE);       
+            
+            table1.addCell(cell);
+            table1.addCell(cell1);
+            table1.addCell(cell2);
+            table1.addCell(cell3);
+            table1.addCell(cell4);
+            table1.addCell(cell5);
+            table1.addCell(cell6);
+        }      
+        
+        
+        PdfPTable table2 = new PdfPTable(7);
+        cell0 = new PdfPCell(new Paragraph("Disciplicas Complementares", f1));   
+        cell = new PdfPCell(new Paragraph("Codigo", f2));
+        cell1 = new PdfPCell(new Paragraph("Disciplina", f2));
+        cell2 = new PdfPCell(new Paragraph("CR", f2));
+        cell3 = new PdfPCell(new Paragraph("CH", f2));
+        cell4 = new PdfPCell(new Paragraph("Período", f2));
+        cell5 = new PdfPCell(new Paragraph("Média", f2));
+        cell6 = new PdfPCell(new Paragraph("Situação", f2));
+        
+        cell0.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell0.setColspan(7);
+        
+        cell0.setBorderColor(Color.WHITE);
+        cell.setBorderColor(Color.WHITE);
+        cell1.setBorderColor(Color.WHITE);
+        cell2.setBorderColor(Color.WHITE);
+        cell3.setBorderColor(Color.WHITE);
+        cell4.setBorderColor(Color.WHITE);
+        cell5.setBorderColor(Color.WHITE);
+        cell6.setBorderColor(Color.WHITE);  
+                
+        table2.addCell(cell0);
+        table2.addCell(cell);
+        table2.addCell(cell1);
+        table2.addCell(cell2);
+        table2.addCell(cell3);
+        table2.addCell(cell4);
+        table2.addCell(cell5);
+        table2.addCell(cell6);        
+        
+        for(int i = 0; i < complementar; i++){        
+    		cell = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias+optativa).get("Codigo"), f2));
+    		cell1 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias+optativa).get("Disciplina"), f2));
+            cell2 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias+optativa).get("Creditos"), f2));
+            cell3 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias+optativa).get("Carga Horaria"), f2));
+            cell4 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias+optativa).get("Periodo"), f2));
+            cell5 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias+optativa).get("Media"), f2));
+            cell6 = new PdfPCell(new Paragraph(informacoes.get(i+1+obrigatorias+optativa).get("Situacao"), f2));
+            
+            cell.setBorderColor(Color.WHITE);
+            cell1.setBorderColor(Color.WHITE);
+            cell2.setBorderColor(Color.WHITE);
+            cell3.setBorderColor(Color.WHITE);
+            cell4.setBorderColor(Color.WHITE);
+            cell5.setBorderColor(Color.WHITE);
+            cell6.setBorderColor(Color.WHITE);       
+            
+            table2.addCell(cell);
+            table2.addCell(cell1);
+            table2.addCell(cell2);
+            table2.addCell(cell3);
+            table2.addCell(cell4);
+            table2.addCell(cell5);
+            table2.addCell(cell6);
+        }   
+                
+        PdfPTable table3 = new PdfPTable(6);
+       
+        cell0 = new PdfPCell(new Paragraph("Dados inerentes a integralizacao curricular", f1));   
+        cell1 = new PdfPCell(new Paragraph("Integralização Curricular", f2));
+        cell2 = new PdfPCell(new Paragraph("Mínimo", f2));
+        cell3 = new PdfPCell(new Paragraph("Integ.", f2));
+        cell4 = new PdfPCell(new Paragraph("Mínimo", f2));
+        cell5 = new PdfPCell(new Paragraph("Integr.", f2));
+        cell6 = new PdfPCell(new Paragraph("Mínimo", f2));
+        PdfPCell cell7 = new PdfPCell(new Paragraph("Integr.", f2));
+        
+        cell0.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        cell0.setColspan(7);
+        
+        cell0.setBorderColor(Color.WHITE);
+        cell1.setBorderColor(Color.WHITE);
+        cell2.setBorderColor(Color.WHITE);
+        cell3.setBorderColor(Color.WHITE);
+        cell4.setBorderColor(Color.WHITE);
+        cell5.setBorderColor(Color.WHITE);
+        cell6.setBorderColor(Color.WHITE);
+        cell7.setBorderColor(Color.WHITE);
+                
+        table3.addCell(cell0);
+        table3.addCell(cell1);
+        table3.addCell(cell2);
+        table3.addCell(cell3);
+        table3.addCell(cell4);
+        table3.addCell(cell5);
+        table3.addCell(cell6);
+        table3.addCell(cell7);
+          
+        
+        try 
+        {
+        	addParagrafo(new Paragraph("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", f2));
+            this.doc.add(table);
+            addParagrafo(new Paragraph("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", f2));
+            addParagrafo("\n");
+            this.doc.add(table1);
+            addParagrafo(new Paragraph("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", f2));
+            addParagrafo("\n");
+            this.doc.add(table2);
+            addParagrafo(new Paragraph("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", f2));
+            addParagrafo("\n");
+            addParagrafo(new Paragraph("==============================================================================================================\n", f2));
+            this.doc.add(table3);
+        } 
+        catch (DocumentException ex) {ex.printStackTrace();}
+        
+        addParagrafo(new Paragraph("Disciplinas Obrigatorias...... " + informacoes.get(1+obrigatorias+optativa+complementar).get("Carga Horaria Minima") + "   "
+        		+ informacoes.get(1+obrigatorias+optativa+complementar).get("Integralizada") + "   "
+        		+ informacoes.get(1+obrigatorias+optativa+complementar).get("Creditos Minimo") + "   "
+        		+ informacoes.get(1+obrigatorias+optativa+complementar).get("IntegralizadoCredito") + "   "
+        		+ informacoes.get(1+obrigatorias+optativa+complementar).get("Disciplinas Minimo") + "   "
+        		+ informacoes.get(1+obrigatorias+optativa+complementar).get("IntegralizadoDisciplina") + "   ", f2));
+        addParagrafo(new Paragraph("Disciplinas Optativas......... " + informacoes.get(2+obrigatorias+optativa+complementar).get("Carga Horaria Minima"), f2));
+        addParagrafo(new Paragraph("Disciplinas Complementares.... " + informacoes.get(2+obrigatorias+optativa+complementar).get("Carga Horaria Minima"), f2));
+        addParagrafo(new Paragraph("TOTAIS DO CURRICULO =========> " + informacoes.get(2+obrigatorias+optativa+complementar).get("Carga Horaria Minima"), f2));
+        
+        addParagrafo(new Paragraph("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", f2));
+        
+        addParagrafo(new Paragraph("Número de semestres cursados..", f2));
+        addParagrafo(new Paragraph("Trancamentos Totais efetuados.", f2));
+        addParagrafo(new Paragraph("Matrículas Institucionais ....", f2));
+        addParagrafo(new Paragraph("Trancamentos Parciais efetuad.", f2));
+        addParagrafo(new Paragraph("Matriculado atualmente em ....", f2));
+        
+        addParagrafo(new Paragraph("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", f2));
+        
+        addParagrafo(new Paragraph("Situacao acadêmica............", f2));
+        addParagrafo(new Paragraph("Forma de ingresso.............", f2));
+        
+        addParagrafo(new Paragraph("----------------------------------------------------------------------- PROVAS E NOTAS DO VESTIBULAR -----------------------------------------------------------------------", f2));
+        
+        addParagrafo(new Paragraph("------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------", f2));
+        
+        addParagrafo("\n");
+        addParagrafoCentralizado(new Paragraph("A MATRICULA É OBRIGATÓRIA EM TODO PERÍODO LETIVO EVITE SITUAÇÃO DE ABANDONO", f2));
+        addParagrafo("\n");
+        addParagrafoCentralizado(new Paragraph("HISTÓRICO EMITIDO PARA SIMPLES CONFERÊNCIA. NAO VALE COMO DOCUMENTO OFICIAL", f2));
 	}
 	
 	public Document getDoc() {

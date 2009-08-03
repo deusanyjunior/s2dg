@@ -287,7 +287,7 @@
 					<h:outputText value="Numero de semestres cursados.. #{turmasMatriculadasBean.geraSemestresCursados(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}   (Minimo: #{fachada.aluno.curriculo.minimoSemestres} , Maximo: #{fachada.aluno.curriculo.maximoSemestres}) de  ativos" />
 					<br/>
 					<h:outputText value="Trancamentos Totais efetuados.   #{turmasMatriculadasBean.geraTrancamentosTotais(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} (Max:#{fachada.aluno.curriculo.trancamentosTotais}  sem)" />
-					<br/>
+					<br/>	
 					<h:outputText value="Matriculas Institucionais ....    (Max:#{fachada.aluno.curriculo.matriculaInstitucional}  sem)" />
 					<br/>
 					<h:outputText value="Trancamentos Parciais efetuad. #{turmasMatriculadasBean.geraTrancamentosParciais()}

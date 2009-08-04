@@ -78,26 +78,59 @@ public class TurmasMatriculadasBean {
 		this.alunoTurmas = alunoTurmas;
 	}
 	
-	public int geraCreditosIntegralizados(Tipo tipo){
+	public int geraCreditosIntegralizadosObrigatorias(List<AlunoTurma> ats){
 
+		
 		int creditosIntegralizados = 0;
-		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
+		
 		if(ats != null){
 			for(int i=0; i < ats.size(); i++){
 				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
-					if(ats.get(i).getTurma().getDisciplina().getTipo() == tipo){
+					
 						creditosIntegralizados += ats.get(i).getTurma().getDisciplina().getCreditos();
-					}
+					
 				}
 			}
 		}
 		return creditosIntegralizados;
 	}
 	
-	public int geraCreditosIntegralizados(){
+public int geraCreditosIntegralizadosOptativas(List<AlunoTurma> ats){
+
+		
+		int creditosIntegralizados = 0;
+		
+		if(ats != null){
+			for(int i=0; i < ats.size(); i++){
+				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
+					
+						creditosIntegralizados += ats.get(i).getTurma().getDisciplina().getCreditos();
+					
+				}
+			}
+		}
+		return creditosIntegralizados;
+	}
+
+public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
+
+	
+	int creditosIntegralizados = 0;
+	
+	if(ats != null){
+		for(int i=0; i < ats.size(); i++){
+			if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
+				
+					creditosIntegralizados += ats.get(i).getTurma().getDisciplina().getCreditos();
+				
+			}
+		}
+	}
+	return creditosIntegralizados;
+}
+	public int geraCreditosIntegralizados(List<AlunoTurma> ats){
 
 		int creditosIntegralizados = 0;
-		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
 		if(ats != null){
 			for(int i=0; i < ats.size(); i++){
 				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
@@ -115,23 +148,27 @@ public class TurmasMatriculadasBean {
 		for(int i=0; i < alunoTurmas.size(); i++){
 			int anoLista = Integer.parseInt(alunoTurmas.get(i).getTurma().getPeriodo().getAno());
 			int semestreLista = (int)alunoTurmas.get(i).getTurma().getPeriodo().getSemestre();
-			if((((anoLista == anoAtual)&&(semestreLista == semestreAtual))&&((alunoTurmas.get(i).getSituacao()==Situacao.EM_CURSO) ||( alunoTurmas.get(i).getSituacao()==Situacao.DISPENSADO))) ){
+			System.out.println("--------------------"+ anoLista+"." +semestreLista +"  "+ alunoTurmas.get(i).getSituacao() +"   " + alunoTurmas.get(i).getTurma().getDisciplina().getCreditos());
+			if((((anoLista == anoAtual)&&(semestreLista == semestreAtual))&&((alunoTurmas.get(i).getSituacao()==Situacao.EM_CURSO))) ){
 				creditosPeriodoAtual += alunoTurmas.get(i).getTurma().getDisciplina().getCreditos();
 			}
 
 		}
 		return creditosPeriodoAtual;
 	}
-	public float geraCRE(){
+	public float geraCRE(List<AlunoTurma> ats){
 		float somaMedias = 0;
-		float somaCreditos = (float)geraCreditosIntegralizados();
+		float somaCreditos = (float)geraCreditosIntegralizados(ats);
 		
-		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
+		
 		if(ats != null){
 			for(int i=0; i < ats.size(); i++){
 				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) 
 						|| (ats.get(i).getSituacao()==Situacao.REPROVADO_POR_MEDIA)){
 					somaMedias += (ats.get(i).getTurma().getDisciplina().getCreditos())*(ats.get(i).getMedia());
+					if(ats.get(i).getSituacao()==Situacao.REPROVADO_POR_MEDIA){
+						somaCreditos += (ats.get(i).getTurma().getDisciplina().getCreditos());
+					}
 				}	
 			}
 		}
@@ -142,32 +179,54 @@ public class TurmasMatriculadasBean {
 		return creditos*15;
 	}
 	
-	public int geraDisciplinasIntegralizadas(){
+	public int geraDisciplinasIntegralizadas(List<AlunoTurma> ats){
+		
 		int disciplinasIntegralizadas = 0;
-		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
 		if(ats != null){
 			for(int i=0; i < ats.size(); i++){
 				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
 					disciplinasIntegralizadas++;
 				}
 			}
-			return disciplinasIntegralizadas;
 		}
 		return disciplinasIntegralizadas;
 	}
 
-	public int geraDisciplinasIntegralizadas(Tipo tipo){
+	public int geraDisciplinasIntegralizadasObrigatorias(List<AlunoTurma> ats){
 		int disciplinasIntegralizadas = 0;
-		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
+		
 		if(ats != null){
 			for(int i=0; i < ats.size(); i++){
 				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
-					if(ats.get(i).getTurma().getDisciplina().getTipo() == tipo){
 						disciplinasIntegralizadas++;
-					}
 				}
 			}
-			return disciplinasIntegralizadas;
+		}
+		return disciplinasIntegralizadas;
+	}
+
+	public int geraDisciplinasIntegralizadasOptativas(List<AlunoTurma> ats){
+		int disciplinasIntegralizadas = 0;
+		
+		if(ats != null){
+			for(int i=0; i < ats.size(); i++){
+				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
+						disciplinasIntegralizadas++;
+				}
+			}
+		}
+		return disciplinasIntegralizadas;
+	}
+
+	public int geraDisciplinasIntegralizadasComplementares(List<AlunoTurma> ats){
+		int disciplinasIntegralizadas = 0;
+		
+		if(ats != null){
+			for(int i=0; i < ats.size(); i++){
+				if((ats.get(i).getSituacao()==Situacao.APROVADO) ||( ats.get(i).getSituacao()==Situacao.DISPENSADO) ){
+						disciplinasIntegralizadas++;
+				}
+			}
 		}
 		return disciplinasIntegralizadas;
 	}
@@ -197,16 +256,16 @@ public class TurmasMatriculadasBean {
 		return "-----";
 	}
 	
-	public int geraTrancamentosParciais(){
+	public int geraTrancamentosParciais(List<AlunoTurma> ats){
 		int trancamentosParciais = 0;
-		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
 		if(ats != null){
 			for(int i=0; i < ats.size(); i++){
+				System.out.println("situacao----------------------"+ats.get(i).getSituacao());
 				if(ats.get(i).getSituacao()==Situacao.TRANCADO){
 					trancamentosParciais++;
 				}
 			}
-			return trancamentosParciais;
+			
 		}
 		return trancamentosParciais;
 	}
@@ -361,10 +420,10 @@ public class TurmasMatriculadasBean {
 				semestreAtual = semestreLista;
 				if(trancamentosParciais == listaPeriodo.size()){
 					trancamentosTotais++;
-					trancamentosParciais = 0;
-					listaPeriodo.clear();
-					i--;
 				}
+				trancamentosParciais = 0;
+				listaPeriodo.clear();
+				i--;
 			}
 		}
 		return trancamentosTotais;
@@ -420,7 +479,7 @@ public class TurmasMatriculadasBean {
 					salas += s.getSala() + "\n";
 				}
 			}
-			
+						
 			mapa.put("Sala", salas);
 			mapa.put("Turma", at.getTurma().getNumero());
 
@@ -504,50 +563,50 @@ public class TurmasMatriculadasBean {
 		}
 		//Integralizacoes Disciplina Obrigatoria
 		HashMap<String, String> mapaIntegralizacaoObrigatoria = new HashMap<String, String>();
-		mapaIntegralizacaoObrigatoria.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo())+"");
-		mapaIntegralizacaoObrigatoria.put("Integralizada", cargaHoraria(geraCreditosIntegralizados())+"");
-		mapaIntegralizacaoObrigatoria.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoObrigatoria.put("IntegralizadoCredito", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoObrigatoria.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinas()+"");
-		mapaIntegralizacaoObrigatoria.put("IntegralizadoDisciplina", alunoTurmas.size()+"");
+		mapaIntegralizacaoObrigatoria.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias())+"");
+		mapaIntegralizacaoObrigatoria.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))))+"");
+		mapaIntegralizacaoObrigatoria.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias()+"");
+		mapaIntegralizacaoObrigatoria.put("IntegralizadoCredito", geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoObrigatoria.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinasObrigatorias()+"");
+		mapaIntegralizacaoObrigatoria.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasObrigatorias(getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		mapas.add(mapaIntegralizacaoObrigatoria);
 		
 		//Integralizacoes Disciplina Optativa
 		HashMap<String, String> mapaIntegralizacaoOptativa = new HashMap<String, String>();
-		mapaIntegralizacaoOptativa.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo())+"");
-		mapaIntegralizacaoOptativa.put("Integralizada", cargaHoraria(geraCreditosIntegralizados())+"");
-		mapaIntegralizacaoOptativa.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoOptativa.put("IntegralizadoCredito", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoOptativa.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinas()+"");
-		mapaIntegralizacaoOptativa.put("IntegralizadoDisciplina", alunoTurmas.size()+"");
+		mapaIntegralizacaoOptativa.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosOptativas())+"");
+		mapaIntegralizacaoOptativa.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))))+"");
+		mapaIntegralizacaoOptativa.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosOptativas()+"");
+		mapaIntegralizacaoOptativa.put("IntegralizadoCredito", geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoOptativa.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas()+"");
+		mapaIntegralizacaoOptativa.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		mapas.add(mapaIntegralizacaoOptativa);
 		
 		//Integralizacoes Disciplina Complementar
 		HashMap<String, String> mapaIntegralizacaoComplementar = new HashMap<String, String>();
-		mapaIntegralizacaoComplementar.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo())+"");
-		mapaIntegralizacaoComplementar.put("Integralizada", cargaHoraria(geraCreditosIntegralizados())+"");
-		mapaIntegralizacaoComplementar.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoComplementar.put("IntegralizadoCredito", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoComplementar.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinas()+"");
-		mapaIntegralizacaoComplementar.put("IntegralizadoDisciplina", alunoTurmas.size()+"");
+		mapaIntegralizacaoComplementar.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosComplementares())+"");
+		mapaIntegralizacaoComplementar.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))))+"");
+		mapaIntegralizacaoComplementar.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosComplementares()+"");
+		mapaIntegralizacaoComplementar.put("IntegralizadoCredito", geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoComplementar.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinasComplementares()+"");
+		mapaIntegralizacaoComplementar.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasComplementares(getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		mapas.add(mapaIntegralizacaoComplementar);
 		
 		//Integralizacao Total
 		HashMap<String, String> mapaIntegralizacaoTotal = new HashMap<String, String>();
-		mapaIntegralizacaoTotal.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo())+"");
-		mapaIntegralizacaoTotal.put("Integralizada", cargaHoraria(geraCreditosIntegralizados())+"");
-		mapaIntegralizacaoTotal.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoTotal.put("IntegralizadoCredito", fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoTotal.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinas()+"");
-		mapaIntegralizacaoTotal.put("IntegralizadoDisciplina", alunoTurmas.size()+"");
+		mapaIntegralizacaoTotal.put("Carga Horaria Minima", cargaHoraria(geraMinimoCreditosCurriculo())+"");
+		mapaIntegralizacaoTotal.put("Integralizada", cargaHoraria(geraCreditosIntegralizados(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))))+"");
+		mapaIntegralizacaoTotal.put("Creditos Minimo", geraMinimoCreditosCurriculo()+"");
+		mapaIntegralizacaoTotal.put("IntegralizadoCredito", geraCreditosIntegralizados(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoTotal.put("Disciplinas Minimo", geraMinimoDisciplinasCurriculo()+"");
+		mapaIntegralizacaoTotal.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadas(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		mapas.add(mapaIntegralizacaoTotal);
 
 		//Semestres cursados
 		HashMap<String, String> mapaSemestresCursados = new HashMap<String, String>();
-		mapaSemestresCursados.put("Cursados", geraSemestresCursados(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaSemestresCursados.put("Cursados", geraSemestresCursados(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		mapaSemestresCursados.put("Minimo", fachada.getAluno().getCurriculo().getMinimoSemestres()+"");
 		mapaSemestresCursados.put("Maximo", fachada.getAluno().getCurriculo().getMaximoSemestres()+"");
-		mapaSemestresCursados.put("Ativos", geraSemestresCursados(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaSemestresCursados.put("Ativos", geraSemestresAtivos(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		mapas.add(mapaSemestresCursados);
 		
 		//Trancamentos Totais
@@ -558,19 +617,19 @@ public class TurmasMatriculadasBean {
 		
 		//Matriculas Institucionais
 		HashMap<String, String> mapaMatriculasInstitucionais = new HashMap<String, String>();
-		mapaMatriculasInstitucionais.put("Matriculas", geraTrancamentosTotais(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaMatriculasInstitucionais.put("Matriculas", fachada.getAluno().getMatriculasInstitucionais()+"");
 		mapaMatriculasInstitucionais.put("Maximo", fachada.getAluno().getCurriculo().getMaximoMatriculaInstitucional()+"");
 		mapas.add(mapaMatriculasInstitucionais);
 
 		//Trancamentos Parciais
 		HashMap<String, String> mapaTrancamentosParciais = new HashMap<String, String>();
-		mapaTrancamentosParciais.put("Trancamentos", geraTrancamentosParciais()+"");
-		mapaTrancamentosParciais.put("Maximo", fachada.getAluno().getCurriculo().getMinimoCreditos()+"");
+		mapaTrancamentosParciais.put("Trancamentos", geraTrancamentosParciais(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaTrancamentosParciais.put("Maximo", fachada.getAluno().getCurriculo().getMaximoTrancamentosParciais()+"");
 		mapas.add(mapaTrancamentosParciais);
 		
 		//Creditos Matriculados
 		HashMap<String, String> mapaCreditosMatriculados = new HashMap<String, String>();
-		mapaCreditosMatriculados.put("Matriculados", geraCreditosIntegralizados()+"");
+		mapaCreditosMatriculados.put("Matriculados", geraCreditosPeriodoAtual(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		mapaCreditosMatriculados.put("Minimo", fachada.getAluno().getCurriculo().getMinimoCreditos()+"");
 		mapaCreditosMatriculados.put("Maximo", fachada.getAluno().getCurriculo().getMaximoCreditos()+"");
 		mapas.add(mapaCreditosMatriculados);
@@ -578,7 +637,7 @@ public class TurmasMatriculadasBean {
 		//Situacao Academica
 		HashMap<String, String> mapaSituacaoAcademica = new HashMap<String, String>();
 		mapaSituacaoAcademica.put("Situacao", fachada.getAluno().getSituacaoAcademica()+"");
-		mapaSituacaoAcademica.put("CRE", geraCRE()+"");
+		mapaSituacaoAcademica.put("CRE", geraCRE(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		if(fachada.getAluno().getSituacaoAcademica()==SituacaoAcademica.GRADUADO){
 			mapaSituacaoAcademica.put("Ano de Conclusao", getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())).get(0).getTurma().getPeriodo().getAno().
 					  concat(" "+getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())).get(0).getTurma().getPeriodo().getSemestre()));

@@ -6,6 +6,8 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.Aluno;
+import org.ufpb.s2dg.entity.Aluno.FormaIngresso;
+import org.ufpb.s2dg.entity.Aluno.SituacaoAcademica;
 
 @Name("alunoBean")
 @Scope(ScopeType.SESSION)
@@ -20,5 +22,22 @@ public class AlunoBean {
 	public Aluno getAluno() {
 		return aluno;
 	}
-
+	
+	public Boolean situacaoAcademicaGraduado(){
+		
+		if(fachada.getAluno().getSituacaoAcademica()==SituacaoAcademica.GRADUADO){
+			return true;
+		}
+		else
+			return false;
+	}
+	
+	public Boolean formaIngresso(){
+		
+		if(fachada.getAluno().getFormaIngresso()==FormaIngresso.VESTIBULAR){
+			return true;
+		}
+		else
+			return false;
+	}
 }

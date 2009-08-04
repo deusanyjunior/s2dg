@@ -198,8 +198,10 @@
 					<br/>
 					<h:outputText value="---------------------------------------------------------------------------" />
 					<br/>
-					<h:outputText value="Situacao academica............#{fachada.aluno.situacaoAcademica}   CRE: " />
-					<h:outputText value="#{turmasMatriculadasBean.geraCRE(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}">
+					<h:outputText value="Situacao academica............#{fachada.aluno.situacaoAcademica}" />
+					<h:outputText rendered="#{alunoBean.situacaoAcademicaGraduado()}"  value="(em #{turmasMatriculadasBean.ultimoPeriodoCursado(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}
+											#{fachada.aluno.dataConclusao})" />
+					<h:outputText value="  CRE: #{turmasMatriculadasBean.geraCRE(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}">
 						<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
 									locale="pt_BR" />
 					</h:outputText>
@@ -209,8 +211,11 @@
 						(em #{turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)).get(0).turma.periodo.ano} 
 						#{turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)).get(0).turma.periodo.semestre})" />
 					<br/>
-					<h:outputText value="----------------------- PROVAS E NOTAS DO VESTIBULAR ----------------------" />	
+					<h:outputText rendered="#{alunoBean.formaIngresso()}" value="----------------------- PROVAS E NOTAS DO VESTIBULAR ----------------------" />	
 					<br/>
+					<ui:repeat value="#{fachada.aluno.disciplinasVestibular}" var="disciplinaVestibular">
+											
+					</ui:repeat>
 					<h:outputText value="---------------------------------------------------------------------------" />
 					<br/>
 					<h:outputText value="A MATRICULA E OBRIGATORIA EM TODO PERIODO LETIVO, EVITE SITUACAO DE ABANDONO" />

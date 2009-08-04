@@ -26,6 +26,8 @@ import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Sala;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.Usuario;
+import org.ufpb.s2dg.entity.Aluno.SituacaoAcademica;
+import org.ufpb.s2dg.session.persistence.AlunoDAO;
 import org.ufpb.s2dg.session.persistence.AlunoTurmaAvaliacaoDAO;
 import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
 import org.ufpb.s2dg.session.persistence.AvaliacaoDAO;
@@ -393,4 +395,5 @@ public class Fachada {
 	public List<Sala> getSalaDoBanco(long id) {
 		return salaDAO.getSalas(id);
 	}
+	
 }

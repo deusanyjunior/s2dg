@@ -71,10 +71,10 @@ public String botaoPressionado2(){
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Respostas diferentes.",null));
 			return null;
 		}
-		else if(!Utils.validatePassword(senhaAtual, usuario)){
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
-			return null;
-		}
+//		else if(!Utils.validatePassword(senhaAtual, usuario)){
+//			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
+//			return null;
+//		}
 		
 		usuario.setPergunta(pergunta);
 		usuario.setResposta(novaResposta1);

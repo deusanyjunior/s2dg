@@ -40,6 +40,7 @@ public class Aluno implements Serializable {
 	private FormaIngresso formaIngresso;
 	private Set<DisciplinaVestibular> disciplinasVestibular = new HashSet<DisciplinaVestibular>(0);
 	private int matriculasInstitucionais;
+	private String dataConclusao;
 
 	public Aluno() {
 		situacaoAcademica = SituacaoAcademica.REGULAR;
@@ -51,7 +52,8 @@ public class Aluno implements Serializable {
 
 	public Aluno(String matricula, Usuario usuario,
 			Set<AlunoTurma> alunoTurmas, Curriculo curriculo, SituacaoAcademica situacaoAcademica,
-			FormaIngresso formaIngresso, Set<DisciplinaVestibular> disciplinasVestibular, int matriculasInstitucionais) {
+			FormaIngresso formaIngresso, Set<DisciplinaVestibular> disciplinasVestibular, int matriculasInstitucionais,
+			String dataConclusao) {
 		this.matricula = matricula;
 		this.alunoTurmas = alunoTurmas;
 		this.usuario = usuario;
@@ -60,6 +62,7 @@ public class Aluno implements Serializable {
 		this.formaIngresso = formaIngresso;
 		this.disciplinasVestibular = disciplinasVestibular;
 		this.matriculasInstitucionais = matriculasInstitucionais;
+		this.dataConclusao = dataConclusao;
 	}
 
 	@Id
@@ -84,7 +87,7 @@ public class Aluno implements Serializable {
 	}
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "aluno")
-	public Set<DisciplinaVestibular> disciplinasVestibular() {
+	public Set<DisciplinaVestibular> getDisciplinasVestibular() {
 		return disciplinasVestibular;
 	}
 	
@@ -135,6 +138,15 @@ public class Aluno implements Serializable {
 
 	public void setMatriculasInstitucionais(int matriculasInstitucionais) {
 		this.matriculasInstitucionais = matriculasInstitucionais;
+	}
+	
+	@Column(name = "dt_conclusao")
+	public String getDataConclusao() {
+		return dataConclusao;
+	}
+
+	public void setDataConclusao(String dataConclusao) {
+		this.dataConclusao = dataConclusao;
 	}
 
 	

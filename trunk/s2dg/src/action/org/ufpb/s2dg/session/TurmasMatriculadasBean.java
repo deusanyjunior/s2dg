@@ -452,6 +452,16 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 			return false;
 	}
 	
+	public String ultimoPeriodoCursado(List<AlunoTurma> alunoTurmas){
+		if(alunoTurmas!=null){
+			String periodo = alunoTurmas.get(alunoTurmas.size()-1).getTurma().getPeriodo().getAno()+"."+
+							alunoTurmas.get(alunoTurmas.size()-1).getTurma().getPeriodo().getSemestre();
+			return periodo;
+		}
+		else
+			return null;
+	}
+	
 	public void exportarPDF() {
 		System.out.println("***********************************geraTabelaHoratio");
 		ArrayList<HashMap<String, String>> mapas = new ArrayList<HashMap<String, String>>();
@@ -637,11 +647,11 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		//Situacao Academica
 		HashMap<String, String> mapaSituacaoAcademica = new HashMap<String, String>();
 		mapaSituacaoAcademica.put("Situacao", fachada.getAluno().getSituacaoAcademica()+"");
-		mapaSituacaoAcademica.put("CRE", geraCRE(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		if(fachada.getAluno().getSituacaoAcademica()==SituacaoAcademica.GRADUADO){
-			mapaSituacaoAcademica.put("Ano de Conclusao", getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())).get(0).getTurma().getPeriodo().getAno().
-					  concat(" "+getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())).get(0).getTurma().getPeriodo().getSemestre()));
+			mapaSituacaoAcademica.put("Ano de Conclusao", ultimoPeriodoCursado(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))).
+					  concat(" "+fachada.getAluno().getDataConclusao()));
 		}
+		mapaSituacaoAcademica.put("CRE", geraCRE(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
 		mapaSituacaoAcademica.put("Forma de Ingresso", fachada.getAluno().getFormaIngresso()+"");
 		mapaSituacaoAcademica.put("Ano Ingresso", getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())).get(0).getTurma().getPeriodo().getAno().
 								  concat(" "+getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())).get(0).getTurma().getPeriodo().getSemestre()));

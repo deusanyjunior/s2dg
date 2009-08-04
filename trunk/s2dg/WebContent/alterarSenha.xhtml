@@ -9,7 +9,7 @@
 	xmlns:s="http://jboss.com/products/seam/taglib" 
 	template="/layout/template.xhtml">
 
-	
+	<ui:define name="body">
 
 		<center>
 		<h:form>
@@ -34,8 +34,8 @@
                     </h:panelGrid>
                     
                     
-                    <h:commandButton action="#{alterarSenha.cancelar}" value="Cancelar"
-                    	type="submit"/>
+                    <h:commandButton action="/home.seam" value="Cancelar" type="submit"/>
+                    
                     <h:commandButton action="#{alterarSenha.botaoPressionado}" value="Alterar"
                     	type="submit"/>
                     
@@ -57,8 +57,8 @@
                     <br />
                     
                     <h:panelGrid columns="2">
-                    	<h:outputText value="Digite sua senha:"/>
-                        <h:inputSecret value="#{alterarSenha.senhaAtual}" required="true"/>
+<!--                    	<h:outputText value="Digite sua senha:"/>-->
+<!--                        <h:inputSecret value="#{alterarSenha.senhaAtual}" required="true"/>-->
                     	
                         <h:outputText value="Digite a nova pergunta secreta:"/>
                         <h:inputText value="#{alterarSenha.pergunta}" required="true"/>
@@ -71,7 +71,7 @@
                     </h:panelGrid>
                     
                     
-                    <h:commandButton action="#{alterarSenha.cancelar}" value="Cancelar"
+                    <h:commandButton action="/home.seam" value="Cancelar"
                     	type="submit"/>
                     <h:commandButton action="#{alterarSenha.botaoPressionado2}" value="Alterar"
                     	type="submit"/>

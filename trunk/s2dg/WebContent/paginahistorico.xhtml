@@ -58,7 +58,7 @@
     			<rich:column style="vertical-align: middle; text-align: center" >
 			    	<h:outputText value="#{turmasMatriculadasBean.geraMedia(alunoTurma)}"/><br/></rich:column>
     			<rich:column  style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.situacao} "/><br/></rich:column>    		
+    				<h:outputText value="#{turmasMatriculadasBean.getTextoSituacao(alunoTurma.situacao)} "/><br/></rich:column>    		
     		</rich:dataTable>					
 			
 			<br/>
@@ -91,7 +91,7 @@
     			<rich:column style="vertical-align: middle; text-align: center" >
 	    			<h:outputText value="#{turmasMatriculadasBean.geraMedia(alunoTurma)}"/><br/></rich:column>
     			<rich:column  style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.situacao} "/><br/></rich:column>    	
+    				<h:outputText value="#{turmasMatriculadasBean.getTextoSituacao(alunoTurma.situacao)} "/><br/></rich:column>    	
     		</rich:dataTable>
     		
 			<br/>
@@ -124,7 +124,7 @@
     			<rich:column style="vertical-align: middle; text-align: center" >
 	    			<h:outputText value="#{turmasMatriculadasBean.geraMedia(alunoTurma)}"/><br/></rich:column>
     			<rich:column  style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.situacao} "/><br/></rich:column>    	
+    				<h:outputText value="#{turmasMatriculadasBean.getTextoSituacao(alunoTurma.situacao)} "/><br/></rich:column>    	
     		</rich:dataTable>
     	
 			<br/>
@@ -223,7 +223,7 @@
 					<h:outputText value="HISTORICO EMITIDO PARA SIMPLES CONFERENCIA. NAO VALE COMO DOCUMENTO OFICIAL" />
 
 					<center>
-    					<a4j:commandButton action="#{turmasMatriculadasBean.exportarHistoricoPDF()}" value="Imprimir" />
+    					<a4j:commandButton style="align:right" action="#{turmasMatriculadasBean.exportarHistoricoPDF()}" value="Imprimir" />
     				</center>
 
 

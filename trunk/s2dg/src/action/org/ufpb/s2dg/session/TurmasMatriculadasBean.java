@@ -74,6 +74,21 @@ public class TurmasMatriculadasBean {
 		return alunoTurmas;
 	}
 
+	public List<AlunoTurma> getAlunoTurmasEmCurso() {
+		
+		if(alunoTurmas == null || alunoTurmas.size() == 0)
+			return alunoTurmas;
+		
+		List<AlunoTurma> alunos = new LinkedList<AlunoTurma>();
+		
+		for(int i = 0; i < alunoTurmas.size(); i++){
+			if(alunoTurmas.get(i).getSituacao() == Situacao.EM_CURSO){
+				alunos.add(alunoTurmas.get(i));
+			}
+		}
+		return alunos;
+	}
+	
 	public void setAlunoTurmas(List<AlunoTurma> alunoTurmas) {
 		this.alunoTurmas = alunoTurmas;
 	}
@@ -177,6 +192,17 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 	
 	public int cargaHoraria(int creditos) {
 		return creditos*15;
+	}
+	
+	public String getTextoSituacao(Situacao situacao){
+		switch(situacao){
+			case APROVADO: return "APROVADO";
+			case DISPENSADO: return "DISPENSA";
+			case EM_CURSO: return "EM CURSO";
+			case REPROVADO_POR_FALTA: return "REP FALTA";
+			case REPROVADO_POR_MEDIA: return "REP MEDIA";
+			default: return "TRANCADO";
+		}
 	}
 	
 	public int geraDisciplinasIntegralizadas(List<AlunoTurma> ats){

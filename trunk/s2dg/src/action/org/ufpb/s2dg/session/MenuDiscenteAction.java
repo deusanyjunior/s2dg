@@ -12,7 +12,11 @@ public class MenuDiscenteAction {
 
 	public int Id_Menu = 0;
 
-	String[] lista_opcoes = {"/corpo_turma_discente.xhtml", "/matricula.xhtml", "/paginahistorico.xhtml", "/paginahorario.xhtml"};
+	String[] lista_opcoes = {"/corpo_turma_discente.xhtml", 
+							 "/matricula.xhtml", 
+							 "/paginahistorico.xhtml", 
+							 "/paginahorario.xhtml", 
+							 "/alterarSenha.xhtml"};
 	
 	public String getOption() {
 		return lista_opcoes[Id_Menu];

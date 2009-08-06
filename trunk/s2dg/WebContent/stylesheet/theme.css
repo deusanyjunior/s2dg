@@ -15,9 +15,12 @@ body {
 /* mensagens de erro */
 .info, .error, .warn, .fatal {
 	text-align: left;
-	padding: 5px;
+	text-indent: 5px;
+	padding-bottom: 5px;
+	padding-top: 5px;
 	width: 100%;
-	display:block;	
+	display:block;
+	margin:0px;	
 }
 .info {
 	color: white;
@@ -281,11 +284,6 @@ td {
 }
 
 .value {
-	float: left;
-	padding: 5px;
-}
-
-.error {
 	float: left;
 	padding: 5px;
 }

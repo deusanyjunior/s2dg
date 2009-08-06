@@ -3,6 +3,9 @@ package org.ufpb.s2dg.session;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
@@ -26,24 +29,34 @@ public class Authenticator
     @In
     Fachada fachada;
     
+    @In
+	FacesContext facesContext;
+    
     public boolean authenticate()
     {
     	credentials.setUsername(fachada.getCPF());
     	String cpfDado = credentials.getUsername().replaceAll("[.]", "").replaceAll("[-]", "");
         log.info("authenticating {0}", cpfDado);
         
-        Usuario usuario = fachada.getUsuarioDoBanco(cpfDado); 
-        
-        if (Utils.validatePassword(credentials.getPassword(), usuario)) {
-            Set<Role> roles = usuario.getRoles();
-            if(roles != null) {
-            	Iterator<Role> rolesIt = roles.iterator();
-            	while(rolesIt.hasNext()) {
-            		Role role = rolesIt.next();
-            		identity.addRole(role.getNome());
-            	}
+        Usuario usuario = fachada.getUsuarioDoBanco(cpfDado);
+
+        if(usuario != null) {
+        	if (Utils.validatePassword(credentials.getPassword(), usuario)) {
+        		Set<Role> roles = usuario.getRoles();
+        		if(roles != null) {
+        			Iterator<Role> rolesIt = roles.iterator();
+        			while(rolesIt.hasNext()) {
+        				Role role = rolesIt.next();
+        				identity.addRole(role.getNome());
+        			}
+        		}
+        	}
+        	else {
+            	facesContext.addMessage("login", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
+            	return false;
             }
         } else {
+        	facesContext.addMessage("login", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
         	return false;
         }
         

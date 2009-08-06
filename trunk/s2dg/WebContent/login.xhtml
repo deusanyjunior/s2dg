@@ -39,8 +39,9 @@
 			<center>
 			<rich:panel style="width:400px;">
 				<f:facet name="header">Login</f:facet>
-				
-				<h:messages  infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+
+				<h:message for="login" infoClass="info" warnClass="warn"
+					errorClass="error" fatalClass="fatal" />
 				<br />
 
 				<div class="dialog">
@@ -49,8 +50,6 @@
 					<h:panelGrid columns="2" rowClasses="prop" columnClasses="name,value">
 					
 					<div align="right"> CPF </div>
-					
-					
 						
 					<h:inputText id="username" value="#{emailAction.CPF}" required="true"
 						requiredMessage="O campo CPF é obrigatório!"> 

@@ -1,6 +1,11 @@
 package org.ufpb.s2dg.session.persistence;
 
+
+import java.util.List;
+
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
@@ -22,13 +27,12 @@ public class UsuarioDAO {
 	
 	//Criado por Julio e Rennan
 	public Usuario getUsuario(String username){
-		Object result = entityManager.createQuery(
-				    	"select u from Usuario as u where u.cpf =:cpf")
-				    	.setParameter("cpf", username)
-				    	.getSingleResult();
-		if (result == null)
-			return null;
-		return (Usuario) result;
+		Query query = entityManager.createQuery("select u from Usuario as u where u.cpf = :cpf")
+			.setParameter("cpf", username);
+		List<Usuario> result = query.getResultList();
+		if(result.size() > 0)
+			return (Usuario)result.get(0);
+		return null;
 	}
 
 	public Usuario getUsuarioProfessor(String matricula) {

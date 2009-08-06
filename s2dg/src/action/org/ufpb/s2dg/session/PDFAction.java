@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -20,6 +21,7 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Avaliacao;
+import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Disciplina.Tipo;
 import org.ufpb.s2dg.session.persistence.AlunoDAO;
 
@@ -59,6 +61,9 @@ public class PDFAction {
 	
 	@In
 	TurmasMatriculadasBean turmasMatriculadasBean;
+	
+	@In
+	TurmaBean turmaBean;
 	
 	private Document doc;
 	
@@ -287,14 +292,14 @@ public class PDFAction {
 		
         PdfPTable table = new PdfPTable(7);
         PdfPCell cell0 = new PdfPCell(new Paragraph("Horário Individual", f1));
-        PdfPCell cell1 = new PdfPCell(new Paragraph("Horário", f2));
+        PdfPCell cell1 = new PdfPCell(new Paragraph("Código", f2));
         PdfPCell cell2 = new PdfPCell(new Paragraph("Nome", f2));
         PdfPCell cell3 = new PdfPCell(new Paragraph("Turma", f2));
-        PdfPCell cell4 = new PdfPCell(new Paragraph("Código", f2));
-        PdfPCell cell5 = new PdfPCell(new Paragraph("Sala", f2));
-        PdfPCell cell6 = new PdfPCell(new Paragraph("Créditos", f2));
-        PdfPCell cell7 = new PdfPCell(new Paragraph("Carga Horária", f2));
-
+        PdfPCell cell4 = new PdfPCell(new Paragraph("CR", f2));
+        PdfPCell cell5 = new PdfPCell(new Paragraph("CH", f2));
+        PdfPCell cell6 = new PdfPCell(new Paragraph("Horário", f2));
+        PdfPCell cell7 = new PdfPCell(new Paragraph("Sala", f2));
+        
         cell0.setBackgroundColor(Color.BLUE);
         cell0.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         cell0.setColspan(7);
@@ -333,13 +338,13 @@ public class PDFAction {
         
         for(HashMap<String, String> hash : informacoes){
         	
-        	cell1 = new PdfPCell(new Paragraph(hash.get("Horarios"), f2));
-            cell2 = new PdfPCell(new Paragraph(hash.get("Nome"), f2));
-            cell3 = new PdfPCell(new Paragraph(hash.get("Turma"), f2));
-            cell4 = new PdfPCell(new Paragraph(hash.get("Codigo"), f2));
-            cell5 = new PdfPCell(new Paragraph(hash.get("Sala"), f2));
-            cell6 = new PdfPCell(new Paragraph(hash.get("Creditos"), f2));
-            cell7 = new PdfPCell(new Paragraph(hash.get("Carga Horaria"), f2));
+        	cell1 = new PdfPCell(new Paragraph(hash.get("Codigo"), f2));
+        	cell2 = new PdfPCell(new Paragraph(hash.get("Nome"), f2));
+        	cell3 = new PdfPCell(new Paragraph(hash.get("Turma"), f2));
+            cell4 = new PdfPCell(new Paragraph(hash.get("Creditos"), f2));
+            cell5 = new PdfPCell(new Paragraph(hash.get("Carga Horaria"), f2));
+            cell6 = new PdfPCell(new Paragraph(hash.get("Horarios"), f2));
+            cell7 = new PdfPCell(new Paragraph(hash.get("Sala"), f2));
             
             cell1.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
 
@@ -373,13 +378,23 @@ public class PDFAction {
 	
 	public void geraTabelaRelatorioDeNotas(List<AlunoTurma> list, List<Avaliacao> avaliacoes){
 		geraCabecalho("DIÁRIO DE CLASSE");
-		
+						
         Font f1 = new Font(); f1.setStyle(Font.BOLD); f1.setSize(12);
         Font f2 = new Font(); f2.setStyle(Font.ITALIC); f2.setSize(8);
         
+        addParagrafo(new Paragraph("Disciplina: " + turmaBean.getTurma().getDisciplina().getCodigo() +"-"+ turmaBean.getTurma().getDisciplina().getNome(), f2));
+        addParagrafo(new Paragraph("Numero da Turma: " + turmaBean.getTurma().getNumero(), f2));
+        String professores = "";
+        Iterator<Professor> it = turmaBean.getTurma().getProfessores().iterator();
+        while(it.hasNext()){
+        	//nao ta funcionando
+        	//professores += it.next().getUsuario().getNome() + " ";
+        }
+        addParagrafo(new Paragraph("Professores: " + professores + "\n\n", f2));
+        
         int size = 3;
         if (avaliacoes != null)
-         size = 3 + avaliacoes.size();
+         size = 4 + avaliacoes.size();
         
         System.out.println("***********************************"+size);
 
@@ -390,7 +405,8 @@ public class PDFAction {
         
         cell[0] = new PdfPCell(new Paragraph("Relatorio de Notas", f1));
         cell[1] = new PdfPCell(new Paragraph("Aluno", f2));
-        cell[2] = new PdfPCell(new Paragraph("Faltas", f2));
+        cell[2] = new PdfPCell(new Paragraph("Matrícula", f2));
+        cell[3] = new PdfPCell(new Paragraph("Faltas", f2));
         
         cell[0].setBackgroundColor(Color.BLUE);
         cell[0].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -404,18 +420,21 @@ public class PDFAction {
         cell[2].setBackgroundColor(Color.LIGHT_GRAY);
         cell[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         
+        cell[3].setBackgroundColor(Color.LIGHT_GRAY);
+        cell[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         
-        for(int i = 0; i < size - 3; i++){
+        for(int i = 0; i < size - 4; i++){
         	Avaliacao avaliacao = avaliacoes.get(i);
         	
-        	cell[i+3] = new PdfPCell(new Paragraph(avaliacao.getNome(), f2));
-        	cell[i+3].setBackgroundColor(Color.LIGHT_GRAY);
-            cell[i+3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        	//Pegar a data nao ta funcionando
+        	cell[i+4] = new PdfPCell(new Paragraph(avaliacao.getNome() + "\nPeso: " + avaliacao.getPeso() + " Data: " /*+avaliacao.getDataEvento().getData().toString()*/, f2));
+        	cell[i+4].setBackgroundColor(Color.LIGHT_GRAY);
+            cell[i+4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             
             System.out.println("¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬*****i: "+i);
         }
         
-        cell[cell.length - 1] = new PdfPCell(new Paragraph("Media", f2));
+        cell[cell.length - 1] = new PdfPCell(new Paragraph("Média Final", f2));
 
         cell[cell.length - 1].setBackgroundColor(Color.LIGHT_GRAY);
         cell[cell.length - 1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -429,13 +448,16 @@ public class PDFAction {
         
         for(AlunoTurma aluno : list){
         	cell[1] = new PdfPCell(new Paragraph(aluno.getAluno().getUsuario().getNome(), f2));
-        	cell[2] = new PdfPCell(new Paragraph(aluno.getFaltas()+"", f2));
+        	cell[2] = new PdfPCell(new Paragraph(aluno.getAluno().getMatricula(), f2));
+        	cell[3] = new PdfPCell(new Paragraph(aluno.getFaltas()+"", f2));
         	
         	cell[1].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	cell[2].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+        	cell[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
         	
             table.addCell(cell[1]);
             table.addCell(cell[2]);
+            table.addCell(cell[3]);
             
             if (avaliacoes != null) {
             
@@ -447,10 +469,10 @@ public class PDFAction {
             
             }
             
-            cell[3] = new PdfPCell(new Paragraph(aluno.getMedia()+"", f2));
-            cell[3].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
+            cell[4] = new PdfPCell(new Paragraph(aluno.getMedia()+"", f2));
+            cell[4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             
-            table.addCell(cell[3]);
+            table.addCell(cell[4]);
         }
         
         try 

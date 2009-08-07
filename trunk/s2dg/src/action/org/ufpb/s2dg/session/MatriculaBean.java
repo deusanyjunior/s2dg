@@ -16,11 +16,9 @@ import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.jboss.seam.annotations.Transactional;
-import org.jboss.seam.log.Log;
 import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Calendario;
@@ -50,8 +48,6 @@ public class MatriculaBean {
 	Fachada fachada;
 	@In
 	FacesContext facesContext;
-	@Logger
-	private Log log;
 	
 	@Create
 	public void init() {
@@ -197,10 +193,14 @@ public class MatriculaBean {
 							novoAlunoTurma.setTurma(turma);
 							novoAlunoTurma.setFaltas(0);
 							fachada.criaAlunoTurma(novoAlunoTurma);
-							log.info("Aluno {0} (CPF:{1}) foi matriculado com sucesso na disciplina {2} (código:{3}), turma {4} (id:{5})",
-									fachada.getUsuario().getNome(),fachada.getUsuario().getCpf(),
-									turma.getDisciplina().getNome(),turma.getDisciplina().getCodigo(),
-									turma.getNumero(),turma.getId());
+							String log = "Aluno "+fachada.getUsuario().getNome()
+								+" (CPF:"+fachada.getUsuario().getCpf()
+								+") foi matriculado com sucesso na disciplina "+turma.getDisciplina().getNome()
+								+" (código:"+turma.getDisciplina().getCodigo()
+								+"), turma "+turma.getNumero()
+								+" (id:"+turma.getId()
+								+")";
+							fachada.fazLog(log);
 						}
 						turmasSelecionadas.clear();
 						String msg = "Matrícula realizada com sucesso.";

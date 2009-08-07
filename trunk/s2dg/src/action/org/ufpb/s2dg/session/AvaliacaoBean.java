@@ -130,6 +130,15 @@ public class AvaliacaoBean {
 				else
 					avaliacao.getDataEvento().setEvento("Avaliação: "+avaliacao.getNome());
 				fachada.criaAvaliacao(avaliacao);
+				String log = "Professor "+fachada.getUsuario().getNome()
+					+" (CPF:"+fachada.getUsuario().getCpf()
+					+") criou a avaliação \""+avaliacao.getNome()
+					+"\" para a turma "+turmaAtual.getNumero()
+					+" (id:"+turmaAtual.getId()
+					+") da disciplina "+turmaAtual.getDisciplina().getNome()
+					+"(código:"+turmaAtual.getDisciplina().getCodigo()
+					+")";
+				fachada.fazLog(log);
 				fachada.atualizaAlunoTurmas();
 				avaliacao = new Avaliacao();
 				avaliacao.setDataEvento(new DataEvento());

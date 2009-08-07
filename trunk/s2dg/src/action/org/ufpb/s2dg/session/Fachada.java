@@ -2,7 +2,6 @@ package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
@@ -26,8 +25,6 @@ import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Sala;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.Usuario;
-import org.ufpb.s2dg.entity.Aluno.SituacaoAcademica;
-import org.ufpb.s2dg.session.persistence.AlunoDAO;
 import org.ufpb.s2dg.session.persistence.AlunoTurmaAvaliacaoDAO;
 import org.ufpb.s2dg.session.persistence.AlunoTurmaDAO;
 import org.ufpb.s2dg.session.persistence.AvaliacaoDAO;
@@ -37,6 +34,7 @@ import org.ufpb.s2dg.session.persistence.CursoDAO;
 import org.ufpb.s2dg.session.persistence.DataEventoDAO;
 import org.ufpb.s2dg.session.persistence.DisciplinaDAO;
 import org.ufpb.s2dg.session.persistence.GlobalDAO;
+import org.ufpb.s2dg.session.persistence.LogDAO;
 import org.ufpb.s2dg.session.persistence.OfertaDAO;
 import org.ufpb.s2dg.session.persistence.ProfessorDAO;
 import org.ufpb.s2dg.session.persistence.SalaDAO;
@@ -76,6 +74,8 @@ public class Fachada {
 	private DisciplinaDAO disciplinaDAO;
 	@In
 	private SalaDAO salaDAO;
+	@In
+	private LogDAO logDAO;
 	
 	@In
 	private UsuarioBean usuarioBean;
@@ -394,6 +394,10 @@ public class Fachada {
 	
 	public List<Sala> getSalaDoBanco(long id) {
 		return salaDAO.getSalas(id);
+	}
+
+	public void fazLog(String log) {
+		logDAO.cria(log);
 	}
 	
 }

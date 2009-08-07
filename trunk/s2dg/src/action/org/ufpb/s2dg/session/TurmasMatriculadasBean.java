@@ -12,6 +12,7 @@ import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
+import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Disciplina;
 import org.ufpb.s2dg.entity.Horario;
@@ -47,6 +48,9 @@ public class TurmasMatriculadasBean {
 	
 	@In
 	UsuarioBean usuarioBean;
+	
+	@In
+	AlunoBean alunoBean;
 		
 	public void init() {
 		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
@@ -93,6 +97,10 @@ public class TurmasMatriculadasBean {
 		this.alunoTurmas = alunoTurmas;
 	}
 	
+	public List<AlunoTurma> getAluno(){
+		List<AlunoTurma> aluno = alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula());
+		return aluno;
+	}
 	public int geraCreditosIntegralizadosObrigatorias(List<AlunoTurma> ats){
 
 		
@@ -487,7 +495,501 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		else
 			return null;
 	}
+	public float geraMediaVestibular(){
+
+		float media = fachada.getAluno().getValorProva1() + fachada.getAluno().getValorProva2() + fachada.getAluno().getValorProva3()
+					+ fachada.getAluno().getValorProva4() + fachada.getAluno().getValorProva5() + fachada.getAluno().getValorProva6()
+					+ fachada.getAluno().getValorProva7() + fachada.getAluno().getValorProva8();
+		if(fachada.getAluno().getValorProva9()!=null){
+			media += fachada.getAluno().getValorProva9();
+			return media/9;
+		}
+		else
+			return media/8;
+	}
 	
+	public LinkedList<String> geraHistorico(){
+		LinkedList<String> lista = new LinkedList<String>();
+		String historico = "";
+        historico = "-------------------------H I S T O R I C O   E S C O L A R";//25 espacos
+        lista.add(historico);
+        lista.add(""); // por causa do o segundo '/n'
+        historico = ("ALUNO: "+fachada.getAluno().getMatricula()+"--"+fachada.getUsuario().getNome()).toUpperCase();
+        lista.add(historico);
+		historico = ("CURSO: "+fachada.getAluno().getCurriculo().getCurso().getCodigo()+"--"+fachada.getAluno().getCurriculo().getCurso().getNome()+
+				" CURRICULO: "+fachada.getAluno().getCurriculo().getNumero()).toUpperCase();
+		lista.add(historico);
+		historico = ("RECONHECIMENTO: "+fachada.getAluno().getCurriculo().getCurso().getCur_ato_criacao()+"  "+"RG: "+fachada.getUsuario().getRg()).toUpperCase();
+		lista.add(historico);
+		lista.add("");
+		historico = ("CODIGO--NOME DA DISCIPLINA-----------------------CR CH. PERIOD MEDIA SITUACAO");
+		lista.add(historico);
+		List<AlunoTurma> ats = getObrigatoriasOrdenadas(getAluno());
+		String auxiliar = "";
+		if(ats.size()>0){
+			historico = ("=====================-----DISCIPLINAS OBRIGATORIAS-----======================");
+			lista.add(historico);
+			for(int i = 0; i < ats.size(); i++){
+				auxiliar = "";
+				historico = (ats.get(i).getTurma().getDisciplina().getCodigo()+" ");
+				auxiliar = ats.get(i).getTurma().getDisciplina().getNome();
+				if(auxiliar.length()<41){
+					for(int j = auxiliar.length(); j < 41; j++){
+						auxiliar += "-";
+					}
+				}
+				historico += auxiliar+" ";
+				historico += ats.get(i).getTurma().getDisciplina().getCreditos()+" ";
+				auxiliar = (cargaHoraria(ats.get(i).getTurma().getDisciplina().getCreditos()))+"";
+				if(auxiliar.length()<3){
+					for(int j = auxiliar.length(); j < 3; j++){
+						auxiliar = "-"+auxiliar;
+					}
+				}
+				historico += auxiliar+" ";
+				historico += ats.get(i).getTurma().getPeriodo().getAno()+" "+ats.get(i).getTurma().getPeriodo().getSemestre()+" ";
+				auxiliar = geraMedia(ats.get(i))+"";
+				if(auxiliar.length()<5){
+					for(int j = auxiliar.length(); j < 5; j++){
+						auxiliar = "-"+auxiliar;
+					}
+				}
+				historico += auxiliar+" "+getTextoSituacao(ats.get(i).getSituacao());
+				lista.add(historico.toUpperCase());
+			}			
+		}
+		ats = getOptativasOrdenadas(getAluno());
+		if(ats.size()>0){
+			historico = ("=====================------DISCIPLINAS OPTATIVAS------=======================");
+			lista.add(historico);
+			for(int i = 0; i < ats.size(); i++){
+				auxiliar = "";
+				historico = (ats.get(i).getTurma().getDisciplina().getCodigo()+" ");
+				auxiliar = ats.get(i).getTurma().getDisciplina().getNome();
+				if(auxiliar.length()<41){
+					for(int j = auxiliar.length(); j < 41; j++){
+						auxiliar += "-";
+					}
+				}
+				historico += auxiliar+" ";
+				historico += ats.get(i).getTurma().getDisciplina().getCreditos()+" ";
+				auxiliar = (cargaHoraria(ats.get(i).getTurma().getDisciplina().getCreditos()))+"";
+				if(auxiliar.length()<3){
+					for(int j = auxiliar.length(); j < 3; j++){
+						auxiliar = "-"+auxiliar;
+					}
+				}
+				historico += auxiliar+" ";
+				historico += ats.get(i).getTurma().getPeriodo().getAno()+" "+ats.get(i).getTurma().getPeriodo().getSemestre()+" ";
+				auxiliar = geraMedia(ats.get(i))+"";
+				if(auxiliar.length()<5){
+					for(int j = auxiliar.length(); j < 5; j++){
+						auxiliar = "-"+auxiliar;
+					}
+				}
+				historico += auxiliar+" "+getTextoSituacao(ats.get(i).getSituacao());
+				lista.add(historico.toUpperCase());
+			}			
+		}
+		ats = getComplementaresOrdenadas(getAluno());
+		if(ats.size()>0){
+			historico = ("=====================-----DISCIPLINAS COMPLEMENTARES---=======================");
+			lista.add(historico);
+			for(int i = 0; i < ats.size(); i++){
+				auxiliar = "";
+				historico = (ats.get(i).getTurma().getDisciplina().getCodigo()+" ");
+				auxiliar = ats.get(i).getTurma().getDisciplina().getNome();
+				if(auxiliar.length()<41){
+					for(int j = auxiliar.length(); j < 41; j++){
+						auxiliar += "-";
+					}
+				}
+				historico += auxiliar+" ";
+				historico += ats.get(i).getTurma().getDisciplina().getCreditos()+" ";
+				auxiliar = (cargaHoraria(ats.get(i).getTurma().getDisciplina().getCreditos()))+"";
+				if(auxiliar.length()<3){
+					for(int j = auxiliar.length(); j < 3; j++){
+						auxiliar = "-"+auxiliar;
+					}
+				}
+				historico += auxiliar+" ";
+				historico += ats.get(i).getTurma().getPeriodo().getAno()+" "+ats.get(i).getTurma().getPeriodo().getSemestre()+" ";
+				auxiliar = geraMedia(ats.get(i))+"";
+				if(auxiliar.length()<5){
+					for(int j = auxiliar.length(); j < 5; j++){
+						auxiliar = "-"+auxiliar;
+					}
+				}
+				historico += auxiliar+" "+getTextoSituacao(ats.get(i).getSituacao());
+				lista.add(historico.toUpperCase());
+			}			
+		}
+		lista.add("");
+		historico = "=============================================================================";
+		lista.add(historico);
+		lista.add("");
+		historico = "DADOS INERENTES A INTEGRALIZAÇAO CURRICULAR";
+		lista.add(historico);
+		lista.add("");
+		historico = "------------------------------CARGA HORARIA------CREDITOS------DISCIPLINAS-";
+		lista.add(historico);
+		historico = "INTEGRALIZACAO CURRICULAR-----Minimo Integr.--Minima Integr.--Minimo Integr";
+		lista.add(historico);
+		historico = "---------------------------------------------------------------------------";
+		lista.add(historico);
+		historico = "Disciplinas Obrigatorias...... ";
+		auxiliar = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias())+"";
+		if(auxiliar.length()<5){
+			for(int i = auxiliar.length(); i < 5; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = cargaHoraria(geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno())))+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias()+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno()))+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = fachada.getAluno().getCurriculo().getMinimoDisciplinasObrigatorias()+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";	
+		auxiliar = geraDisciplinasIntegralizadasObrigatorias(getObrigatoriasOrdenadas(getAluno()))+" ";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";									
+		lista.add(historico);
+		historico = "Disciplinas Optativas......... ";
+		auxiliar = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosOptativas())+"";
+		if(auxiliar.length()<5){
+			for(int i = auxiliar.length(); i < 5; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno())))+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = fachada.getAluno().getCurriculo().getMinimoCreditosOptativas()+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno()))+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas()+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";	
+		auxiliar = geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(getAluno()))+" ";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";									
+		lista.add(historico);
+		historico = "Disciplinas Eletivas.......... ----- ------0 ------- ------0 ------- -----0";
+		lista.add(historico);
+		
+		historico = "Disciplinas Complementares.... ";
+		auxiliar = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosComplementares())+"";
+		if(auxiliar.length()<5){
+			for(int i = auxiliar.length(); i < 5; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = cargaHoraria(geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno())))+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = fachada.getAluno().getCurriculo().getMinimoCreditosComplementares()+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno()))+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = fachada.getAluno().getCurriculo().getMinimoDisciplinasComplementares()+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";	
+		auxiliar = geraDisciplinasIntegralizadasComplementares(getComplementaresOrdenadas(getAluno()))+" ";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";									
+		lista.add(historico);
+		
+		historico = "TOTAIS DO CURRICULO =========> ";
+		auxiliar = cargaHoraria(geraMinimoCreditosCurriculo())+"";
+		if(auxiliar.length()<5){
+			for(int i = auxiliar.length(); i < 5; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = cargaHoraria(geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno())))+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = geraMinimoCreditosCurriculo()+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno()))+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";
+		auxiliar = geraMinimoDisciplinasCurriculo()+"";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";	
+		auxiliar = geraDisciplinasIntegralizadas(getDisciplinasOrdenadas(getAluno()))+" ";
+		if(auxiliar.length()<7){
+			for(int i = auxiliar.length(); i < 7; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" ";									
+		lista.add(historico);
+		
+		historico = "Disciplinas Extra-Curriculares ----- ------0 ------- ------0 ------- -----0";
+		lista.add(historico);
+		historico = "---------------------------------------------------------------------------";
+		lista.add(historico);
+
+		historico = "Numero de semestres cursados.. ";
+		auxiliar = geraSemestresCursados(getDisciplinasOrdenadas(getAluno()))+"";
+		if(auxiliar.length()<4){
+			for(int i = auxiliar.length(); i < 4; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" "+"(Minimo: ";	
+		auxiliar = fachada.getAluno().getCurriculo().getMinimoSemestres()+"";
+		if(auxiliar.length()<2){
+			for(int i = auxiliar.length(); i < 2; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+", Maximo: "+fachada.getAluno().getCurriculo().getMaximoSemestres()+") de "
+					+geraSemestresAtivos(getDisciplinasOrdenadas(getAluno()))+" ativos";
+		lista.add(historico);
+		
+		historico = "Trancamentos Totais efetuados. ";
+		auxiliar = geraTrancamentosTotais(getDisciplinasOrdenadas(getAluno()))+"";
+		if(auxiliar.length()<4){
+			for(int i = auxiliar.length(); i < 4; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" (Max: "+fachada.getAluno().getCurriculo().getMaximoTrancamentosTotais()+" sem)";
+		lista.add(historico);
+		
+		historico = "Matriculas Institucionais .... ";
+		auxiliar = fachada.getAluno().getMatriculasInstitucionais()+"";
+		if(auxiliar.length()<4){
+			for(int i = auxiliar.length(); i < 4; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" (Max: "+fachada.getAluno().getCurriculo().getMaximoMatriculaInstitucional()+" sem)";
+		lista.add(historico);
+		
+		historico = "Trancamentos Parciais efetuad. ";
+		auxiliar = geraTrancamentosParciais(getDisciplinasOrdenadas(getAluno()))+"";
+		if(auxiliar.length()<4){
+			for(int i = auxiliar.length(); i < 4; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" (Minimo: --, Maximo: "+fachada.getAluno().getCurriculo().getMaximoTrancamentosParciais()+")";
+		lista.add(historico);
+		
+		historico = "Matriculado atualmente em .... ";
+		auxiliar = geraCreditosPeriodoAtual(getDisciplinasOrdenadas(getAluno()))+"";
+		if(auxiliar.length()<4){
+			for(int i = auxiliar.length(); i < 4; i++){
+				auxiliar = "-"+auxiliar;
+			}
+		}
+		historico += auxiliar+" Creditos (Minimo: "+fachada.getAluno().getCurriculo().getMinimoCreditos()+", Maximo: "
+		+fachada.getAluno().getCurriculo().getMaximoCreditos()+")";	
+		lista.add(historico);
+		
+		historico = "---------------------------------------------------------------------------";
+		lista.add(historico);
+		
+		historico = "Situacao academica............ ";
+		auxiliar = fachada.getAluno().getSituacaoAcademica()+"";
+		if(alunoBean.situacaoAcademicaGraduado()){
+			auxiliar += "(em "+ultimoPeriodoCursado(getDisciplinasOrdenadas(getAluno()))+" "+fachada.getAluno().getDataConclusao()+") ";
+		}
+		if(auxiliar.length()<34){
+			for(int i = auxiliar.length(); i < 34; i++){
+				auxiliar += "-";
+			}
+		}
+		historico += auxiliar+" CRE: "+geraCRE(getDisciplinasOrdenadas(getAluno()));
+		lista.add(historico);
+		
+		historico = "Forma de ingresso............. "+fachada.getAluno().getFormaIngresso()+" (em "
+					+getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getAno()+"."
+					+getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getSemestre()+")";
+		lista.add(historico);
+		
+		if(alunoBean.formaIngresso()){
+			historico = "----------------------- PROVAS E NOTAS DO VESTIBULAR ----------------------";
+			lista.add(historico);
+			auxiliar = fachada.getAluno().getNomeProva1();
+			if(auxiliar.length()<20){
+				for(int i = auxiliar.length();i < 20; i++){
+					auxiliar += "-";
+				}
+			}
+			historico = auxiliar +" "+fachada.getAluno().getValorProva1()+" ";
+			auxiliar = fachada.getAluno().getNomeProva2();
+			if(auxiliar.length()<20){
+				for(int i = auxiliar.length();i < 20; i++){
+					auxiliar += "-";
+				}
+			}
+			historico += auxiliar +" "+fachada.getAluno().getValorProva2()+" ";
+			auxiliar = fachada.getAluno().getNomeProva3();
+			if(auxiliar.length()<20){
+				for(int i = auxiliar.length();i < 20; i++){
+					auxiliar += "-";
+				}
+			}
+			historico += auxiliar +" "+fachada.getAluno().getValorProva3();
+			lista.add(historico.toUpperCase());
+			
+			auxiliar = fachada.getAluno().getNomeProva4();
+			if(auxiliar.length()<20){
+				for(int i = auxiliar.length();i < 20; i++){
+					auxiliar += "-";
+				}
+			}
+			historico = auxiliar +" "+fachada.getAluno().getValorProva4()+" ";
+			auxiliar = fachada.getAluno().getNomeProva5();
+			if(auxiliar.length()<20){
+				for(int i = auxiliar.length();i < 20; i++){
+					auxiliar += "-";
+				}
+			}
+			historico += auxiliar +" "+fachada.getAluno().getValorProva5()+" ";
+			auxiliar = fachada.getAluno().getNomeProva6();
+			if(auxiliar.length()<20){
+				for(int i = auxiliar.length();i < 20; i++){
+					auxiliar += "-";
+				}
+			}
+			historico += auxiliar +" "+fachada.getAluno().getValorProva6();
+			lista.add(historico.toUpperCase());
+			
+			auxiliar = fachada.getAluno().getNomeProva7();
+			if(auxiliar.length()<20){
+				for(int i = auxiliar.length();i < 20; i++){
+					auxiliar += "-";
+				}
+			}
+			historico = auxiliar +" "+fachada.getAluno().getValorProva7()+" ";
+			auxiliar = fachada.getAluno().getNomeProva8();
+			if(auxiliar.length()<20){
+				for(int i = auxiliar.length();i < 20; i++){
+					auxiliar += "-";
+				}
+			}
+			historico += auxiliar +" "+fachada.getAluno().getValorProva8()+" ";
+			if (fachada.getAluno().getNomeProva9()!=null) {
+				auxiliar = fachada.getAluno().getNomeProva9();
+				if (auxiliar.length() < 20) {
+					for (int i = auxiliar.length(); i < 20; i++) {
+						auxiliar += "-";
+					}
+				}
+				historico += auxiliar + " "
+						+ fachada.getAluno().getValorProva9();
+			}
+			lista.add(historico.toUpperCase());
+			
+			historico = "MEDIA GERAL......."+geraMediaVestibular();
+			lista.add(historico);
+			historico = "---------------------------------------------------------------------------";
+			lista.add(historico);
+			historico = "A MATRICULA E OBRIGATÓRIA EM TODO PERÍODO LETIVO,EVITE SITUAÇÃO DE ABANDONO";
+			lista.add(historico);
+			lista.add("");lista.add("");
+			historico = "HISTORICO EMITIDO PARA SIMPLES CONFERENCIA. NAO VALE COMO DOCUMENTO OFICIAL";
+			lista.add(historico);
+		}
+		return lista;
+	}
 	public void exportarPDF() {
 		System.out.println("***********************************geraTabelaHoratio");
 		ArrayList<HashMap<String, String>> mapas = new ArrayList<HashMap<String, String>>();
@@ -545,7 +1047,7 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		mapaCabecalho.put("RG", fachada.getUsuario().getRg());
 		mapas.add(mapaCabecalho);
 		
-		List<AlunoTurma> aluno = getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()));		
+		List<AlunoTurma> aluno = getDisciplinasOrdenadas(getAluno());		
 		//CODIGO - NOME DA DISCIPLINA - CR - CH.- PERIODO - MEDIA -SITUACAO 
 		//Disciplinas Obrigatorias
 		for (AlunoTurma at : aluno) {
@@ -600,54 +1102,54 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		//Integralizacoes Disciplina Obrigatoria
 		HashMap<String, String> mapaIntegralizacaoObrigatoria = new HashMap<String, String>();
 		mapaIntegralizacaoObrigatoria.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias())+"");
-		mapaIntegralizacaoObrigatoria.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))))+"");
+		mapaIntegralizacaoObrigatoria.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno())))+"");
 		mapaIntegralizacaoObrigatoria.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias()+"");
-		mapaIntegralizacaoObrigatoria.put("IntegralizadoCredito", geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoObrigatoria.put("IntegralizadoCredito", geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno()))+"");
 		mapaIntegralizacaoObrigatoria.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinasObrigatorias()+"");
-		mapaIntegralizacaoObrigatoria.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasObrigatorias(getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoObrigatoria.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasObrigatorias(getObrigatoriasOrdenadas(getAluno()))+"");
 		mapas.add(mapaIntegralizacaoObrigatoria);
 		
 		//Integralizacoes Disciplina Optativa
 		HashMap<String, String> mapaIntegralizacaoOptativa = new HashMap<String, String>();
 		mapaIntegralizacaoOptativa.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosOptativas())+"");
-		mapaIntegralizacaoOptativa.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))))+"");
+		mapaIntegralizacaoOptativa.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno())))+"");
 		mapaIntegralizacaoOptativa.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosOptativas()+"");
-		mapaIntegralizacaoOptativa.put("IntegralizadoCredito", geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoOptativa.put("IntegralizadoCredito", geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno()))+"");
 		mapaIntegralizacaoOptativa.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas()+"");
-		mapaIntegralizacaoOptativa.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoOptativa.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(getAluno()))+"");
 		mapas.add(mapaIntegralizacaoOptativa);
 		
 		//Integralizacoes Disciplina Complementar
 		HashMap<String, String> mapaIntegralizacaoComplementar = new HashMap<String, String>();
 		mapaIntegralizacaoComplementar.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosComplementares())+"");
-		mapaIntegralizacaoComplementar.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))))+"");
+		mapaIntegralizacaoComplementar.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno())))+"");
 		mapaIntegralizacaoComplementar.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosComplementares()+"");
-		mapaIntegralizacaoComplementar.put("IntegralizadoCredito", geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoComplementar.put("IntegralizadoCredito", geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno()))+"");
 		mapaIntegralizacaoComplementar.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinasComplementares()+"");
-		mapaIntegralizacaoComplementar.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasComplementares(getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoComplementar.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasComplementares(getComplementaresOrdenadas(getAluno()))+"");
 		mapas.add(mapaIntegralizacaoComplementar);
 		
 		//Integralizacao Total
 		HashMap<String, String> mapaIntegralizacaoTotal = new HashMap<String, String>();
 		mapaIntegralizacaoTotal.put("Carga Horaria Minima", cargaHoraria(geraMinimoCreditosCurriculo())+"");
-		mapaIntegralizacaoTotal.put("Integralizada", cargaHoraria(geraCreditosIntegralizados(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))))+"");
+		mapaIntegralizacaoTotal.put("Integralizada", cargaHoraria(geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno())))+"");
 		mapaIntegralizacaoTotal.put("Creditos Minimo", geraMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoTotal.put("IntegralizadoCredito", geraCreditosIntegralizados(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoTotal.put("IntegralizadoCredito", geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno()))+"");
 		mapaIntegralizacaoTotal.put("Disciplinas Minimo", geraMinimoDisciplinasCurriculo()+"");
-		mapaIntegralizacaoTotal.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadas(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaIntegralizacaoTotal.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadas(turmasMatriculadasBean.getDisciplinasOrdenadas(getAluno()))+"");
 		mapas.add(mapaIntegralizacaoTotal);
 
 		//Semestres cursados
 		HashMap<String, String> mapaSemestresCursados = new HashMap<String, String>();
-		mapaSemestresCursados.put("Cursados", geraSemestresCursados(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaSemestresCursados.put("Cursados", geraSemestresCursados(turmasMatriculadasBean.getDisciplinasOrdenadas(getAluno()))+"");
 		mapaSemestresCursados.put("Minimo", fachada.getAluno().getCurriculo().getMinimoSemestres()+"");
 		mapaSemestresCursados.put("Maximo", fachada.getAluno().getCurriculo().getMaximoSemestres()+"");
-		mapaSemestresCursados.put("Ativos", geraSemestresAtivos(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaSemestresCursados.put("Ativos", geraSemestresAtivos(turmasMatriculadasBean.getDisciplinasOrdenadas(getAluno()))+"");
 		mapas.add(mapaSemestresCursados);
 		
 		//Trancamentos Totais
 		HashMap<String, String> mapaTrancamentosTotais = new HashMap<String, String>();
-		mapaTrancamentosTotais.put("Trancamentos", geraTrancamentosTotais(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaTrancamentosTotais.put("Trancamentos", geraTrancamentosTotais(getDisciplinasOrdenadas(getAluno()))+"");
 		mapaTrancamentosTotais.put("Maximo", fachada.getAluno().getCurriculo().getMaximoTrancamentosTotais()+"");
 		mapas.add(mapaTrancamentosTotais);
 		
@@ -659,13 +1161,13 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 
 		//Trancamentos Parciais
 		HashMap<String, String> mapaTrancamentosParciais = new HashMap<String, String>();
-		mapaTrancamentosParciais.put("Trancamentos", geraTrancamentosParciais(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaTrancamentosParciais.put("Trancamentos", geraTrancamentosParciais(getDisciplinasOrdenadas(getAluno()))+"");
 		mapaTrancamentosParciais.put("Maximo", fachada.getAluno().getCurriculo().getMaximoTrancamentosParciais()+"");
 		mapas.add(mapaTrancamentosParciais);
 		
 		//Creditos Matriculados
 		HashMap<String, String> mapaCreditosMatriculados = new HashMap<String, String>();
-		mapaCreditosMatriculados.put("Matriculados", geraCreditosPeriodoAtual(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaCreditosMatriculados.put("Matriculados", geraCreditosPeriodoAtual(getDisciplinasOrdenadas(getAluno()))+"");
 		mapaCreditosMatriculados.put("Minimo", fachada.getAluno().getCurriculo().getMinimoCreditos()+"");
 		mapaCreditosMatriculados.put("Maximo", fachada.getAluno().getCurriculo().getMaximoCreditos()+"");
 		mapas.add(mapaCreditosMatriculados);
@@ -674,13 +1176,13 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		HashMap<String, String> mapaSituacaoAcademica = new HashMap<String, String>();
 		mapaSituacaoAcademica.put("Situacao", fachada.getAluno().getSituacaoAcademica()+"");
 		if(fachada.getAluno().getSituacaoAcademica()==SituacaoAcademica.GRADUADO){
-			mapaSituacaoAcademica.put("Ano de Conclusao", ultimoPeriodoCursado(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula()))).
+			mapaSituacaoAcademica.put("Ano de Conclusao", ultimoPeriodoCursado(getDisciplinasOrdenadas(getAluno())).
 					  concat(" "+fachada.getAluno().getDataConclusao()));
 		}
-		mapaSituacaoAcademica.put("CRE", geraCRE(getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())))+"");
+		mapaSituacaoAcademica.put("CRE", geraCRE(getDisciplinasOrdenadas(getAluno()))+"");
 		mapaSituacaoAcademica.put("Forma de Ingresso", fachada.getAluno().getFormaIngresso()+"");
-		mapaSituacaoAcademica.put("Ano Ingresso", getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())).get(0).getTurma().getPeriodo().getAno().
-								  concat(" "+getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.getUsuario().getAluno().getMatricula())).get(0).getTurma().getPeriodo().getSemestre()));
+		mapaSituacaoAcademica.put("Ano Ingresso", getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getAno().
+								  concat(" "+getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getSemestre()));
 		mapas.add(mapaSituacaoAcademica);
 		
 		//Notas do Vestibular

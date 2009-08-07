@@ -8,10 +8,11 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
-	<h:form>
+	<h:form id="fazerMatricula">
 	<rich:panel>
 	<f:facet name="header">Efetuar Matrícula</f:facet>
 	<center>
+	<h:message for="fazerMatricula" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
 	<br/>
 	<a4j:outputPanel id="turmas_aptas">
 	<table class="dr-table rich-table" cellspacing="0" cellpadding="0" border="0"
@@ -149,7 +150,7 @@
 		</rich:column>
 	</rich:dataTable>
 	<br/>
-	<a4j:commandButton styleClass="botao_salvar" action="#{matriculaBean.fazMatricula(MenuDiscenteAction)}"
+	<a4j:commandButton styleClass="botao_salvar" action="#{matriculaBean.fazMatricula(MenuAction)}"
 		value="Matricular" ajaxSingle="true" reRender="turmas_selecionadas" />
 	<!--  <h:commandButton styleClass="botao_salvar" action="home" value="Voltar" /> -->
 	<br/>

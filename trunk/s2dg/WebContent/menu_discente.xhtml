@@ -28,21 +28,24 @@
 		</rich:panel>
 	</div>
 	<br />	
-	 <a4j:keepAlive beanName="MenuDiscenteAction" />
+	 <a4j:keepAlive beanName="MenuAction" />
 	<div class="menu_opcoes">
 		<center>
 			<h:outputText styleClass="menu_opcoes_titulo" value="Opções do Usuário" />
 		
 		<rich:panel>
 			<h:form>
-				<a4j:commandLink styleClass="opcao_menu" disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
-					value="Efetuar Matrícula" action="#{MenuDiscenteAction.setId_Menu(1)}" reRender="corpo" />
-				<br />
+			
+				<a4j:commandLink style="color:red;" styleClass="opcao_menu" rendered="#{matriculaBean.isPeriodoDeMatricula()}" 
+					disabled="#{not matriculaBean.isPeriodoDeMatricula()}"
+					value="Efetuar Matrícula" action="#{MenuAction.setId_Menu(2)}" reRender="corpo"/>
+				<a4j:commandLink rendered="#{matriculaBean.isPeriodoDeMatricula()}"> <br /> </a4j:commandLink>
+				
 				<a4j:commandLink styleClass="opcao_menu" 
-					value="Histórico" action="#{MenuDiscenteAction.setId_Menu(2)}" reRender="corpo" />
+					value="Histórico" action="#{MenuAction.setId_Menu(3)}" reRender="corpo" />
 				<br />
 				<a4j:commandLink styleClass="opcao_menu"
-					value="Horário" action="#{MenuDiscenteAction.setId_Menu(3)}" reRender="corpo" />
+					value="Horário" action="#{MenuAction.setId_Menu(4)}" reRender="corpo" />
 			</h:form>
 		</rich:panel>
 		

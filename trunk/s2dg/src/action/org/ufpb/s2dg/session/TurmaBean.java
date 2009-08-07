@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.jboss.seam.faces.FacesMessages;
 import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Turma;
 
@@ -23,13 +25,18 @@ public class TurmaBean {
 	@In
 	Fachada fachada;
 	@In
-	FacesMessages facesMessages;
+	FacesContext facesContext;
+	@In
+	MenuAction MenuAction;
+	@In
+	TimestampBean TimestampBean;
 
 	public Turma getTurma() {
 		return turma;
 	}
 
 	public void setTurma(Turma turma) {
+		MenuAction.setId_Menu(0);
 		this.turma = turma;
 		fachada.cancelarEdicaoDeAvaliacao();
 		fachada.initAvaliacoes();
@@ -51,7 +58,8 @@ public class TurmaBean {
 	
 	public void atualizaPlanoDeCurso() {
 		atualiza();
-		facesMessages.add("Informações salvas com sucesso!");
+		String time = TimestampBean.getHour();
+		facesContext.addMessage("corpo2", new FacesMessage(FacesMessage.SEVERITY_INFO,time+" - Plano de curso salvo com sucesso.", null));
 	}
 	
 	public List<Professor> listaProfessores() {

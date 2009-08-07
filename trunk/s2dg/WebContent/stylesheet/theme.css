@@ -15,7 +15,7 @@ body {
 /* mensagens de erro */
 .info, .error, .warn, .fatal {
 	text-align: left;
-	text-indent: 5px;
+	text-indent: 25px;
 	padding-bottom: 5px;
 	padding-top: 5px;
 	width: 100%;
@@ -25,18 +25,26 @@ body {
 .info {
 	color: white;
 	background-color: blue;
+	background-image: url("../img/info.gif");
+	background-repeat: no-repeat;
 }
 .error {
 	color: white;
 	background-color: red;
+	background-image: url("../img/erro.gif");
+	background-repeat: no-repeat;
 }
 .warn {
 	color: black;
 	background-color: yellow;
+	background-image: url("../img/warn.gif");
+	background-repeat: no-repeat;
 }
 .fatal {
 	color: black;
 	background-color: red;
+	background-image: url("../img/erro.gif");
+	background-repeat: no-repeat;
 }
 /* fim das mensagens de erro */
 

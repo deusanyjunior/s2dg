@@ -23,14 +23,14 @@ public class AlunoTurmaBean {
 	private Fachada fachada;
 
 	@In
-	MenuDiscenteAction MenuDiscenteAction;
+	MenuAction MenuAction;
 	
 	public AlunoTurma getAlunoTurma() {
 		return alunoTurma;
 	}
 
 	public void setAlunoTurma(AlunoTurma alunoTurma) {
-		MenuDiscenteAction.setId_Menu(0);
+		MenuAction.setId_Menu(0);
 		this.alunoTurma = alunoTurma;
 		if(alunoTurma != null) {
 			Turma t = alunoTurma.getTurma();

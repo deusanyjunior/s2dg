@@ -8,11 +8,10 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
-	<rich:panel styleClass="border_zero">
-		<h:form id="form_avaliacoes">
+	<rich:panel id="form_avaliacoes" styleClass="border_zero">
+		<h:form >
 			<rich:panel styleClass="border_zero" id="tabela_avaliacoes">
-				<h:message infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" for="checkboxmedia" /> 
-				<br/>
+				<h:message for="corpo" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal"/>
 				<br/>
 				<rich:dataTable var="alunoTurma"
 					value="#{alunoTurmasBean.alunoTurmas}" style="text-align: center;">

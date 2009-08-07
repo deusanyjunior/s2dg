@@ -56,6 +56,11 @@ public class AlterarSenhaBean {
 		
 		fachada.atualizaUsuario(usuario);
 		
+		String log = "Usuario "+usuario.getNome()
+			+" (CPF:"+usuario.getCpf()
+			+") alterou a senha com sucesso.";
+		fachada.fazLog(log);
+		
 		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));
 		
 		return "home";

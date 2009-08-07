@@ -7,9 +7,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import org.jboss.seam.annotations.In;
-import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.log.Log;
 import org.jboss.seam.security.Credentials;
 import org.jboss.seam.security.Identity;
 import org.ufpb.s2dg.entity.Role;
@@ -18,7 +16,6 @@ import org.ufpb.s2dg.entity.Usuario;
 @Name("authenticator")
 public class Authenticator
 {
-    @Logger private Log log;
 
     @In 
     Identity identity;
@@ -36,7 +33,6 @@ public class Authenticator
     {
     	credentials.setUsername(fachada.getCPF());
     	String cpfDado = credentials.getUsername().replaceAll("[.]", "").replaceAll("[-]", "");
-        log.info("authenticating {0}", cpfDado);
         
         Usuario usuario = fachada.getUsuarioDoBanco(cpfDado);
 

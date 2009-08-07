@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<ui:composition 
-	xmlns:s="http://jboss.com/products/seam/taglib"
+<ui:composition xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
@@ -9,225 +8,22 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:a4j="http://richfaces.org/a4j">
 
-<h:form>	
-	<rich:panel>
-		<f:facet name="header">Historico Escolar</f:facet>
-			<rich:dataTable>
-				<f:facet name="header">
-				<rich:columnGroup>
-					<rich:column style="vertical-align: middle; text-align: center" >
-    					<h:outputText value="ALUNO" />
-    				</rich:column>
-				</rich:columnGroup>
-				</f:facet>				
-			</rich:dataTable>
-			
+	<h:form>
+		<rich:panel>
+			<f:facet name="header">Historico Escolar</f:facet>
+			<ui:repeat value="#{turmasMatriculadasBean.geraHistorico()}"
+				var="linha">
+				<h:outputText value="#{linha}"
+					style="font-size:12px;font-family:Courier New;" />
+				<br />
+			</ui:repeat>
 			<br/>
-			<h:outputText value="ALUNO: #{fachada.aluno.matricula}--#{fachada.usuario.nome}" />	  
-			<br/><br/>
-			<h:outputText value="CURSO: #{fachada.aluno.curriculo.curso.codigo}--#{fachada.aluno.curriculo.curso.nome}  " />
-			<h:outputText value="CURRICULO: #{fachada.aluno.curriculo.numero}" />
-			<br/><br/>
-			<h:outputText value="RECONHECIMENTO: #{fachada.aluno.curriculo.curso.cur_ato_criacao}   RG: #{fachada.usuario.rg}   " />
-			<br/><br/>
-			<rich:dataTable width="700" border="0" var="alunoTurma" 
-    				value="#{turmasMatriculadasBean.getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula))}" cellpadding="0" cellspacing="0" >
-    			<f:facet name="header">
-    			<rich:columnGroup >
-    				<rich:column colspan="7"><h:outputText value="Disciplinas Obrigatorias" /></rich:column>
-	            	<rich:column width="100" breakBefore="true"><h:outputText value="Codigo" /></rich:column>
-	            	<rich:column ><h:outputText value="Disciplina" /></rich:column>
-	            	<rich:column width="40" ><h:outputText value="CR" /></rich:column>
-	           		<rich:column width="40" ><h:outputText value="CH" /></rich:column>
-	            	<rich:column width="70" ><h:outputText value="Periodo" /></rich:column>
-	            	<rich:column width="70" ><h:outputText value="Media" /></rich:column>
-	            	<rich:column width="200"><h:outputText value="Situacao" /></rich:column>
-    			</rich:columnGroup>
-    			</f:facet>   		
-    		
-    			<rich:column  style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.turma.disciplina.codigo}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: left" >
-    				<h:outputText value="#{alunoTurma.turma.disciplina.nome}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.turma.disciplina.creditos}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{turmasMatriculadasBean.cargaHoraria(alunoTurma.turma.disciplina.creditos)}"/></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.turma.periodo.ano} #{alunoTurma.turma.periodo.semestre}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-			    	<h:outputText value="#{turmasMatriculadasBean.geraMedia(alunoTurma)}"/><br/></rich:column>
-    			<rich:column  style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{turmasMatriculadasBean.getTextoSituacao(alunoTurma.situacao)} "/><br/></rich:column>    		
-    		</rich:dataTable>					
-			
-			<br/>
-					
-			<rich:dataTable width="700" border="0" var="alunoTurma" 
-    				value="#{turmasMatriculadasBean.getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula))}" cellpadding="0" cellspacing="0" >
-    			<f:facet name="header">
-    			<rich:columnGroup >
-    				<rich:column colspan="7"><h:outputText value="Disciplinas Optativas" /></rich:column>		            
-		            <rich:column width="100" breakBefore="true"><h:outputText value="Codigo" /></rich:column>
-	            	<rich:column ><h:outputText value="Disciplina" /></rich:column>
-	            	<rich:column width="40" ><h:outputText value="CR" /></rich:column>
-	           		<rich:column width="40" ><h:outputText value="CH" /></rich:column>
-	            	<rich:column width="70" ><h:outputText value="Periodo" /></rich:column>
-	            	<rich:column width="70" ><h:outputText value="Media" /></rich:column>
-	            	<rich:column width="200"><h:outputText value="Situacao" /></rich:column>
-    			</rich:columnGroup>
-    			</f:facet>
-    	
-    			<rich:column  style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.turma.disciplina.codigo}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: left" >
-    				<h:outputText value="#{alunoTurma.turma.disciplina.nome}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.turma.disciplina.creditos}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{turmasMatriculadasBean.cargaHoraria(alunoTurma.turma.disciplina.creditos)}"/></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.turma.periodo.ano} #{alunoTurma.turma.periodo.semestre}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-	    			<h:outputText value="#{turmasMatriculadasBean.geraMedia(alunoTurma)}"/><br/></rich:column>
-    			<rich:column  style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{turmasMatriculadasBean.getTextoSituacao(alunoTurma.situacao)} "/><br/></rich:column>    	
-    		</rich:dataTable>
-    		
-			<br/>
-					
-    		<rich:dataTable width="700" border="0" var="alunoTurma"  
-    				value="#{turmasMatriculadasBean.getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula))}" cellpadding="0" cellspacing="0" >
-    			<f:facet name="header">
-    			<rich:columnGroup >
-    				<rich:column colspan="7"><h:outputText value="Disciplinas Complementares" /></rich:column>
-		            <rich:column width="100" breakBefore="true"><h:outputText value="Codigo" /></rich:column>
-	            	<rich:column ><h:outputText value="Disciplina" /></rich:column>
-	            	<rich:column width="40" ><h:outputText value="CR" /></rich:column>
-	           		<rich:column width="40" ><h:outputText value="CH" /></rich:column>
-	            	<rich:column width="70" ><h:outputText value="Periodo" /></rich:column>
-	            	<rich:column width="70" ><h:outputText value="Media" /></rich:column>
-	            	<rich:column width="200"><h:outputText value="Situacao" /></rich:column>
-    			</rich:columnGroup>
-    			</f:facet>
-    			
-    			<rich:column  style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.turma.disciplina.codigo}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: left" >
-    				<h:outputText value="#{alunoTurma.turma.disciplina.nome}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.turma.disciplina.creditos}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{turmasMatriculadasBean.cargaHoraria(alunoTurma.turma.disciplina.creditos)}"/></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{alunoTurma.turma.periodo.ano} #{alunoTurma.turma.periodo.semestre}" /></rich:column>
-    			<rich:column style="vertical-align: middle; text-align: center" >
-	    			<h:outputText value="#{turmasMatriculadasBean.geraMedia(alunoTurma)}"/><br/></rich:column>
-    			<rich:column  style="vertical-align: middle; text-align: center" >
-    				<h:outputText value="#{turmasMatriculadasBean.getTextoSituacao(alunoTurma.situacao)} "/><br/></rich:column>    	
-    		</rich:dataTable>
-    	
-			<br/>
-					
-    		<rich:dataTable width="700" border="0"  cellpadding="0" cellspacing="0" >
-    			<f:facet name="header">
-    			<rich:columnGroup >
-    				<rich:column colspan="4"><h:outputText value="Dados inerentes a integralizacao curricular" /></rich:column>
-		           	<rich:column breakBefore="true"><rich:spacer width="96px"/></rich:column>
-		            <rich:column width="202"><h:outputText value="Carga Horaria" /></rich:column>
-	    	        <rich:column width="203"><h:outputText value="Creditos" /></rich:column>
-	        	   	<rich:column width="202"><h:outputText value="Disciplinas" /></rich:column>
-	       		</rich:columnGroup>
-	       		</f:facet>
-	       </rich:dataTable>
-
-	       <rich:dataTable width="700" border="0"  cellpadding="0" cellspacing="0" >
-    			<f:facet name="header">
-    			<rich:columnGroup >    
-	            	<rich:column><h:outputText value="Integralizacao Curricular" /></rich:column>
-		            <rich:column><h:outputText value="Minimo" /></rich:column>
-		            <rich:column><h:outputText value="Integr." /></rich:column>
-	    	        <rich:column><h:outputText value="Minimo" /></rich:column>
-	        	    <rich:column><h:outputText value="Integr." /></rich:column>
-	            	<rich:column><h:outputText value="Minimo" /></rich:column>
-		            <rich:column><h:outputText value="Integr." /></rich:column>
-    			</rich:columnGroup>
-    			</f:facet>
-    		</rich:dataTable>
-    	<h:outputText value="Disciplinas Obrigatorias......#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosObrigatorias)}
-										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizadosObrigatorias(turmasMatriculadasBean.getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula))))}
-										#{fachada.aluno.curriculo.minimoCreditosObrigatorias}
-										#{turmasMatriculadasBean.geraCreditosIntegralizadosObrigatorias(turmasMatriculadasBean.getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} 
-										#{fachada.aluno.curriculo.minimoDisciplinasObrigatorias} #{turmasMatriculadasBean.geraDisciplinasIntegralizadasObrigatorias(turmasMatriculadasBean.getObrigatoriasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} "/>
-					<br/>
-					<h:outputText value="Disciplinas Optativas.........#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosOptativas)}
-										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizadosOptativas(turmasMatriculadasBean.getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula))))}
-										#{fachada.aluno.curriculo.minimoCreditosOptativas}
-										#{turmasMatriculadasBean.geraCreditosIntegralizadosOptativas(turmasMatriculadasBean.getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} 
-										#{fachada.aluno.curriculo.minimoDisciplinasOptativas} #{turmasMatriculadasBean.geraDisciplinasIntegralizadasOptativas(turmasMatriculadasBean.getOptativasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}"/>
-					<br/>
-					<h:outputText value="Disciplinas Complementares.........#{turmasMatriculadasBean.cargaHoraria(fachada.aluno.curriculo.minimoCreditosComplementares)}
-										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizadosComplementares(turmasMatriculadasBean.getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula))))}
-										#{fachada.aluno.curriculo.minimoCreditosComplementares}
-										#{turmasMatriculadasBean.geraCreditosIntegralizadosComplementares(turmasMatriculadasBean.getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} 
-										#{fachada.aluno.curriculo.minimoDisciplinasComplementares} #{turmasMatriculadasBean.geraDisciplinasIntegralizadasComplementares(turmasMatriculadasBean.getComplementaresOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}" />
-					<br/>
-					<h:outputText value="TOTAIS DO CURRICULO =========>#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraMinimoCreditosCurriculo())}
-										#{turmasMatriculadasBean.cargaHoraria(turmasMatriculadasBean.geraCreditosIntegralizados(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula))))}
-										#{turmasMatriculadasBean.geraMinimoCreditosCurriculo()}
-										#{turmasMatriculadasBean.geraCreditosIntegralizados(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} 
-										#{turmasMatriculadasBean.geraMinimoDisciplinasCurriculo()} #{turmasMatriculadasBean.geraDisciplinasIntegralizadas(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}" />
-					
-					<br/>
-					<h:outputText value="---------------------------------------------------------------------------" />
-					<br/>
-					<h:outputText value="Numero de semestres cursados.. #{turmasMatriculadasBean.geraSemestresCursados(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}
-									   (Minimo: #{fachada.aluno.curriculo.minimoSemestres} , Maximo: #{fachada.aluno.curriculo.maximoSemestres}) de 
-									   #{turmasMatriculadasBean.geraSemestresAtivos(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} ativos" />
-					<br/>
-					<h:outputText value="Trancamentos Totais efetuados.   #{turmasMatriculadasBean.geraTrancamentosTotais(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))} (Max:#{fachada.aluno.curriculo.maximoTrancamentosTotais}  sem)" />
-					<br/>	
-					<h:outputText value="Matriculas Institucionais ....   #{fachada.aluno.matriculasInstitucionais} (Max:#{fachada.aluno.curriculo.maximoMatriculaInstitucional}  sem)" />
-					<br/>
-					<h:outputText value="Trancamentos Parciais efetuad. #{turmasMatriculadasBean.geraTrancamentosParciais(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}
-							 (Minimo: --, Maximo:#{fachada.aluno.curriculo.maximoTrancamentosParciais}  )" />
-					<br/>
-					<h:outputText value="Matriculado atualmente em ....    #{turmasMatriculadasBean.geraCreditosPeriodoAtual(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}
-										 Creditos (Minimo: #{fachada.aluno.curriculo.minimoCreditos}  , 
-										 Maximo: #{fachada.aluno.curriculo.maximoCreditos}  )" />
-					<br/>
-					<h:outputText value="---------------------------------------------------------------------------" />
-					<br/>
-					<h:outputText value="Situacao academica............#{fachada.aluno.situacaoAcademica}" />
-					<h:outputText rendered="#{alunoBean.situacaoAcademicaGraduado()}"  value="(em #{turmasMatriculadasBean.ultimoPeriodoCursado(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}
-											#{fachada.aluno.dataConclusao})" />
-					<h:outputText value="  CRE: #{turmasMatriculadasBean.geraCRE(turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)))}">
-						<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
-									locale="pt_BR" />
-					</h:outputText>
-					<h:outputText value="" />
-					<br/>
-					<h:outputText value="Forma de ingresso.............#{fachada.aluno.formaIngresso}
-						(em #{turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)).get(0).turma.periodo.ano} 
-						#{turmasMatriculadasBean.getDisciplinasOrdenadas(alunoDAO.getAlunos(usuarioBean.usuario.aluno.matricula)).get(0).turma.periodo.semestre})" />
-					<br/>
-					<h:outputText rendered="#{alunoBean.formaIngresso()}" value="----------------------- PROVAS E NOTAS DO VESTIBULAR ----------------------" />	
-					<br/>
-					<ui:repeat value="#{fachada.aluno.disciplinasVestibular}" var="disciplinaVestibular">
-											
-					</ui:repeat>
-					<h:outputText value="---------------------------------------------------------------------------" />
-					<br/>
-					<h:outputText value="A MATRICULA E OBRIGATORIA EM TODO PERIODO LETIVO, EVITE SITUACAO DE ABANDONO" />
-					<br/><br/>
-					<h:outputText value="HISTORICO EMITIDO PARA SIMPLES CONFERENCIA. NAO VALE COMO DOCUMENTO OFICIAL" />
-
-					<center>
-    					<a4j:commandButton style="align:right" action="#{turmasMatriculadasBean.exportarHistoricoPDF()}" value="Imprimir" />
-    				</center>
+			<center><a4j:commandButton
+				action="#{turmasMatriculadasBean.exportarHistoricoPDF()}"
+				value="Imprimir" /></center>
 
 
-    				
-					</rich:panel>
-	</h:form>					
+
+		</rich:panel>
+	</h:form>
 </ui:composition>

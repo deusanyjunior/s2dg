@@ -18,6 +18,9 @@ public class AlterarSenhaBean {
 	@In
 	FacesContext facesContext;
 	
+	@In
+	MenuAction MenuAction;
+	
 	private String senhaAtual;
 	private String novaSenha1;
 	private String novaSenha2;
@@ -37,36 +40,30 @@ public class AlterarSenhaBean {
 		novaResposta2 = "";
 	}
 	
-	public String botaoPressionado(){
+	public void botaoPressionado(){
 		
 		clicou = true;
 		
 		Usuario usuario = fachada.getUsuario();
 		
 		if(!novaSenha1.equals(novaSenha2)){
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senhas diferentes.",null));
-			return null;
+			facesContext.addMessage("homepanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senhas diferentes.",null));
 		}
 		else if(!Utils.validatePassword(senhaAtual, usuario)){
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
-			return null;
+			facesContext.addMessage("homepanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
+		}else {		
+			usuario.setSenha(Utils.generateHash(novaSenha1));		
+			fachada.atualizaUsuario(usuario);		
+			String log = "Usuario "+usuario.getNome()
+				+" (CPF:"+usuario.getCpf()
+				+") alterou a senha com sucesso.";
+			fachada.fazLog(log);
+						facesContext.addMessage("homepanel", new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));		
 		}
 		
-		usuario.setSenha(Utils.generateHash(novaSenha1));
-		
-		fachada.atualizaUsuario(usuario);
-		
-		String log = "Usuario "+usuario.getNome()
-			+" (CPF:"+usuario.getCpf()
-			+") alterou a senha com sucesso.";
-		fachada.fazLog(log);
-		
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));
-		
-		return "home";
 	}
 	
-public String botaoPressionado2(){
+public void botaoPressionado2(){
 		
 		clicou = true;
 		
@@ -74,21 +71,14 @@ public String botaoPressionado2(){
 		
 		if(!novaResposta1.equals(novaResposta2)){
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Respostas diferentes.",null));
-			return null;
+		}else {		
+			usuario.setPergunta(pergunta);
+			usuario.setResposta(novaResposta1);
+			
+			fachada.atualizaUsuario(usuario);		
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));
 		}
-//		else if(!Utils.validatePassword(senhaAtual, usuario)){
-//			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
-//			return null;
-//		}
 		
-		usuario.setPergunta(pergunta);
-		usuario.setResposta(novaResposta1);
-		
-		fachada.atualizaUsuario(usuario);
-		
-		facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));
-		
-		return "home";
 	}
 
 	public String getSenhaAtual() {
@@ -147,8 +137,8 @@ public String botaoPressionado2(){
 		this.clicou = clicou;
 	}
 	
-	public String cancelar() {
-		return "home";
+	public void cancelar() {
+		MenuAction.setId_Menu(0);
 	}
 	
 }

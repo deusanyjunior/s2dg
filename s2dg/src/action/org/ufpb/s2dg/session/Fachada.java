@@ -2,7 +2,6 @@ package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
@@ -130,30 +129,6 @@ public class Fachada {
 	public Usuario getUsuarioAluno(String matricula) {
 		return usuarioDAO.getUsuarioAluno(matricula);
 	}
-
-	/* ESSES MÉTODOS AINDA SÃO NECESSÁRIOS??
-	//Criado por Julio e Rennan
-	public String getEmail(String cpf) {
-		if (cpf.equals("") || cpf == null) {
-			System.err.println("usuario:"+cpf);
-			return "dienertalencar@gmail.com";
-		}
-		System.err.println("Chamando getUsuario");
-		Usuario user = usuarioDAO.getUsuario(cpf);
-		if (user == null)
-			return null;
-		return user.getEmail();
-	}
-	
-	//Criado por Rennan
-	public boolean existeCpf(String cpf) {
-		if (cpf.equals("") || cpf == null) {
-			return false;
-		}
-		System.err.println("existe cpf");
-		Usuario user = usuarioDAO.getUsuario(cpf);
-		return user != null;		
-	}*/
 	
 	public List<Avaliacao> getAvaliacoesDoBanco() {
 		return avaliacaoDAO.getAvaliacoes(turmaBean.getTurma());

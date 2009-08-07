@@ -182,7 +182,7 @@ public class MatriculaBean {
 		}
 	}
 
-	public String fazMatricula(MenuDiscenteAction menuDiscenteAction) {
+	public String fazMatricula(MenuAction menuAction) {
 		if(isCoRequisitosPresentes()) {
 			if(isCreditosCorretos()) {
 				if(!isChoqueDeHorario()) {
@@ -203,12 +203,10 @@ public class MatriculaBean {
 							fachada.fazLog(log);
 						}
 						turmasSelecionadas.clear();
-						String msg = "Matrícula realizada com sucesso.";
-						facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,msg, null));
 						fachada.initTurmasMatriculadas();
 						temporario.clear();
 						geraTurmasAptasPorDisciplina();
-						menuDiscenteAction.setId_Menu(3);
+						menuAction.setId_Menu(4);
 						return "/home.seam";
 					}
 				}

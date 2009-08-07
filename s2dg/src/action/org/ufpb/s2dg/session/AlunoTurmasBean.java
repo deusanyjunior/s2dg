@@ -27,7 +27,10 @@ public class AlunoTurmasBean {
 	@In
 	private Fachada fachada;
 	@In
-	private FacesContext facesContext;
+	FacesContext facesContext;
+	
+	@In
+	TimestampBean TimestampBean;
 
 	public void init() {
 		Turma turmaAtual = fachada.getTurma();
@@ -67,7 +70,9 @@ public class AlunoTurmasBean {
 				for(int i = 0; i < alunoTurmas.size(); i++)
 					fachada.atualizaAlunoTurma(alunoTurmas.get(i));
 			}
-			facesContext.addMessage("form_avaliacoes:checkboxmedia", new FacesMessage("Informações salvas com sucesso!"));
+			String time = TimestampBean.getHour();
+			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO,time+" - Informacoes salvas com sucesso.",null);
+			facesContext.addMessage("corpo",facesMessage);
 		}
 	}
 	

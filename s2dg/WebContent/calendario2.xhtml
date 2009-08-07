@@ -15,8 +15,8 @@
         }
     </style>
 
-    <a4j:form id="calendar">
-        <a4j:jsFunction name="ajaxSubmit" oncomplete="#{rich:component('panel')}.show()" reRender="calendar, outputPanelCalendar, organizerxxxxx" />
+    <a4j:form id="calendar" ajaxSingle="true" rendered="true">
+        <a4j:jsFunction name="ajaxSubmit" oncomplete="#{rich:component('panel')}" reRender="calendar" />
         <center>
         <rich:calendar popup="false" showApplyButton="false"
             cellWidth="100px" cellHeight="100px" mode="ajax"

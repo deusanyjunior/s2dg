@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	
+
+<h:form>
+	<rich:panel>
+		<f:facet name="header">Configuracoes</f:facet>
+	
+		<a4j:commandButton action="#{alterarSenha.cancelar}" value="Cancelar" 
+                style="float:right;" ajaxSingle="true" reRender="corpo" />
+
+		    <center>
+                <rich:panel id="homepanel" style="width:400px;">
+                    <f:facet name="header">
+                        Alterar Senha 
+                    </f:facet>
+                    <h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="homepanel" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="alterarSenha" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="senhaAtual" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="novaSenha" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="novaSenha2" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <br />	
+                    
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Digite sua senha atual:"/>
+                        <h:inputSecret id="senhaAtual" value="#{alterarSenha.senhaAtual}" required="true"/>
+                        
+                        <h:outputText value="Digite uma nova senha:"/>
+                        <h:inputSecret id="novaSenha" value="#{alterarSenha.novaSenha1}" required="true"/>
+						
+                        <h:outputText value="Digite a nova senha novamente:" size="200"/>
+                        <h:inputSecret id="novaSenha2" value="#{alterarSenha.novaSenha2}" required="true"/>
+                    </h:panelGrid>
+                    
+                    <a4j:commandButton type="submit" id="alterarSenha" action="#{alterarSenha.botaoPressionado}" value="Alterar" 
+                   			ajaxSingle="true" reRender="corpo" />
+                    
+                    <br/>
+                </rich:panel>
+
+        
+        <br />
+        <br /> 
+        
+
+                <rich:panel id="homepanel2" style="width:400px;">
+                    <f:facet name="header">
+                        Alterar Pergunta Secreta 
+                    </f:facet>
+                    <h:message for="homepanel2" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <br />
+                    
+                    <h:panelGrid columns="2">
+                        <h:outputText value="Digite a nova pergunta secreta:"/>
+                        <h:inputText id="novaPergunta" value="#{alterarSenha.pergunta}" required="true"/>
+						
+                        <h:outputText value="Digite a resposta para a nova pergunta:"/>
+                        <h:inputSecret id="novaResposta" value="#{alterarSenha.novaResposta1}" required="true"/>
+                        
+						<h:outputText value="Digite novamente a resposta:"/>
+                        <h:inputSecret id="novaResposta2" value="#{alterarSenha.novaResposta2}" required="true"/>
+                    </h:panelGrid>                    
+                    
+                    <a4j:commandButton type="submit" id="alterarPergunta" action="#{alterarSenha.botaoPressionado2}" value="Alterar" 
+                   			ajaxSingle="true" reRender="corpo" />
+                    
+                    <br/>
+                </rich:panel>
+        	</center>
+
+	</rich:panel>
+   </h:form>        
+
+</ui:composition>

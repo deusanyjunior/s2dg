@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<rich:panel 
 
-<rich:panel xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:s="http://jboss.com/products/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:rich="http://richfaces.org/rich"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:a4j="http://richfaces.org/a4j" 
+	
 	style="margin:0;border-width:0;padding:0px;">
 
 	<table width="100%">
@@ -14,24 +16,12 @@
 			<td width="200px">
 				<ui:include src="/menu_docente.xhtml" />
 			</td>
-			<td style="padding-left: 20px;" height="100%">
-				<ui:include src="/titulo_turma_docente.xhtml" />
-				<br />
-				<br />
-			<div>
-			<rich:tabPanel switchType="client">
-				<rich:tab label="Avaliações">
-					<ui:include src="/avaliacoes_docente.xhtml" />	
-				</rich:tab>
-				<rich:tab label="Cronograma de Aulas">
-					<ui:include src="/calendario2.xhtml" />
-				</rich:tab>
-				<rich:tab label="Plano de Curso">
-					<ui:include src="/plano_de_curso.xhtml" />
-				</rich:tab>
-			</rich:tabPanel></div>
+			<td style="padding-left: 20px;" height="100%">				
+				<a4j:outputPanel id="corpo2" ajaxRendered="true">
+					<a4j:include viewId="#{MenuAction.getOption2()}" ajaxRendered="true"/>
+				</a4j:outputPanel>			
 			</td>
 		</tr>
 	</table>
-	<ui:include src="/msg_remover_avaliacao.xhtml" />
+	
 </rich:panel>

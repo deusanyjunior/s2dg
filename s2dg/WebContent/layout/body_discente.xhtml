@@ -15,17 +15,12 @@
 		<tr>
 			<td width="200px">
 				<ui:include src="/menu_discente.xhtml" />			  
-			</td>
-			
+			</td>			
 			<td style="padding-left: 20px;" height="100%">
 				<a4j:outputPanel id="corpo" ajaxRendered="true">
-					<a4j:include viewId="#{MenuDiscenteAction.getOption()}" ajaxRendered="true"/>
+					<a4j:include viewId="#{MenuAction.getOption()}" ajaxRendered="true"/>
 				</a4j:outputPanel>
 			</td>
 		</tr>
 	</table>
-
-
-
-
 </rich:panel>

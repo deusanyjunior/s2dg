@@ -8,16 +8,20 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
-	<h:form>
+	<a4j:outputPanel id="planoDeCurso" ajaxRendered="true">
+		<h:message for="corpo2" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+		<h:form>
 		<center>
 			<rich:editor useSeamText="true" id="editorPlano"
 				value="#{turmaBean.turma.planoDeCurso}" width="659" height="282"
 				plugins="save,paste" language="pt" />
-			<a4j:commandButton
-				type="submit" value="Salvar"
+			<a4j:commandButton type="submit"
+				value="Salvar" ajaxSingle="true"
 				action="#{turmaBean.atualizaPlanoDeCurso}"
-				style="FONT-WEIGHT: bold; width : 85px; height : 29px;" />
+				style="FONT-WEIGHT: bold; width : 85px; height : 29px;"
+				reRender="planoDeCurso" />
 		</center>
-	</h:form>
+		</h:form>
+	</a4j:outputPanel>
 
 </ui:composition>

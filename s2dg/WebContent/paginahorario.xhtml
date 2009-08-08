@@ -18,7 +18,7 @@
     </style>
 
 <h:form id="form_horario">
-<rich:panel rendered="#{turmasMatriculadasBean.naoVazio(turmasMatriculadasBean.alunoTurmas)}">
+<rich:panel rendered="#{turmasMatriculadasBean.naoVazio(turmasMatriculadasBean.alunoTurmasEmCurso)}">
 	<f:facet name="header">Horário</f:facet>
     <h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
     <br/>
@@ -84,7 +84,7 @@
 </rich:panel>
 
 <center>
-	<h:outputText value="Você não está matriculado em nenhuma disciplina" rendered="#{not turmasMatriculadasBean.naoVazio(turmasMatriculadasBean.alunoTurmas)}"/>
+	<h:outputText value="Você não está matriculado em nenhuma disciplina" rendered="#{not turmasMatriculadasBean.naoVazio(turmasMatriculadasBean.alunoTurmasEmCurso)}"/>
 </center>
 </h:form>
 

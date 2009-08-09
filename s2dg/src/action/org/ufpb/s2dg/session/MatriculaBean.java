@@ -93,13 +93,16 @@ public class MatriculaBean {
 					t.setDisciplina(d);
 				}
 				if(at.getSituacao() == Situacao.EM_CURSO) {
-					for(Disciplina disc : disciplinasDoCurriculo) {
-						if(disc.getCodigo() == d.getCodigo()) {
-							int i = disciplinasDoCurriculo.indexOf(disc);
-							disciplinasDoCurriculo.remove(i);
-							break;
+					if (disciplinasDoCurriculo != null) {
+						for(Disciplina disc : disciplinasDoCurriculo) {
+							if(disc.getCodigo() == d.getCodigo()) {
+								int i = disciplinasDoCurriculo.indexOf(disc);
+								disciplinasDoCurriculo.remove(i);
+								break;
+							}
 						}
 					}
+					
 				}
 			}
 		}

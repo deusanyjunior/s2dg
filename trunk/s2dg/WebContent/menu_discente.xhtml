@@ -14,7 +14,7 @@
 		<center>
 			<h:outputText styleClass="menu_disciplinas_titulo" value="Turmas Matriculadas" />
 		</center>
-		<rich:panel>
+		<rich:panel rendered="#{turmasMatriculadasBean.naoVazio(turmasMatriculadasBean.alunoTurmasEmCurso)}" reRender="corpo">
 			<h:form>
 				<ui:repeat value="#{turmasMatriculadasBean.alunoTurmas}" var="alunoTurma">
 					<a4j:commandLink

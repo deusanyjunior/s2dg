@@ -49,4 +49,11 @@ public class AvaliacoesBean {
 		return 0;
 	}
 	
+	public boolean eNulo(List<AlunoTurma> lista) {
+		if (lista == null || lista.isEmpty()) {
+			return true;
+		}
+		return false;
+	}
+	
 }

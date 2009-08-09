@@ -2,17 +2,14 @@ package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
-import org.ufpb.s2dg.entity.Aluno;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Disciplina;
 import org.ufpb.s2dg.entity.Horario;
@@ -51,6 +48,9 @@ public class TurmasMatriculadasBean {
 	
 	@In
 	AlunoBean alunoBean;
+	
+	@In
+	MenuAction MenuAction;
 		
 	public void init() {
 		List<AlunoTurma> ats = fachada.getAlunoTurmaDoBanco();
@@ -994,6 +994,7 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		System.out.println("***********************************geraTabelaHoratio");
 		ArrayList<HashMap<String, String>> mapas = new ArrayList<HashMap<String, String>>();
 		//Numero - Codigo - Nome da disciplina - Creditos - CargaHoraria - Horarios - Sala
+		
 		for (AlunoTurma at : alunoTurmas) {
 			HashMap<String, String> mapa = new HashMap<String, String>();
 			mapa.put("Numero", at.getTurma().getNumero());
@@ -1191,6 +1192,15 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		}
 		System.out.println("¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬" + mapas.size());
 		pdfAction.geraPdfHistorico("Historico_Escolar.pdf", mapas);
+	}
+	
+	public boolean naoVazio(List<AlunoTurma> at) {
+		if (at == null) {
+			MenuAction.setId_Menu(4);
+			return false;
+		}
+		
+		return true;
 	}
 
 }

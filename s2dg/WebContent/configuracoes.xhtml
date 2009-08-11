@@ -13,9 +13,7 @@
 <h:form>
 	<rich:panel>
 		<f:facet name="header">Configuracoes</f:facet>
-	
-		<a4j:commandButton action="#{alterarSenha.cancelar}" value="Cancelar" 
-                style="float:right;" ajaxSingle="true" reRender="corpo" />
+
 
 		    <center>
                 <rich:panel id="homepanel" style="width:400px;">
@@ -32,7 +30,7 @@
                     
                     <h:panelGrid columns="2">
                         <h:outputText value="Digite sua senha atual:"/>
-                        <h:inputSecret id="senhaAtual" value="#{alterarSenha.senhaAtual}" required="true"/>
+                        <h:inputSecret id="senhaAtual" value="#{alterarSenha.senhaAtual}" required="true" immediate="true"/>
                         
                         <h:outputText value="Digite uma nova senha:"/>
                         <h:inputSecret id="novaSenha" value="#{alterarSenha.novaSenha1}" required="true"/>
@@ -40,6 +38,8 @@
                         <h:outputText value="Digite a nova senha novamente:" size="200"/>
                         <h:inputSecret id="novaSenha2" value="#{alterarSenha.novaSenha2}" required="true"/>
                     </h:panelGrid>
+                    
+                    <h:commandButton type="reset" value="Limpar"/>
                     
                     <a4j:commandButton type="submit" id="alterarSenha" action="#{alterarSenha.botaoPressionado}" value="Alterar" 
                    			ajaxSingle="true" reRender="corpo" />
@@ -68,7 +68,10 @@
                         
 						<h:outputText value="Digite novamente a resposta:"/>
                         <h:inputSecret id="novaResposta2" value="#{alterarSenha.novaResposta2}" required="true"/>
-                    </h:panelGrid>                    
+                    </h:panelGrid>      
+                                  
+                    <a4j:commandButton type="reset" id="limpar" value="Limpar" 
+                   			ajaxSingle="true" reRender="corpo" />
                     
                     <a4j:commandButton type="submit" id="alterarPergunta" action="#{alterarSenha.botaoPressionado2}" value="Alterar" 
                    			ajaxSingle="true" reRender="corpo" />

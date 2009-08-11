@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -484,7 +485,15 @@ public class PDFAction {
     }
 	
 	public void geraTabelaHistorico(ArrayList<HashMap<String, String>> informacoes){
-		geraCabecalho("H I S T Ó R I C O   E S C O L A R");
+		LinkedList<String> list = turmasMatriculadasBean.geraHistorico();
+		
+		Font f2 = new Font(); f2.setStyle(Font.NORMAL); f2.setSize(8);
+		
+		for(String s : list){
+			addParagrafo(new Paragraph(s, f2));
+		}
+		
+		/*geraCabecalho("H I S T Ó R I C O   E S C O L A R");
 		
 		Font f1 = new Font(); f1.setStyle(Font.NORMAL); f1.setSize(8);
         Font f2 = new Font(); f2.setStyle(Font.NORMAL); f2.setSize(8);
@@ -793,6 +802,7 @@ public class PDFAction {
         addParagrafoCentralizado(new Paragraph("A MATRICULA É OBRIGATÓRIA EM TODO PERÍODO LETIVO EVITE SITUAÇÃO DE ABANDONO", f2));
         addParagrafo("\n");
         addParagrafoCentralizado(new Paragraph("HISTÓRICO EMITIDO PARA SIMPLES CONFERÊNCIA. NAO VALE COMO DOCUMENTO OFICIAL", f2));
+        */
 	}
 	
 	public Document getDoc() {

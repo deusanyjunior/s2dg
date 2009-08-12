@@ -1,7 +1,6 @@
 package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,11 +11,8 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Disciplina;
-import org.ufpb.s2dg.entity.Horario;
 import org.ufpb.s2dg.entity.Sala;
 import org.ufpb.s2dg.entity.Turma;
-import org.ufpb.s2dg.entity.Aluno.FormaIngresso;
-import org.ufpb.s2dg.entity.Aluno.SituacaoAcademica;
 import org.ufpb.s2dg.entity.AlunoTurma.Situacao;
 import org.ufpb.s2dg.entity.Disciplina.Tipo;
 import org.ufpb.s2dg.session.persistence.AlunoDAO;
@@ -179,7 +175,7 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		}
 		return creditosPeriodoAtual;
 	}
-	public float geraCRE(List<AlunoTurma> ats){
+	public String geraCRE(List<AlunoTurma> ats){
 		float somaMedias = 0;
 		float somaCreditos = (float)geraCreditosIntegralizados(ats);
 		
@@ -195,7 +191,10 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 				}	
 			}
 		}
-		return (somaMedias/somaCreditos);
+		if(somaCreditos == 0){
+			return "-----";
+		}
+		return (String.format("%.2f",(somaMedias/somaCreditos)).replace('.', ','));
 	}
 	
 	public int cargaHoraria(int creditos) {
@@ -285,7 +284,7 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 	public String geraMedia(AlunoTurma alunoTurma){
 		if((alunoTurma.getSituacao()==Situacao.APROVADO) ||( alunoTurma.getSituacao()==Situacao.DISPENSADO) 
 			|| (alunoTurma.getSituacao()==Situacao.REPROVADO_POR_MEDIA)){
-			return String.valueOf(alunoTurma.getMedia());
+			return (String.format("%.2f",alunoTurma.getMedia())).replace('.', ',');
 		}
 		return "-----";
 	}
@@ -495,705 +494,320 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		else
 			return null;
 	}
-	public float geraMediaVestibular(){
+	public String geraMediaVestibular(){
 
-		float media = fachada.getAluno().getValorProva1() + fachada.getAluno().getValorProva2() + fachada.getAluno().getValorProva3()
-					+ fachada.getAluno().getValorProva4() + fachada.getAluno().getValorProva5() + fachada.getAluno().getValorProva6()
-					+ fachada.getAluno().getValorProva7() + fachada.getAluno().getValorProva8();
-		if(fachada.getAluno().getValorProva9()!=null){
+		float media = 0;
+		int cont = 0;
+		try{
+			media += fachada.getAluno().getValorProva1();
+			cont++;
+			media += fachada.getAluno().getValorProva2();
+			cont++;
+			media += fachada.getAluno().getValorProva3();
+			cont++;
+			media += fachada.getAluno().getValorProva4();
+			cont++;
+			media += fachada.getAluno().getValorProva5();
+			cont++;
+			media += fachada.getAluno().getValorProva6();
+			cont++;
+			media += fachada.getAluno().getValorProva7();
+			cont++;
+			media += fachada.getAluno().getValorProva8();
+			cont++;
 			media += fachada.getAluno().getValorProva9();
-			return media/9;
-		}
+			cont++;
+		} catch (Exception e) {}
+		
+		if(cont == 0)
+			return "------";
 		else
-			return media/8;
+			return (String.format("%.2f", media/cont)).replace('.', ',');
 	}
 	
+	private String getEspacos(int nEspacos){
+		String espaco = "&nbsp;", retorno = "";
+		while(nEspacos-- > 0){
+			retorno += espaco;
+		}
+		return retorno;		
+	}
+	
+		
 	public LinkedList<String> geraHistorico(){
+		
 		LinkedList<String> lista = new LinkedList<String>();
-		String historico = "";
-        historico = "-------------------------H I S T O R I C O   E S C O L A R";//25 espacos
-        lista.add(historico);
-        lista.add(""); // por causa do o segundo '/n'
-        historico = ("ALUNO: "+fachada.getAluno().getMatricula()+"--"+fachada.getUsuario().getNome()).toUpperCase();
-        lista.add(historico);
-		historico = ("CURSO: "+fachada.getAluno().getCurriculo().getCurso().getCodigo()+"--"+fachada.getAluno().getCurriculo().getCurso().getNome()+
-				" CURRICULO: "+fachada.getAluno().getCurriculo().getNumero()).toUpperCase();
-		lista.add(historico);
-		historico = ("RECONHECIMENTO: "+fachada.getAluno().getCurriculo().getCurso().getCur_ato_criacao()+"  "+"RG: "+fachada.getUsuario().getRg()).toUpperCase();
-		lista.add(historico);
-		lista.add("");
-		historico = ("CODIGO--NOME DA DISCIPLINA-----------------------CR CH. PERIOD MEDIA SITUACAO");
-		lista.add(historico);
-		List<AlunoTurma> ats = getObrigatoriasOrdenadas(getAluno());
-		String auxiliar = "";
-		if(ats.size()>0){
-			historico = ("=====================-----DISCIPLINAS OBRIGATORIAS-----======================");
-			lista.add(historico);
-			for(int i = 0; i < ats.size(); i++){
-				auxiliar = "";
-				historico = (ats.get(i).getTurma().getDisciplina().getCodigo()+" ");
-				auxiliar = ats.get(i).getTurma().getDisciplina().getNome();
-				if(auxiliar.length()<41){
-					for(int j = auxiliar.length(); j < 41; j++){
-						auxiliar += "-";
-					}
-				}
-				historico += auxiliar+" ";
-				historico += ats.get(i).getTurma().getDisciplina().getCreditos()+" ";
-				auxiliar = (cargaHoraria(ats.get(i).getTurma().getDisciplina().getCreditos()))+"";
-				if(auxiliar.length()<3){
-					for(int j = auxiliar.length(); j < 3; j++){
-						auxiliar = "-"+auxiliar;
-					}
-				}
-				historico += auxiliar+" ";
-				historico += ats.get(i).getTurma().getPeriodo().getAno()+" "+ats.get(i).getTurma().getPeriodo().getSemestre()+" ";
-				auxiliar = geraMedia(ats.get(i))+"";
-				if(auxiliar.length()<5){
-					for(int j = auxiliar.length(); j < 5; j++){
-						auxiliar = "-"+auxiliar;
-					}
-				}
-				historico += auxiliar+" "+getTextoSituacao(ats.get(i).getSituacao());
-				lista.add(historico.toUpperCase());
-			}			
-		}
-		ats = getOptativasOrdenadas(getAluno());
-		if(ats.size()>0){
-			historico = ("=====================------DISCIPLINAS OPTATIVAS------=======================");
-			lista.add(historico);
-			for(int i = 0; i < ats.size(); i++){
-				auxiliar = "";
-				historico = (ats.get(i).getTurma().getDisciplina().getCodigo()+" ");
-				auxiliar = ats.get(i).getTurma().getDisciplina().getNome();
-				if(auxiliar.length()<41){
-					for(int j = auxiliar.length(); j < 41; j++){
-						auxiliar += "-";
-					}
-				}
-				historico += auxiliar+" ";
-				historico += ats.get(i).getTurma().getDisciplina().getCreditos()+" ";
-				auxiliar = (cargaHoraria(ats.get(i).getTurma().getDisciplina().getCreditos()))+"";
-				if(auxiliar.length()<3){
-					for(int j = auxiliar.length(); j < 3; j++){
-						auxiliar = "-"+auxiliar;
-					}
-				}
-				historico += auxiliar+" ";
-				historico += ats.get(i).getTurma().getPeriodo().getAno()+" "+ats.get(i).getTurma().getPeriodo().getSemestre()+" ";
-				auxiliar = geraMedia(ats.get(i))+"";
-				if(auxiliar.length()<5){
-					for(int j = auxiliar.length(); j < 5; j++){
-						auxiliar = "-"+auxiliar;
-					}
-				}
-				historico += auxiliar+" "+getTextoSituacao(ats.get(i).getSituacao());
-				lista.add(historico.toUpperCase());
-			}			
-		}
-		ats = getComplementaresOrdenadas(getAluno());
-		if(ats.size()>0){
-			historico = ("=====================-----DISCIPLINAS COMPLEMENTARES---=======================");
-			lista.add(historico);
-			for(int i = 0; i < ats.size(); i++){
-				auxiliar = "";
-				historico = (ats.get(i).getTurma().getDisciplina().getCodigo()+" ");
-				auxiliar = ats.get(i).getTurma().getDisciplina().getNome();
-				if(auxiliar.length()<41){
-					for(int j = auxiliar.length(); j < 41; j++){
-						auxiliar += "-";
-					}
-				}
-				historico += auxiliar+" ";
-				historico += ats.get(i).getTurma().getDisciplina().getCreditos()+" ";
-				auxiliar = (cargaHoraria(ats.get(i).getTurma().getDisciplina().getCreditos()))+"";
-				if(auxiliar.length()<3){
-					for(int j = auxiliar.length(); j < 3; j++){
-						auxiliar = "-"+auxiliar;
-					}
-				}
-				historico += auxiliar+" ";
-				historico += ats.get(i).getTurma().getPeriodo().getAno()+" "+ats.get(i).getTurma().getPeriodo().getSemestre()+" ";
-				auxiliar = geraMedia(ats.get(i))+"";
-				if(auxiliar.length()<5){
-					for(int j = auxiliar.length(); j < 5; j++){
-						auxiliar = "-"+auxiliar;
-					}
-				}
-				historico += auxiliar+" "+getTextoSituacao(ats.get(i).getSituacao());
-				lista.add(historico.toUpperCase());
-			}			
-		}
-		lista.add("");
-		historico = "=============================================================================";
-		lista.add(historico);
-		lista.add("");
-		historico = "DADOS INERENTES A INTEGRALIZAÇAO CURRICULAR";
-		lista.add(historico);
-		lista.add("");
-		historico = "------------------------------CARGA HORARIA------CREDITOS------DISCIPLINAS-";
-		lista.add(historico);
-		historico = "INTEGRALIZACAO CURRICULAR-----Minimo Integr.--Minima Integr.--Minimo Integr";
-		lista.add(historico);
-		historico = "---------------------------------------------------------------------------";
-		lista.add(historico);
-		historico = "Disciplinas Obrigatorias...... ";
-		auxiliar = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias())+"";
-		if(auxiliar.length()<5){
-			for(int i = auxiliar.length(); i < 5; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = cargaHoraria(geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno())))+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias()+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno()))+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = fachada.getAluno().getCurriculo().getMinimoDisciplinasObrigatorias()+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";	
-		auxiliar = geraDisciplinasIntegralizadasObrigatorias(getObrigatoriasOrdenadas(getAluno()))+" ";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";									
-		lista.add(historico);
-		historico = "Disciplinas Optativas......... ";
-		auxiliar = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosOptativas())+"";
-		if(auxiliar.length()<5){
-			for(int i = auxiliar.length(); i < 5; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno())))+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = fachada.getAluno().getCurriculo().getMinimoCreditosOptativas()+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno()))+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas()+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";	
-		auxiliar = geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(getAluno()))+" ";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";									
-		lista.add(historico);
-		historico = "Disciplinas Eletivas.......... ----- ------0 ------- ------0 ------- -----0";
-		lista.add(historico);
 		
-		historico = "Disciplinas Complementares.... ";
-		auxiliar = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosComplementares())+"";
-		if(auxiliar.length()<5){
-			for(int i = auxiliar.length(); i < 5; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = cargaHoraria(geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno())))+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = fachada.getAluno().getCurriculo().getMinimoCreditosComplementares()+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno()))+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = fachada.getAluno().getCurriculo().getMinimoDisciplinasComplementares()+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";	
-		auxiliar = geraDisciplinasIntegralizadasComplementares(getComplementaresOrdenadas(getAluno()))+" ";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";									
-		lista.add(historico);
+		lista = addCabecalhoHistorico(lista);	
+		lista = addObrigatorias(lista);
+		lista = addOptativas(lista);
+		lista = addComplementares(lista);
+				
+		lista.add("");
+		lista.add("=============================================================================");
+		lista.add("");		
 		
-		historico = "TOTAIS DO CURRICULO =========> ";
-		auxiliar = cargaHoraria(geraMinimoCreditosCurriculo())+"";
-		if(auxiliar.length()<5){
-			for(int i = auxiliar.length(); i < 5; i++){
-				auxiliar = "-"+auxiliar;
-			}
+		try {
+			lista = addDadosDeIntegralizacaoDisciplinas(lista);
+			lista = addDadosDeIntegralizacaoSemestres(lista);
+			lista = addDadosVestibular(lista);
+		} catch(Exception ex){
+			lista.add("");
+			lista.add("Banco inconsistente, favor corrigir!");
+			lista.add("");			
 		}
-		historico += auxiliar+" ";
-		auxiliar = cargaHoraria(geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno())))+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = geraMinimoCreditosCurriculo()+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno()))+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";
-		auxiliar = geraMinimoDisciplinasCurriculo()+"";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";	
-		auxiliar = geraDisciplinasIntegralizadas(getDisciplinasOrdenadas(getAluno()))+" ";
-		if(auxiliar.length()<7){
-			for(int i = auxiliar.length(); i < 7; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" ";									
-		lista.add(historico);
 		
-		historico = "Disciplinas Extra-Curriculares ----- ------0 ------- ------0 ------- -----0";
-		lista.add(historico);
-		historico = "---------------------------------------------------------------------------";
-		lista.add(historico);
+		lista.add("---------------------------------------------------------------------------");
+		
+		lista.add("A MATRICULA E OBRIGATÓRIA EM TODO PERÍODO LETIVO,EVITE SITUAÇÃO DE ABANDONO");
+		lista.add("");
+		lista.add("");
+		lista.add("HISTORICO EMITIDO PARA SIMPLES CONFERENCIA. NAO VALE COMO DOCUMENTO OFICIAL");
+		
+		return lista;
+	}
+	
+	private LinkedList<String> addCabecalhoHistorico(LinkedList<String> lista){
 
-		historico = "Numero de semestres cursados.. ";
-		auxiliar = geraSemestresCursados(getDisciplinasOrdenadas(getAluno()))+"";
-		if(auxiliar.length()<4){
-			for(int i = auxiliar.length(); i < 4; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" "+"(Minimo: ";	
-		auxiliar = fachada.getAluno().getCurriculo().getMinimoSemestres()+"";
-		if(auxiliar.length()<2){
-			for(int i = auxiliar.length(); i < 2; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+", Maximo: "+fachada.getAluno().getCurriculo().getMaximoSemestres()+") de "
-					+geraSemestresAtivos(getDisciplinasOrdenadas(getAluno()))+" ativos";
-		lista.add(historico);
-		
-		historico = "Trancamentos Totais efetuados. ";
-		auxiliar = geraTrancamentosTotais(getDisciplinasOrdenadas(getAluno()))+"";
-		if(auxiliar.length()<4){
-			for(int i = auxiliar.length(); i < 4; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" (Max: "+fachada.getAluno().getCurriculo().getMaximoTrancamentosTotais()+" sem)";
-		lista.add(historico);
-		
-		historico = "Matriculas Institucionais .... ";
-		auxiliar = fachada.getAluno().getMatriculasInstitucionais()+"";
-		if(auxiliar.length()<4){
-			for(int i = auxiliar.length(); i < 4; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" (Max: "+fachada.getAluno().getCurriculo().getMaximoMatriculaInstitucional()+" sem)";
-		lista.add(historico);
-		
-		historico = "Trancamentos Parciais efetuad. ";
-		auxiliar = geraTrancamentosParciais(getDisciplinasOrdenadas(getAluno()))+"";
-		if(auxiliar.length()<4){
-			for(int i = auxiliar.length(); i < 4; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" (Minimo: --, Maximo: "+fachada.getAluno().getCurriculo().getMaximoTrancamentosParciais()+")";
-		lista.add(historico);
-		
-		historico = "Matriculado atualmente em .... ";
-		auxiliar = geraCreditosPeriodoAtual(getDisciplinasOrdenadas(getAluno()))+"";
-		if(auxiliar.length()<4){
-			for(int i = auxiliar.length(); i < 4; i++){
-				auxiliar = "-"+auxiliar;
-			}
-		}
-		historico += auxiliar+" Creditos (Minimo: "+fachada.getAluno().getCurriculo().getMinimoCreditos()+", Maximo: "
-		+fachada.getAluno().getCurriculo().getMaximoCreditos()+")";	
-		lista.add(historico);
-		
-		historico = "---------------------------------------------------------------------------";
-		lista.add(historico);
-		
-		historico = "Situacao academica............ ";
-		auxiliar = fachada.getAluno().getSituacaoAcademica()+"";
-		if(alunoBean.situacaoAcademicaGraduado()){
-			auxiliar += "(em "+ultimoPeriodoCursado(getDisciplinasOrdenadas(getAluno()))+" "+fachada.getAluno().getDataConclusao()+") ";
-		}
-		if(auxiliar.length()<34){
-			for(int i = auxiliar.length(); i < 34; i++){
-				auxiliar += "-";
-			}
-		}
-		historico += auxiliar+" CRE: "+geraCRE(getDisciplinasOrdenadas(getAluno()));
-		lista.add(historico);
-		
-		historico = "Forma de ingresso............. "+fachada.getAluno().getFormaIngresso()+" (em "
-					+getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getAno()+"."
-					+getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getSemestre()+")";
-		lista.add(historico);
-		
-		if(alunoBean.formaIngresso()){
-			historico = "----------------------- PROVAS E NOTAS DO VESTIBULAR ----------------------";
-			lista.add(historico);
-			auxiliar = fachada.getAluno().getNomeProva1();
-			if(auxiliar.length()<20){
-				for(int i = auxiliar.length();i < 20; i++){
-					auxiliar += "-";
-				}
-			}
-			historico = auxiliar +" "+fachada.getAluno().getValorProva1()+" ";
-			auxiliar = fachada.getAluno().getNomeProva2();
-			if(auxiliar.length()<20){
-				for(int i = auxiliar.length();i < 20; i++){
-					auxiliar += "-";
-				}
-			}
-			historico += auxiliar +" "+fachada.getAluno().getValorProva2()+" ";
-			auxiliar = fachada.getAluno().getNomeProva3();
-			if(auxiliar.length()<20){
-				for(int i = auxiliar.length();i < 20; i++){
-					auxiliar += "-";
-				}
-			}
-			historico += auxiliar +" "+fachada.getAluno().getValorProva3();
+		String historico = getEspacos(25) + "H I S T O R I C O"+ getEspacos(3)+"E S C O L A R";//25 espacos
+        lista.add(historico);
+        lista.add(""); // linha em branco
+        try{
+	        historico = "ALUNO: "+fachada.getAluno().getMatricula()+"--"+fachada.getUsuario().getNome();
+	        lista.add(historico.toUpperCase());
+			historico = "CURSO: "+fachada.getAluno().getCurriculo().getCurso().getCodigo()+"--"+fachada.getAluno().getCurriculo().getCurso().getNome();
+			historico += " CURRICULO: "+fachada.getAluno().getCurriculo().getNumero();
 			lista.add(historico.toUpperCase());
-			
-			auxiliar = fachada.getAluno().getNomeProva4();
-			if(auxiliar.length()<20){
-				for(int i = auxiliar.length();i < 20; i++){
-					auxiliar += "-";
-				}
-			}
-			historico = auxiliar +" "+fachada.getAluno().getValorProva4()+" ";
-			auxiliar = fachada.getAluno().getNomeProva5();
-			if(auxiliar.length()<20){
-				for(int i = auxiliar.length();i < 20; i++){
-					auxiliar += "-";
-				}
-			}
-			historico += auxiliar +" "+fachada.getAluno().getValorProva5()+" ";
-			auxiliar = fachada.getAluno().getNomeProva6();
-			if(auxiliar.length()<20){
-				for(int i = auxiliar.length();i < 20; i++){
-					auxiliar += "-";
-				}
-			}
-			historico += auxiliar +" "+fachada.getAluno().getValorProva6();
+			historico = "RECONHECIMENTO: "+fachada.getAluno().getCurriculo().getCurso().getCur_ato_criacao()+"  "+"RG: "+fachada.getUsuario().getRg();
 			lista.add(historico.toUpperCase());
-			
-			auxiliar = fachada.getAluno().getNomeProva7();
-			if(auxiliar.length()<20){
-				for(int i = auxiliar.length();i < 20; i++){
-					auxiliar += "-";
-				}
-			}
-			historico = auxiliar +" "+fachada.getAluno().getValorProva7()+" ";
-			auxiliar = fachada.getAluno().getNomeProva8();
-			if(auxiliar.length()<20){
-				for(int i = auxiliar.length();i < 20; i++){
-					auxiliar += "-";
-				}
-			}
-			historico += auxiliar +" "+fachada.getAluno().getValorProva8()+" ";
-			if (fachada.getAluno().getNomeProva9()!=null) {
-				auxiliar = fachada.getAluno().getNomeProva9();
-				if (auxiliar.length() < 20) {
-					for (int i = auxiliar.length(); i < 20; i++) {
-						auxiliar += "-";
-					}
-				}
-				historico += auxiliar + " "
-						+ fachada.getAluno().getValorProva9();
-			}
-			lista.add(historico.toUpperCase());
-			
-			historico = "MEDIA GERAL......."+geraMediaVestibular();
-			lista.add(historico);
-			historico = "---------------------------------------------------------------------------";
-			lista.add(historico);
-			historico = "A MATRICULA E OBRIGATÓRIA EM TODO PERÍODO LETIVO,EVITE SITUAÇÃO DE ABANDONO";
-			lista.add(historico);
-			lista.add("");lista.add("");
-			historico = "HISTORICO EMITIDO PARA SIMPLES CONFERENCIA. NAO VALE COMO DOCUMENTO OFICIAL";
-			lista.add(historico);
+        }catch(Exception ex){
+        	lista.add("Banco inconsistente, favor corrigir!");
+        }
+        lista.add("");
+		historico = String.format("CODIGO%sNOME DA DISCIPLINA%sCR CH. PERIOD MEDIA SITUACAO", getEspacos(2), getEspacos(23));
+		lista.add(historico);
+				
+		return lista;
+	}
+	
+	private LinkedList<String> addObrigatorias(LinkedList<String> lista){
+		String historico = "=====================     DISCIPLINAS OBRIGATORIAS     ======================";
+		lista.add(historico.replaceAll(" ", getEspacos(1)));		
+		List<AlunoTurma> ats = getObrigatoriasOrdenadas(getAluno());
+		return addListaDisciplinas(lista, ats);
+	}
+	
+	private LinkedList<String> addOptativas(LinkedList<String> lista){
+		String historico = "=====================      DISCIPLINAS OPTATIVAS      =======================";
+		lista.add(historico.replaceAll(" ", getEspacos(1)));		
+		List<AlunoTurma> ats = getOptativasOrdenadas(getAluno());
+		return addListaDisciplinas(lista, ats);
+	}
+
+	private LinkedList<String> addComplementares(LinkedList<String> lista){
+		String historico = "=====================    DISCIPLINAS COMPLEMENTARES   =======================";
+		lista.add(historico.replaceAll(" ", getEspacos(1)));		
+		List<AlunoTurma> ats = getComplementaresOrdenadas(getAluno());
+		return addListaDisciplinas(lista, ats);
+	}
+	
+	private LinkedList<String> addListaDisciplinas(LinkedList<String> lista, List<AlunoTurma> ats){
+		String linha, codigo, nome, ano, media, situacao;
+		int creditos, cargaHoraria, semestre;
+		for(int i = 0; i < ats.size(); i++){
+			codigo = ats.get(i).getTurma().getDisciplina().getCodigo();
+			nome = ats.get(i).getTurma().getDisciplina().getNome();
+			creditos = ats.get(i).getTurma().getDisciplina().getCreditos();
+			cargaHoraria = cargaHoraria(creditos);
+			ano = ats.get(i).getTurma().getPeriodo().getAno();
+			semestre = ats.get(i).getTurma().getPeriodo().getSemestre();
+			media = geraMedia(ats.get(i));
+			situacao = getTextoSituacao(ats.get(i).getSituacao());
+			linha = String.format("%s %-41s %d %3d %s %c %5s %s", codigo, nome, creditos, cargaHoraria, ano, semestre, media, situacao);
+			lista.add(linha.toUpperCase().replaceAll(" ", getEspacos(1)));
 		}
 		return lista;
 	}
-	public void exportarPDF() {
-		System.out.println("***********************************geraTabelaHoratio");
-		ArrayList<HashMap<String, String>> mapas = new ArrayList<HashMap<String, String>>();
-		//Numero - Codigo - Nome da disciplina - Creditos - CargaHoraria - Horarios - Sala
+	
+	private LinkedList<String> addDadosDeIntegralizacaoDisciplinas(LinkedList<String> lista){
 		
-		for (AlunoTurma at : alunoTurmas) {
-			HashMap<String, String> mapa = new HashMap<String, String>();
-			mapa.put("Numero", at.getTurma().getNumero());
-			
-			mapa.put("Codigo", at.getTurma().getDisciplina().getCodigo());
-			
-			mapa.put("Nome", at.getTurma().getDisciplina().getNome());
+		String historico = "DADOS INERENTES A INTEGRALZAÇÃO CURRICULAR";
+		lista.add(historico);
+		lista.add("");
+		historico = "                             -CARGA HORARIA-  ---CREDITOS---  -DISCIPLINAS-";
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		historico = "INTEGRALIZACAO CURRICULAR     Minimo Integr.  Minima Integr.  Minimo Integr";
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		historico = "---------------------------------------------------------------------------";
+		lista.add(historico);
+		
+		int chMin = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias());
+		int chInt = cargaHoraria(geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno())));
+		int crMin = fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias();
+		int crInt = geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno()));
+		int dsMin = fachada.getAluno().getCurriculo().getMinimoDisciplinasObrigatorias();
+		int dsInt = geraDisciplinasIntegralizadasObrigatorias(getObrigatoriasOrdenadas(getAluno()));
+		
+		historico = String.format("Disciplinas Obrigatorias...... %4d %7d %7d %7d %7d %6d", chMin, chInt, crMin, crInt, dsMin, dsInt);		
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		chMin = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosOptativas());
+		chInt = cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno())));
+		crMin = fachada.getAluno().getCurriculo().getMinimoCreditosOptativas();
+		crInt = geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno()));
+		dsMin = fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas();
+		dsInt = geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(getAluno()));
+		
+		historico = String.format("Disciplinas Optativas......... %4d %7d %7d %7d %7d %6d", chMin, chInt, crMin, crInt, dsMin, dsInt);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
 
-			String horarios = "";
-			for (Horario h : matriculaBean.getHorariosOrdenados(at.getTurma().getHorarios())) {
-				horarios += h.toString()+ "\n";
-			}
-			
-			mapa.put("Horarios", horarios);
-			
-			String salas = "";
-			
-			List<Sala> salas_list = getSalasDoBanco(at.getTurma().getId());
-			if(salas_list != null) {
-				for (Sala s : salas_list) {
-					salas += s.getSala() + "\n";
+		chMin = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosOptativas());
+		chInt = cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno())));
+		crMin = fachada.getAluno().getCurriculo().getMinimoCreditosOptativas();
+		crInt = geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno()));
+		dsMin = fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas();
+		dsInt = geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(getAluno()));
+		
+		historico = String.format("Disciplinas Optativas......... %4d %7d %7d %7d %7d %6d", chMin, chInt, crMin, crInt, dsMin, dsInt);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		historico = "Disciplinas Eletivas.......... ----       0    ----       0    ----      0";
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		chMin = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosComplementares());
+		chInt = cargaHoraria(geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno())));
+		crMin = fachada.getAluno().getCurriculo().getMinimoCreditosComplementares();
+		crInt = geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno()));
+		dsMin = fachada.getAluno().getCurriculo().getMinimoDisciplinasComplementares();
+		dsInt = geraDisciplinasIntegralizadasComplementares(getComplementaresOrdenadas(getAluno()));
+		
+		historico = String.format("Disciplinas Complementares.... %4d %7d %7d %7d %7d %6d", chMin, chInt, crMin, crInt, dsMin, dsInt);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		historico = "TOTAIS DO CURRICULO =========> ";
+		
+		chMin = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosCurriculo());
+		chInt = cargaHoraria(geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno())));
+		crMin = geraMinimoCreditosCurriculo();
+		crInt = geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno()));
+		dsMin = geraMinimoDisciplinasCurriculo();
+		dsInt = geraDisciplinasIntegralizadas(getDisciplinasOrdenadas(getAluno()));
+		
+		historico = String.format("TOTAIS DO CURRICULO =========> %4d %7d %7d %7d %7d %6d", chMin, chInt, crMin, crInt, dsMin, dsInt);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		historico = "Disciplinas Extra-Curriculares ----       0    ----       0    ----      0";
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		historico = "---------------------------------------------------------------------------";
+		lista.add(historico);
+		
+		return lista;
+	}
+
+	private LinkedList<String> addDadosDeIntegralizacaoSemestres(LinkedList<String> lista){
+		
+		int semCursados = geraSemestresCursados(getDisciplinasOrdenadas(getAluno()));
+		int minSemestres = fachada.getAluno().getCurriculo().getMinimoSemestres();
+		int maxSemestres = fachada.getAluno().getCurriculo().getMaximoSemestres();
+		int ativos = geraSemestresAtivos(getDisciplinasOrdenadas(getAluno()));
+		String historico = String.format("Numero de semestres cursados.. %4d (Minimo: %2d, Maximo: %2d) de %d ativos", semCursados, minSemestres, maxSemestres, ativos);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		int trancTotais = geraTrancamentosTotais(getDisciplinasOrdenadas(getAluno()));
+		int maxTrancs = fachada.getAluno().getCurriculo().getMaximoTrancamentosTotais();
+		historico = String.format("Trancamentos Totais efetuados. %4d (Max: %d sem)", trancTotais, maxTrancs);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		
+		int matInst = fachada.getAluno().getMatriculasInstitucionais();
+		int maxInst = fachada.getAluno().getCurriculo().getMaximoMatriculaInstitucional();
+		historico = String.format("Matriculas Institucionais .... %4d (Max: %d sem)", matInst, maxInst);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		
+		int trancParc = geraTrancamentosParciais(getDisciplinasOrdenadas(getAluno()));
+		maxTrancs = fachada.getAluno().getCurriculo().getMaximoTrancamentosParciais();
+		historico = String.format("Trancamentos Parciais efetuad. %4d (Minimo: --, Maximo: %2d)", trancParc, maxTrancs);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		int crAtual = geraCreditosPeriodoAtual(getDisciplinasOrdenadas(getAluno()));
+		int minCr = fachada.getAluno().getCurriculo().getMinimoCreditos();
+		int maxCr = fachada.getAluno().getCurriculo().getMaximoCreditos();
+		historico = String.format("Matriculado atualmente em .... %4d Creditos (Minimo: %4d, Maximo: %4d)", crAtual, minCr, maxCr);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+
+		historico = "---------------------------------------------------------------------------";
+		lista.add(historico);
+		
+		String sitAcad = fachada.getAluno().getSituacaoAcademica().toString();
+		String cre = geraCRE(getDisciplinasOrdenadas(getAluno()));
+		if(alunoBean.situacaoAcademicaGraduado())
+			sitAcad += String.format("(em %s %s) ", ultimoPeriodoCursado(getDisciplinasOrdenadas(getAluno())), fachada.getAluno().getDataConclusao());
+				
+		historico = String.format("Situacao academica............ %-33s CRE: %5s", sitAcad, cre);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+				
+		historico = String.format("Forma de ingresso............. %s (em %s.%c)", fachada.getAluno().getFormaIngresso(), getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getAno(), getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getSemestre());
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
+		return lista;		
+	}
+	
+	private LinkedList<String> addDadosVestibular(LinkedList<String> lista){
+		
+		if(alunoBean.formaIngresso()){
+			String historico = "----------------------- PROVAS E NOTAS DO VESTIBULAR ----------------------";
+			lista.add(historico);
+			for(int i = 0; i < 3; i++){
+				historico = "";
+				for(int j = 3*i+1; j <= 3*i+3; j++){
+					historico = historico + nota(j);
 				}
-			}
-						
-			mapa.put("Sala", salas);
-			mapa.put("Turma", at.getTurma().getNumero());
-
-			int creditos = at.getTurma().getDisciplina().getCreditos();
-			mapa.put("Creditos", String.valueOf(creditos));
-			System.out.println(at.getTurma().getNumero());
-			mapa.put("Carga Horaria", String.valueOf(creditos*15));
-			System.out.println(at.getTurma().getNumero());
+				lista.add(historico.toUpperCase().replaceAll(" ", getEspacos(1)));
+			}			
 			
-			mapas.add(mapa);
+			historico = "MEDIA GERAL......."+geraMediaVestibular();
+			lista.add(historico);			
 		}
 		
-		pdfAction.geraPdf("Horario_Individual.pdf", mapas);
+		return lista;		
 	}
 	
-	public void exportarHistoricoPDF() {
-		ArrayList<HashMap<String, String>> mapas = new ArrayList<HashMap<String, String>>();
-		
-		// Matricula - Nome do Aluno - Codigo do Curso - Nome do Curso - Numero do Curriculo - Reconhecimento - RG
-		HashMap<String, String> mapaCabecalho = new HashMap<String, String>();
-		mapaCabecalho.put("Matricula", fachada.getAluno().getMatricula());
-		mapaCabecalho.put("Nome", fachada.getUsuario().getNome());
-		mapaCabecalho.put("Curso", fachada.getAluno().getCurriculo().getCurso().getCodigo());
-		mapaCabecalho.put("NomeCurso", fachada.getAluno().getCurriculo().getCurso().getNome());
-		mapaCabecalho.put("Curriculo", fachada.getAluno().getCurriculo().getNumero());
-		mapaCabecalho.put("Reconhecimento", fachada.getAluno().getCurriculo().getCurso().getCur_ato_criacao());
-		mapaCabecalho.put("RG", fachada.getUsuario().getRg());
-		mapas.add(mapaCabecalho);
-		
-		List<AlunoTurma> aluno = getDisciplinasOrdenadas(getAluno());		
-		//CODIGO - NOME DA DISCIPLINA - CR - CH.- PERIODO - MEDIA -SITUACAO 
-		//Disciplinas Obrigatorias
-		for (AlunoTurma at : aluno) {
-			if(at.getTurma().getDisciplina().getTipo()==Tipo.OBRIGATORIA){
-				HashMap<String, String> mapaDisciplinasObrigatorias = new HashMap<String, String>();
-				mapaDisciplinasObrigatorias.put("Codigo", at.getTurma().getDisciplina().getCodigo());
-				mapaDisciplinasObrigatorias.put("Disciplina", at.getTurma().getDisciplina().getNome());
-				int creditos = at.getTurma().getDisciplina().getCreditos();
-				mapaDisciplinasObrigatorias.put("Creditos", String.valueOf(creditos));
-				mapaDisciplinasObrigatorias.put("Carga Horaria", String.valueOf(creditos*15));			
-				mapaDisciplinasObrigatorias.put("Periodo", at.getTurma().getPeriodo().getAno().concat(" "+ at.getTurma().getPeriodo().getSemestre()));
-				mapaDisciplinasObrigatorias.put("Media",turmasMatriculadasBean.geraMedia(at)+"");
-				mapaDisciplinasObrigatorias.put("Situacao", at.getSituacao()+"");
-						
-				mapas.add(mapaDisciplinasObrigatorias);
-			}
+	private String nota(int indice){
+		String nome;
+		int nota;
+		switch(indice){
+			case 1: nome = fachada.getAluno().getNomeProva1(); break; 
+			case 2: nome = fachada.getAluno().getNomeProva2(); break;
+			case 3: nome = fachada.getAluno().getNomeProva3(); break;
+			case 4: nome = fachada.getAluno().getNomeProva4(); break;
+			case 5: nome = fachada.getAluno().getNomeProva5(); break;
+			case 6: nome = fachada.getAluno().getNomeProva6(); break;
+			case 7: nome = fachada.getAluno().getNomeProva7(); break;
+			case 8: nome = fachada.getAluno().getNomeProva8(); break;
+			case 9: nome = fachada.getAluno().getNomeProva9(); break;
+			default: nome = ""; break;
 		}
 		
-		//Disciplinas Optativas
-		for (AlunoTurma at : aluno) {
-			if(at.getTurma().getDisciplina().getTipo()==Tipo.OPTATIVA){
-				HashMap<String, String> mapaDisciplinasOptativas = new HashMap<String, String>();
-				mapaDisciplinasOptativas.put("Codigo", at.getTurma().getDisciplina().getCodigo());
-				mapaDisciplinasOptativas.put("Disciplina", at.getTurma().getDisciplina().getNome());
-				int creditos = at.getTurma().getDisciplina().getCreditos();
-				mapaDisciplinasOptativas.put("Creditos", String.valueOf(creditos));
-				mapaDisciplinasOptativas.put("Carga Horaria", String.valueOf(creditos*15));			
-				mapaDisciplinasOptativas.put("Periodo", at.getTurma().getPeriodo().getAno().concat(" "+ at.getTurma().getPeriodo().getSemestre()));
-				mapaDisciplinasOptativas.put("Media",turmasMatriculadasBean.geraMedia(at)+"");
-				mapaDisciplinasOptativas.put("Situacao", at.getSituacao()+"");
-						
-				mapas.add(mapaDisciplinasOptativas);
-			}
+		if(nome == null || nome.length() == 0)
+			return "";
+		
+		switch(indice){
+			case 1: nota = fachada.getAluno().getValorProva1(); break; 
+			case 2: nota = fachada.getAluno().getValorProva2(); break;
+			case 3: nota = fachada.getAluno().getValorProva3(); break;
+			case 4: nota = fachada.getAluno().getValorProva4(); break;
+			case 5: nota = fachada.getAluno().getValorProva5(); break;
+			case 6: nota = fachada.getAluno().getValorProva6(); break;
+			case 7: nota = fachada.getAluno().getValorProva7(); break;
+			case 8: nota = fachada.getAluno().getValorProva8(); break;
+			case 9: nota = fachada.getAluno().getValorProva9(); break;
+			default: nota = 0; break;
 		}
-		
-		//Disciplinas Complementares
-		for (AlunoTurma at : aluno) {
-			if(at.getTurma().getDisciplina().getTipo()==Tipo.COMPLEMENTAR){
-				HashMap<String, String> mapaDisciplinasComplementares = new HashMap<String, String>();
-				mapaDisciplinasComplementares.put("Codigo", at.getTurma().getDisciplina().getCodigo());
-				mapaDisciplinasComplementares.put("Disciplina", at.getTurma().getDisciplina().getNome());
-				int creditos = at.getTurma().getDisciplina().getCreditos();
-				mapaDisciplinasComplementares.put("Creditos", String.valueOf(creditos));
-				mapaDisciplinasComplementares.put("Carga Horaria", String.valueOf(creditos*15));			
-				mapaDisciplinasComplementares.put("Periodo", at.getTurma().getPeriodo().getAno().concat(" "+ at.getTurma().getPeriodo().getSemestre()));
-				mapaDisciplinasComplementares.put("Media",turmasMatriculadasBean.geraMedia(at)+"");
-				mapaDisciplinasComplementares.put("Situacao", at.getSituacao()+"");
-						
-				mapas.add(mapaDisciplinasComplementares);
-			}
-		}
-		//Integralizacoes Disciplina Obrigatoria
-		HashMap<String, String> mapaIntegralizacaoObrigatoria = new HashMap<String, String>();
-		mapaIntegralizacaoObrigatoria.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias())+"");
-		mapaIntegralizacaoObrigatoria.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno())))+"");
-		mapaIntegralizacaoObrigatoria.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosObrigatorias()+"");
-		mapaIntegralizacaoObrigatoria.put("IntegralizadoCredito", geraCreditosIntegralizadosObrigatorias(getObrigatoriasOrdenadas(getAluno()))+"");
-		mapaIntegralizacaoObrigatoria.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinasObrigatorias()+"");
-		mapaIntegralizacaoObrigatoria.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasObrigatorias(getObrigatoriasOrdenadas(getAluno()))+"");
-		mapas.add(mapaIntegralizacaoObrigatoria);
-		
-		//Integralizacoes Disciplina Optativa
-		HashMap<String, String> mapaIntegralizacaoOptativa = new HashMap<String, String>();
-		mapaIntegralizacaoOptativa.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosOptativas())+"");
-		mapaIntegralizacaoOptativa.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno())))+"");
-		mapaIntegralizacaoOptativa.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosOptativas()+"");
-		mapaIntegralizacaoOptativa.put("IntegralizadoCredito", geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno()))+"");
-		mapaIntegralizacaoOptativa.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas()+"");
-		mapaIntegralizacaoOptativa.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(getAluno()))+"");
-		mapas.add(mapaIntegralizacaoOptativa);
-		
-		//Integralizacoes Disciplina Complementar
-		HashMap<String, String> mapaIntegralizacaoComplementar = new HashMap<String, String>();
-		mapaIntegralizacaoComplementar.put("Carga Horaria Minima", cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosComplementares())+"");
-		mapaIntegralizacaoComplementar.put("Integralizada", cargaHoraria(geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno())))+"");
-		mapaIntegralizacaoComplementar.put("Creditos Minimo", fachada.getAluno().getCurriculo().getMinimoCreditosComplementares()+"");
-		mapaIntegralizacaoComplementar.put("IntegralizadoCredito", geraCreditosIntegralizadosComplementares(getComplementaresOrdenadas(getAluno()))+"");
-		mapaIntegralizacaoComplementar.put("Disciplinas Minimo", fachada.getAluno().getCurriculo().getMinimoDisciplinasComplementares()+"");
-		mapaIntegralizacaoComplementar.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadasComplementares(getComplementaresOrdenadas(getAluno()))+"");
-		mapas.add(mapaIntegralizacaoComplementar);
-		
-		//Integralizacao Total
-		HashMap<String, String> mapaIntegralizacaoTotal = new HashMap<String, String>();
-		mapaIntegralizacaoTotal.put("Carga Horaria Minima", cargaHoraria(geraMinimoCreditosCurriculo())+"");
-		mapaIntegralizacaoTotal.put("Integralizada", cargaHoraria(geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno())))+"");
-		mapaIntegralizacaoTotal.put("Creditos Minimo", geraMinimoCreditosCurriculo()+"");
-		mapaIntegralizacaoTotal.put("IntegralizadoCredito", geraCreditosIntegralizados(getDisciplinasOrdenadas(getAluno()))+"");
-		mapaIntegralizacaoTotal.put("Disciplinas Minimo", geraMinimoDisciplinasCurriculo()+"");
-		mapaIntegralizacaoTotal.put("IntegralizadoDisciplina", geraDisciplinasIntegralizadas(turmasMatriculadasBean.getDisciplinasOrdenadas(getAluno()))+"");
-		mapas.add(mapaIntegralizacaoTotal);
-
-		//Semestres cursados
-		HashMap<String, String> mapaSemestresCursados = new HashMap<String, String>();
-		mapaSemestresCursados.put("Cursados", geraSemestresCursados(turmasMatriculadasBean.getDisciplinasOrdenadas(getAluno()))+"");
-		mapaSemestresCursados.put("Minimo", fachada.getAluno().getCurriculo().getMinimoSemestres()+"");
-		mapaSemestresCursados.put("Maximo", fachada.getAluno().getCurriculo().getMaximoSemestres()+"");
-		mapaSemestresCursados.put("Ativos", geraSemestresAtivos(turmasMatriculadasBean.getDisciplinasOrdenadas(getAluno()))+"");
-		mapas.add(mapaSemestresCursados);
-		
-		//Trancamentos Totais
-		HashMap<String, String> mapaTrancamentosTotais = new HashMap<String, String>();
-		mapaTrancamentosTotais.put("Trancamentos", geraTrancamentosTotais(getDisciplinasOrdenadas(getAluno()))+"");
-		mapaTrancamentosTotais.put("Maximo", fachada.getAluno().getCurriculo().getMaximoTrancamentosTotais()+"");
-		mapas.add(mapaTrancamentosTotais);
-		
-		//Matriculas Institucionais
-		HashMap<String, String> mapaMatriculasInstitucionais = new HashMap<String, String>();
-		mapaMatriculasInstitucionais.put("Matriculas", fachada.getAluno().getMatriculasInstitucionais()+"");
-		mapaMatriculasInstitucionais.put("Maximo", fachada.getAluno().getCurriculo().getMaximoMatriculaInstitucional()+"");
-		mapas.add(mapaMatriculasInstitucionais);
-
-		//Trancamentos Parciais
-		HashMap<String, String> mapaTrancamentosParciais = new HashMap<String, String>();
-		mapaTrancamentosParciais.put("Trancamentos", geraTrancamentosParciais(getDisciplinasOrdenadas(getAluno()))+"");
-		mapaTrancamentosParciais.put("Maximo", fachada.getAluno().getCurriculo().getMaximoTrancamentosParciais()+"");
-		mapas.add(mapaTrancamentosParciais);
-		
-		//Creditos Matriculados
-		HashMap<String, String> mapaCreditosMatriculados = new HashMap<String, String>();
-		mapaCreditosMatriculados.put("Matriculados", geraCreditosPeriodoAtual(getDisciplinasOrdenadas(getAluno()))+"");
-		mapaCreditosMatriculados.put("Minimo", fachada.getAluno().getCurriculo().getMinimoCreditos()+"");
-		mapaCreditosMatriculados.put("Maximo", fachada.getAluno().getCurriculo().getMaximoCreditos()+"");
-		mapas.add(mapaCreditosMatriculados);
-		
-		//Situacao Academica
-		HashMap<String, String> mapaSituacaoAcademica = new HashMap<String, String>();
-		mapaSituacaoAcademica.put("Situacao", fachada.getAluno().getSituacaoAcademica()+"");
-		if(fachada.getAluno().getSituacaoAcademica()==SituacaoAcademica.GRADUADO){
-			mapaSituacaoAcademica.put("Ano de Conclusao", ultimoPeriodoCursado(getDisciplinasOrdenadas(getAluno())).
-					  concat(" "+fachada.getAluno().getDataConclusao()));
-		}
-		mapaSituacaoAcademica.put("CRE", geraCRE(getDisciplinasOrdenadas(getAluno()))+"");
-		mapaSituacaoAcademica.put("Forma de Ingresso", fachada.getAluno().getFormaIngresso()+"");
-		mapaSituacaoAcademica.put("Ano Ingresso", getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getAno().
-								  concat(" "+getDisciplinasOrdenadas(getAluno()).get(0).getTurma().getPeriodo().getSemestre()));
-		mapas.add(mapaSituacaoAcademica);
-		
-		//Notas do Vestibular
-		if(fachada.getAluno().getFormaIngresso()==FormaIngresso.VESTIBULAR){
-			
-		}
-		System.out.println("¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬" + mapas.size());
-		pdfAction.geraPdfHistorico("Historico_Escolar.pdf", mapas);
+		return String.format("%-20s %3d ", nome, nota); 
 	}
-	
+		
 	public boolean naoVazio(List<AlunoTurma> at) {
 		if (at == null) {
 			MenuAction.setId_Menu(4);
@@ -1202,5 +816,6 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		
 		return true;
 	}
+	
 
 }

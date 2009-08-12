@@ -17,9 +17,7 @@
 				<ui:include src="/menu_discente.xhtml" />			  
 			</td>			
 			<td style="padding-left: 20px;" height="100%">
-				<a4j:outputPanel id="corpo" ajaxRendered="true">
-					<a4j:include viewId="#{MenuAction.getOption()}" ajaxRendered="true"/>
-				</a4j:outputPanel>
+					<a4j:include id="corpo" viewId="#{MenuAction.getOption()}"/>
 			</td>
 		</tr>
 	</table>

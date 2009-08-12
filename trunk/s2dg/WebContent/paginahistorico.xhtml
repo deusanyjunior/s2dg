@@ -11,19 +11,16 @@
 	<h:form>
 		<rich:panel>
 			<f:facet name="header">Historico Escolar</f:facet>
-			<ui:repeat value="#{turmasMatriculadasBean.geraHistorico()}"
-				var="linha">
-				<h:outputText value="#{linha}"
-					style="font-size:12px;font-family:Courier New;" />
-				<br />
-			</ui:repeat>
+			<div style="margin-left: 200px">
+				<ui:repeat value="#{turmasMatriculadasBean.geraHistorico()}" var="linha">
+					<h:outputText value="#{linha}" escape="false" style="font-size:12px;font-family:Courier New;" />
+					<br />
+				</ui:repeat>
+			</div>
 			<br/>
-			<center><a4j:commandButton
-				action="#{turmasMatriculadasBean.exportarHistoricoPDF()}"
-				value="Imprimir" /></center>
-
-
-
+			<div style="margin-left: 670px" >
+				<a4j:commandButton value="Imprimir" action="#{pdfAction.geraPdfHistorico()}" />
+			</div>
 		</rich:panel>
 	</h:form>
 </ui:composition>

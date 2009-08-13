@@ -30,8 +30,6 @@ public class Disciplina implements Serializable {
 	private int creditos;
 	private Set<Turma> turmas = new HashSet<Turma>(0);
 	private Set<Curriculo> curriculos;
-	private Set<Disciplina> pre_requisitos;
-	private Set<Disciplina> co_requisitos;
 	private Tipo tipo;
 
 	public Disciplina() {
@@ -51,8 +49,6 @@ public class Disciplina implements Serializable {
 		this.creditos = creditos;
 		this.turmas = turmas;
 		this.curriculos = curriculos;
-		this.pre_requisitos = pre_requisitos;
-		this.co_requisitos = co_requisitos;
 		this.tipo = tipo;
 	}
 
@@ -111,26 +107,6 @@ public class Disciplina implements Serializable {
 		this.curriculos = curriculos;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "pre_requisito", schema = "public", joinColumns = { @JoinColumn(name = "codigo_disciplina1", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "codigo_disciplina2", nullable = false, updatable = false) })
-	public Set<Disciplina> getPre_requisitos() {
-		return pre_requisitos;
-	}
-
-	public void setPre_requisitos(Set<Disciplina> pre_requisitos) {
-		this.pre_requisitos = pre_requisitos;
-	}
-
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "co_requisito", schema = "public", joinColumns = { @JoinColumn(name = "codigo_disciplina1", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "codigo_disciplina2", nullable = false, updatable = false) })
-	public Set<Disciplina> getCo_requisitos() {
-		return co_requisitos;
-	}
-
-	public void setCo_requisitos(Set<Disciplina> co_requisitos) {
-		this.co_requisitos = co_requisitos;
-	}
-	
 	@Column(name = "tipo")
 	public Tipo getTipo() {
 		return tipo;

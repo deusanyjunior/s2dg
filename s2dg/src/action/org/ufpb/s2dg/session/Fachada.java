@@ -2,6 +2,8 @@ package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Create;
@@ -355,10 +357,14 @@ public class Fachada {
 		return ofertaDAO.getOferta(curso, t);
 	}
 
-	public List<Disciplina> getCoRequisitosDoBanco(Disciplina d) {
-		return disciplinaDAO.getCoRequisitos(d);
+	public List<Disciplina> getCoRequisitosDoBanco(Curriculo c, Disciplina d) {
+		return disciplinaDAO.getCoRequisitos(c, d);
 	}
 
+	public Set<Disciplina> getPreRequisitosDoBanco(Curriculo c, Disciplina d) {
+		return disciplinaDAO.getPreRequisitos(c, d);
+	}
+	
 	public void initTurmasMatriculadas() {
 		turmasMatriculadasBean.init();
 	}

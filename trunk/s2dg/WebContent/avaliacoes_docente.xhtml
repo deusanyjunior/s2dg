@@ -85,10 +85,11 @@
 				value="#{turmaBean.turma.calcularMediaAutomaticamente}">
 				<a4j:support event="onmouseup"
 					action="#{turmaBean.switchCalcMediaAuto}"
-					reRender="tabela_avaliacoes, checkboxmedia" limitToList="true" />
+					reRender="tabela_avaliacoes, checkboxmedia" limitToList="true" 
+					rendered="#{not avaliacoesBean.eNulo(alunoTurmasBean.alunoTurmas)}" />
 			</h:selectBooleanCheckbox>
 			<h:outputText for="checkboxmedia"
-				value="Calcular Média Automaticamente" />
+				value="Calcular Média Automaticamente" rendered="#{not avaliacoesBean.eNulo(alunoTurmasBean.alunoTurmas)}"/>
 			<a4j:commandButton styleClass="botao_salvar" type="submit"
 				value="Salvar"
 				action="#{alunoTurmasBean.atualizaAlunoTurmas}"

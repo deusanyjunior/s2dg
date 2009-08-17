@@ -1,6 +1,7 @@
 package org.ufpb.s2dg.session.persistence;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,7 +30,7 @@ public class AvaliacaoDAO {
 			Collections.sort(list, new AvaliacaoComparator());
 			return list;
 		}
-		return null;
+		return new LinkedList<Avaliacao>();
 	}
 
 	public void cria(Avaliacao avaliacao, Turma turma) {

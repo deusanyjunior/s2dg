@@ -93,7 +93,8 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
 	}
 	
 	public boolean equals(Date d1, Date d2){
-		return Math.abs(d1.getTime() - d2.getTime()) < 24*60*60*1000;
+		long dif = d1.getTime() - d2.getTime();
+		return dif >= 0 && dif < 24*60*60*1000;
 	}
 	
 	/*private ItemDeCalendario criarItemDeCalendario(Date data) {

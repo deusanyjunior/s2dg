@@ -378,7 +378,7 @@ public class Fachada {
 	}
 
 	public void fazLog(String log) {
-		logDAO.cria(log);
+		logDAO.cria(log, usuarioBean.getUsuario());
 	}
 	
 }

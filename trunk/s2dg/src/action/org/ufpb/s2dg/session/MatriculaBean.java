@@ -208,9 +208,7 @@ public class MatriculaBean {
 							novoAlunoTurma.setTurma(turma);
 							novoAlunoTurma.setFaltas(0);
 							fachada.criaAlunoTurma(novoAlunoTurma);
-							String log = "Aluno "+fachada.getUsuario().getNome()
-								+" (CPF:"+fachada.getUsuario().getCpf()
-								+") foi matriculado com sucesso na disciplina "+turma.getDisciplina().getNome()
+							String log = "Matrícula realizada com sucesso na disciplina "+turma.getDisciplina().getNome()
 								+" (código:"+turma.getDisciplina().getCodigo()
 								+"), turma "+turma.getNumero()
 								+" (id:"+turma.getId()

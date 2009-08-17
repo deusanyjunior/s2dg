@@ -54,9 +54,7 @@ public class AlterarSenhaBean {
 		}else {		
 			usuario.setSenha(Utils.generateHash(novaSenha1));		
 			fachada.atualizaUsuario(usuario);		
-			String log = "Usuario "+usuario.getNome()
-				+" (CPF:"+usuario.getCpf()
-				+") alterou a senha com sucesso.";
+			String log = "Alteração de senha realizada com sucesso.";
 			fachada.fazLog(log);
 						facesContext.addMessage("homepanel", new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));		
 		}

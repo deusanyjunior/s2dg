@@ -401,6 +401,8 @@ public class PDFAction {
         //}
         //addParagrafo(new Paragraph("Professores: " + professores + "\n\n", f2));
         
+        addParagrafo("\n");
+        
         int size = 3;
         if (avaliacoes != null)
          size = 4 + avaliacoes.size();

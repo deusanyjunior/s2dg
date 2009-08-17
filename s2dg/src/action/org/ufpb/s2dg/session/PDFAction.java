@@ -169,9 +169,6 @@ public class PDFAction {
 		this.doc.open();
 		
 		geraTabelaHistorico();
-		
-        
-		//geraCabecalho();
 
         this.doc.close(); 
         
@@ -498,7 +495,6 @@ public class PDFAction {
 		LinkedList<String> list = turmasMatriculadasBean.geraHistorico();
 		
 		Font f2 = new Font(Font.COURIER);
-//		f2.setStyle("font-size:12px;font-family:Courier New;");
 		f2.setStyle(Font.NORMAL); 
 		f2.setSize(10);
 		

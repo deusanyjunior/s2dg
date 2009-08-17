@@ -161,8 +161,8 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 	}
 
 	public int geraCreditosPeriodoAtual(List<AlunoTurma> alunoTurmas){
-		int anoAtual = Integer.parseInt(alunoTurmas.get(alunoTurmas.size()-1).getTurma().getPeriodo().getAno());
-		int semestreAtual = (int)alunoTurmas.get(alunoTurmas.size()-1).getTurma().getPeriodo().getSemestre();
+		int anoAtual = Integer.parseInt(fachada.getGlobalDoBanco().getPeriodoAtual().getAno());
+        int semestreAtual = (int)(fachada.getGlobalDoBanco().getPeriodoAtual().getSemestre());
 		int creditosPeriodoAtual = 0;
 		for(int i=0; i < alunoTurmas.size(); i++){
 			int anoLista = Integer.parseInt(alunoTurmas.get(i).getTurma().getPeriodo().getAno());

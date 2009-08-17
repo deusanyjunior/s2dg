@@ -660,18 +660,7 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		
 		historico = String.format("Disciplinas Optativas......... %4d %7d %7d %7d %7d %6d", chMin, chInt, crMin, crInt, dsMin, dsInt);
 		lista.add(historico.replaceAll(" ", getEspacos(1)));
-		
-
-		chMin = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosOptativas());
-		chInt = cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno())));
-		crMin = fachada.getAluno().getCurriculo().getMinimoCreditosOptativas();
-		crInt = geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno()));
-		dsMin = fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas();
-		dsInt = geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(getAluno()));
-		
-		historico = String.format("Disciplinas Optativas......... %4d %7d %7d %7d %7d %6d", chMin, chInt, crMin, crInt, dsMin, dsInt);
-		lista.add(historico.replaceAll(" ", getEspacos(1)));
-		
+				
 		historico = "Disciplinas Eletivas.......... ----       0    ----       0    ----      0";
 		lista.add(historico.replaceAll(" ", getEspacos(1)));
 		

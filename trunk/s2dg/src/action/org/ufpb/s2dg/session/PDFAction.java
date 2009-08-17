@@ -76,6 +76,8 @@ public class PDFAction {
 	}
 
 	public void geraPdfDiario(String nome, List<AlunoTurma> list, List<Avaliacao> avaliacoes){		
+		
+		
 		Rectangle pageSize = new Rectangle(PageSize.A4);
  
 		pageSize.setBackgroundColor(Color.WHITE);
@@ -94,7 +96,7 @@ public class PDFAction {
 				
 		geraTabelaRelatorioDeNotas(list, avaliacoes);
         
-		//geraCabecalho();
+		//geraCabecalho("Test");
 		
         this.doc.close(); 
         
@@ -385,19 +387,19 @@ public class PDFAction {
 	
 	public void geraTabelaRelatorioDeNotas(List<AlunoTurma> list, List<Avaliacao> avaliacoes){
 		geraCabecalho("DIÁRIO DE CLASSE");
-						
+		System.out.println("Entrou¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬¬");				
         Font f1 = new Font(); f1.setStyle(Font.BOLD); f1.setSize(12);
         Font f2 = new Font(); f2.setStyle(Font.ITALIC); f2.setSize(8);
         
         addParagrafo(new Paragraph("Disciplina: " + turmaBean.getTurma().getDisciplina().getCodigo() +"-"+ turmaBean.getTurma().getDisciplina().getNome(), f2));
         addParagrafo(new Paragraph("Numero da Turma: " + turmaBean.getTurma().getNumero(), f2));
-        String professores = "";
-        Iterator<Professor> it = turmaBean.getTurma().getProfessores().iterator();
-        while(it.hasNext()){
+        //String professores = "";
+        //Iterator<Professor> it = turmaBean.getTurma().getProfessores().iterator();
+        //while(it.hasNext()){
         	//nao ta funcionando
         	//professores += it.next().getUsuario().getNome() + " ";
-        }
-        addParagrafo(new Paragraph("Professores: " + professores + "\n\n", f2));
+        //}
+        //addParagrafo(new Paragraph("Professores: " + professores + "\n\n", f2));
         
         int size = 3;
         if (avaliacoes != null)
@@ -434,7 +436,7 @@ public class PDFAction {
         	Avaliacao avaliacao = avaliacoes.get(i);
         	
         	//Pegar a data nao ta funcionando
-        	cell[i+4] = new PdfPCell(new Paragraph(avaliacao.getNome() + "\nPeso: " + avaliacao.getPeso() + " Data: " /*+avaliacao.getDataEvento().getData().toString()*/, f2));
+        	cell[i+4] = new PdfPCell(new Paragraph(avaliacao.getNome() + "\nPeso: " + avaliacao.getPeso() /*+ " Data: "*/ /*+avaliacao.getDataEvento().getData().toString()*/, f2));
         	cell[i+4].setBackgroundColor(Color.LIGHT_GRAY);
             cell[i+4].setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
             

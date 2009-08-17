@@ -27,23 +27,23 @@
                     <h:message for="novaSenha" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
                     <h:message for="novaSenha2" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
                     <br />	
-                    
+                    <div>
                     <h:panelGrid columns="2">
                         <h:outputText value="Digite sua senha atual:"/>
-                        <h:inputSecret id="senhaAtual" value="#{alterarSenha.senhaAtual}" required="true" immediate="true"/>
+                        <h:inputSecret id="senhaAtual" value="#{alterarSenha.senhaAtual}" immediate="true"/>
                         
                         <h:outputText value="Digite uma nova senha:"/>
-                        <h:inputSecret id="novaSenha" value="#{alterarSenha.novaSenha1}" required="true"/>
+                        <h:inputSecret id="novaSenha" value="#{alterarSenha.novaSenha1}" />
 						
                         <h:outputText value="Digite a nova senha novamente:" size="200"/>
-                        <h:inputSecret id="novaSenha2" value="#{alterarSenha.novaSenha2}" required="true"/>
+                        <h:inputSecret id="novaSenha2" value="#{alterarSenha.novaSenha2}"/>
                     </h:panelGrid>
                     
-                    <h:commandButton type="reset" value="Limpar"/>
+                    <h:commandButton type="reset" value="Limpar" styleClass="botao_salvar"/>
                     
-                    <a4j:commandButton type="submit" id="alterarSenha" action="#{alterarSenha.botaoPressionado}" value="Alterar" 
-                   			ajaxSingle="true" reRender="corpo" />
-                    
+                    <h:commandButton id="alterarSenha" action="#{alterarSenha.botaoPressionado}" value="Alterar" styleClass="botao_salvar"/> 
+<!--                   			ajaxSingle="true" reRender="corpo" />-->
+                    </div>
                     <br/>
                 </rich:panel>
 
@@ -61,13 +61,13 @@
                     
                     <h:panelGrid columns="2">
                         <h:outputText value="Digite a nova pergunta secreta:"/>
-                        <h:inputText id="novaPergunta" value="#{alterarSenha.pergunta}" required="true"/>
+                        <h:inputText id="novaPergunta" value="#{alterarSenha.pergunta}" />
 						
                         <h:outputText value="Digite a resposta para a nova pergunta:"/>
-                        <h:inputSecret id="novaResposta" value="#{alterarSenha.novaResposta1}" required="true"/>
+                        <h:inputSecret id="novaResposta" value="#{alterarSenha.novaResposta1}"/>
                         
 						<h:outputText value="Digite novamente a resposta:"/>
-                        <h:inputSecret id="novaResposta2" value="#{alterarSenha.novaResposta2}" required="true"/>
+                        <h:inputSecret id="novaResposta2" value="#{alterarSenha.novaResposta2}"/>
                     </h:panelGrid>      
                                   
                     <a4j:commandButton type="reset" id="limpar" value="Limpar" 

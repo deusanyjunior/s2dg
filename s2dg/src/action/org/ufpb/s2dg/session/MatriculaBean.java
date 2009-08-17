@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ import org.ufpb.s2dg.entity.Horario;
 import org.ufpb.s2dg.entity.Oferta;
 import org.ufpb.s2dg.entity.Professor;
 import org.ufpb.s2dg.entity.Turma;
+import org.ufpb.s2dg.entity.Aluno.SituacaoAcademica;
 import org.ufpb.s2dg.entity.AlunoTurma.Situacao;
 
 @Name("matriculaBean")
@@ -60,7 +62,7 @@ public class MatriculaBean {
 		/* todas as disciplinas do curriculo: */
 		List<Disciplina> disciplinasDoCurriculo = fachada.getDisciplinasDoBanco(aluno.getCurriculo());
 		/* todas as turmas cursadas: */
-		List<AlunoTurma> alunoTurmas = fachada.getTodosAlunoTurma(aluno);
+		List<AlunoTurma> alunoTurmas = fachada.getTodosAlunoTurma(aluno);				
 		/* remover as disciplinas já cursadas: */
 		removerDisciplinasCursadas(disciplinasDoCurriculo, alunoTurmas);
 		/* remover disciplinas que não atendem aos pre-requisitos */
@@ -70,6 +72,7 @@ public class MatriculaBean {
 		/* listar turmas aptas, removendo disciplinas que não possuem oferta de turma */
 		listarTurmasAptas(disciplinasDoCurriculo);
 		geraTurmasAptasPorDisciplina();
+		
 	}
 
 	private void geraTurmasAptasPorDisciplina() {
@@ -77,9 +80,7 @@ public class MatriculaBean {
 		turmasAptasPorDisciplina = DisciplinaTurmas.geraTurmasPorDisciplina(turmasAptas);
 	}
 
-	private void removerDisciplinasJaMatriculadas(
-			List<Disciplina> disciplinasDoCurriculo,
-			List<AlunoTurma> alunoTurmas) {
+	private void removerDisciplinasJaMatriculadas( List<Disciplina> disciplinasDoCurriculo, List<AlunoTurma> alunoTurmas) {
 		if(alunoTurmas != null) {
 			for(AlunoTurma at : alunoTurmas) {
 				Turma t = at.getTurma();
@@ -95,18 +96,16 @@ public class MatriculaBean {
 				if(at.getSituacao() == Situacao.EM_CURSO) {
 					if (disciplinasDoCurriculo != null) {
 						for(Disciplina disc : disciplinasDoCurriculo) {
-							if(disc.getCodigo() == d.getCodigo()) {
+							if(disc.getCodigo().equals(d.getCodigo())) {
 								int i = disciplinasDoCurriculo.indexOf(disc);
 								disciplinasDoCurriculo.remove(i);
 								break;
 							}
 						}
-					}
-					
+					}					
 				}
 			}
 		}
-		
 	}
 
 	private void listarTurmasAptas(
@@ -119,8 +118,18 @@ public class MatriculaBean {
 					for(Turma t : turmas) {
 						Oferta o = fachada.getOfertaDoBanco(curso, t);
 						if(o != null) {
-							turmasAptas.add(t);
-							ofertas.put(t, o);
+							boolean jaSelecionada = false;
+							for(Turma turma : turmasSelecionadas)
+								if(turma.getId() == t.getId())
+									 jaSelecionada = true;
+							if(!jaSelecionada){
+								for(int i = 0; i < turmasAptas.size(); i++){
+									if(turmasAptas.get(i).getId() == t.getId())
+										turmasAptas.remove(i--);
+								}
+								turmasAptas.add(t);
+								ofertas.put(t, o);
+							}
 						}
 					}
 				}
@@ -166,7 +175,7 @@ public class MatriculaBean {
 				d2 = fachada.getDisciplinaDoBanco(t);
 				t.setDisciplina(d2);
 			}
-			if(d2.getCodigo() == disciplina.getCodigo()){
+			if(d2.getCodigo().equals(disciplina.getCodigo())){
 				return true;
 			}
 		}
@@ -237,7 +246,7 @@ public class MatriculaBean {
 					for(int i = 0; i < turmasSelecionadas.size(); i++) {
 						Turma t = turmasSelecionadas.get(i);
 						if(t.getId() != turma.getId()) {
-							if(t.getDisciplina().getCodigo() == coReq.getCodigo()) {
+							if(t.getDisciplina().getCodigo().equals(coReq.getCodigo())) {
 								break;
 							}
 						}
@@ -376,7 +385,9 @@ public class MatriculaBean {
 		return false;
 	}
 
-	public boolean isPeriodoDeMatricula() {
+	public boolean podeFazerMatricula() {
+		if(fachada.getAluno().getSituacaoAcademica() != SituacaoAcademica.REGULAR)
+			return false;
 		Calendario calendario = fachada.getCalendario();
 		if(calendario != null) {
 			Date inicioMatricula = calendario.getInicioMatricula();
@@ -445,7 +456,7 @@ public class MatriculaBean {
 	public void deselecionaTurma(Turma turma) {
 		turmasSelecionadas.remove(turma);
 		for(DisciplinaTurmas dts : temporario) {
-			if(dts.getDisciplina().getCodigo() == turma.getDisciplina().getCodigo()) {
+			if(dts.getDisciplina().getCodigo().equals(turma.getDisciplina().getCodigo())) {
 				for(Turma t : dts.getTurmas()) {
 					turmasAptas.add(t);
 				}

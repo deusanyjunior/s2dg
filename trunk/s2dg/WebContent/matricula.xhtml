@@ -8,14 +8,15 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
-	<h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
-	<h:form >
-	<rich:panel id="fazerMatricula">
+	<rich:panel id="efetuarMatricula" styleClass="border_zero">
+	<h:form>
+	<rich:panel>
 	<f:facet name="header">Efetuar Matrícula</f:facet>
+	
+	<a4j:outputPanel style="margin:0px;padding-left:-10px;" ajaxRendered="true">
+		<h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+	</a4j:outputPanel>
 	<center>
-	<h:message for="fazerMatricula" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
-	<h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
-	<br/>
 	<a4j:outputPanel id="turmas_aptas">
 	<table class="dr-table rich-table" cellspacing="0" cellpadding="0" border="0"
 		style="text-align: center;">
@@ -113,7 +114,6 @@
 	</table>
 	</a4j:outputPanel>
 	<br/>
-	<h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
 	<br/>
 	<a4j:outputPanel id="turmas_selecionadas">
 	<rich:dataTable value="#{matriculaBean.turmasSelecionadas}" var="turma"
@@ -156,11 +156,10 @@
 	<br/>
 	<a4j:commandButton styleClass="botao_salvar" action="#{matriculaBean.fazMatricula(MenuAction)}"
 		value="Matricular" ajaxSingle="true" reRender="turmas_selecionadas" />
-	<!--  <h:commandButton styleClass="botao_salvar" action="home" value="Voltar" /> -->
 	<br/>
 	<br/>
 	</center>
 	</rich:panel>
 	</h:form>
-
+</rich:panel>
 </ui:composition>

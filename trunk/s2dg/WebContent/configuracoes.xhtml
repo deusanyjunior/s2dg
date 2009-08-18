@@ -10,12 +10,13 @@
 	xmlns:s="http://jboss.com/products/seam/taglib">
 	
 
-<h:form>
+
 	<rich:panel>
 		<f:facet name="header">Configuracoes</f:facet>
 
 
 		    <center>
+		    	<h:form>
                 <rich:panel id="homepanel" style="width:400px;">
                     <f:facet name="header">
                         Alterar Senha 
@@ -39,19 +40,25 @@
                         <h:inputSecret id="novaSenha2" value="#{alterarSenha.novaSenha2}"/>
                     </h:panelGrid>
                     
-                    <h:commandButton type="reset" value="Limpar" styleClass="botao_salvar"/>
-                    
-                    <h:commandButton id="alterarSenha" action="#{alterarSenha.botaoPressionado}" value="Alterar" styleClass="botao_salvar"/> 
+                    <h:panelGroup style="float:right">
+                    	<h:commandButton id="alterarSenha" action="#{alterarSenha.botaoPressionado}" value="Alterar" style="font-size: 13px;" /> 
 <!--                   			ajaxSingle="true" reRender="corpo" />-->
+
+						<h:commandButton type="reset" value="Limpar" />
+					</h:panelGroup>
+					<br/>
+					
                     </div>
                     <br/>
                 </rich:panel>
+                </h:form>
 
         
         <br />
         <br /> 
         
 
+                <h:form>
                 <rich:panel id="homepanel2" style="width:400px;">
                     <f:facet name="header">
                         Alterar Pergunta Secreta 
@@ -70,17 +77,19 @@
                         <h:inputSecret id="novaResposta2" value="#{alterarSenha.novaResposta2}"/>
                     </h:panelGrid>      
                                   
-                    <a4j:commandButton type="reset" id="limpar" value="Limpar" 
-                   			ajaxSingle="true" reRender="corpo" />
-                    
-                    <a4j:commandButton type="submit" id="alterarPergunta" action="#{alterarSenha.botaoPressionado2}" value="Alterar" 
-                   			ajaxSingle="true" reRender="corpo" />
+                    <h:panelGroup style="float:right">
+                    	<a4j:commandButton type="submit" id="alterarPergunta" action="#{alterarSenha.botaoPressionado2}" value="Alterar" style="font-size: 13px;" />
+                   				<!-- ajaxSingle="true" reRender="corpo" />  -->
+                   		<a4j:commandButton type="reset" id="limpar" value="Limpar" />
+                   				<!-- ajaxSingle="true" reRender="corpo" />  -->
+                   	</h:panelGroup>
+                   	<br/>
                     
                     <br/>
                 </rich:panel>
+                </h:form>
         	</center>
 
-	</rich:panel>
-   </h:form>        
+	</rich:panel>    
 
 </ui:composition>

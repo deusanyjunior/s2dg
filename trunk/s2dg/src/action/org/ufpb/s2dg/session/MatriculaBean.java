@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -405,6 +404,10 @@ public class MatriculaBean {
 		Calendar calendar = new GregorianCalendar();  
 		Date date = new Date();  
 		calendar.setTime(date);  
+		calendar.set(Calendar.HOUR_OF_DAY, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
 	}  
 
@@ -439,6 +442,9 @@ public class MatriculaBean {
 		return null;
 	}
 	
+	@In
+	MenuAction MenuAction;
+	
 	public void selecionaTurma(Turma turma, DisciplinaTurmas dts) {
 		turmasSelecionadas.add(turma);
 		if(isChoqueDeHorario()) {
@@ -450,7 +456,7 @@ public class MatriculaBean {
 		}
 		temporario.add(dts);
 		geraTurmasAptasPorDisciplina();
-		
+		MenuAction.setId_Menu(2);	
 	}
 	
 	public void deselecionaTurma(Turma turma) {
@@ -465,6 +471,7 @@ public class MatriculaBean {
 			}
 		}
 		geraTurmasAptasPorDisciplina();
+		MenuAction.setId_Menu(2);
 	}
 	
 	public List<Horario> getHorariosOrdenados(Set<Horario> horarios) {

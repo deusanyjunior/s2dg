@@ -281,7 +281,11 @@ public class Fachada {
 	}
 
 	public Aluno getAluno() {
-		return usuarioBean.getUsuario().getAluno();
+		Usuario usuario = usuarioBean.getUsuario();
+		if(usuario != null)
+			return usuario.getAluno();
+		else
+			return null;
 	}
 
 	public Oferta getOferta(Curriculo curriculo, Turma turma) {

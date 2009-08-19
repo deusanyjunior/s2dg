@@ -190,8 +190,14 @@ public class EmailAction {
 	}
 	
 	public String botaoPressionado() {
-		clicou = true;
-		return null;
+		if(fachada.getUsuarioDoBanco(CPF) != null) {
+			clicou = true;
+			return null;
+		}
+		else {
+			facesContext.addMessage("login:username", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF não cadastrado!",null));
+			return "";
+		}
 	}
 
 	public boolean isClicou() {
@@ -217,14 +223,18 @@ public class EmailAction {
 	
 	public String getPergunta(){
 		Usuario usuario = fachada.getUsuarioDoBanco(CPF);
-		
-		return usuario.getPergunta();
+		if(usuario != null)
+			return usuario.getPergunta();
+		else
+			return "";
 	}
 	
 	public String getRespostaBanco(){
 		Usuario usuario = fachada.getUsuarioDoBanco(CPF);
-		
-		return usuario.getResposta();
+		if(usuario != null)
+			return usuario.getResposta();
+		else
+			return "";
 	}
 
 	public String getResposta() {

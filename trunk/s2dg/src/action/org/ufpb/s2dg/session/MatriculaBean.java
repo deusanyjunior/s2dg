@@ -206,6 +206,7 @@ public class MatriculaBean {
 	}
 
 	public String fazMatricula(MenuAction menuAction) {
+		MenuAction.setId_Menu(2);
 		if(isCoRequisitosPresentes()) {
 			if(isCreditosCorretos()) {
 				if(!isChoqueDeHorario()) {
@@ -446,6 +447,7 @@ public class MatriculaBean {
 	MenuAction MenuAction;
 	
 	public void selecionaTurma(Turma turma, DisciplinaTurmas dts) {
+		MenuAction.setId_Menu(2);
 		turmasSelecionadas.add(turma);
 		if(isChoqueDeHorario()) {
 			turmasSelecionadas.remove(turma);
@@ -456,10 +458,10 @@ public class MatriculaBean {
 		}
 		temporario.add(dts);
 		geraTurmasAptasPorDisciplina();
-		MenuAction.setId_Menu(2);	
 	}
 	
 	public void deselecionaTurma(Turma turma) {
+		MenuAction.setId_Menu(2);
 		turmasSelecionadas.remove(turma);
 		for(DisciplinaTurmas dts : temporario) {
 			if(dts.getDisciplina().getCodigo().equals(turma.getDisciplina().getCodigo())) {
@@ -471,7 +473,6 @@ public class MatriculaBean {
 			}
 		}
 		geraTurmasAptasPorDisciplina();
-		MenuAction.setId_Menu(2);
 	}
 	
 	public List<Horario> getHorariosOrdenados(Set<Horario> horarios) {

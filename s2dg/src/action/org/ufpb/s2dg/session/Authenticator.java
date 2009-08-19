@@ -48,11 +48,11 @@ public class Authenticator
         		}
         	}
         	else {
-            	facesContext.addMessage("login", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
+            	facesContext.addMessage("login:username", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
             	return false;
             }
         } else {
-        	facesContext.addMessage("login", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
+        	facesContext.addMessage("login:username", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
         	return false;
         }
         

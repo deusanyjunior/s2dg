@@ -48,6 +48,7 @@ public class Utils {
 			}
 			return true;
 	}
+	
 	public static byte[] generateHash(String string) {
 		char[] password = string.toCharArray();
 		// Convertendo char[] para byte[]

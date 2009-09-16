@@ -60,10 +60,11 @@ public class AlterarSenhaBean {
 		if(!novaSenha1.equals(novaSenha2)){
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senhas diferentes.",null));
 		}
-		else if(!Utils.validatePassword(senhaAtual, usuario)){
+		else if(!Utils.validatePasswordPlana(senhaAtual, usuario)){
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
 		}else {		
-			usuario.setSenha(Utils.generateHash(novaSenha1));		
+			//usuario.setSenha(Utils.generateHash(novaSenha1));	
+			usuario.setSenha(novaSenha1);		
 			fachada.atualizaUsuario(usuario);		
 			String log = "Alteração de senha realizada com sucesso.";
 			fachada.fazLog(log);

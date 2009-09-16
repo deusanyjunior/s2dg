@@ -23,7 +23,7 @@ public class Usuario implements Serializable {
 	private long id;
 	private Aluno aluno;
 	private Professor professor;
-	private byte[] senha;
+	private String senha;
 	private String nome;
 	private String cpf;
 	private Set<Role> roles = new HashSet<Role>(0);
@@ -39,7 +39,7 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
-	public Usuario(long id, Aluno aluno, Professor professor, byte[] senha,
+	public Usuario(long id, Aluno aluno, Professor professor, String senha,
 			String nome, String cpf, Set<Role> roles, String rg) {
 		this.id = id;
 		this.aluno = aluno;
@@ -81,11 +81,11 @@ public class Usuario implements Serializable {
 		this.professor = professor;
 	}
 
-	public byte[] getSenha() {
+	public String getSenha() {
 		return this.senha;
 	}
 
-	public void setSenha(byte[] senha) {
+	public void setSenha(String senha) {
 		this.senha = senha;
 	}
 

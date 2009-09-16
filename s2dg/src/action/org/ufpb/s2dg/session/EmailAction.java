@@ -59,7 +59,8 @@ public class EmailAction {
     	if(usuario != null) {
     		if(usuario.getResposta().equals(resposta)) {
     			String novaSenha = geraSenha();
-    			usuario.setSenha(Utils.generateHash(novaSenha));
+    			//usuario.setSenha(Utils.generateHash(novaSenha));
+    			usuario.setSenha(novaSenha);
     			fachada.atualizaUsuario(usuario);
 
     			try 

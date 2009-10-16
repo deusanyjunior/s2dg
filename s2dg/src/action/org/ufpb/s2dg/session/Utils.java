@@ -21,7 +21,7 @@ import org.ufpb.s2dg.entity.Usuario;
  */
 public class Utils {
 
-	/*public static boolean validatePassword(String plainPassword, Usuario user) {
+	public static boolean validatePassword(String plainPassword, Usuario user) {
 		try {
 			MessageDigest digestGen = MessageDigest.getInstance("SHA-1");
 			// Check digests
@@ -36,19 +36,7 @@ public class Utils {
 		}
 		return false;
 	}
-*/
-	
-	public static boolean validatePasswordPlana(String plainPassword, Usuario user) {
 
-			//MessageDigest digestGen = MessageDigest.getInstance("SHA-1");
-			// Check digests
-			if (!plainPassword.equals(user.getSenha())) {
-				System.out.println("Senha invalida");
-				return false;
-			}
-			return true;
-	}
-	
 	public static byte[] generateHash(String string) {
 		char[] password = string.toCharArray();
 		// Convertendo char[] para byte[]

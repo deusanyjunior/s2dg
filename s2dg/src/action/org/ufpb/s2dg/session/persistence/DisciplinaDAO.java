@@ -1,6 +1,5 @@
 package org.ufpb.s2dg.session.persistence;
 
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -55,11 +54,11 @@ public class DisciplinaDAO {
 	}
 	
 	public List<Disciplina> getCoRequisitos(Curriculo c, Disciplina d) {
-		Query q = entityManager.createQuery("select co.disciplina2 from CoRequesito as co where co.curriculo = :curriculo and co.disciplina1 = :disciplina")
+		Query q = entityManager.createQuery("select co.disciplina2 from CoRequesito as co where co.curriculo = :curriculo and pr.disciplina1 = :disciplina")
 		.setParameter("curriculo", c)
 		.setParameter("disciplina", d);
 		List<Disciplina> list = q.getResultList();
-		q = entityManager.createQuery("select co.disciplina1 from CoRequesito as co where co.curriculo = :curriculo and co.disciplina2 = :disciplina")
+		q = entityManager.createQuery("select co.disciplina1 from CoRequesito as co where co.curriculo = :curriculo and pr.disciplina2 = :disciplina")
 		.setParameter("curriculo", c)
 		.setParameter("disciplina", d);		
 		list.addAll(q.getResultList());

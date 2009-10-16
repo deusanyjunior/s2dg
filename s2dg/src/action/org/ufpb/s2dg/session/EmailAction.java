@@ -59,8 +59,7 @@ public class EmailAction {
     	if(usuario != null) {
     		if(usuario.getResposta().equals(resposta)) {
     			String novaSenha = geraSenha();
-    			//usuario.setSenha(Utils.generateHash(novaSenha));
-    			usuario.setSenha(novaSenha);
+    			usuario.setSenha(Utils.generateHash(novaSenha));
     			fachada.atualizaUsuario(usuario);
 
     			try 
@@ -191,14 +190,8 @@ public class EmailAction {
 	}
 	
 	public String botaoPressionado() {
-		if(fachada.getUsuarioDoBanco(CPF) != null) {
-			clicou = true;
-			return null;
-		}
-		else {
-			facesContext.addMessage("login:username", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF não cadastrado!",null));
-			return "";
-		}
+		clicou = true;
+		return null;
 	}
 
 	public boolean isClicou() {
@@ -224,18 +217,14 @@ public class EmailAction {
 	
 	public String getPergunta(){
 		Usuario usuario = fachada.getUsuarioDoBanco(CPF);
-		if(usuario != null)
-			return usuario.getPergunta();
-		else
-			return "";
+		
+		return usuario.getPergunta();
 	}
 	
 	public String getRespostaBanco(){
 		Usuario usuario = fachada.getUsuarioDoBanco(CPF);
-		if(usuario != null)
-			return usuario.getResposta();
-		else
-			return "";
+		
+		return usuario.getResposta();
 	}
 
 	public String getResposta() {

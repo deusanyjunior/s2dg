@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.jboss.seam.annotations.AutoCreate;
-import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.richfaces.model.CalendarDataModel;
@@ -24,7 +23,6 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
 	
 	@In
 	Fachada fachada;
-	
 	
 	public CalendarDataModelItem[] getData(Date[] datas) {
 		if (datas == null) return null;
@@ -50,17 +48,17 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
 		for (int i = 0; i < datas.length; i++) {
 			if (datas[i] != null) {
 				
-				if(equals(datas[i], calendario.getFimImplantacaoNotas()))
+				if(datas[i].equals(calendario.getFimImplantacaoNotas()))
 					eventos += "Fim de Implantação de Notas\n";
-				if(equals(datas[i], calendario.getFimMatricula()))
+				if(datas[i].equals(calendario.getFimMatricula()))
 					eventos += "Fim do Período de Matrícula\n";
-				if(equals(datas[i], calendario.getFimPeriodo()))
+				if(datas[i].equals(calendario.getFimPeriodo()))
 					eventos += "Fim do Período\n";
-				if(equals(datas[i], calendario.getInicioMatricula()))
+				if(datas[i].equals(calendario.getInicioMatricula()))
 					eventos += "Início do Período de Matrícula\n";
-				if(equals(datas[i], calendario.getInicioPeriodo()))
+				if(datas[i].equals(calendario.getInicioPeriodo()))
 					eventos += "Início do Período\n";
-				if(equals(datas[i], calendario.getUltimoDiaTrancamento()))
+				if(datas[i].equals(calendario.getUltimoDiaTrancamento()))
 					eventos += "Último Dia de Trancamento\n";
 				
 				if(datasEEventos != null) {
@@ -83,18 +81,12 @@ public class ModeloCalendario implements CalendarDataModel, Serializable {
 		}
 		/*System.out.println(c.get(Calendar.DAY_OF_MONTH) + "/" + c.get(Calendar.MONTH) + "/" + 
 					c.get(Calendar.YEAR));*/
-		
 		return itens;
 	}
 
 	public Object getToolTip(Date arg0) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	
-	public boolean equals(Date d1, Date d2){
-		long dif = d1.getTime() - d2.getTime();
-		return dif >= 0 && dif < 24*60*60*1000;
 	}
 	
 	/*private ItemDeCalendario criarItemDeCalendario(Date data) {

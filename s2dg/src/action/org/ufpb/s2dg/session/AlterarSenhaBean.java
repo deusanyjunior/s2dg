@@ -41,53 +41,33 @@ public class AlterarSenhaBean {
 	}
 	
 	public void botaoPressionado(){
-		MenuAction.setId_Menu(1);
 		
 		clicou = true;
 		
 		Usuario usuario = fachada.getUsuario();
 		
-		if(senhaAtual.length() == 0) {
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"O campo Senha Atual é obrigatório.",null));
-			return;
-		}
-		
-		if((novaSenha1.length() == 0) || (novaSenha2.length() == 0)) {
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"A nova senha não pode ser vazia.",null));
-			return;
-		}
-		
 		if(!novaSenha1.equals(novaSenha2)){
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senhas diferentes.",null));
+			facesContext.addMessage("homepanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senhas diferentes.",null));
 		}
-		else if(!Utils.validatePasswordPlana(senhaAtual, usuario)){
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
+		else if(!Utils.validatePassword(senhaAtual, usuario)){
+			facesContext.addMessage("homepanel", new FacesMessage(FacesMessage.SEVERITY_ERROR,"Senha inválida.",null));
 		}else {		
-			//usuario.setSenha(Utils.generateHash(novaSenha1));	
-			usuario.setSenha(novaSenha1);		
+			usuario.setSenha(Utils.generateHash(novaSenha1));		
 			fachada.atualizaUsuario(usuario);		
-			String log = "Alteração de senha realizada com sucesso.";
+			String log = "Usuario "+usuario.getNome()
+				+" (CPF:"+usuario.getCpf()
+				+") alterou a senha com sucesso.";
 			fachada.fazLog(log);
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));		
+						facesContext.addMessage("homepanel", new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));		
 		}
+		
 	}
 	
 public void botaoPressionado2(){
-		MenuAction.setId_Menu(1);
-	
+		
 		clicou = true;
 		
 		Usuario usuario = fachada.getUsuario();
-		
-		if(pergunta.length() == 0) {
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"A Pergunta não pode ser vazia.",null));
-			return;
-		}
-		
-		if((novaResposta1.length() == 0) || (novaResposta2.length() == 0)) {
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"A Resposta não pode ser vazia.",null));
-			return;
-		}
 		
 		if(!novaResposta1.equals(novaResposta2)){
 			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,"Respostas diferentes.",null));
@@ -96,7 +76,7 @@ public void botaoPressionado2(){
 			usuario.setResposta(novaResposta1);
 			
 			fachada.atualizaUsuario(usuario);		
-			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Pergunta e resposta alteradas com sucesso.",null));
+			facesContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"Senha alterada com sucesso.",null));
 		}
 		
 	}

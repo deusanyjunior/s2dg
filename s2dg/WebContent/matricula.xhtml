@@ -8,15 +8,14 @@
 	xmlns:a4j="http://richfaces.org/a4j"
 	xmlns:s="http://jboss.com/products/seam/taglib">
 
-	<rich:panel id="efetuarMatricula" styleClass="border_zero">
-	<h:form>
-	<rich:panel>
+	<h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+	<h:form >
+	<rich:panel id="fazerMatricula">
 	<f:facet name="header">Efetuar Matrícula</f:facet>
-	
-	<a4j:outputPanel style="margin:0px;padding-left:-10px;" ajaxRendered="true">
-		<h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
-	</a4j:outputPanel>
 	<center>
+	<h:message for="fazerMatricula" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+	<h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+	<br/>
 	<a4j:outputPanel id="turmas_aptas">
 	<table class="dr-table rich-table" cellspacing="0" cellpadding="0" border="0"
 		style="text-align: center;">
@@ -77,7 +76,7 @@
 					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
 						<a4j:commandButton action="#{matriculaBean.selecionaTurma(disciplinaTurmas.turmas.get(0),disciplinaTurmas)}" value="Selecionar"
 							rendered="#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasDisponiveis > 0}"
-							reRender="corpo" />
+							reRender="turmas_selecionadas, turmas_aptas" ajaxSingle="true" />
 						<h:outputText value="Não há mais vagas disponíveis" style="color: red;"
 							rendered="#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasDisponiveis == 0}"/>
 					</td>
@@ -103,7 +102,7 @@
 						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
 							<a4j:commandButton action="#{matriculaBean.selecionaTurma(turma,disciplinaTurmas)}" value="Selecionar"
 								rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis > 0}"
-								reRender="corpo" />
+								reRender="turmas_selecionadas, turmas_aptas" ajaxSingle="true" />
 							<h:outputText value="Não há mais vagas disponíveis" style="color: red;"
 								rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis == 0}"/>
 						</td>
@@ -114,9 +113,9 @@
 	</table>
 	</a4j:outputPanel>
 	<br/>
+	<h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
 	<br/>
-	<a4j:outputPanel id="turmas_selecionadas">
-	<rich:dataTable value="#{matriculaBean.turmasSelecionadas}" var="turma"
+	<rich:dataTable value="#{matriculaBean.turmasSelecionadas}" var="turma" id="turmas_selecionadas"
 		style="text-align: center" >
 		<f:facet name="header">Turmas Selecionadas</f:facet>
 		<rich:column style="vertical-align: middle" >
@@ -149,17 +148,17 @@
 		</rich:column>
 		<rich:column style="vertical-align: middle" >
 			<a4j:commandButton action="#{matriculaBean.deselecionaTurma(turma)}"
-				value="Remover" reRender="corpo" ajaxSingle="true" />
+				value="Remover" reRender="turmas_selecionadas, turmas_aptas" ajaxSingle="true" />
 		</rich:column>
 	</rich:dataTable>
-	</a4j:outputPanel>
 	<br/>
 	<a4j:commandButton styleClass="botao_salvar" action="#{matriculaBean.fazMatricula(MenuAction)}"
-		value="Matricular" ajaxSingle="true" reRender="corpo" />
+		value="Matricular" ajaxSingle="true" reRender="turmas_selecionadas" />
+	<!--  <h:commandButton styleClass="botao_salvar" action="home" value="Voltar" /> -->
 	<br/>
 	<br/>
 	</center>
 	</rich:panel>
 	</h:form>
-</rich:panel>
+
 </ui:composition>

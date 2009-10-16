@@ -37,7 +37,7 @@ public class Authenticator
         Usuario usuario = fachada.getUsuarioDoBanco(cpfDado);
 
         if(usuario != null) {
-        	if (Utils.validatePasswordPlana(credentials.getPassword(), usuario)) {
+        	if (Utils.validatePassword(credentials.getPassword(), usuario)) {
         		Set<Role> roles = usuario.getRoles();
         		if(roles != null) {
         			Iterator<Role> rolesIt = roles.iterator();
@@ -48,11 +48,11 @@ public class Authenticator
         		}
         	}
         	else {
-            	facesContext.addMessage("login:username", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
+            	facesContext.addMessage("login", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
             	return false;
             }
         } else {
-        	facesContext.addMessage("login:username", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
+        	facesContext.addMessage("login", new FacesMessage(FacesMessage.SEVERITY_ERROR,"CPF ou senha invalidos!",null));
         	return false;
         }
         

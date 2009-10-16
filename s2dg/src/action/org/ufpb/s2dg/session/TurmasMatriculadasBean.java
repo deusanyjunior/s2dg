@@ -1,7 +1,6 @@
 package org.ufpb.s2dg.session;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 import org.ufpb.s2dg.entity.AlunoTurma;
 import org.ufpb.s2dg.entity.Disciplina;
-import org.ufpb.s2dg.entity.Horario;
 import org.ufpb.s2dg.entity.Sala;
 import org.ufpb.s2dg.entity.Turma;
 import org.ufpb.s2dg.entity.AlunoTurma.Situacao;
@@ -163,8 +161,8 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 	}
 
 	public int geraCreditosPeriodoAtual(List<AlunoTurma> alunoTurmas){
-		int anoAtual = Integer.parseInt(fachada.getGlobalDoBanco().getPeriodoAtual().getAno());
-        int semestreAtual = (int)(fachada.getGlobalDoBanco().getPeriodoAtual().getSemestre());
+		int anoAtual = Integer.parseInt(alunoTurmas.get(alunoTurmas.size()-1).getTurma().getPeriodo().getAno());
+		int semestreAtual = (int)alunoTurmas.get(alunoTurmas.size()-1).getTurma().getPeriodo().getSemestre();
 		int creditosPeriodoAtual = 0;
 		for(int i=0; i < alunoTurmas.size(); i++){
 			int anoLista = Integer.parseInt(alunoTurmas.get(i).getTurma().getPeriodo().getAno());
@@ -662,7 +660,18 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		
 		historico = String.format("Disciplinas Optativas......... %4d %7d %7d %7d %7d %6d", chMin, chInt, crMin, crInt, dsMin, dsInt);
 		lista.add(historico.replaceAll(" ", getEspacos(1)));
-				
+		
+
+		chMin = cargaHoraria(fachada.getAluno().getCurriculo().getMinimoCreditosOptativas());
+		chInt = cargaHoraria(geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno())));
+		crMin = fachada.getAluno().getCurriculo().getMinimoCreditosOptativas();
+		crInt = geraCreditosIntegralizadosOptativas(getOptativasOrdenadas(getAluno()));
+		dsMin = fachada.getAluno().getCurriculo().getMinimoDisciplinasOptativas();
+		dsInt = geraDisciplinasIntegralizadasOptativas(getOptativasOrdenadas(getAluno()));
+		
+		historico = String.format("Disciplinas Optativas......... %4d %7d %7d %7d %7d %6d", chMin, chInt, crMin, crInt, dsMin, dsInt);
+		lista.add(historico.replaceAll(" ", getEspacos(1)));
+		
 		historico = "Disciplinas Eletivas.......... ----       0    ----       0    ----      0";
 		lista.add(historico.replaceAll(" ", getEspacos(1)));
 		
@@ -807,36 +816,6 @@ public int geraCreditosIntegralizadosComplementares(List<AlunoTurma> ats){
 		
 		return true;
 	}
-	public void exportarPDF() {
-		System.out.println("***********************************geraTabelaHoratio");
-		ArrayList<HashMap<String, String>> mapas = new ArrayList<HashMap<String, String>>();
-		//Numero - Codigo - Nome da disciplina - Creditos - CargaHoraria - Horarios - Sala
-		for (AlunoTurma at : alunoTurmas) {
-			HashMap<String, String> mapa = new HashMap<String, String>();
-			mapa.put("Numero", at.getTurma().getNumero());
-			mapa.put("Codigo", at.getTurma().getDisciplina().getCodigo());
-			mapa.put("Nome", at.getTurma().getDisciplina().getNome());
-			String horarios = "";
-			for (Horario h : matriculaBean.getHorariosOrdenados(at.getTurma().getHorarios())) {
-				horarios += h.toString()+ "\n";
-			}
-			mapa.put("Horarios", horarios);
-			String salas = "";
-			List<Sala> salas_list = getSalasDoBanco(at.getTurma().getId());
-			if(salas_list != null) {
-				for (Sala s : salas_list) {
-					salas += s.getSala() + "\n";
-				}
-			}
-			mapa.put("Sala", salas);
-			mapa.put("Turma", at.getTurma().getNumero());
-			int creditos = at.getTurma().getDisciplina().getCreditos();
-			mapa.put("Creditos", String.valueOf(creditos));
-			System.out.println(at.getTurma().getNumero());
-			mapa.put("Carga Horaria", String.valueOf(creditos*15));
-			System.out.println(at.getTurma().getNumero());
-			mapas.add(mapa);
-		}
-		pdfAction.geraPdf("Horario_Individual.pdf", mapas);
-	}
+	
+
 }

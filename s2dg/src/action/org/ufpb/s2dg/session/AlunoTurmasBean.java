@@ -72,7 +72,7 @@ public class AlunoTurmasBean {
 			}
 			String time = TimestampBean.getHour();
 			FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_INFO,time+" - Informacoes salvas com sucesso.",null);
-			facesContext.addMessage("corpo2",facesMessage);
+			facesContext.addMessage("corpo",facesMessage);
 		}
 	}
 	

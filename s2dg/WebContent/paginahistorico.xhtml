@@ -11,15 +11,15 @@
 	<h:form>
 		<rich:panel>
 			<f:facet name="header">Historico Escolar</f:facet>
-			<div style="text-align:left">				
+			<div style="margin-left: 200px">
 				<ui:repeat value="#{turmasMatriculadasBean.geraHistorico()}" var="linha">
 					<h:outputText value="#{linha}" escape="false" style="font-size:12px;font-family:Courier New;" />
 					<br />
-				</ui:repeat>				
+				</ui:repeat>
 			</div>
 			<br/>
-			<div style="margin-left: 465px;" >
-				<h:commandButton value="Imprimir" action="#{pdfAction.geraPdfHistorico()}" />
+			<div style="margin-left: 670px" >
+				<a4j:commandButton value="Imprimir" action="#{pdfAction.geraPdfHistorico()}" />
 			</div>
 		</rich:panel>
 	</h:form>

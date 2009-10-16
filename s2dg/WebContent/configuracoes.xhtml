@@ -10,39 +10,40 @@
 	xmlns:s="http://jboss.com/products/seam/taglib">
 	
 
-
+<h:form>
 	<rich:panel>
-		<f:facet name="header">Configurações</f:facet>
-		<h:form>
-		<rich:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+		<f:facet name="header">Configuracoes</f:facet>
+
 
 		    <center>
                 <rich:panel id="homepanel" style="width:400px;">
                     <f:facet name="header">
                         Alterar Senha 
                     </f:facet>
+                    <h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="homepanel" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="alterarSenha" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="senhaAtual" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="novaSenha" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+                    <h:message for="novaSenha2" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
                     <br />	
-                    <div>
+                    
                     <h:panelGrid columns="2">
                         <h:outputText value="Digite sua senha atual:"/>
-                        <h:inputSecret id="senha_atual" value="#{alterarSenha.senhaAtual}" />
+                        <h:inputSecret id="senhaAtual" value="#{alterarSenha.senhaAtual}" required="true" immediate="true"/>
                         
                         <h:outputText value="Digite uma nova senha:"/>
-                        <h:inputSecret id="novaSenha" value="#{alterarSenha.novaSenha1}" />
+                        <h:inputSecret id="novaSenha" value="#{alterarSenha.novaSenha1}" required="true"/>
 						
                         <h:outputText value="Digite a nova senha novamente:" size="200"/>
-                        <h:inputSecret id="novaSenha2" value="#{alterarSenha.novaSenha2}" />
+                        <h:inputSecret id="novaSenha2" value="#{alterarSenha.novaSenha2}" required="true"/>
                     </h:panelGrid>
                     
-                    <h:panelGroup style="float:right">
-                    	<a4j:commandButton id="alterarSenha" action="#{alterarSenha.botaoPressionado}" value="Alterar"
-                    		style="font-size: 13px;" type="submit" reRender="homepanel" />
-                    	
-						<a4j:commandButton type="reset" value="Limpar" reRender="homepanel" />
-					</h:panelGroup>
-					<br/>
-					
-                    </div>
+                    <h:commandButton type="reset" value="Limpar"/>
+                    
+                    <a4j:commandButton type="submit" id="alterarSenha" action="#{alterarSenha.botaoPressionado}" value="Alterar" 
+                   			ajaxSingle="true" reRender="corpo" />
+                    
                     <br/>
                 </rich:panel>
 
@@ -55,32 +56,31 @@
                     <f:facet name="header">
                         Alterar Pergunta Secreta 
                     </f:facet>
+                    <h:message for="homepanel2" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
                     <br />
                     
                     <h:panelGrid columns="2">
                         <h:outputText value="Digite a nova pergunta secreta:"/>
-                        <h:inputText id="nova_pergunta" value="#{alterarSenha.pergunta}" />
+                        <h:inputText id="novaPergunta" value="#{alterarSenha.pergunta}" required="true"/>
 						
                         <h:outputText value="Digite a resposta para a nova pergunta:"/>
-                        <h:inputSecret id="novaResposta" value="#{alterarSenha.novaResposta1}" />
+                        <h:inputSecret id="novaResposta" value="#{alterarSenha.novaResposta1}" required="true"/>
                         
 						<h:outputText value="Digite novamente a resposta:"/>
-                        <h:inputSecret id="novaResposta2" value="#{alterarSenha.novaResposta2}" />
+                        <h:inputSecret id="novaResposta2" value="#{alterarSenha.novaResposta2}" required="true"/>
                     </h:panelGrid>      
                                   
-                    <h:panelGroup style="float:right">
-                    	<a4j:commandButton id="alterarPergunta" action="#{alterarSenha.botaoPressionado2}" value="Alterar"
-                    		style="font-size: 13px;" type="submit" reRender="homepanel2" />
-                   		<a4j:commandButton type="reset" id="limpar" value="Limpar" reRender="homepanel2" />
-                   				<!-- ajaxSingle="true" reRender="corpo" />  -->
-                   	</h:panelGroup>
-                   	<br/>
+                    <a4j:commandButton type="reset" id="limpar" value="Limpar" 
+                   			ajaxSingle="true" reRender="corpo" />
+                    
+                    <a4j:commandButton type="submit" id="alterarPergunta" action="#{alterarSenha.botaoPressionado2}" value="Alterar" 
+                   			ajaxSingle="true" reRender="corpo" />
                     
                     <br/>
                 </rich:panel>
         	</center>
 
-	</h:form>
-	</rich:panel>    
+	</rich:panel>
+   </h:form>        
 
 </ui:composition>

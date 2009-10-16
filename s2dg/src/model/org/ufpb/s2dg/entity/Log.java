@@ -3,7 +3,6 @@ package org.ufpb.s2dg.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,8 +12,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.hibernate.validator.NotNull;
-
 @Entity
 @Table(name="Log")
 public class Log implements Serializable {
@@ -23,7 +20,6 @@ public class Log implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	@Column(unique=true, name="id", nullable=false)
 	private long id;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -31,11 +27,7 @@ public class Log implements Serializable {
 	
 	@Lob
 	private String mensagem;
-	
-	@Column(nullable=false, name="cpf_usuario", length=11)
-	@NotNull
-	private String cpfUsuario;
-	
+
 	public long getId() {
 		return id;
 	}
@@ -58,14 +50,6 @@ public class Log implements Serializable {
 
 	public void setMensagem(String mensagem) {
 		this.mensagem = mensagem;
-	}
-
-	public String getCpfUsuario() {
-		return cpfUsuario;
-	}
-
-	public void setCpfUsuario(String cpf) {
-		this.cpfUsuario = cpf;
 	}
 	
 }

@@ -281,11 +281,7 @@ public class Fachada {
 	}
 
 	public Aluno getAluno() {
-		Usuario usuario = usuarioBean.getUsuario();
-		if(usuario != null)
-			return usuario.getAluno();
-		else
-			return null;
+		return usuarioBean.getUsuario().getAluno();
 	}
 
 	public Oferta getOferta(Curriculo curriculo, Turma turma) {
@@ -382,7 +378,7 @@ public class Fachada {
 	}
 
 	public void fazLog(String log) {
-		logDAO.cria(log, usuarioBean.getUsuario());
+		logDAO.cria(log);
 	}
 	
 }

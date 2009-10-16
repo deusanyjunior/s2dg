@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib" 
+	template="/layout/menu.xhtml">
+	
+<ui:define name="menu">
+	<div class="menu_disciplinas">
+		<center>
+			<h:outputText styleClass="menu_disciplinas_titulo" value="Disciplinas Ministradas" />
+		</center>
+		<div class="menu_disciplinas_lista">
+			<a4j:keepAlive beanName="MenuAction" />
+			<h:form>
+				<ui:repeat value="#{disciplinasMinistradasBean.turmasPorDisciplina}" var="disciplinaTurmas">
+					<h:outputText styleClass="menu_disciplina_nome" value="#{disciplinaTurmas.disciplina.nome}" />
+					<ui:repeat value="#{disciplinaTurmas.turmas}" var="turma">
+						<a4j:commandLink styleClass="menu_disciplina_turma"
+							action="#{turmaBean.setTurma(turma)}"
+							value=":: Turma #{turma.numero}"
+							reRender="corpo2" />
+						<br/>
+					</ui:repeat>
+					<br/>
+				</ui:repeat>
+			</h:form>
+		</div>
+	</div>
+</ui:define>
+			
+</ui:composition>

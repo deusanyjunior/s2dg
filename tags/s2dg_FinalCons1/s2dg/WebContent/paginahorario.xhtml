@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	
+    <style>
+        .header{
+            font-weight:bold;
+        }
+        .rich-calendar-header{
+            text-align:center;
+        }
+    </style>
+
+<h:form id="form_horario">
+<rich:panel rendered="#{turmasMatriculadasBean.naoVazio(turmasMatriculadasBean.alunoTurmasEmCurso)}">
+	<f:facet name="header">Horário</f:facet>
+    <h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+    <br/>
+    <rich:dataTable width="700" border="0" var="alunoTurma" 
+    value="#{turmasMatriculadasBean.alunoTurmasEmCurso}" cellpadding="0" cellspacing="0" >
+    	<f:facet name="header">
+    		<rich:columnGroup>
+	            <rich:column>
+	                <h:outputText value="Código" />
+	            </rich:column>
+	            <rich:column>
+	                <h:outputText value="Disciplina" />
+	            </rich:column>
+    			<rich:column>
+	                <h:outputText value="Turma" />
+	            </rich:column>
+	            <rich:column>
+	                <h:outputText value="CR" />
+	            </rich:column>
+	           	<rich:column>
+	                <h:outputText value="CH" />
+	            </rich:column>
+	            <rich:column>
+	                <h:outputText value="Horários" />
+	            </rich:column>
+	            <rich:column>
+	                <h:outputText value="Sala(s)" />
+	            </rich:column>
+    		</rich:columnGroup>
+    	</f:facet>
+    	
+    	<rich:column style="vertical-align: middle; text-align: center" >
+    		<h:outputText value="#{alunoTurma.turma.disciplina.codigo}" />
+    	</rich:column>
+    	<rich:column style="vertical-align: middle; text-align: center" >
+    		<h:outputText value="#{alunoTurma.turma.disciplina.nome}" />
+    	</rich:column>
+    	<rich:column style="vertical-align: middle; text-align: center" >
+    		<h:outputText value="#{alunoTurma.turma.numero}" />
+    	</rich:column>
+    	<rich:column style="vertical-align: middle; text-align: center" >
+    		<h:outputText value="#{alunoTurma.turma.disciplina.creditos}" />
+    	</rich:column>
+    	<rich:column style="vertical-align: middle; text-align: center" >
+    		<h:outputText value="#{turmasMatriculadasBean.cargaHoraria(alunoTurma.turma.disciplina.creditos)}" />
+    	</rich:column>
+    	<rich:column style="vertical-align: middle; text-align: center" >
+    		<ui:repeat value="#{matriculaBean.getHorariosOrdenados(alunoTurma.turma.horarios)}" var="horario">
+	    		<h:outputText value="#{horario}"/> <br/>
+	    	</ui:repeat>
+    	</rich:column>
+    	<rich:column style="vertical-align: middle; text-align: center" >
+    		<ui:repeat value="#{turmasMatriculadasBean.getSalasDoBanco(alunoTurma.turma.id)}" var="sala">
+    			<h:outputText value="#{sala.sala}"/> <br/>
+    		</ui:repeat>
+    	</rich:column>
+    </rich:dataTable>
+    <br/><br/><br/>
+    
+    <div align="right">
+    	<a4j:commandButton style="align:right" action="#{turmasMatriculadasBean.exportarPDF}" value="Imprimir" />
+    </div>
+</rich:panel>
+
+<center>
+	<h:outputText value="Você não está matriculado em nenhuma disciplina" rendered="#{not turmasMatriculadasBean.naoVazio(turmasMatriculadasBean.alunoTurmasEmCurso)}"/>
+</center>
+</h:form>
+
+</ui:composition>

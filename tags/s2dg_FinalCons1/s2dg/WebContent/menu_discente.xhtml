@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib" 
+	template="/layout/menu.xhtml">
+	
+<ui:define name="menu">
+	<div class="menu_disciplinas">
+		<center>
+			<h:outputText styleClass="menu_disciplinas_titulo" value="Turmas Matriculadas" />
+		</center>
+		<rich:panel rendered="#{turmasMatriculadasBean.naoVazio(turmasMatriculadasBean.alunoTurmasEmCurso)}" reRender="corpo">
+			<h:form>
+				<ui:repeat value="#{turmasMatriculadasBean.alunoTurmasEmCurso}" var="alunoTurma">
+					<a4j:commandLink
+						action="#{alunoTurmaBean.setAlunoTurma(alunoTurma)}"
+						value=":: #{alunoTurma.turma.disciplina.nome}"
+						reRender="corpo" />
+						<!-- discente_mutavel, planoDeCurso, titulo_disciplina_dis, titulo_turma_dis, professores_turma -->
+					<br/>
+				</ui:repeat>
+			</h:form>
+		</rich:panel>
+	</div>
+	<br />	
+	 <a4j:keepAlive beanName="MenuAction" />
+	<div class="menu_opcoes">
+		<center>
+			<h:outputText styleClass="menu_opcoes_titulo" value="Opções do Usuário" />
+		
+		<rich:panel>
+			<h:form>
+			
+				<a4j:commandLink style="color:red;" styleClass="opcao_menu" rendered="#{matriculaBean.podeFazerMatricula()}"					
+					value="Efetuar Matrícula" action="#{MenuAction.setId_Menu(2)}" reRender="corpo"/>
+				
+				<!-- <a4j:commandLink rendered="#{matriculaBean.podeFazerMatricula()}"> <br /> </a4j:commandLink> -->
+				
+				<br />
+				
+				<a4j:commandLink styleClass="opcao_menu" 
+					value="Histórico" action="#{MenuAction.setId_Menu(3)}" reRender="corpo" />
+				<br />
+				<a4j:commandLink styleClass="opcao_menu"
+					value="Horário" action="#{MenuAction.setId_Menu(4)}" reRender="corpo" />					
+				<br />
+								
+				<a4j:commandLink styleClass="opcao_menu" rendered="#{matriculaBean.podeFazerTrancamentoTotal()}"					
+					value="Trancamento Total" action="#{MenuAction.setId_Menu(5)}" reRender="corpo"/> 
+							
+
+			</h:form>
+		</rich:panel>
+		
+		</center>
+	</div>
+	
+</ui:define>
+			
+</ui:composition>

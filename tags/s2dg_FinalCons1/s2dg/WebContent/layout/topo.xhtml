@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:s="http://jboss.com/products/seam/taglib">
+
+	<table width="100%" class="topo">
+		<tr>
+			<td>
+				<img class="logo_ufpb" src="img/logo_ufpb2.png"
+					alt="Universidade Federal da Paraíba" width="62px" height="90px"
+					border="0" align="left" longdesc="http://www.ufpb.br/"> 
+				</img>
+			</td>
+			<td width="100%">
+				<br></br>
+				<h:outputText styleClass="titulo_s2dg"
+				value="SISTEMA ACADÊMICO DA GRADUAÇÃO" /> 
+				<br></br><br></br>
+				<h:outputText styleClass="saudacao" 
+							  value="Usuário: #{usuarioBean.usuario.nome}"
+				   			  rendered="#{identity.loggedIn}" />
+			</td>
+			<td width="100px;">
+			<a4j:keepAlive beanName="MenuAction" />
+			<div style=" width : 111px;" class="menu_topo">
+				<h:form>
+				<h:graphicImage value="img/ajuda.png"
+					alt="Ajuda" width="17" height="15" hspace="7" vspace="0"
+					style="vertical-align:middle; " />
+				<h:outputText value=" Ajuda"/>
+				<br />
+				<h:graphicImage value="img/alterar_senha.png" alt="Alterar senha"
+					width="17" height="17" hspace="7" vspace="1"
+					style="vertical-align:middle;" rendered="#{identity.loggedIn}" />
+				<a4j:commandLink rendered="#{identity.loggedIn}"
+					value="Configuracoes" action="#{MenuAction.setId_Menu(1)}" reRender="corpo2, corpo" />
+				<a4j:commandLink rendered="#{identity.loggedIn}"> <br /> </a4j:commandLink>
+				
+				<h:graphicImage value="img/sair.png" alt="Sair" width="17"
+					height="13" hspace="7" vspace="2" style="vertical-align:middle;"
+					rendered="#{identity.loggedIn}" />
+				<s:link view="/login.xhtml"	action="#{identity.logout}" value=" Sair"
+					rendered="#{identity.loggedIn}" propagation="none" />
+				<a4j:commandLink rendered="#{identity.loggedIn}"> <br /> </a4j:commandLink>
+				
+				<h:graphicImage value="img/info.gif"
+					alt="Sobre" width="17" height="15" hspace="7" vspace="0"
+					style="vertical-align:middle; " />	
+				<a href="#" onclick="#{rich:component('mp')}.show()">Sobre o projeto</a>				
+				<script>
+		         function getRightTop(ref) {
+		           var position = new Object();
+		           position.top = 0; //ref.offsetTop;
+		           position.left =0; // ref.offsetLeft+ref.clientWidth+6;
+		           return position;
+		         }
+		        </script>
+		        <rich:modalPanel  id="mp" minHeight="300" minWidth="500" 
+		            height="300" width="500" autosized="true" style="text-align:justify;">
+		            <f:facet name="header">
+		                <h:outputText value="Sobre o S2dg (Sistema Docente/Discente de Graduação)" />
+		            </f:facet>
+		            <f:facet name="controls">
+		            	<a href="#" onclick="#{rich:component('mp')}.hide()">|<u>X</u>|</a>
+		            </f:facet>
+		                O S2dg (Sistema Docente/Discente de Graduação) foi desenvolvido para facilitar o dia-a-dia de professores e alunos da graduação. De interface simples, alunos e professores podem consultar suas informações acadêmicas em uma única página.<br /><br />
+		    			Para o discente, além de poder consultar e imprimir seu horário individual e histórico, é possível também consultar as avaliacões realizadas nas disciplinas matriculadas, frequências e médias parciais, além de consultar o plano de curso daquelas disciplinas. Há ainda a função de efetuar matrícula, disponível apenas em período de matrícula.<br /><br />
+		    			No caso do docente, este pode consultar todas as disciplinas ministradas, bem como os alunos a elas vinculadas, suas avaliacões, frequências e médias parciais. Todas as informações dos alunos, tais como peso e data da avaliação, podem ser editadas pelo professor na própria página, sendo permitido também a impressão do diário de classe. Há também a aba Plano de Curso, onde o docente pode consulta-lo e/ou editá-lo.<br /><br />
+		    			Há ainda o usuário Discente/Docente, com acesso a ambas as funcionalidades.<br /><br />
+		    			Em todos os casos, existe a aba Cronograma de aulas, onde são apresentadas datas importantes do calendário letivo, início e fim de matrícula, último dia letivo, etc, bem como datas referentes a realização de alguma avaliação cadastrada pelo professor da disciplina.<br /><br />
+		    			O S2dg foi desenvolvido por alunos do curso de Ciências da Computação da UFPB, como projeto da disciplina de Engenharia de Software no período letivo de 2009.1. Fizeram parte da equipe os alunos: <strong> Alexandre Strapação Guedes Vianna, Anderson Vinícius Alves Ferreira, Antônio Deusany de Carvalho Júnior, Carlos Peixoto Mangueira Júnior, Daniel Soares e Marques, Daniel Victor Trindade de Medeiros, Diénert de Alencar Vieira, Hildegard Paulino Barbosa, Ivethieny de Menezes Souza, Júlio César Ferreira da Silva, Rennan Nunes Toscano e Yuri Gonzaga Gonçalves da Costa </strong>.<br /><br />
+		        </rich:modalPanel>
+		        
+				</h:form>
+			</div>
+			</td>
+
+
+		</tr>
+	</table>
+</ui:composition>

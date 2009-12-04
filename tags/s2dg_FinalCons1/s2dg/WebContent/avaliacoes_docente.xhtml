@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+	<rich:panel id="form_avaliacoes" styleClass="border_zero">
+		<h:form >
+			<rich:panel styleClass="border_zero" id="tabela_avaliacoes">
+				<h:message for="corpo2" infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal"/>
+				<br/>
+				<rich:dataTable var="alunoTurma"
+					value="#{alunoTurmasBean.alunoTurmas}" style="text-align: center;">
+					<rich:column styleClass="matricula" sortBy="#{alunoTurma.aluno.matricula}">
+						<f:facet name="header">Matrícula</f:facet>
+						<h:outputText value="#{alunoTurma.aluno.matricula}" />
+					</rich:column>
+					<rich:column styleClass="aluno" sortOrder="ASCENDING" sortBy="#{alunoTurma.aluno.usuario.nome}">
+						<f:facet name="header">Aluno</f:facet>
+						<h:outputText value="#{alunoTurma.aluno.usuario.nome}" />
+					</rich:column>
+					<rich:column styleClass="faltas" sortBy="#{alunoTurma.faltas}">
+						<f:facet name="header">Faltas</f:facet>
+						<h:inputText value="#{alunoTurma.faltas}" size="5" />
+					</rich:column>
+					<rich:columns value="#{avaliacoesBean.avaliacoes}" var="avaliacao" >
+						<f:facet name="header">
+							<h:panelGroup >
+								<h:outputText value="#{avaliacao.geraNomeTruncado()}" />
+								<br/>
+								<h:outputText value="peso: #{avaliacao.peso}" style="color: gray;" />
+								<br/>
+								<h:outputText value="#{avaliacao.dataEvento.data}"
+									rendered="#{not empty avaliacao.dataEvento}"
+									style="text-align: center; color: gray;">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+								<br/>
+								<a4j:commandLink id="excluir#{avaliacao.id}"
+									action="#{avaliacaoBean.setAvaliacaoParaExclusao(avaliacao)}"
+									oncomplete="Richfaces.showModalPanel('myModalPanel',{width:485, top:200});"
+									reRender="myModalDiv">
+									<img alt="remover" src="img/del.png" />
+									<rich:toolTip direction="top-right">
+            							<span style="white-space:nowrap">
+							               Excluir
+							            </span>
+							        </rich:toolTip>
+								</a4j:commandLink>
+								<a4j:commandLink
+									action="#{avaliacaoBean.setAvaliacaoParaEdicao(avaliacao)}"
+									reRender="criar_avaliacao">
+									<img alt="editar" src="img/edit.png" />
+									<rich:toolTip direction="top-right">
+            							<span style="white-space:nowrap">
+							               Editar
+							            </span>
+							        </rich:toolTip>
+								</a4j:commandLink>
+								<a4j:commandLink id="publicar#{avaliacao.id}"
+								    rendered="#{not avaliacao.publicado}"
+								    action="#{avaliacaoBean.setAvaliacaoParaPublicacao(avaliacao)}"											
+									oncomplete="Richfaces.showModalPanel('PublicarNotaModalPanel',{width:485, top:200});"							
+									reRender="criar_avaliacao">
+									<img alt="editar" src="img/editrec.png" />
+									<rich:toolTip direction="top-right">
+            							<span style="white-space:nowrap">
+							               Publicar
+							            </span>
+							        </rich:toolTip>
+								</a4j:commandLink>
+								
+							</h:panelGroup>
+						</f:facet>
+						<h:inputText value="#{alunoTurmaAvaliacoesBean.getAlunoTurmaAvaliacao(alunoTurma, avaliacao).nota}"
+							size="5" converter="#{notaConverter}" >
+						</h:inputText>
+					</rich:columns>
+					<rich:column styleClass="media" sortBy="#{alunoTurma.media}">
+						<f:facet name="header">Média Final</f:facet>
+						<h:inputText value="#{alunoTurma.media}" converter="#{notaConverter}"
+							rendered="#{not turmaBean.turma.calcularMediaAutomaticamente}"
+							size="5" >
+						</h:inputText>
+						<h:outputText value="#{alunoTurma.media}"
+							rendered="#{turmaBean.turma.calcularMediaAutomaticamente}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"
+								locale="pt_BR" />
+						</h:outputText>
+					</rich:column>
+				</rich:dataTable>
+			</rich:panel>
+				<h:selectBooleanCheckbox id="checkboxmedia"
+					value="#{turmaBean.turma.calcularMediaAutomaticamente}">
+					<a4j:support event="onmouseup"
+						action="#{turmaBean.switchCalcMediaAuto}"
+						reRender="tabela_avaliacoes, checkboxmedia" limitToList="true" 
+						rendered="#{not avaliacoesBean.eNulo(alunoTurmasBean.alunoTurmas)}" />
+				</h:selectBooleanCheckbox>
+				<h:outputText for="checkboxmedia"
+					value="Calcular Média Automaticamente" rendered="#{not avaliacoesBean.eNulo(alunoTurmasBean.alunoTurmas)}"/>
+				<a4j:commandButton styleClass="botao_salvar" type="submit"
+					value="Salvar"
+					action="#{alunoTurmasBean.atualizaAlunoTurmas}"
+					reRender="tabela_avaliacoes" rendered="#{not avaliacoesBean.eNulo(alunoTurmasBean.alunoTurmas)}"/>	
+							
+				  <h:commandButton action="#{pdfAction.geraPdfDiario('Relatorio_de_Notas.pdf', alunoTurmasBean.alunoTurmas, avaliacoesBean.avaliacoes)}" 
+				  value="Imprimir" styleClass="botao_salvar" rendered="#{not avaliacoesBean.eNulo(alunoTurmasBean.alunoTurmas)}"/>
+				  <br />
+  			<a4j:commandButton id="botaochamafinaliza" disabled="#{not turmaBean.podeFinalizarTurma()}" value="Finalizar Disciplina" >
+				<rich:componentControl for="panel" attachTo="botaochamafinaliza" operation="show" event="onclick"/>
+			</a4j:commandButton>	    
+			
+			<rich:modalPanel id="panel" width="350" height="100">
+        <f:facet name="header">
+            <h:panelGroup>
+                <h:outputText value="Alerta"></h:outputText>
+            </h:panelGroup>
+        </f:facet>
+        <f:facet name="controls">
+            <h:panelGroup>
+                <h:graphicImage value="/img/del.png" styleClass="hidelink" id="hidelink"/>
+                <rich:componentControl for="panel" attachTo="hidelink" operation="hide" event="onclick"/>
+            </h:panelGroup>
+        </f:facet>
+        <h:outputText value="Professor(a), após a finalizacao da disciplina, a média dos alunos ficará registrada no seu histórico escolar, podendo ser alterada até o final do próximo período.
+        Deseja continuar?"></h:outputText>
+        <br/>
+     	<div class="actionButtons">
+     	
+     	 <a4j:commandButton styleClass="botao_finalizar" type="submit" value="Finalizar Disciplina" disabled="#{not turmaBean.podeFinalizarTurma()}" action="#{alunoTurmasBean.finalizaTurma}" 
+				  		reRender="tabela_avaliacoes" rendered="#{not avaliacoesBean.eNulo(alunoTurmasBean.alunoTurmas)}" />		    
+     	<rich:componentControl for="panel"  attachTo="botaoFinaliza"
+					operation="hide" event="onclick" ajaxSingle="true" reRender="corpo"/>
+     	
+			<a4j:commandButton id="voltar" value="Voltar">
+				<rich:componentControl for="panel" attachTo="voltar"
+					operation="hide" event="onclick" />
+			</a4j:commandButton>						
+		</div>
+    </rich:modalPanel>
+			
+			</h:form>
+			<br />
+			<br />
+			<br />
+		
+		<h:panelGrid columns="2">
+			<ui:include src="/criar_editar_avaliacao.xhtml" />
+			<ui:include src="/dica_avaliacoes.xhtml" />
+		</h:panelGrid>
+	</rich:panel>
+
+</ui:composition>

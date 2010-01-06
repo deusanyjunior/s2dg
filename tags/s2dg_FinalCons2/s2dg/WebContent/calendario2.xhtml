@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:a4j="http://richfaces.org/a4j"
+      xmlns:rich="http://richfaces.org/rich"
+      xmlns:s="http://jboss.com/products/seam/taglib">
+  <style>
+        .header{
+            font-weight:bold;
+        }
+        .rich-calendar-header{
+            text-align:center;
+        }
+    </style>
+	<center>
+    <h:form id="form_calendario_docente">
+        <rich:messages/>
+        <a4j:jsFunction name="ajaxSubmit" oncomplete="#{rich:component('gerenciamento_aulas')}.show()" reRender="gerenciamento_aulas" />
+        <rich:calendar value="#{calendarBean.selectedDate}"
+            popup="false" showApplyButton="false" 
+            cellWidth="100px" cellHeight="100px" 
+            boundaryDatesMode="none" showWeeksBar="false" 
+            dataModel="#{calendarDataModel}" onchanged="if (event.rich.date) {ajaxSubmit();}" oncurrentdateselect="return true" id="organizer" showFooter="false"
+            immediate="true" ajaxSingle="true"
+            preloadDateRangeBegin="#{calendarBean.prDateRangeBegin}"
+            preloadDateRangeEnd="#{calendarBean.prDateRangeEnd}" >           
+            <a4j:outputPanel layout="block" id="cell" onclick="#{rich:component('organizer')}.resetSelectedDate()" style="height: 100%;">
+                <h:panelGrid columns="1">
+                    <h:outputText value="{day}" style="align:center"/>
+                    <h:outputText value="{data.shortDescription.escapeHTML()}"/>
+                    <h:outputText value="{data.description.escapeHTML()}"/>
+                </h:panelGrid>
+            </a4j:outputPanel>
+        </rich:calendar>
+    </h:form>    
+    </center>  
+            
+	<ui:include src="/gerenciamento_aulas.xhtml" />      
+</ui:composition>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+
+	<rich:panel id="efetuarMatricula" styleClass="border_zero">
+	<h:form>
+	<rich:panel>
+	<f:facet name="header">Efetuar Matrícula</f:facet>
+	
+	<a4j:outputPanel style="margin:0px;padding-left:-10px;" ajaxRendered="true">
+		<h:messages infoClass="info" warnClass="warn" errorClass="error" fatalClass="fatal" />
+	</a4j:outputPanel>
+	<center>
+	<a4j:outputPanel id="turmas_aptas">
+	<table class="dr-table rich-table" cellspacing="0" cellpadding="0" border="0"
+		style="text-align: center;">
+		<colgroup span="7"/>
+		<thead class="dr-table-thead">
+			<tr class="dr-table-header rich-table-header">
+				<th class="dr-table-headercell rich-table-headercell" scope="colgroup" colspan="7">Turmas Aptas</th>
+			</tr>
+			<tr class="dr-table-subheader rich-table-subheader">
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Disciplina
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Créditos
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Turmas
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Professor(es)
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Horário
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col">
+					Vagas
+				</th>
+				<th class="dr-table-subheadercell rich-table-subheadercell" style="cursor: pointer;" scope="col"/>
+			</tr>
+		</thead>
+		<tbody>
+			<a4j:repeat value="#{matriculaBean.turmasAptasPorDisciplina}" var="disciplinaTurmas">
+				<tr class="dr-table-firstrow rich-table-firstrow">
+					<td class="dr-table-cell rich-table-cell" rowspan="#{disciplinaTurmas.turmas.size}"
+						style="vertical-align: middle;">
+						<h:outputText value="#{disciplinaTurmas.disciplina.nome}" />
+					</td>
+					<td class="dr-table-cell rich-table-cell" rowspan="#{disciplinaTurmas.turmas.size}"
+						style="vertical-align: middle;">
+						<h:outputText value="#{disciplinaTurmas.disciplina.creditos}" />
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<h:outputText value="#{disciplinaTurmas.turmas.get(0).numero}" />
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<rich:dataList value="#{matriculaBean.listaProfessores(disciplinaTurmas.turmas.get(0))}" var="professor">
+							<h:outputText value="#{professor.usuario.nome}" />
+						</rich:dataList>
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<rich:dataList value="#{matriculaBean.getHorariosOrdenados(disciplinaTurmas.turmas.get(0).horarios)}" var="horario">
+							<h:outputText value="#{horario.toString()}" />
+						</rich:dataList>
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<h:outputText value="#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasOfertadas}" />
+					</td>
+					<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+						<a4j:commandButton action="#{matriculaBean.selecionaTurma(disciplinaTurmas.turmas.get(0),disciplinaTurmas)}" value="Selecionar"
+							rendered="#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasDisponiveis > 0}"
+							reRender="corpo" />
+						<h:outputText value="Não há mais vagas disponíveis" style="color: red;"
+							rendered="#{matriculaBean.getOferta(disciplinaTurmas.turmas.get(0)).numeroDeVagasDisponiveis == 0}"/>
+					</td>
+				</tr>
+				<a4j:repeat value="#{disciplinaTurmas.turmasExcetoPrimeira}" var="turma">
+					<tr class="dr-table-firstrow rich-table-firstrow">
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<h:outputText value="#{turma.numero}" />
+						</td>
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<rich:dataList value="#{matriculaBean.listaProfessores(turma)}" var="professor">
+								<h:outputText value="#{professor.usuario.nome}" />
+							</rich:dataList>
+						</td>
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<rich:dataList value="#{matriculaBean.getHorariosOrdenados(turma.horarios)}" var="horario">
+								<h:outputText value="#{horario.toString()}" />
+							</rich:dataList>
+						</td>
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<h:outputText value="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(turma).numeroDeVagasOfertadas}" />
+						</td>
+						<td class="dr-table-cell rich-table-cell" style="vertical-align: middle;">
+							<a4j:commandButton action="#{matriculaBean.selecionaTurma(turma,disciplinaTurmas)}" value="Selecionar"
+								rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis > 0}"
+								reRender="corpo" />
+							<h:outputText value="Não há mais vagas disponíveis" style="color: red;"
+								rendered="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis == 0}"/>
+						</td>
+					</tr>
+				</a4j:repeat>
+			</a4j:repeat>
+		</tbody>
+	</table>
+	</a4j:outputPanel>
+	<br/>
+	<br/>
+	<a4j:outputPanel id="turmas_selecionadas">
+	<rich:dataTable value="#{matriculaBean.turmasSelecionadas}" var="turma"
+		style="text-align: center" >
+		<f:facet name="header">Turmas Selecionadas</f:facet>
+		<rich:column style="vertical-align: middle" >
+			<f:facet name="header" >Disciplina</f:facet>
+			<h:outputText value="#{turma.disciplina.nome}" style="vertical-align: middle"/>
+		</rich:column>
+		<rich:column style="vertical-align: middle" >
+			<f:facet name="header">Créditos</f:facet>
+			<h:outputText value="#{turma.disciplina.creditos}" />
+		</rich:column>
+		<rich:column style="vertical-align: middle" >
+			<f:facet name="header">Turma</f:facet>
+			<h:outputText value="#{turma.numero}" />
+		</rich:column>
+		<rich:column style="vertical-align: middle" >
+			<f:facet name="header">Professor(es)</f:facet>
+			<rich:dataList value="#{matriculaBean.listaProfessores(turma)}" var="professor" >
+				<h:outputText value="#{professor.usuario.nome}" />
+			</rich:dataList>
+		</rich:column>
+		<rich:column style="vertical-align: middle" >
+			<f:facet name="header">Horário</f:facet>
+			<rich:dataList value="#{matriculaBean.getHorariosOrdenados(turma.horarios)}" var="horario">
+				<h:outputText value="#{horario.toString()}" />
+			</rich:dataList>
+		</rich:column>
+		<rich:column style="vertical-align: middle" >
+			<f:facet name="header">Vagas</f:facet>
+			<h:outputText value="#{matriculaBean.getOferta(turma).numeroDeVagasDisponiveis}/#{matriculaBean.getOferta(turma).numeroDeVagasOfertadas}" />
+		</rich:column>
+		<rich:column style="vertical-align: middle" >
+			<a4j:commandButton action="#{matriculaBean.deselecionaTurma(turma)}"
+				value="Remover" reRender="corpo" ajaxSingle="true" />
+		</rich:column>
+	</rich:dataTable>
+	</a4j:outputPanel>
+	<br/>
+	<a4j:commandButton styleClass="botao_salvar" action="#{matriculaBean.fazMatricula(MenuAction)}"
+		value="Matricular" ajaxSingle="true" reRender="corpo" />
+	<br/>
+	<br/>
+	</center>
+	</rich:panel>
+	</h:form>
+</rich:panel>
+</ui:composition>

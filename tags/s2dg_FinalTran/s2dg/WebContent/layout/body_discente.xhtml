@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rich:panel 
+
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:a4j="http://richfaces.org/a4j" 
+	
+	style="margin:0;border-width:0;padding:0px;">
+
+	<table width="100%">
+		<tr>
+			<td width="200px">
+				<ui:include src="/menu_discente.xhtml" />			  
+			</td>			
+			<td style="padding-left: 20px;" height="100%">
+				<a4j:include id="corpo" viewId="#{MenuAction.option}"/>
+			</td>
+		</tr>
+	</table>
+</rich:panel>

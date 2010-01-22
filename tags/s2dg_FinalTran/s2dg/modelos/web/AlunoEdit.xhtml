@@ -1,0 +1,169 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="layout/template.xhtml">
+
+<ui:define name="body">
+
+    <h:form id="aluno" styleClass="edit">
+
+        <rich:panel>
+            <f:facet name="header">#{alunoHome.managed ? 'Edit' : 'Add'} Aluno</f:facet>
+
+
+            <s:decorate id="matriculaField" template="layout/edit.xhtml">
+                <ui:define name="label">Matricula</ui:define>
+                <h:inputText id="matricula"
+                       disabled="#{alunoHome.managed}"
+                       required="true"
+                           size="9"
+                      maxlength="9"
+                          value="#{alunoHome.instance.matricula}">
+                    <a:support event="onblur" reRender="matriculaField" bypassUpdates="true" ajaxSingle="true"/>
+                </h:inputText>
+            </s:decorate>
+
+
+
+            <div style="clear:both">
+                <span class="required">*</span>
+                required fields
+            </div>
+
+        </rich:panel>
+
+        <div class="actionButtons">
+
+            <h:commandButton id="save"
+                          value="Save"
+                         action="#{alunoHome.persist}"
+                       disabled="#{!alunoHome.wired}"
+                       rendered="#{!alunoHome.managed}"/>
+
+            <h:commandButton id="update"
+                          value="Save"
+                         action="#{alunoHome.update}"
+                       rendered="#{alunoHome.managed}"/>
+
+            <h:commandButton id="delete"
+                          value="Delete"
+                         action="#{alunoHome.remove}"
+                      immediate="true"
+                       rendered="#{alunoHome.managed}"/>
+
+            <s:button id="cancelEdit"
+                   value="Cancel"
+             propagation="end"
+                    view="/Aluno.xhtml"
+                rendered="#{alunoHome.managed}"/>
+
+            <s:button id="cancelAdd"
+                   value="Cancel"
+             propagation="end"
+                    view="/#{empty alunoFrom ? 'AlunoList' : alunoFrom}.xhtml"
+                rendered="#{!alunoHome.managed}"/>
+
+        </div>
+    </h:form>
+
+<rich:tabPanel switchType="ajax">
+
+    <rich:tab label="Usuarios">
+        <h:form styleClass="association" id="usuariosChildren">
+
+            <h:outputText value="There are no usuarios associated with this aluno."
+                       rendered="#{empty alunoHome.usuarios}"/>
+
+            <rich:dataTable value="#{alunoHome.usuarios}"
+                           var="_usuario"
+                      rendered="#{not empty alunoHome.usuarios}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="usuariosTable">
+                <rich:column sortBy="#{_usuario.id}">
+                    <f:facet name="header">Id</f:facet>
+                    <h:outputText value="#{_usuario.id}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.senha}">
+                    <f:facet name="header">Senha</f:facet>
+                    <h:outputText value="#{_usuario.senha}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.nome}">
+                    <f:facet name="header">Nome</f:facet>
+                    <h:outputText value="#{_usuario.nome}"/>
+                </rich:column>
+                <rich:column sortBy="#{_usuario.cpf}">
+                    <f:facet name="header">Cpf</f:facet>
+                    <h:outputText value="#{_usuario.cpf}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{alunoHome.managed}" id="usuarios">
+        <div class="actionButtons">
+            <s:button id="addusuario"
+                   value="Add usuario"
+                    view="/UsuarioEdit.xhtml"
+             propagation="none">
+                 <f:param name="alunoMatricula"
+                         value="#{alunoHome.instance.matricula}"/>
+                 <f:param name="usuarioFrom" value="Aluno"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+
+    <rich:tab label="Aluno turmas">
+        <h:form styleClass="association" id="alunoTurmasChildren">
+
+            <h:outputText value="There are no alunoTurmas associated with this aluno."
+                       rendered="#{empty alunoHome.alunoTurmas}"/>
+
+            <rich:dataTable value="#{alunoHome.alunoTurmas}"
+                           var="_alunoTurma"
+                      rendered="#{not empty alunoHome.alunoTurmas}"
+                    rowClasses="rvgRowOne,rvgRowTwo"
+                            id="alunoTurmasTable">
+                <rich:column sortBy="#{_alunoTurma.id.matriculaAluno}">
+                    <f:facet name="header">Matricula aluno</f:facet>
+                    <h:outputText value="#{_alunoTurma.id.matriculaAluno}"/>
+                </rich:column>
+                <rich:column sortBy="#{_alunoTurma.id.idTurma}">
+                    <f:facet name="header">Id turma</f:facet>
+                    <h:outputText value="#{_alunoTurma.id.idTurma}"/>
+                </rich:column>
+                <rich:column sortBy="#{_alunoTurma.media}">
+                    <f:facet name="header">Media</f:facet>
+                    <h:outputText value="#{_alunoTurma.media}"/>
+                </rich:column>
+                <rich:column sortBy="#{_alunoTurma.frequencia}">
+                    <f:facet name="header">Frequencia</f:facet>
+                    <h:outputText value="#{_alunoTurma.frequencia}"/>
+                </rich:column>
+            </rich:dataTable>
+
+        </h:form>
+
+        <f:subview rendered="#{alunoHome.managed}" id="alunoTurmas">
+        <div class="actionButtons">
+            <s:button id="addalunoTurma"
+                   value="Add alunoTurma"
+                    view="/AlunoTurmaEdit.xhtml"
+             propagation="none">
+                 <f:param name="alunoMatricula"
+                         value="#{alunoHome.instance.matricula}"/>
+                 <f:param name="alunoTurmaFrom" value="Aluno"/>
+            </s:button>
+        </div>
+        </f:subview>
+    </rich:tab>
+</rich:tabPanel>
+</ui:define>
+
+</ui:composition>

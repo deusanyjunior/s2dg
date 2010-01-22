@@ -1,0 +1,424 @@
+html {
+	overflow-y: scroll;
+}
+
+body {
+	font-family: Arial, Verdana, sans-serif;
+	background-image: url("../img/topo_bg.png");
+	background-repeat: repeat-x;
+	background-attachment: fixed;
+	background-position: left top;
+	background-color: #d7e7f7;
+	vertical-align: top;
+}
+
+/* mensagens de erro */
+.info, .error, .warn, .fatal {
+	text-align: left;
+	text-indent: 25px;
+	padding-bottom: 5px;
+	padding-top: 5px;
+	width: 100%;
+	display:block;
+	margin:0px;	
+}
+.info {
+	color: white;
+	background-color: blue;
+	background-image: url("../img/info.gif");
+	background-repeat: no-repeat;
+}
+.error {
+	color: white;
+	background-color: red;
+	background-image: url("../img/erro.gif");
+	background-repeat: no-repeat;
+}
+.warn {
+	color: black;
+	background-color: yellow;
+	background-image: url("../img/warn.gif");
+	background-repeat: no-repeat;
+}
+.fatal {
+	color: black;
+	background-color: red;
+	background-image: url("../img/erro.gif");
+	background-repeat: no-repeat;
+}
+/* fim das mensagens de erro */
+
+
+
+.topo {
+	height: 105px;
+	border-style: none;
+	border-width: 0px;
+	border-style: none;
+	border-width: 0px;
+}
+
+.logo_ufpb {
+	margin-top: 0px;
+	margin-right: 20px;
+	margin-left: 5px;
+}
+
+.titulo_s2dg {
+	color: black;	
+	font-size: 18px;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-shadow: #000099;
+}
+
+.saudacao {
+	color: black;
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.menu_topo {
+	width: 40px;
+	font-size: 0.8em;
+	padding: 3px;
+	margin: 3px;
+	float: right;
+	vertical-align: middle;
+}
+
+.menu_disciplinas {
+	background-color: #BED6F8;
+	padding: 5px;
+	font-weight: bold;
+}
+
+.menu_disciplinas_titulo {
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 10px;
+	margin: 10px;
+}
+
+.menu_disciplinas_lista {
+	background-color: white;
+	padding: 10px;
+	border: 2px;
+	border-bottom-color: black;
+}
+
+.menu_disciplina_turma {
+	font-size: 0.8em;
+	font-weight: bold;
+	padding-left: 10px;
+	text-decoration: none;
+}
+
+.menu_disciplina_nome {
+	background-color: #ecf4fe;
+	display: block;
+	font-size: 1em;
+	line-height: 2em;
+	padding-left: 5px;
+	text-decoration: none;
+}
+
+
+.menu_opcoes {
+	background-color: #BED6F8;
+	padding: 5px;
+	font-weight: bold;
+}
+
+.menu_opcoes_titulo {
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 10px;
+	margin: 10px;	
+}
+
+.opcao_menu {
+	background-color: #ecf4fe;
+	display: block;
+	font-size: 1em;
+	line-height: 2em;
+	padding-left: 5px;
+	text-decoration: none;
+}
+
+.body_titulo_disciplina {
+	font-size: 1.8em;
+}
+
+.body_outras_info {
+	font-size: 1.2em;
+}
+
+.botao_salvar {
+	float: right;
+}
+
+.border_zero {
+	border: 0;
+}
+
+element.style {
+	padding: 5px;
+	width: auto;
+}
+
+/* formatacao da tabela de notas */
+.matricula {
+	width: 60px;
+}
+
+.aluno {
+	text-align: left;
+	width: 200px;
+}
+
+.nome_aluno {
+	text-align: left;
+}
+
+.faltas {
+	width: 30px;
+}
+
+/* fim formatacao da tabela de notas */
+.rich-pmenu {
+	width: auto;
+}
+
+a img {
+	border: none;
+}
+
+a:ACTIVE,a:VISITED,a:LINK {
+	color: black;
+	text-decoration: none;
+}
+
+a:HOVER{
+	color: blue;
+}
+
+h1 {
+	font-size: 1.6em;
+	margin-top: 0;
+}
+
+input[type=submit],input[type=button] {
+	font-size: 10px;
+	margin: 5px 5px 5px 0;
+	cursor: pointer;
+}
+
+input[type=text],input[type=password],textarea {
+	font-size: 11px;
+	padding-left: 1px;
+}
+
+td {
+	vertical-align: top;
+}
+
+.tableControl,.actionButtons {
+	width: 100%;
+}
+
+.tableControl a {
+	padding-left: 10px;
+}
+
+.tableControl {
+	text-align: right;
+}
+
+.footer {
+	text-align: center;
+	font-size: 11px;
+	margin-bottom: 10px;
+}
+
+.rich-table {
+	width: 100%;
+}
+
+.body {
+	padding: 30px;
+}
+
+.columnHeader:hover {
+	color: #FF6600;
+}
+
+.message {
+	padding: 5px;
+	list-style: none;
+	border: 0;
+	background: none;
+	padding: 0;
+	color: #000000;
+	margin: 5px 0 8px 0;
+	font-size: 12px;
+}
+
+.message li {
+	background: no-repeat left center;
+	padding-top: 1px;
+	padding-left: 20px;
+	margin-left: 3px;
+}
+
+.message li.infomsg {
+	background-image: url(../img/msginfo.png);
+}
+
+.message li.errormsg {
+	background-image: url(../img/msgerror.png);
+}
+
+.message li.warnmsg {
+	background-image: url(../img/msgwarn.png);
+}
+
+.name {
+	vertical-align: top;
+	font-weight: bold;
+	width: 115px;
+	float: left;
+	padding: 5px;
+	margin-top: 3px;
+	clear: left;
+}
+
+.value {
+	float: left;
+	padding: 5px;
+}
+
+.errors {
+	color: red;
+	vertical-align: middle;
+}
+
+img.errors {
+	padding-right: 5px;
+}
+
+.errors input,.errors textarea {
+	border: 1px solid red !important;
+}
+
+.required {
+	color: red;
+	padding-left: 2px;
+}
+
+.rich-stglpanel-body {
+	overflow: auto;
+}
+
+.rich-panel .rich-panel-header,.rich-stglpanel .rich-stglpanel-header {
+	padding: 2px 3px;
+}
+
+select {
+	font-size: 12px;
+}
+
+.rich-panel input[type=submit],.rich-panel input[type=button],.rich-tabpanel input[type=submit],.rich-tabpanel input[type=button]
+	{
+	margin-bottom: 0;
+}
+
+.tableControl input[type=submit],.tableControl input[type=button],.tableControl select
+	{
+	margin: 5px 0 5px 5px;
+}
+
+.tableControl select {
+	margin-left: 2px;
+	position: relative;
+	top: 1px;
+}
+
+.actionButtons {
+	padding-left: 1px;
+}
+
+.actionButtons select {
+	margin: 5px 5px 5px 0;
+	vertical-align: bottom;
+}
+
+.rich-datalist {
+	list-style: square;
+	margin: 6px 0 1px 0;
+	padding-left: 18px;
+}
+
+.rich-list-item {
+	padding-bottom: 4px;
+}
+
+div.info {
+	font-size: 1.2em;
+}
+
+ul.bullets {
+	list-style: square;
+}
+
+ul.bullets li {
+	padding-bottom: 2px;
+}
+
+td.action {
+	white-space: nowrap;
+}
+
+td.action a {
+	padding-left: 1px;
+	padding-right: 1px;
+}
+
+.bla {
+	background-color: lime;
+}
+
+/* Itens de Calendario: ic_{tipo do evento} 
+ * Indica a coloracao de cada item do calendario */
+ 
+.ic_dia_letivo{
+	font-size: 12px;
+	background-color: white;
+	color: black;
+}
+
+.ic_avaliacao{
+	font-size: 12px;
+	background-color: #CD0000;
+	color: white;
+}
+
+.ic_feriado{
+	font-size: 12px;
+	background-color: #3399FF;
+	color: white;
+}
+
+.ic_evento_periodo{
+	font-size: 12px;
+	background-color: #FFFFCC;
+	color: black;
+}
+
+.ic_dia_aula_disciplina{	
+	font-size: 12px;
+	background-color: #9FB6CD;
+	color: black;
+}
